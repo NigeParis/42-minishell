@@ -137,3 +137,7 @@ External functions accepted: <br>
 
   Norme
  - [ ] Norminette OK
+
+
+Authors : bgoulard
+        : nrobinso
