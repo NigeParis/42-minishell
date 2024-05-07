@@ -6,7 +6,7 @@ a command interpreter that mimics the behavior of bash. <br>
 Minishell manages environment variables, launches programs and handles their return. <br> 
 There are also have a number of built-in functions: <br> 
 
-External functions accepted:
+External functions accepted: <br>
 |-------|---------|--------|
 | readline | rl_clear_history | rl_on_new_line |
 | rl_replace_line | rl_redisplay | add_history |
