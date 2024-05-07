@@ -1,23 +1,22 @@
 # 42-minishell
 
-A long project at 42 in a group of two, the goal is to create 
-a command interpreter that mimics the behavior of bash.
+A long project at 42 in a group of two, the goal is to create  <br> 
+a command interpreter that mimics the behavior of bash. <br> 
 
-Minishell manages environment variables, launches programs and handles their return. 
-There are also have a number of built-in functions:
+Minishell manages environment variables, launches programs and handles their return. <br> 
+There are also have a number of built-in functions: <br> 
 
-for example :
-cd, 
-echo, 
-env, 
-exit, 
-export, 
-pwd,
-unset.
+for example : <br> 
+cd, <br> 
+echo, <br> 
+env, <br> 
+exit, <br> 
+export, <br> 
+pwd, <br> 
+unset. <br> 
 
-and 
-Signal handling :
+Signal handling : <br> 
 
-- CTRL + C sigint
-- CTRL + D eof
-- CTRL + \ sigquit
+- CTRL + C sigint <br> 
+- CTRL + D eof <br> 
+- CTRL + \ sigquit <br> 
