@@ -139,5 +139,5 @@ External functions accepted: <br>
  - [ ] Norminette OK
 
 
-Authors : bgoulard <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: nrobinso
+###Authors : bgoulard <br>
+###&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: nrobinso
