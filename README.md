@@ -7,9 +7,11 @@ Minishell manages environment variables, launches programs and handles their ret
 There are also have a number of built-in functions: <br> 
 
 External functions accepted: <br>
+
 | ------- | --------- | -------- |
 | readline | rl_clear_history | rl_on_new_line |
 | rl_replace_line | rl_redisplay | add_history |
+
 printf, malloc, free, write, access, open, read,
 close, fork, wait, waitpid, wait3, wait4, signal,
 sigaction, sigemptyset, sigaddset, kill, exit,
