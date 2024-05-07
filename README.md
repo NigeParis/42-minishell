@@ -17,12 +17,12 @@ There are also have a number of built-in functions: <br>
  - [ ] line edit (Arrow right, Arrow left)
 
   Quote and double quotes (simple)
- - [B] '\'ls -l\'' shouldn't be the same as 'ls -l' (no quotes)
+ - [ ] '\'ls -l\'' shouldn't be the same as 'ls -l' (no quotes)
  - [ ] 'ls -l' should be the same as 'ls        -l'
  - [ ] 'ls -l' should be the same as 'ls "-l"'
  - [ ] 'ls -l' should be the same as 'ls '-l''
  - [ ] 'ls -l' should not be the same as 'ls \'-l \''
-CTRL+z (SIGTSTP) (Bonus)
+
   Multiple commands execution on single line
  - [ ] cmd1 ';' cmd2
 
