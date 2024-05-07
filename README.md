@@ -8,8 +8,8 @@ There are also have a number of built-in functions: <br>
 
 External functions accepted: <br>
 
- | Time | Completion |
- | ------- | --------|
+
+ | ------- | -------- |
  | 70h | 125 % |
 
 
