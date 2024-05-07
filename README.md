@@ -141,5 +141,5 @@ External functions accepted: <br>
 
 <br>
 
-### Author :bgoulard <br>
-### Author : nrobinso <br>
+Author :bgoulard <br>
+Author : nrobinso <br>
