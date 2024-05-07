@@ -10,9 +10,7 @@ External functions accepted: <br>
 
  | function | lib | prototype |
 | ------- | --------- | -------- |
-| readline |   #include <stdio.h>
-       #include <readline/readline.h>
-       #include <readline/history.h>  |   char * readline (const char *prompt); |
+| readline |   #include <stdio.h> <br> #include <readline/readline.h> <br> #include <readline/history.h>  |   char * readline (const char *prompt); |
 | rl_clear_history |    |         | 
 | rl_on_new_line |     |          |
 | rl_replace_line | 
