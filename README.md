@@ -17,8 +17,8 @@ External functions accepted: <br>
 | rl_redisplay | | | | |
 |  add_history | | | | |
 | printf | <stdio.h> | int printf(const char *format, ...); | nbr of chars minus the null | | 
-| malloc | | | | |
-| free   | | | | |
+| malloc | <stdlib.h> | void *malloc(size_t size);| pointer to first byte |allocates size bytes of memory |
+| free   | <stdlib.h> | void free(void *ptr);| no value. | frees the memory pointed to by ptr |
 | write  | | | | |
 | access | | | | |
 | open   | | | | |
