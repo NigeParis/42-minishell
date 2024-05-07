@@ -17,7 +17,7 @@ There are also have a number of built-in functions: <br>
  - [ ] line edit (Arrow right, Arrow left)
 
   Quote and double quotes (simple)
- - [ ] '\'ls -l\'' shouldn't be the same as 'ls -l' (no quotes)
+ - [B] '\'ls -l\'' shouldn't be the same as 'ls -l' (no quotes)
  - [ ] 'ls -l' should be the same as 'ls        -l'
  - [ ] 'ls -l' should be the same as 'ls "-l"'
  - [ ] 'ls -l' should be the same as 'ls '-l''
