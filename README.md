@@ -14,7 +14,7 @@ There are also have a number of built-in functions: <br>
 
   History of command line
  - [ ] History (Arrow up, Arrow down)
- - [ ] line edit (Arrow right, Arrow left)
+ - [ ] line edit (Arrow right, Arrow left) echo
 
   Quote and double quotes (simple)
  - [ ] '\'ls -l\'' shouldn't be the same as 'ls -l' (no quotes)
@@ -75,7 +75,7 @@ There are also have a number of built-in functions: <br>
 
   Signal handling (hard)
  - [ ] all other signals. (Bonus)
- - [ ] CTRL+z (SIGTSTP) (Bonus)
+ - [ ] CTRL + Z sigtstp (Bonus)
 
   Norme
  - [ ] Norminette OK
