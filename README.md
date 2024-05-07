@@ -16,7 +16,7 @@ External functions accepted: <br>
 | rl_replace_line | | | | |
 | rl_redisplay | | | | |
 |  add_history | | | | |
-| printf | #include <stdio.h> | int printf(const char *format, ...); | returns nbr of chars printed minus the null| | 
+| printf | #include <stdio.h> | int printf(const char *format, ...); | nbr of chars minus the null | | 
 | malloc | | | | |
 | free   | | | | |
 | write  | | | | |
