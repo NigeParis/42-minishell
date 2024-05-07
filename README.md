@@ -8,7 +8,7 @@ There are also have a number of built-in functions: <br>
 
 External functions accepted: <br>
 
- | function | lib | prototype | return | description |
+ | function | lib |       prototype       | return | description |
 | ------- | --------- | ----------------------------- | -------------| -------|
 | readline | #include <stdio.h> <br> #include <readline/readline.h> <br> #include <readline/history.h>  |  char * readline (const char *prompt); | | reads a line from terminal | |
 | rl_clear_history | | | | | 
