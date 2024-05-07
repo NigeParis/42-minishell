@@ -8,9 +8,9 @@ There are also have a number of built-in functions: <br>
 
 External functions accepted: <br>
 
- | function | lib | prototype |
-| ------- | --------- | -------- |
-| readline |   #include <stdio.h> <br> #include <readline/readline.h> <br> #include <readline/history.h>  |   char * readline (const char *prompt); |
+ | function | lib | prototype | description |
+| ------- | --------- | -------- | ---------|
+| readline |   #include <stdio.h> <br> #include <readline/readline.h> <br> #include <readline/history.h>  |   char * readline (const char *prompt); | read a line from termianl|
 | rl_clear_history |    |         | 
 | rl_on_new_line |     |          |
 | rl_replace_line | 
