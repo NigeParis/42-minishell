@@ -64,8 +64,8 @@ There are also have a number of built-in functions: <br>
  - [ ] any fd plus > or < or >>
  - [ ] redirect cmd to previous decl redirection
        e.g. >&fd redirect stdout to the same redirection as fd currently has.
-       'ls > file 2>&1' pipes stdout to file and then pipes stderr to redirected stdout.
-       'ls 2>&1 > file' pipes stderr to redirection of stdout and then pipes stdout to file.
+       'ls > file >&1' pipes stdout to file and then pipes stderr to redirected stdout.
+       'ls >&1 > file' pipes stderr to redirection of stdout and then pipes stdout to file.
  - [ ] redirections should be able to be chained
        'ls > file1 > file2' results in stdout being redirected to file2
 
