@@ -52,7 +52,7 @@ There are also have a number of built-in functions: <br>
   Variable substitution (simple)
  - [ ] $Field
 
-  Subshell (simple if the rest is done)CTRL+z (SIGTSTP) (Bonus)
+  Subshell (simple if the rest is done)CTRL+z (SIGTSTP) (Bonus) echo
  - [ ] execute ( cmd ) in subshell (good test (cd))
 
   Signal handling (simple)
@@ -78,4 +78,4 @@ There are also have a number of built-in functions: <br>
  - [ ] CTRL+z (SIGTSTP) (Bonus)
 
   Norme
- - [ ] Normeminette OK
+ - [ ] Norminette OK
