@@ -1,5 +1,5 @@
 # project target
-./minishell
+minishell
 
 # project_libs
 *.a

@@ -6,14 +6,13 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:07:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/07 11:08:06 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/08 10:42:13 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
+#include "minishell.h"
 
-int	main(void)
+int	main(int ac, char **av, char **envp)
 {
-	ft_putstr_fd("Hello World\n", 1);
-	return (0);
+	return (minishell(ac, av, envp));
 }

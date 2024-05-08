@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   minishell_types.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 11:15:12 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/08 10:50:23 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/08 10:50:34 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/08 10:51:02 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef MINISHELL_TYPES_H
+# define MINISHELL_TYPES_H
 
-# include "minishell_types.h"
+typedef struct s_minishell_control
+{
+	char	*input;
+	int		exit;
+	int		ret;
+}	t_minishell_control;
 
-int	minishell(int ac, char **av, char **envp);
-
-# endif
+#endif

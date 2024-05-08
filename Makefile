@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/05/07 11:08:56 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/05/08 10:53:33 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ CFLAGS	   =\
 				$(FFLAGS) -MMD -MP $(DEBUG)
 
 LDFLAGS		=\
-				-L./libft -lft_personal
+				-L./libft -lft_personal -lreadline
 SRC_FILES	=\
 				$(wildcard $(SRC_DIR)/*.c)
 
