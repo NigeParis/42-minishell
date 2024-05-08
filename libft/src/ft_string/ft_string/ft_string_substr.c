@@ -6,12 +6,11 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 17:42:41 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/07 03:49:03 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:48:23 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
-# include <stdio.h>
 
 t_string	*ft_string_substr(t_string *str, size_t start, size_t len)
 {
@@ -31,4 +30,3 @@ t_string	*ft_string_substr(t_string *str, size_t start, size_t len)
 	new->str[new->length] = '\0';
 	return (new);
 }
-

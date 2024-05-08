@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 17:22:33 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/06 00:40:36 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:48:02 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_string_insert(t_string *str, char *insert, size_t index)
 	return (1);
 }
 
-int ft_string_insert_n(t_string *str, char *insert, size_t index, size_t n)
+int	ft_string_insert_n(t_string *str, char *insert, size_t index, size_t n)
 {
 	size_t	new_len;
 	char	*new_str;

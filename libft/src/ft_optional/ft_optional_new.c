@@ -6,16 +6,16 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:06:55 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/02 18:06:56 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:43:05 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_optional.h"
 #include <stdlib.h>
 
-t_optional *ft_optional_new(void)
+t_optional	*ft_optional_new(void)
 {
-	t_optional *elem;
+	t_optional	*elem;
 
 	elem = malloc(sizeof(*elem));
 	elem->pres = OPT_NONE;
@@ -23,9 +23,9 @@ t_optional *ft_optional_new(void)
 	return (elem);
 }
 
-t_optional *ft_optional_from_val(void *ptr)
+t_optional	*ft_optional_from_val(void *ptr)
 {
-	t_optional *elem;
+	t_optional	*elem;
 
 	elem = ft_optional_new();
 	if (!elem)
@@ -38,9 +38,9 @@ t_optional *ft_optional_from_val(void *ptr)
 // As this function can fail it should never be called,
 // the type t_optional is supposed to be ultra reliable.
 // Carefull use is preconized.
-t_optional *ft_optional_dup(t_optional *org)
+t_optional	*ft_optional_dup(t_optional *org)
 {
-	t_optional *ret;
+	t_optional	*ret;
 
 	ret = ft_optional_new();
 	if (!ret)

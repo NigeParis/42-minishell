@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 18:08:04 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/04/21 23:27:06 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:45:36 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_map_remove(t_map *map, const void *key, size_t size)
 	map_node = (t_map_node *)node->data;
 	while (node)
 	{
-		if (((t_map_node *)node->data)->used && 
+		if (((t_map_node *)node->data)->used && \
 		!map->cmp(((t_map_node *)node->data)->key, key))
 			break ;
 		node = node->next;

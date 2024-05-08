@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:06:49 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/07 20:48:38 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:41:32 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-bool ft_optional_destroy(t_optional *opt)
+bool	ft_optional_destroy(t_optional *opt)
 {
 	if (!opt)
 		return (false);

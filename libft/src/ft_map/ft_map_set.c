@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 17:36:14 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/04/21 17:46:12 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:44:28 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "ft_map.h"
 #include <stdlib.h>
 
-static void setup_map_node(t_map_node *map_node, const void *key, const void *value)
+static void	setup_map_node(t_map_node *map_node, const void *key,
+							const void *value)
 {
 	map_node->data = (void *)value;
 	map_node->used = true;
@@ -23,9 +24,9 @@ static void setup_map_node(t_map_node *map_node, const void *key, const void *va
 
 int	ft_map_set(t_map *map, const void *key, const void *value, size_t size)
 {
-	size_t	index;
-	t_list	*node;
-	t_list	*prev;
+	size_t		index;
+	t_list		*node;
+	t_list		*prev;
 	t_map_node	*map_node;
 
 	index = map->hash(key, map->capacity, size);

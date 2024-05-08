@@ -6,23 +6,25 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:07:23 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/02 18:07:25 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:53:55 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_OPTIONAL_TYPES_H
 # define FT_OPTIONAL_TYPES_H
 
-#include <stddef.h>
+# include <stddef.h>
 
-typedef enum {
+typedef enum e_opt_type
+{
 	OPT_NONE,
 	OPT_SOME,
-} t_opt_type;
+}				t_opt_type;
 
-typedef struct s_opt {
-	t_opt_type pres;
-	void *val;
-} t_optional;
+typedef struct s_opt
+{
+	t_opt_type	pres;
+	void		*val;
+}				t_optional;
 
 #endif /* FT_OPTIONAL_TYPES_H */

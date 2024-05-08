@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 17:14:14 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/07 09:42:18 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/08 12:47:45 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,3 @@ t_string	*ft_string_from_s_n(t_string *str, size_t n)
 	new->length = n;
 	return (new);
 }
-
