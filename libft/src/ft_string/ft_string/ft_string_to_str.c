@@ -17,7 +17,7 @@ char	*ft_string_to_str(t_string *str)
 	char	*new;
 
 	new = ft_calloc(str->length + 1, sizeof(char));
-	if (new == NULL)
+	if (!new)
 		return (NULL);
 	ft_memcpy(new, str->str, str->length);
 	return (new);

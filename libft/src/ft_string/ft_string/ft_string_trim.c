@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 17:50:18 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/08 12:47:27 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/08 14:02:43 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_string_trimstr(t_string *str, char *to_trim)
 	size_t	lpad;
 
 	lpad = 0;
-	if (to_trim == NULL || str == NULL || str->str == NULL || str->length == 0)
+	if (!to_trim || !str || !str->str || str->length == 0)
 		return ;
 	while (ft_strchr(to_trim, str->str[lpad]) != NULL && lpad < str->length)
 		lpad++;

@@ -17,7 +17,7 @@ int	ft_string_resize(t_string *str, size_t size)
 	char	*new;
 
 	new = ft_realloc(str->str, size, str->capacity);
-	if (new == NULL)
+	if (!new)
 		return (-1);
 	str->str = new;
 	str->capacity = size;

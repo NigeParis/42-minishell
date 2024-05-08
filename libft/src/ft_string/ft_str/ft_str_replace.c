@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:35:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/01 16:54:51 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/08 13:58:14 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ char	*ft_str_replace(char *str, const char *to_replace,
 	size_t	replace_by_len;
 
 	ptr = ft_strnstr(str, to_replace, ft_strlen(str));
-	if (ptr == NULL || to_replace == NULL || replace_by == NULL)
+	if (!ptr || !to_replace || !replace_by)
 		return (NULL);
 	to_replace_len = ft_strlen(to_replace);
 	replace_by_len = ft_strlen(replace_by);
 	new_len = ft_strlen(str) - to_replace_len + replace_by_len;
 	new_str = ft_calloc(new_len + 1, sizeof(char));
-	if (new_str == NULL)
+	if (!new_str)
 		return (NULL);
 	ft_memcpy(new_str, str, ptr - str);
 	ft_memcpy(new_str + (ptr - str), replace_by, replace_by_len);

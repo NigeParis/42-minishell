@@ -19,7 +19,7 @@ int	ft_string_shrink(t_string *str)
 	if (str->capacity <= str->length)
 		return (0);
 	new = ft_realloc(str->str, str->length + 1, str->capacity);
-	if (new == NULL)
+	if (!new)
 		return (-1);
 	str->str = new;
 	str->capacity = str->length + 1;

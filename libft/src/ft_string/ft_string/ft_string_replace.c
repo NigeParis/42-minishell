@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 17:53:23 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/09 18:48:33 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/08 14:03:08 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_string_replace(t_string *str, char *to_replace, char *replace_by)
 
 	tmp = str->str;
 	tmp2 = ft_str_replace(tmp, to_replace, replace_by);
-	if (tmp2 == NULL)
+	if (!tmp2)
 		return (0);
 	ft_string_set(str, tmp2);
 	free(tmp);

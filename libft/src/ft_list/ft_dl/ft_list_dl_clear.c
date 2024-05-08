@@ -26,7 +26,7 @@ size_t	ft_list_dl_clear_range(t_dlist *start, t_dlist *end, t_data_apply del)
 	size_t	i;
 
 	i = 0;
-	if (start == NULL)
+	if (!start)
 		return (0);
 	while (start != end)
 	{

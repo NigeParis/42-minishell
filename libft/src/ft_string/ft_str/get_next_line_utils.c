@@ -57,7 +57,7 @@ int	split_from(char **dst, char *from, int pos, char delim)
 		or_len += ft_strlen(*dst);
 	len = or_len + pos + 1;
 	ret = malloc(sizeof(char) * (len + 1));
-	if (ret == NULL)
+	if (!ret)
 		return (-1);
 	ret[len] = 0;
 	i = 0;

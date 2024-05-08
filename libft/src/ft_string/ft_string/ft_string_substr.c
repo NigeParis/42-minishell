@@ -21,7 +21,7 @@ t_string	*ft_string_substr(t_string *str, size_t start, size_t len)
 	if (len > str->length - start)
 		len = str->length - start;
 	new = ft_string_new(len);
-	if (new == NULL)
+	if (!new)
 		return (NULL);
 	if (ft_string_cap(new) != len)
 		return (ft_string_destroy(&new), NULL);
