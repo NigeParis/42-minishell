@@ -6,12 +6,13 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 10:42:25 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/08 11:05:19 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/08 14:13:01 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ft_string.h"
+#include "ft_vector.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -53,7 +54,18 @@ void execute(t_minishell_control *control)
 
 void cleanup(t_minishell_control *control)
 {
+	ft_vec_destroy(&control->env);
 	free(control->input);
+}
+
+size_t	ft_strlen_array(char **array)
+{
+	size_t	len;
+
+	len = 0;
+	while (array[len])
+		len++;
+	return (len);
 }
 
 void setup(t_minishell_control *control, int ac, char **av, char **envp)
@@ -62,6 +74,7 @@ void setup(t_minishell_control *control, int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	ft_bzero(control, sizeof(t_minishell_control));
+	control->env = ft_vec_from_array((void **)envp, ft_strlen_array(envp));
 }
 
 // should_exit check for null input because of init loop

@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/05/08 10:53:33 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/05/08 14:56:27 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ FFLAGS	   =\
 
 CFLAGS	   =\
 				$(WFLAGS) $(CPPFLAGS) $(STD)	\
-				$(FFLAGS) -MMD -MP $(DEBUG)
+				-MMD -MP $(DEBUG) $(FFLAGS)
 
 LDFLAGS		=\
 				-L./libft -lft_personal -lreadline
@@ -83,7 +83,7 @@ all:	$(NAME)
 	@$(ECHO) $(RED) "DEBUG FLAGS IN PROJECT" $(RESET)
 
 libft/libft_personal.a:
-	@make -C ./libft
+	@make --no-print-directory -C ./libft
 
 $(NAME):	$(OBJ) libft/libft_personal.a
 	@$(ECHO) -n $(GRAY) "Making ... " $(RESET) $(BOLD) "$(NAME)" \
@@ -98,14 +98,14 @@ debug:
 clean:
 	@$(ECHO) -n $(GRAY) "Clean ... " $(RESET)
 	@( $(RM) -rf $(BUILD_DIR) $(CLOG_FILE) 2> /dev/null && \
-	make -C ./libft clean	2> /dev/null &&		\
+	make --no-print-directory -C ./libft clean	2> /dev/null &&		\
 	$(ECHO) $(GREEN) "Success" $(RESET) ) || \
 	$(ECHO) $(RED) "Failed" $(RESET)
 
 fclean: clean
 	@$(ECHO) -n $(GRAY) "FClean ... " $(RESET)
 	@( $(RM) $(NAME) 2> /dev/null && \
-	make -C ./libft fclean 2> /dev/null &&	\
+	make --no-print-directory -C ./libft fclean 2> /dev/null &&	\
 	$(ECHO) $(GREEN) "Success" $(RESET) ) || \
 	$(ECHO) $(RED) "Failed" $(RESET)
 
