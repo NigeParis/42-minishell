@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/05/07 12:27:16 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/05/08 11:53:47 by nrobinso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ BOLD		= "\\e[1m"
 
 # Commands
 CC			=	clang
-NAME		=	ft_personal
+NAME		=	ft
 COV			=	llvm-cov
 PRD			=	llvm-profdata
 AR			=	$(shell which ar)
