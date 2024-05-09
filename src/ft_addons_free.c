@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_types.h                                  :+:      :+:    :+:   */
+/*   ft_addons_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/08 10:50:34 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 09:51:35 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 09:32:28 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/09 09:42:07 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_TYPES_H
-# define MINISHELL_TYPES_H
+#include "ft_addons.h"
+#include <stddef.h>
+#include <stdlib.h>
 
-# include "ft_vector_types.h"
-
-typedef struct s_pair
+void	ft_free_2d(void **arr)
 {
-	void	*first;
-	void	*second;
-}	t_pair;
+	size_t	i;
 
-typedef struct s_minishell_control
-{
-	char		*input;
-	t_vector	*env;
-	char		**words;
-	int			exit;
-	int			ret;
-}	t_minishell_control;
-
-#endif
+	i = 0;
+	while (arr[i] != NULL)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}

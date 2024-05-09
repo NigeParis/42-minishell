@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_types.h                                  :+:      :+:    :+:   */
+/*   ft_addons_len.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/08 10:50:34 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 09:51:35 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 09:41:42 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/09 09:41:59 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_TYPES_H
-# define MINISHELL_TYPES_H
+#include "ft_addons.h"
 
-# include "ft_vector_types.h"
-
-typedef struct s_pair
+size_t	ft_len_2d(const void * const *array)
 {
-	void	*first;
-	void	*second;
-}	t_pair;
+	size_t	len;
 
-typedef struct s_minishell_control
-{
-	char		*input;
-	t_vector	*env;
-	char		**words;
-	int			exit;
-	int			ret;
-}	t_minishell_control;
-
-#endif
+	len = 0;
+	while (array[len] != NULL)
+		len++;
+	return (len);
+}
