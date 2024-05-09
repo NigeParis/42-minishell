@@ -48,6 +48,10 @@ typedef struct s_pipex
 }	t_pipex;
 
 int		pipex(int argc, char *argv[], char *env[]);
+/// @brief get line nbr of PATH in env
+/// @param pathname to  find in env
+/// @param env shell env
+/// @return 1 if the char is a digit or a letter, 0 otherwise
 int		ft_get_line_nb(char pathname[], char *env[]);
 char	**ft_get_paths(char *paths);
 int		ft_path(t_pipex *pipex, char *cmd, char **env);
