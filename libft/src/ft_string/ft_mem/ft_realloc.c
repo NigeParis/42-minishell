@@ -20,7 +20,7 @@ void	*ft_realloc(void *ptr, size_t sizeNew, size_t sizeOld)
 	void	*new;
 
 	new = malloc(sizeNew);
-	if (!new)
+	if (new == NULL)
 		return (NULL);
 	ft_memcpy(new, ptr, ft_min(sizeNew, sizeOld));
 	free(ptr);

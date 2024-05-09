@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_optional_destroy.c                              :+:      :+:    :+:   */
+/*   ft_free_double_tab.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/02 18:06:49 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/07 20:48:38 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/03/15 09:35:06 by nrobinso          #+#    #+#             */
+/*   Updated: 2024/05/08 12:04:17 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_optional.h"
-#include <stdbool.h>
 #include <stdlib.h>
 
-bool ft_optional_destroy(t_optional *opt)
+void	ft_free_double_tab(char *tab[])
 {
-	if (!opt)
-		return (false);
-	if (opt->pres == OPT_NONE)
-		return (free(opt), true);
-	return (false);
+	int	y;
+
+	y = 0;
+	while (tab && tab[y])
+	{
+		free(tab[y]);
+		y++;
+	}
+	if (tab)
+		return (free(tab));
 }

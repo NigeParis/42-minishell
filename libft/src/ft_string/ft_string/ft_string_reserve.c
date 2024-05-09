@@ -19,7 +19,7 @@ int	ft_string_reserve(t_string *str, size_t size)
 	if (size <= str->capacity)
 		return (0);
 	new = ft_realloc(str->str, str->capacity, size);
-	if (!new)
+	if (new == NULL)
 		return (-1);
 	str->str = new;
 	str->capacity = size;

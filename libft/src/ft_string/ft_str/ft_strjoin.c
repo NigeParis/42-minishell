@@ -25,7 +25,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (s2)
 		tot += ft_strlen(s2);
 	ret = ft_calloc(sizeof(char), (tot + 1));
-	if (!ret)
+	if (ret == NULL)
 		return (NULL);
 	off = 0;
 	tot = 0;

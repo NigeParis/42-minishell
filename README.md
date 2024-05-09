@@ -6,64 +6,6 @@ a command interpreter that mimics the behavior of bash. <br>
 Minishell manages environment variables, launches programs and handles their return. <br> 
 There are also have a number of built-in functions: <br> 
 
-External functions accepted: <br>
-
- | function | include lib |       prototype                                                              | return | description |
-| ------- | --------- | ------------------------------------------------------------------------ | -------------| -------|
-| readline | <stdio.h> <br> <readline/readline.h> <br> <readline/history.h>  |  char * readline (const char *prompt); | | reads a line from terminal | |
-| rl_clear_history | | | | | 
-| rl_on_new_line | | | | |
-| rl_replace_line | | | | |
-| rl_redisplay | | | | |
-|  add_history | | | | |
-| printf | <stdio.h> | int printf(const char *format, ...); | nbr of chars minus the null | | 
-| malloc | <stdlib.h> | void *malloc(size_t size);| pointer to first byte |allocates size bytes of memory |
-| free   | <stdlib.h> | void free(void *ptr);| no value. | frees the memory pointed to by ptr |
-| write  | | | | |
-| access | | | | |
-| open   | | | | |
-| read   | | | | |
-| close  | | | | |
-| fork   | | | | |
-| wait   | | | | |
-| waitpid | | | | |
-| wait3 | | | | |
-| wait4 | | | | |
-| signal | | | | |
-| sigaction | | | | | 
-| sigemptyset | | | | | 
-| sigaddset | | | | |
-| kill | | | | |
-| exit | | | | |
-| getcwd | | | | | 
-| chdir | | | | |
-| stat | | | | |
-| lstat | | | | |
-| fstat | | | | |
-| unlink | | | | |
-| execve | | | | |
-| dup | | | | |
-| dup2 | | | | |
-| pipe | | | | |
-| opendir | | | | |
-| readdir | | | | |
-| closedir | | | | |
-| strerror | | | | |
-| perror | | | | |
-| isatty | | | | |
-| ttyname | | | | |
-| ttyslot | | | | |
-| ioctl | | | | |
-| getenv | | | | |
-| tcsetattr | | | | |
-| tcgetattr | | | | |
-| tgetent | | | | |
-| tgetflag | | | | |
-| tgetnum | | | | |
-| tgetstr | | | | |
-| tgoto | | | | |
-| tputs | | | | |
-
 ### TODO
 
   Commands execution and 'simple' argument parsing 
@@ -143,3 +85,61 @@ External functions accepted: <br>
 
 Author :bgoulard <br>
 Author : nrobinso <br>
+
+External functions accepted: <br>
+
+ | function | include lib |       prototype                                                              | return | description |
+| ------- | --------- | ------------------------------------------------------------------------ | -------------| -------|
+| readline | <stdio.h> <br> <readline/readline.h> <br> <readline/history.h>  |  char * readline (const char *prompt); | | reads a line from terminal | |
+| rl_clear_history | | | | | 
+| rl_on_new_line | | | | |
+| rl_replace_line | | | | |
+| rl_redisplay | | | | |
+|  add_history | | | | |
+| printf | <stdio.h> | int printf(const char *format, ...); | nbr of chars minus the null | | 
+| malloc | <stdlib.h> | void *malloc(size_t size);| pointer to first byte |allocates size bytes of memory |
+| free   | <stdlib.h> | void free(void *ptr);| no value. | frees the memory pointed to by ptr |
+| write  | <unistd.h> | ssize_t write(int fildes, const void *buf, size_t nbyte);| nbytes written|writes nbytes from buf to file asso |
+| access | <unistd.h> | int access(const char *pathname, int mode); |0:success -1:error | checks acces to file |
+| open   |<sys/stat.h> <br> <fcntl.h> | int open(const char *path, int oflag, ... ); |fd or -1:fail | opens a file  |
+| read   | | | | |
+| close  | | | | |
+| fork   | | | | |
+| wait   | | | | |
+| waitpid | | | | |
+| wait3 | | | | |
+| wait4 | | | | |
+| signal | | | | |
+| sigaction | | | | | 
+| sigemptyset | | | | | 
+| sigaddset | | | | |
+| kill | | | | |
+| exit | | | | |
+| getcwd | | | | | 
+| chdir | | | | |
+| stat | | | | |
+| lstat | | | | |
+| fstat | | | | |
+| unlink | | | | |
+| execve | | | | |
+| dup | | | | |
+| dup2 | | | | |
+| pipe | | | | |
+| opendir | | | | |
+| readdir | | | | |
+| closedir | | | | |
+| strerror | | | | |
+| perror | | | | |
+| isatty | | | | |
+| ttyname | | | | |
+| ttyslot | | | | |
+| ioctl | | | | |
+| getenv | | | | |
+| tcsetattr | | | | |
+| tcgetattr | | | | |
+| tgetent | | | | |
+| tgetflag | | | | |
+| tgetnum | | | | |
+| tgetstr | | | | |
+| tgoto | | | | |
+| tputs | | | | |

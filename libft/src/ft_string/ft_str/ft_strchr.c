@@ -20,7 +20,7 @@ char	*ft_strchr(const char *str, int c)
 
 	ret = NULL;
 	i = 0;
-	while (str[i] && !ret)
+	while (str[i] && ret == NULL)
 	{
 		if (str[i] == target)
 			ret = (char *)str + i;
