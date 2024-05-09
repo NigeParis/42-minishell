@@ -86,7 +86,6 @@ There are also have a number of built-in functions: <br>
 Author :bgoulard <br>
 Author : nrobinso <br>
 
-
 External functions accepted: <br>
 
  | function | include lib |       prototype                                                              | return | description |
@@ -100,9 +99,9 @@ External functions accepted: <br>
 | printf | <stdio.h> | int printf(const char *format, ...); | nbr of chars minus the null | | 
 | malloc | <stdlib.h> | void *malloc(size_t size);| pointer to first byte |allocates size bytes of memory |
 | free   | <stdlib.h> | void free(void *ptr);| no value. | frees the memory pointed to by ptr |
-| write  | | | | |
-| access | | | | |
-| open   | | | | |
+| write  | <unistd.h> | ssize_t write(int fildes, const void *buf, size_t nbyte);| nbytes written|writes nbytes from buf to file asso |
+| access | <unistd.h> | int access(const char *pathname, int mode); |0:success -1:error | checks acces to file |
+| open   |<sys/stat.h> <br> <fcntl.h> | int open(const char *path, int oflag, ... ); |fd or -1:fail | opens a file  |
 | read   | | | | |
 | close  | | | | |
 | fork   | | | | |
