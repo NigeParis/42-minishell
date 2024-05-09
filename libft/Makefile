@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
+#    By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/05/08 11:53:47 by nrobinso         ###   ########.fr        #
+#    Updated: 2024/05/08 15:58:27 by nrobinso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ BOLD		= "\\e[1m"
 
 # Commands
 CC			=	clang
-NAME		=	ft
+NAME		=	ft_personal
 COV			=	llvm-cov
 PRD			=	llvm-profdata
 AR			=	$(shell which ar)
@@ -185,17 +185,20 @@ FT_T_STRING_SRC	=	\
 			$(FT_T_STRING_DIR)/ft_string_set.c
 
 FT_MEM_SRC	=	\
-			$(FT_MEM_DIR)/ft_bzero.c		\
-			$(FT_MEM_DIR)/ft_calloc.c		\
-			$(FT_MEM_DIR)/ft_free.c			\
-			$(FT_MEM_DIR)/ft_memchr.c		\
-			$(FT_MEM_DIR)/ft_memcmp.c		\
-			$(FT_MEM_DIR)/ft_memcpy.c		\
-			$(FT_MEM_DIR)/ft_memmove.c		\
-			$(FT_MEM_DIR)/ft_memset.c		\
-			$(FT_MEM_DIR)/ft_qsort.c		\
-			$(FT_MEM_DIR)/ft_realloc.c		\
-			$(FT_MEM_DIR)/ft_swap.c
+			$(FT_MEM_DIR)/ft_bzero.c			\
+			$(FT_MEM_DIR)/ft_calloc.c			\
+			$(FT_MEM_DIR)/ft_free.c				\
+			$(FT_MEM_DIR)/ft_memchr.c			\
+			$(FT_MEM_DIR)/ft_memcmp.c			\
+			$(FT_MEM_DIR)/ft_memcpy.c			\
+			$(FT_MEM_DIR)/ft_memmove.c			\
+			$(FT_MEM_DIR)/ft_memset.c			\
+			$(FT_MEM_DIR)/ft_qsort.c			\
+			$(FT_MEM_DIR)/ft_realloc.c			\
+			$(FT_MEM_DIR)/ft_swap.c				\
+			$(FT_MEM_DIR)/ft_free_double_tab.c	\
+			$(FT_MEM_DIR)/ft_free_tab.c			\
+
 
 FT_VEC_SRC	=	\
 			$(FT_VEC_DIR)/ft_vec_add.c		\
@@ -297,7 +300,7 @@ lib$(NAME).a:	$(OBJ)
 
 # Rule to clean objects
 clean:
-	@$(ECHO) -n $(GRAY) "Clean ... " $(RESET)						&& \
+	@$(ECHO) -n $(GRAY) "Clean  ... " $(RESET)						&& \
 	( $(RM) -rf $(BUILD_DIR) $(CLOG_FILE) 2> /dev/null 				&& \
 	$(ECHO) $(GREEN) "Success" $(RESET) )							|| \
 	$(ECHO) $(RED) "Failed" $(RESET)

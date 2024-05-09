@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 12:17:48 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/08 12:38:40 by bgoulard         ###   ########.fr       */
+/*   Updated: 2023/12/30 11:27:38 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_list_dl_add_front(t_dlist **head, t_dlist *const added)
 	if (!head || !added)
 		return ;
 	if (!*head)
-		return ((void)(*head = added));
+		return ((void) (*head = added));
 	added->next = *head;
 	(*head)->prev = added;
 	*head = added;
