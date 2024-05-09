@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell_error.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 11:07:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 18:29:23 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 16:05:25 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/09 16:09:57 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_string.h"
+#include "minishell_types.h"
+#include <unistd.h>
 
-int	main(int ac, char **av, char **envp)
+void	minishell_error(t_mini_err err_type, const char *msg, int errcode)
 {
-	return (mini_main(ac, av, envp));
+	ft_putstr_fd(msg, STDERR_FILENO);
+	if (err_type == MINI_ERR_FATAL)
+		exit(errcode);
 }

@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   access_pair.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 11:07:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 18:29:23 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 14:36:07 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/09 14:36:41 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "pair.h"
 
-int	main(int ac, char **av, char **envp)
+void	*pair_first(t_pair *pair)
 {
-	return (mini_main(ac, av, envp));
+	return (pair->first);
+}
+
+void	*pair_second(t_pair *pair)
+{
+	return (pair->second);
 }

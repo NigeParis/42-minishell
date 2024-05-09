@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_vector_get.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 11:07:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 18:29:23 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 14:24:49 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/09 14:25:52 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_vector_types.h"
 
-int	main(int ac, char **av, char **envp)
+void	*ft_vector_get(t_vector *vector, const void *key, \
+					int (*cmp)(const void *, const void *))
 {
-	return (mini_main(ac, av, envp));
+	size_t	i;
+
+	i = 0;
+	while (i < vector->count)
+	{
+		if (cmp(vector->datas[i], key) == 0)
+			return (vector->datas[i]);
+		i++;
+	}
+	return (NULL);
 }

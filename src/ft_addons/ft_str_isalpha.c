@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_addons_len.c                                    :+:      :+:    :+:   */
+/*   ft_str_isalpha.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 09:41:42 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 09:41:59 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 15:55:40 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/09 15:55:52 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_addons.h"
+#include "ft_string.h"
+#include <stdbool.h>
 
-size_t	ft_len_2d(const void * const *array)
+bool	ft_str_isalpha(char *str)
 {
-	size_t	len;
+	int	i;
 
-	len = 0;
-	while (array[len] != NULL)
-		len++;
-	return (len);
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isalpha(str[i]))
+			return (false);
+		i++;
+	}
+	return (true);
 }

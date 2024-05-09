@@ -1,18 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   destroy_pair.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 11:07:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 18:29:23 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 13:19:30 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/09 14:35:56 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "pair.h"
+#include <stdlib.h>
 
-int	main(int ac, char **av, char **envp)
+void	destroy_pair(t_pair *content)
 {
-	return (mini_main(ac, av, envp));
+	t_pair	*pair;
+
+	pair = (t_pair *)content;
+	free(pair);
+}
+
+void	destroy_pair_deep(t_pair *content)
+{
+	t_pair	*pair;
+
+	pair = (t_pair *)content;
+	free(pair->first);
+	free(pair->second);
+	free(pair);
 }

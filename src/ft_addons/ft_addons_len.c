@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_addons_len.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 11:07:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 18:29:23 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 09:41:42 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/09 17:44:36 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_addons.h"
 
-int	main(int ac, char **av, char **envp)
+size_t	ft_len_2d(const void *const *array)
 {
-	return (mini_main(ac, av, envp));
+	size_t	len;
+
+	len = 0;
+	while (array[len] != NULL)
+		len++;
+	return (len);
 }

@@ -1,18 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parser_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 11:07:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 18:29:23 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 12:56:38 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/09 17:44:15 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_string.h"
+#include "minishell_types.h"
 
-int	main(int ac, char **av, char **envp)
+// replace this - temporary
+char	**parse_words(const char *str)
 {
-	return (mini_main(ac, av, envp));
+	return (ft_split(str, ' '));
+}
+
+int	parser(t_minishell_control *ctrl, char *str)
+{
+	ctrl->input = str;
+	ctrl->words = parse_words(ctrl->input);
+	return (0);
 }

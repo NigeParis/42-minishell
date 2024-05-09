@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_bonus.h                                     :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/04/06 12:56:46 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:30:16 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_BONUS_H
-# define PIPEX_BONUS_H
+#ifndef PIPEX_H
+# define PIPEX_H
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -48,6 +48,7 @@ typedef struct s_pipex
 }	t_pipex;
 
 int		pipex(int argc, char *argv[], char *env[]);
+
 /// @brief get line nbr of PATH in env
 /// @param pathname to  find in env
 /// @param env shell env
@@ -77,9 +78,9 @@ void	ft_here_doc(t_pipex *pipex, char *argv[]);
 int		ft_pipex(t_pipex *pipex, int argc, char *argv[]);
 void	ft_pipes(t_pipex *pipex, char *argv[], char *env[], int i);
 void	cleanup_main_end(t_pipex *pipex);
-void    ft_toggle_char(char *str[], char c, int toggle);
-void    ft_tog_delim_ch(char *str, char delimiter, char c, int toggle);
-void    ft_find_delim(char *str, char delimiter, int *count, int *fst_pos);
+void	ft_toggle_char(char *str[], char c, int toggle);
+void	ft_tog_delim_ch(char *str, char delimiter, char c, int toggle);
+void	ft_find_delim(char *str, char delimiter, int *count, int *fst_pos);
 void	ft_make_toogle_cmd_arg(t_pipex *pipex);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/05/08 14:56:27 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/05/09 17:43:09 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ CFLAGS	   =\
 LDFLAGS		=\
 				-L./libft -lft_personal -lreadline
 SRC_FILES	=\
-				$(wildcard $(SRC_DIR)/*.c)
+				$(shell find $(SRC_DIR) -type f -name "*.c" | sed 's/\.\/src\///')
 
 OBJ			=\
 			 	$(patsubst %.c, %.o, $(addprefix $(BUILD_DIR)/,$(SRC_FILES)))

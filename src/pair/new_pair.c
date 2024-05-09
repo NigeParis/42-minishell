@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   new_pair.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 11:07:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 18:29:23 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 14:29:37 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/09 14:36:55 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "pair.h"
+#include <stdlib.h>
 
-int	main(int ac, char **av, char **envp)
+t_pair	*new_pair(void *first, void *second)
 {
-	return (mini_main(ac, av, envp));
+	t_pair	*pair;
+
+	pair = (t_pair *)malloc(sizeof(t_pair));
+	if (!pair)
+		return (NULL);
+	pair->first = first;
+	pair->second = second;
+	return (pair);
 }
