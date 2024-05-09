@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:45:37 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/05/09 13:29:42 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/05/09 17:06:55 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	cleanup_main_end(t_pipex *pipex)
 	close_fd(pipex, 10);
 }
 
-int	main(int argc, char *argv[], char *env[])
+int	pipex(int argc, char *argv[], char *env[])
 {
 	t_pipex	pipex;
 	int		i;
