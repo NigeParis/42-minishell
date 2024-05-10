@@ -14,7 +14,7 @@ ECHO		=	$(shell which echo) -e
 
 NAME= pipex
 
-CFLAGS= -Wall -Wextra -Werror -I$(HEADER) -g3
+CFLAGS= -Wall -Wextra -Werror -I$(HEADERS) -g3
 
 SRCS=$(addprefix $(SRC_DIR), $(SRC))
 OBJ=$(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
@@ -35,11 +35,14 @@ LIBFT_DIR=../libft
 FT_PRINTF_DIR= ../ft_printf
 GNL_DIR=../get_next_line
 
-LIBFT= ../libft/libft_personal.a
-FT_PRINTF= ../ft_printf/libftprintf.a
-GET_NEXT_LINE= ../get_next_line/get_next_line.a
+A_FILES=  ../libft/libft_personal.a
+A_FILES+= ../ft_printf/libftprintf.a
+A_FILES+= ../get_next_line/get_next_line.a
 
-HEADER= ../include/
+HEADERS=  ../include 
+HEADERS+= -I../libft/include -I../ft_printf/src -I../get_next_line
+
+
 
 ###############################################################################
 ## RULES
@@ -51,10 +54,9 @@ $(NAME): $(OBJ)
 	@make $(PND) -C $(FT_PRINTF_DIR) all
 	@make $(PND) -C $(GNL_DIR) all
 	@echo -n $(GRAY) "Making ...  $(RESET) $(BOLD) pipex $(GRAY)              ...  " 
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) \
-	$(LIBFT) $(FT_PRINTF) $(GET_NEXT_LINE) && \
-	($(ECHO) $(GREEN) "Success" $(RESET)   || \
-	$(ECHO) $(RED) "Failed" $(RESET))
+	@($(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(A_FILES) && \
+	($(ECHO) $(GREEN) "Success" $(RESET)) )   || \
+	$(ECHO) $(RED) "Failed" $(RESET)
 
 lib:
 	@make $(PND) -C $(LIBFT_DIR) re

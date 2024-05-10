@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/05/10 11:30:45 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/05/10 14:25:28 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <sys/types.h>
-# include "../libft/include/libft.h"
-# include "../ft_printf/src/ft_printf.h"
-# include "../get_next_line/get_next_line.h"
+# include "libft.h"
+# include "ft_printf.h"
+# include "get_next_line.h"
 
 typedef struct s_pipex
 {
