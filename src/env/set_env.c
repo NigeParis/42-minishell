@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:08 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 15:07:13 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/10 09:31:46 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	set_env(t_vector **env, char *keyname, char *value)
 {
 	t_pair	*pair;
 
-	pair = (t_pair *)ft_vector_get(*env, keyname, &local_pair_cmp);
+	pair = (t_pair *)ft_vec_get(*env, keyname, &local_pair_cmp);
 	if (pair)
 	{
 		free(pair->second);

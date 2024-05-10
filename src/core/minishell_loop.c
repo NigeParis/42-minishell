@@ -6,11 +6,11 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 18:05:07 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/10 12:13:32 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
+// #include "ft_string.h"
 #include "minishell.h"
 #include "minishell_types.h"
 
@@ -21,7 +21,7 @@ int	minishell_should_exit(t_minishell_control *shell)
 
 int	minishell_parse(t_minishell_control *shell)
 {
-	shell->words = ft_split(shell->input, ' ');
+	parser(shell, shell->input);
 	if (!shell->words)
 		return (1);
 	return (0);

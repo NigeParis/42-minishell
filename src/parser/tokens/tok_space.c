@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vector_get.c                                    :+:      :+:    :+:   */
+/*   tok_space.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 14:24:49 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 23:48:44 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/10 12:19:22 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/10 12:19:41 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_vector_types.h"
+#include "parser.h"
 
-void	*ft_vector_get(t_vector *vector, const void *key, \
-					int (*cmp)(const void *v_data, const void *key))
+void	token_space_handler(const char *str, t_parser *prs)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < vector->count)
-	{
-		if (cmp(vector->datas[i], key) == 0)
-			return (vector->datas[i]);
-		i++;
-	}
-	return (NULL);
+	if (prs->str_offset > 0 && prs->quote == QUOTE_NONE && str[-1] != ' ')
+		prs->word_offset++;
+	else
+		bulk_add_char(prs, str, 1);
 }

@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*   ft_vec_get.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/09 17:27:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 12:06:22 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 14:24:49 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/10 09:33:43 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include <stdlib.h>
+#include "ft_vector_types.h"
 
-// direct call to malloc as ft_bzero is not needed
-//  >> we are copying the content of ptr to new
-void	*ft_realloc(void *ptr, size_t sizeNew, size_t sizeOld)
+void	*ft_vec_get(t_vector *vector, const void *key, \
+					int (*cmp)(const void *v_data, const void *key))
 {
-	void	*new;
+	size_t	i;
 
-	new = malloc(sizeNew);
-	if (new == NULL)
-		return (NULL);
-	if (ptr == NULL)
-		return (new);
-	ft_memcpy(new, ptr, ft_min(sizeNew, sizeOld));
-	free(ptr);
-	return (new);
+	i = 0;
+	while (i < vector->count)
+	{
+		if (cmp(vector->datas[i], key) == 0)
+			return (vector->datas[i]);
+		i++;
+	}
+	return (NULL);
 }
