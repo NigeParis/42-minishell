@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:29:28 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/05/09 13:39:18 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:05:00 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,6 @@ int	clean_cmd_path(t_pipex	*pipex)
 	pipex->cmds[0][j] = '\0';
 	return (0);
 }
-
-// int	get_cmd(t_pipex *pipex, char *argv)
-// {
-// 	pipex->cmds = ft_split(argv, ' ');
-// 	if (!pipex->cmds[0])
-// 		return (-1);
-// 	if ((access(pipex->cmds[0], F_OK | R_OK)) == 0)
-// 		clean_cmd_path(pipex);
-// 	return (0);
-// }
 
 int	get_cmd(t_pipex *pipex, char *argv)
 {
@@ -93,3 +83,4 @@ void	exec_cmd(t_pipex *pipex, int i, char *argv[], char *env[])
 		exit(127);
 	}
 }
+

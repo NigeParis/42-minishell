@@ -12,37 +12,6 @@
 
 #include "pipex.h"
 
-int	ft_get_line_nb(char pathname[], char *env[])
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (!pathname || !env)
-		return (-1);
-	while (env && env[i])
-	{
-		while (env[i][j] == pathname[j] && j < 6)
-		{
-			j++;
-		}
-		if (j == 5 && j == (int)ft_strlen(pathname))
-			return (i);
-		j = 0;
-		i++;
-	}
-	return (i);
-}
-
-char	**ft_get_paths(char *paths)
-{
-	char	**tab;
-
-	tab = ft_split(&paths[5], ':');
-	return (tab);
-}
-
 int	ft_path(t_pipex *pipex, char *cmd, char **env)
 {
 	int	i;

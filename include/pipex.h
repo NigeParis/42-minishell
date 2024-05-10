@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/05/09 18:30:16 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:30:45 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,41 @@ typedef struct s_pipex
 
 }	t_pipex;
 
+/// @brief basically lanches either heredoc of pipex
+/// @param argc nbr of arguments passed by main
+/// @param argv[] the arguments separated by a space 
+/// @param env[] the enviroment tab[][] of system variables
+/// @returns 0 on success 1 on error
 int		pipex(int argc, char *argv[], char *env[]);
 
-/// @brief get line nbr of PATH in env
-/// @param pathname to  find in env
-/// @param env shell env
-/// @return 1 if the char is a digit or a letter, 0 otherwise
-int		ft_get_line_nb(char pathname[], char *env[]);
-char	**ft_get_paths(char *paths);
+/// @brief find && split in pipex->paths[][] all PATHS listed in env
+/// @param pipex structure that holds pipex->paths
+/// @param cmd pointer to a command to be joined to all valid paths 
+/// @param env is the tab[] of strings to be searched in.
+/// @returns nbr of the paths made for env variable "PATH=" and 0 on error
 int		ft_path(t_pipex *pipex, char *cmd, char **env);
+
+/// @brief find && split in pipex->cmds[][] argv separated by spaces
+/// @param pipex structure that holds the splitted cmds pipex->cmds
+/// @param argv[] the arguments separated by a space 
+/// @note function takes into account spaces betwwen simple quotes
+/// @note for ex: "grep 'spaces' " searches for the nbr spaces
+/// @returns 0 on success and -1 on error
 int		get_cmd(t_pipex *pipex, char *argv);
+
+/// @brief executes the command with execve() command externe.
+/// @param pipex structure that holds valid path - pipex->path
+/// @param pipex structure that holds valid commands to be executed - pipex->cmds
+/// @param i command nbr start pos ex 2 or 3 for here_doc
+/// @param argv[] the arguments separated by a space 
+/// @param env is the tab[] of strings to be searched in.
+/// @note function takes into account spaces between the simple quotes
+/// @note for ex: "grep 'spaces' " searches for the nbr spaces
 void	exec_cmd(t_pipex *pipex, int i, char *argv[], char *env[]);
+
+
+
+
 void	ft_exec_cmd_error(t_pipex *pipex, char *message);
 void	ft_cleanup(t_pipex *pipex, int type);
 void	ft_cleanup_helper1(t_pipex *pipex, int type);
