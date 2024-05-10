@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vector_get.c                                    :+:      :+:    :+:   */
+/*   ft_vec_to_array.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 14:24:49 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 23:48:44 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 23:39:27 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/10 08:03:56 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_vector_types.h"
+#include <stdlib.h>
 
-void	*ft_vector_get(t_vector *vector, const void *key, \
-					int (*cmp)(const void *v_data, const void *key))
+void	**ft_vec_to_array(t_vector **vec)
 {
-	size_t	i;
+	void	**array;
 
-	i = 0;
-	while (i < vector->count)
-	{
-		if (cmp(vector->datas[i], key) == 0)
-			return (vector->datas[i]);
-		i++;
-	}
-	return (NULL);
+	array = (*vec)->datas;
+	free(*vec);
+	return (array);
 }

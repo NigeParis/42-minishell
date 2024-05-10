@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 09:34:42 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 18:07:54 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/10 08:00:35 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,15 @@ size_t	ft_len_2d(const void *const *array);
 /// @return The first matching element or NULL if not found
 /// @file: src/ft_vector_get.c
 void	*ft_vector_get(t_vector *vector, const void *key,
-			int (*cmp)(const void *, const void *));
+			int (*cmp)(const void *v_data, const void *key));
+
+/// @brief Convert a vector to an array
+/// @param vec The vector to convert
+/// @return The array or NULL if malloc failed
+/// @file: src/ft_addons/ft_vec_to_array.c
+/// @note The array must be freed with free
+/// @note The vector is destroyed
+void	**ft_vec_to_array(t_vector **vec);
 
 // File: src/ft_addons/ft_str_isalpha.c
 bool	ft_str_isalpha(char *str);
@@ -45,5 +53,8 @@ bool	ft_str_isdigit(char *str);
 
 // File: src/ft_addons/ft_str_isnum.c
 bool	ft_str_isnum(char *str);
+
+// File: src/ft_addons/ft_strcspn.c
+size_t ft_strcspn(const char *str, const char *charset);
 
 #endif

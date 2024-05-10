@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vector_get.c                                    :+:      :+:    :+:   */
+/*   ft_strcspn.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 14:24:49 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 23:48:44 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 23:02:45 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/09 23:03:27 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_vector_types.h"
+#include "ft_string.h"
 
-void	*ft_vector_get(t_vector *vector, const void *key, \
-					int (*cmp)(const void *v_data, const void *key))
+size_t ft_strcspn(const char *str, const char *charset)
 {
-	size_t	i;
+	size_t i;
 
 	i = 0;
-	while (i < vector->count)
+	while (str[i])
 	{
-		if (cmp(vector->datas[i], key) == 0)
-			return (vector->datas[i]);
+		if (ft_strchr(charset, str[i]))
+			return (i);
 		i++;
 	}
-	return (NULL);
+	return (i);
 }

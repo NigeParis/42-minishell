@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 17:49:37 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/09 22:30:41 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	cd(t_minishell_control *ctrl, t_cmd *cmd)
 			EXIT_FAILURE);
 	if (cmd->argc == 1)
 		target = homedir;
+	else if (ft_strcmp(cmd->args[1], "-") == 0)
+		target = oldpwd;
 	else
 		target = cmd->args[1];
 	if (chdir(target) == -1)
