@@ -19,10 +19,9 @@ CFLAGS= -Wall -Wextra -Werror -I$(HEADERS) -g3
 
 OBJ	= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
-# get the max length of the file name for pretty print
-MAX_FLEN	=\
-			 $(shell $(PRINTF) "%s\n" $(OBJ) | \
-			 awk '{print length}' | sort -n | tail -1)
+# get the max length of the file name for pretty print - merci Baptiste
+MAX_FLEN	= $(shell $(PRINTF) "%s\n" $(OBJ) | \
+				awk '{print length}' | sort -n | tail -1)
 
 CC=clang
 
@@ -48,8 +47,6 @@ HEADERS=  ../include
 HEADERS+= -I../libft/include
 HEADERS+= -I../ft_printf/src
 HEADERS+= -I../get_next_line
-
-
 
 ###############################################################################
 ## RULES

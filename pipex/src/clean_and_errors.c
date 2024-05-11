@@ -6,12 +6,29 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 11:52:01 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/05/09 13:29:04 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/05/11 11:37:19 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+void	ft_cleanup(t_pipex *pipex, int type)
+{
+	ft_cleanup_helper1(pipex, type);
+	ft_cleanup_helper2(pipex, type);
+	if (type == 8)
+	{
+		if (pipex->cmds && pipex->uni_path_flag == 1)
+			ft_free_double_tab(pipex->cmds);
+		if (pipex->path)
+			ft_free_tab(pipex->path);
+	}
+	if (type == 9)
+	{
+		if (pipex->path_cmd)
+			ft_free_tab(pipex->path_cmd);
+	}
+}
 void	ft_cleanup_helper1(t_pipex *pipex, int type)
 {
 	if (type == 4)
@@ -61,23 +78,6 @@ void	ft_cleanup_helper2(t_pipex *pipex, int type)
 	}
 }
 
-void	ft_cleanup(t_pipex *pipex, int type)
-{
-	ft_cleanup_helper1(pipex, type);
-	ft_cleanup_helper2(pipex, type);
-	if (type == 8)
-	{
-		if (pipex->cmds && pipex->uni_path_flag == 1)
-			ft_free_double_tab(pipex->cmds);
-		if (pipex->path)
-			ft_free_tab(pipex->path);
-	}
-	if (type == 9)
-	{
-		if (pipex->path_cmd)
-			ft_free_tab(pipex->path_cmd);
-	}
-}
 
 void	close_fd(t_pipex *pipex, int type)
 {
@@ -103,7 +103,7 @@ void	close_fd(t_pipex *pipex, int type)
 
 void	ft_exec_cmd_error(t_pipex *pipex, char *message)
 {
-	char	str[100];
+	char	str[ERROR_MSG_SIZE];
 	int		i;
 	int		j;
 
