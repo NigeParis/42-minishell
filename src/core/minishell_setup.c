@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 17:35:00 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/10 13:43:52 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ int	setup_minishell(t_minishell_control *minishell, int ac, char **arg, \
 	if (create_env(minishell, (const char **)envp) == EXIT_FAILURE)
 		return (minishell_error(MINI_ERR_ENVC, NULL, errno), \
 		minishell->exit = 1, EXIT_FAILURE);
+	minishell_parser_init(minishell);
 	return (EXIT_SUCCESS);
 }

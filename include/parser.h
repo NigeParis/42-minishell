@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:34:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 12:39:14 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/10 13:35:37 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 
 // File: src/parser/init_parser.c
 int				parser_init_tokens_handlers(t_parser *prs);
-int				init_parser(t_parser *prs);
+int				init_parser_line(t_parser *prs);
 
 // File: src/parser/parser_cleanup.c
 void			parser_cleanup(t_parser *prs);
+void			parser_cleanup_final(t_parser *prs);
 
 // File: src/parser/parser_main.c
 // dependant of minishell_types.h not parser.h
@@ -28,7 +29,7 @@ void			parser_cleanup(t_parser *prs);
 // int	parser(t_minishell_control *ctrl, char *str);
 
 // File: src/parser/parse_words.c
-char			**parse_words(const char *str);
+char			**parse_words(const char *str, t_parser *prs);
 
 // File: src/parser/token_core.c
 int				tokencmp_by_token(const void *token, const void *str);

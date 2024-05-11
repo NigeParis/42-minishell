@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:15:12 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 18:22:02 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/10 13:24:02 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ int		minishell_prompt(t_minishell_control *shell);
 // File: src/core/minishell_setup.c
 int		create_env(t_minishell_control *ctrl, const char **envp);
 
+// File: src/core/minishell_parser_init.c
+int		minishell_parser_init(void *prs);
+
 // File: src/core/minishell_setup.c
 int		setup_minishell(t_minishell_control *minishell, int ac, char **args,
 			char **envp);
@@ -68,9 +71,6 @@ void	set_env(t_vector **env, char *keyname, char *value);
 int		main(int ac, char **av, char **envp);
 
 // File: src/parser/parser_main.c
-char	**parse_words(const char *str);
-
-// File: src/parser/parser_main.c
-int		parser(t_minishell_control *ctrl, char *str);
+int	parser(t_minishell_control *ctrl, char *str);
 
 #endif /* MINISHELL_H */

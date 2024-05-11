@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 10:50:34 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 18:31:11 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/10 13:04:14 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_minishell_control
 	char		**words;
 	int			exit;
 	int			ret;
+	void		*prs;
 }	t_minishell_control;
 
 // MINI_ERR_CMDP, parse

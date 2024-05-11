@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:56:38 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 12:29:09 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/10 13:25:39 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int	parser(t_minishell_control *ctrl, char *str)
 {
 	ctrl->input = str;
-	ctrl->words = parse_words(ctrl->input);
+	init_parser_line(ctrl->prs);
+	ctrl->words = parse_words(ctrl->input, ctrl->prs);
 	return (0);
 }
