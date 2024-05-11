@@ -8,6 +8,7 @@ RESET		= "\\e[0m"
 BOLD		= "\\e[1m"
 
 ECHO		=	$(shell which echo) -e
+PRINTF		=	$(shell which printf)
 
 ###############################################################################
 ## ARGUMENTS
@@ -16,8 +17,25 @@ NAME= pipex
 
 CFLAGS= -Wall -Wextra -Werror -I$(HEADERS) -g3
 
-SRCS=$(addprefix $(SRC_DIR), $(SRC))
-OBJ=$(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
+# OBJ=$(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
+
+OBJ	= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
+
+# get the max length of the file name for pretty print
+MAX_FLEN	=\
+			 $(shell $(PRINTF) "%s\n" $(OBJ) | \
+			 awk '{print length}' | sort -n | tail -1)
+
+%.o: %.c
+	@$(ECHO) -n	$(GRAY)	"building from " 
+	@$(PRINTF) "                   %*s ... "$(RESET) $(MAX_FLEN) $<
+	@( $(CC) $(CFLAGS) -c $< -o $@ && \
+	$(ECHO) $(GREEN) "Success" $(RESET) ) || \
+	$(ECHO) $(RED) "Failed" $(RESET)
+
+
+
+
 
 CC=clang
 
@@ -40,7 +58,9 @@ A_FILES+= ../ft_printf/libftprintf.a
 A_FILES+= ../get_next_line/get_next_line.a
 
 HEADERS=  ../include 
-HEADERS+= -I../libft/include -I../ft_printf/src -I../get_next_line
+HEADERS+= -I../libft/include
+HEADERS+= -I../ft_printf/src
+HEADERS+= -I../get_next_line
 
 
 
@@ -50,13 +70,13 @@ HEADERS+= -I../libft/include -I../ft_printf/src -I../get_next_line
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@make $(PND) -C $(LIBFT_DIR) all
+	@make $(PND) -C $(LIBFT_DIR) all 
 	@make $(PND) -C $(FT_PRINTF_DIR) all
 	@make $(PND) -C $(GNL_DIR) all
 	@echo -n $(GRAY) "Making ...  $(RESET) $(BOLD) pipex $(GRAY)              ...  " 
-	@($(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(A_FILES) && \
+	@( $(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(A_FILES) && \
 	($(ECHO) $(GREEN) "Success" $(RESET)) )   || \
-	$(ECHO) $(RED) "Failed" $(RESET)
+	$(ECHO) $(RED) "Failed" $(RESET) 
 
 lib:
 	@make $(PND) -C $(LIBFT_DIR) re
