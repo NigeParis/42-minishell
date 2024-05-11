@@ -17,25 +17,12 @@ NAME= pipex
 
 CFLAGS= -Wall -Wextra -Werror -I$(HEADERS) -g3
 
-# OBJ=$(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
-
 OBJ	= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 # get the max length of the file name for pretty print
 MAX_FLEN	=\
 			 $(shell $(PRINTF) "%s\n" $(OBJ) | \
 			 awk '{print length}' | sort -n | tail -1)
-
-%.o: %.c
-	@$(ECHO) -n	$(GRAY)	"building from " 
-	@$(PRINTF) "                   %*s ... "$(RESET) $(MAX_FLEN) $<
-	@( $(CC) $(CFLAGS) -c $< -o $@ && \
-	$(ECHO) $(GREEN) "Success" $(RESET) ) || \
-	$(ECHO) $(RED) "Failed" $(RESET)
-
-
-
-
 
 CC=clang
 
@@ -77,6 +64,13 @@ $(NAME): $(OBJ)
 	@( $(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(A_FILES) && \
 	($(ECHO) $(GREEN) "Success" $(RESET)) )   || \
 	$(ECHO) $(RED) "Failed" $(RESET) 
+
+%.o: %.c
+	@$(ECHO) -n	$(GRAY)	"building from " 
+	@$(PRINTF) "                   %*s ... "$(RESET) $(MAX_FLEN) $<
+	@( $(CC) $(CFLAGS) -c $< -o $@ && \
+	$(ECHO) $(GREEN) "Success" $(RESET) ) || \
+	$(ECHO) $(RED) "Failed" $(RESET)	
 
 lib:
 	@make $(PND) -C $(LIBFT_DIR) re
