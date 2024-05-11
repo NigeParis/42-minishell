@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_cleanup.c                                   :+:      :+:    :+:   */
+/*   ft_free_2d.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/10 12:26:23 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/11 09:57:38 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/09 09:32:28 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/11 09:51:21 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include "ft_vector.h"
-#include "parser.h"
+#include "ft_addons.h"
+#include <stddef.h>
+#include <stdlib.h>
 
-void	parser_cleanup(t_parser *prs)
+void	ft_free_2d(void **arr)
 {
-	if (prs->words)
-		ft_free((void **)&prs->words);
-}
+	size_t	i;
 
-void	parser_cleanup_final(t_parser *prs)
-{
-	parser_cleanup(prs);
-	if (prs->tokens_handlers)
-		ft_vec_destroy(&prs->tokens_handlers);
+	i = 0;
+	while (arr[i] != NULL)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }

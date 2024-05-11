@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 09:34:42 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 12:05:14 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/11 09:50:41 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@
 /// @brief Free a null ended 2D array of pointers
 /// @param arr The array to free
 /// @note The array must be null ended
-/// @file:	src/ft_addons/ft_addons_free.c
+/// @file:	src/ft_addons/ft_free_2d.c
 void	ft_free_2d(void **arr);
 
 /// @brief Get the length of a null ended 2D array of pointers
 /// @param array The array to get the length of
 /// @return The length of the array
 /// @note The array must be null ended
-/// @file:	src/ft_addons/ft_addons_len.c
+/// @file:	src/ft_addons/ft_len_2d.c
 size_t	ft_len_2d(const void *const *array);
 
 /// @brief Get the firs matching element in a vector using cmp
@@ -45,13 +45,13 @@ void	*ft_vec_get(t_vector *vector, const void *key,
 /// @note The vector is destroyed
 void	**ft_vec_to_array(t_vector **vec);
 
-// File: src/ft_addons/ft_str_isalpha.c
+// @file: src/ft_addons/ft_str_isalpha.c
 bool	ft_str_isalpha(char *str);
 
-// File: src/ft_addons/ft_str_isdigit.c
+// @file: src/ft_addons/ft_str_isdigit.c
 bool	ft_str_isdigit(char *str);
 
-// File: src/ft_addons/ft_str_isnum.c
+// @file: src/ft_addons/ft_str_isnum.c
 bool	ft_str_isnum(char *str);
 
 /// @brief Get the length of a string until a character in a charset
@@ -71,5 +71,11 @@ size_t	ft_strcspn(const char *str, const char *charset);
 /// @note the string str is freed
 /// @note the string str can be NULL
 char	*ft_strappend_c(char **str, char c);
+
+/// @brief Apply a function to each element of a null ended 2D array
+/// @param array The array to apply the function to
+/// @param f The function to apply
+/// @file:	src/ft_addons/ft_apply_2d.c
+void	ft_apply_2d(void **array, t_data_apply f);
 
 #endif
