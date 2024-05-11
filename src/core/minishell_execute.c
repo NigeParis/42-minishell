@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 18:06:25 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/11 14:02:30 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 int	minishell_execute(t_minishell_control *shell)
 {
 	printf("debug:\n");
-	printf("Executing: %s\n", shell->input);
+//	printf("Executing: %s\n", shell->input);
 	printf("Words: %p\n", (void *)shell->words);
 	for (size_t i = 0; shell->words && shell->words[i]; i++)
 	{

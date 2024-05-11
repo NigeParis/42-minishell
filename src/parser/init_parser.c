@@ -6,14 +6,13 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:20:42 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 13:38:49 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/11 14:04:45 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_vector.h"
 #include "parser.h"
 #include "parser_types.h"
-#include <stdio.h>
 
 // TODO:
 // This table of tokens is constant and should be initialized
@@ -30,6 +29,7 @@ int	parser_init_tokens_handlers(t_parser *prs)
 		{TOKEN_SPACE, TOK_FLG_SINGLE, "\n", token_space_handler},
 		{TOKEN_QUOTE_ALL, TOK_FLG_SINGLE, "'", token_quote_all_handler},
 		{TOKEN_QUOTE_ALL, TOK_FLG_SINGLE, "\"", token_quote_all_handler},
+		{TOKEN_STRING_EXPANSION, TOK_FLG_SINGLE, "$", token_doll_handler},
 	};
 	size_t			i;
 
@@ -49,9 +49,5 @@ int	init_parser_line(t_parser *prs)
 	prs->str_offset = 0;
 	prs->word_offset = 0;
 	prs->quote = QUOTE_NONE;
-	for (size_t debug= 0; debug < prs->tokens_handlers->count; debug++)
-	{
-		printf("token: %p\n", prs->tokens_handlers->datas[debug]);
-	}
 	return (0);
 }

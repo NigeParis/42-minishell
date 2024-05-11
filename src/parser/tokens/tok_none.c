@@ -6,15 +6,16 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:27:26 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 12:34:18 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/11 14:42:57 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "ft_vector.h"
+#include "ft_vector_types.h"
 #include "parser_types.h"
 
-void	bulk_add_char(t_parser *words, const char *str, int len)
+void	bulk_add_char(t_parser *words, const char *str, int len, t_vector *env)
 {
 	char	*tmp[3];
 

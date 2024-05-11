@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:25:28 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 12:33:33 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/11 14:43:55 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ size_t	get_token_handler(const char *str, const t_parser *restrict prs)
 	return (TOKEN_UNKNOWN_ERROR);
 }
 
-void	token_handler(size_t token_t, const char *str, t_parser *prs)
+void	token_handler(size_t token_t, const char *str, t_parser *prs, t_vector *env)
 {
 	t_token	*token;
 

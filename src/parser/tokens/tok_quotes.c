@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:19:46 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 12:36:30 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/11 14:42:52 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // if no quote set quote
 // if quote is set and quote match set quote to none
 // else append char to word
-void	token_quote_all_handler(const char *str, t_parser *prs)
+void	token_quote_all_handler(const char *str, t_parser *prs, t_vector *env)
 {
 	if (prs->quote == QUOTE_NONE)
 	{
