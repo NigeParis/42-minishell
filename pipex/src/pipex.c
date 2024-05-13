@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:45:37 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/05/10 10:11:37 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:22:35 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	ft_open_files(t_pipex *pipex, int argc, char *argv[])
 		perror(argv[1]);
 		exit (0);
 	}
+	//pipex->fdin = dup(STDOUT_FILENO); // experimentation
+	
 	if (access(argv[1], F_OK | R_OK) == 0)
 		pipex->fdin = open(argv[1], O_RDONLY, 0777);
 	pipex->fdout = open(argv[argc -1], O_WRONLY | O_CREAT | O_TRUNC, 0777);
@@ -67,7 +69,7 @@ int	ft_pipex(t_pipex *pipex, int argc, char *argv[])
 	return (0);
 }
 
-void	cleanup_main_end(t_pipex *pipex)
+void	cleanup_pipex_end(t_pipex *pipex)
 {
 	ft_heredoc_cleanup(pipex);
 	ft_cleanup(pipex, 8);
@@ -98,6 +100,6 @@ int	pipex(int argc, char *argv[], char *env[])
 	}
 	while (wait(NULL) > 0)
 		;
-	cleanup_main_end(&pipex);
+	cleanup_pipex_end(&pipex);
 	return (0);
 }

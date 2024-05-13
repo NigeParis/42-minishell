@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/05/11 11:58:16 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:46:20 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,46 +112,60 @@ void	ft_cleanup_helper2(t_pipex *pipex, int type);
 /// @note fd == -1 then it just returns doing nothing
 void	close_fd(t_pipex *pipex, int type);
 
-/// @brief 
-/// @param 
-/// @param 
-/// @note 
+/// @brief initialises all elements of the structure pipex
+/// @param pipex the structure that holds all the elments needed.
+/// @param argc number of arguments
+/// @param argv arguments separated by spaces
+/// @note calls the function ft_open_files() inputs into the structure fdin and fdout.
 void	ft_init(t_pipex *pipex, int argc, char *argv[]);
-/// @brief 
-/// @param 
-/// @param 
-/// @note 
+
+/// @brief opens files for FD fdin and fdout - checks fdin file is readable and exists - checks fdout file exists or creates it if not
+/// @param pipex the structure that holds both FD, fdin and fdout adresses
+/// @param argc number of arguements
+/// @param argv tab[][] of arguments separted by a space
+/// @note inserts the FD adresses of input and output files
 void	ft_open_files(t_pipex *pipex, int argc, char *argv[]);
-/// @brief 
-/// @param 
-/// @param 
-/// @note 
+
+/// @brief checks and loads a given path from a argv input ex : mybin/cat
+/// @param pipex the structure that holds uni_path variable and uni_path_flag
+/// @param argv hold input arguments from command line and any flags separated by ' ', ex :'ls -la'
+/// @param i command nbr start pos ex 2 or 3 for here_doc
+/// @note 1 on success on valid unique path and 0 if fails
 int		get_path_absolu(t_pipex *pipex, char *argv[], int i);
-/// @brief 
-/// @param 
-/// @param 
-/// @note 
+
+/// @brief checks if the path is valid and exists and copies path to pipex->path and sets flags ex: mybin/cat
+/// @param pipex the structure that holds uni_path variable and uni_path_flag
+/// @param argv hold input arguments from command line and any flags separated by ' '
+/// @param i command nbr start pos ex 2 or 3 for here_doc
+/// @note uses function access(); to check if the path is valid
 int		path_absolu_valid(t_pipex *pipex, char *argv[], int i);
-/// @brief 
-/// @param 
-/// @param 
-/// @note 
+
+/// @brief makes a pipe pipe_fd[0] and pipe_fd[1] then forks to pid_t process - parent process and child process
+/// @param pipex the structure that holds the pipe_fd[0 and 1]
+/// @param env holds all environnement variables like PATH=
+/// @param argv holds input arguments from command line and any flags separated by ' '
+/// @param i command nbr start pos ex 2 or 3 for here_doc
 int		make_pipe(t_pipex *pipex, char *env[], char *argv[], int i);
-/// @brief 
-/// @param 
-/// @param 
-/// @note 
+
+/// @brief with function dup2, opens a copy stdin or stdout to file descriptor fdin and fdout
+/// @param pipex structure thatholds the fd's fdin , fdout, pipe_fd[0 and 1] and pipe_doc[0 and 1]
+/// @param argv holds input arguments from command line and any flags separated by ' '
+/// @param env holds all environnement variables like PATH= needed by exec_cmd()
+/// @param i command nbr start pos ex 2 or 3 for here_doc
 void	child_process(t_pipex *pipex, char *argv[], char *env[], int i);
-/// @brief 
-/// @param 
-/// @param 
-/// @note 
+
+/// @brief nothing really happens in the parent process, closes fd[1] and dup2 (fd[0] stdin)
+/// @param pipex that holds in a structure all variables
+/// @note Parent waits until all child processes are finnished before moving on
 void	parent_process(t_pipex *pipex);
+
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
 void	ft_heredoc_init(t_pipex *pipex, int argc, char *argv[]);
+
+
 /// @brief 
 /// @param 
 /// @param 
@@ -181,7 +195,7 @@ void	ft_pipes(t_pipex *pipex, char *argv[], char *env[], int i);
 /// @param 
 /// @param 
 /// @note 
-void	cleanup_main_end(t_pipex *pipex);
+void	cleanup_pipex_end(t_pipex *pipex);
 /// @brief 
 /// @param 
 /// @param 
