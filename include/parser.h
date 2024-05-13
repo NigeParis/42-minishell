@@ -6,13 +6,14 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:34:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 13:35:37 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/11 14:46:04 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
+#include "ft_vector_types.h"
 # include "parser_types.h"
 
 // File: src/parser/init_parser.c
@@ -46,5 +47,8 @@ void			token_quote_all_handler(const char *str, t_parser *prs);
 
 // File: src/parser/tokens/tok_space.c
 void			token_space_handler(const char *str, t_parser *prs);
+
+// File: src/parser/tokens/tok_varexpansion.c
+void	token_doll_handler(const char *str, t_parser *prs);
 
 #endif

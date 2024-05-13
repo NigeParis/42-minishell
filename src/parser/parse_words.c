@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:22:46 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 13:40:46 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/11 15:41:47 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	**parse_words(const char *str, t_parser *restrict parser)
 	while (str[parser->str_offset])
 	{
 		next_token = search_next_token(str + parser->str_offset, parser);
-		printf("next_token: %d\n", next_token);
 		if (next_token != 0)
 			bulk_add_char(parser, str, next_token);
 		else
@@ -40,6 +39,9 @@ char	**parse_words(const char *str, t_parser *restrict parser)
 			token_t = get_token_handler(str + parser->str_offset, parser);
 			token_handler(token_t, str + parser->str_offset, parser);
 		}
+		printf("CURRENT OFFSET ::'%zu'\n", parser->str_offset);
+		printf("CURRENT STR ::'%s'\n", str + parser->str_offset);
+		printf("NEXT TOKEN ::'%d'\n", next_token);
 		ft_vec_apply(parser->words, dump_words);
 	}
 	ret = (char **)ft_vec_to_array(&(parser->words));

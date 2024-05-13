@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:36:53 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 10:41:08 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/11 14:43:20 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_parser
 	size_t			word_offset;
 	t_quote			quote;
 	t_vector		*words;
+	void			*control;
 	t_vector		*tokens_handlers;
 }					t_parser;
 
