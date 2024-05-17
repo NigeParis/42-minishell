@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 13:25:18 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/11 15:42:53 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:27:23 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*get_varname(char *str)
 void	token_doll_handler(const char *str, t_parser *prs)
 {
 	const t_minishell_control	*control = (t_minishell_control *)prs->control;
-	char	*tmp[4];
+	char						*tmp[4];
 
 	tmp[3] = ((char **)prs->words->datas)[prs->word_offset];
 	if (prs->quote != QUOTE_NONE)
@@ -50,4 +50,3 @@ void	token_doll_handler(const char *str, t_parser *prs)
 	((char **)prs->words->datas)[prs->word_offset] = tmp[2];
 	return (free(tmp[0]), free(tmp[3]));
 }
-

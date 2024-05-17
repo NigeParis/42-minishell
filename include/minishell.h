@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:15:12 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 13:24:02 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:24:26 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,6 @@ void	set_env(t_vector **env, char *keyname, char *value);
 int		main(int ac, char **av, char **envp);
 
 // File: src/parser/parser_main.c
-int	parser(t_minishell_control *ctrl, char *str);
+int		parser(t_minishell_control *ctrl, char *str);
 
 #endif /* MINISHELL_H */

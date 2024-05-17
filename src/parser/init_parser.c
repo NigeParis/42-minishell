@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:20:42 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/11 14:04:45 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/17 13:25:38 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,18 @@
 
 int	parser_init_tokens_handlers(t_parser *prs)
 {
+	size_t					i;
 	static const t_token	tokens[] = {
-		{TOKEN_SPACE, TOK_FLG_SINGLE, " ", token_space_handler},
-		{TOKEN_SPACE, TOK_FLG_SINGLE, "\t", token_space_handler},
-		{TOKEN_SPACE, TOK_FLG_SINGLE, "\v", token_space_handler},
-		{TOKEN_SPACE, TOK_FLG_SINGLE, "\r", token_space_handler},
-		{TOKEN_SPACE, TOK_FLG_SINGLE, "\f", token_space_handler},
-		{TOKEN_SPACE, TOK_FLG_SINGLE, "\n", token_space_handler},
-		{TOKEN_QUOTE_ALL, TOK_FLG_SINGLE, "'", token_quote_all_handler},
-		{TOKEN_QUOTE_ALL, TOK_FLG_SINGLE, "\"", token_quote_all_handler},
-		{TOKEN_STRING_EXPANSION, TOK_FLG_SINGLE, "$", token_doll_handler},
+	{TOKEN_SPACE, TOK_FLG_SINGLE, " ", token_space_handler},
+	{TOKEN_SPACE, TOK_FLG_SINGLE, "\t", token_space_handler},
+	{TOKEN_SPACE, TOK_FLG_SINGLE, "\v", token_space_handler},
+	{TOKEN_SPACE, TOK_FLG_SINGLE, "\r", token_space_handler},
+	{TOKEN_SPACE, TOK_FLG_SINGLE, "\f", token_space_handler},
+	{TOKEN_SPACE, TOK_FLG_SINGLE, "\n", token_space_handler},
+	{TOKEN_QUOTE_ALL, TOK_FLG_SINGLE, "'", token_quote_all_handler},
+	{TOKEN_QUOTE_ALL, TOK_FLG_SINGLE, "\"", token_quote_all_handler},
+	{TOKEN_STRING_EXPANSION, TOK_FLG_SINGLE, "$", token_doll_handler},
 	};
-	size_t			i;
 
 	prs->tokens_handlers = ft_vec_new();
 	i = 0;
