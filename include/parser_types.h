@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:36:53 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/11 14:43:20 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/17 14:19:02 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,45 +53,59 @@ typedef enum e_token_type
 	TOKEN_AND,
 	TOKEN_EOF,
 	TOKEN_UNKNOWN_ERROR
-}	t_token_type;
+}						t_token_type;
 
 /*
  * Token flags explanation:
-	TOK_FLG_SINGLE = 1 << 0, // signifies that said token is a 
-							 // single character (e.g. ' ' '\t' '\v' '\f'...)
+	TOK_FLG_SINGLE = 1 << 0, // signifies that said token is a
+								// single character (e.g. ' ' '\t' '\v' '\f'...)
 	TOK_FLG_DOUBLE = 1 << 1, // signifies that said token is a
-							 //	double character (e.g. '||' '&&' '>>' ...)
+								//	double character (e.g. '||' '&&' '>>' ...)
  *
 */
 
-typedef enum e_tok_flags {
+typedef enum e_tok_flags
+{
 	TOK_FLG_SINGLE = 1 << 0,
 	TOK_FLG_DOUBLE = 1 << 1,
-}	t_token_flag;
+}						t_token_flag;
 
 typedef enum e_quote
 {
 	QUOTE_NONE = 0,
 	QUOTE_SINGLE,
 	QUOTE_DOUBLE
-}					t_quote;
+}						t_quote;
 
 typedef struct s_parser
 {
-	size_t			str_offset;
-	size_t			word_offset;
-	t_quote			quote;
-	t_vector		*words;
-	void			*control;
-	t_vector		*tokens_handlers;
-}					t_parser;
+	size_t				str_offset;
+	size_t				word_offset;
+	t_quote				quote;
+	t_vector			*words;
+	void				*control;
+	t_vector			*tokens_handlers;
+}						t_parser;
+
+typedef void			(*t_token_handler)(const char *str, t_parser *prs);
+typedef bool			(*t_token_validator)(const char *str, t_parser *prs);
 
 typedef struct s_token
 {
-	t_token_type	type;
-	t_token_flag	flag;
-	char			token[TOKEN_MAX_SIZE + 1];
-	void			(*handler)(const char *str, t_parser *words);
-}					t_token;
+	t_token_type		type;
+	t_token_flag		flag;
+	char				token[TOKEN_MAX_SIZE + 1];
+	t_token_handler		handler;
+	t_token_validator	validator;
+}						t_token;
+
+# undef t_token_handler
+# undef t_token_validator
+
+typedef struct s_parser_line
+{
+	char				*ptr_offseted;
+	t_token_type		type;
+}						t_parser_line;
 
 #endif /* PARSER_TYPES_H */
