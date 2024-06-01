@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 23:25:27 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/01 14:18:41 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:28:33 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -840,17 +840,50 @@ int			ft_string_set_inplace(t_string *str, char *src);
 /* ************************************************************************** */
 /* **                     ft_string_chr                                    ** */
 /* ************************************************************************** */
-//// TODO: add doc
+
+/// @brief search for the first occurence of c in the string
+/// @param str t_string to search from
+/// @param c char to search
+/// @return the index of the first occurence of c in the string otherwise -1
 ssize_t		ft_string_offset(const t_string *str, char c);
+
+/// @brief search for the last occurence of c in the string
+/// @param str t_string to search from
+/// @param c char to search
+/// @return the index of the last occurence of c in the string otherwise -1
 ssize_t		ft_string_roffset(const t_string *str, char c);
+
+/// @brief search for the first occurence of c in the string
+/// @param str t_string to search from
+/// @param c char to search
+/// @return pointer to the first occurence of c in the string otherwise NULL
 char		*ft_string_chr(const t_string *str, char c);
+
+/// @brief search for the last occurence of c in the string
+/// @param str t_string to search from
+/// @param c char to search
+/// @return pointer to the last occurence of c in the string otherwise NULL
 char		*ft_string_rchr(const t_string *str, char c);
 
 /* ************************************************************************** */
 /* **                     ft_string_replace                                ** */
 /* ************************************************************************** */
+
+/// @brief search and replace the string to_replace in the string str
+/// by the string replace_by
+/// @param str t_string to in which the string will be searched and replaced
+/// @param to_replace string to search and replace
+/// @param replace_by string to replace with
+/// @return 1 if the string has been replaced otherwise 0
 int			ft_string_replace(t_string *str, char *to_replace,
 				char *replace_by);
+
+/// @brief search and replace the char to_replace in the string str by the char
+/// replace_by
+/// @param str the t_string in which the char will be replaced
+/// @param to_replace the char to replace
+/// @param replace_by the char to put instead
+/// @return 1 if the string has been replaced otherwise 0
 int			ft_string_replace_chr(t_string *str, char to_replace,
 				char replace_by);
 
