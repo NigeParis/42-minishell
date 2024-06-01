@@ -6,11 +6,12 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 20:05:24 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/31 17:41:37 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:36:45 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
+#include "ft_char.h"
 
 int	ft_atoi(const char *str)
 {

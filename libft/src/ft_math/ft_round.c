@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*   ft_round.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 11:43:00 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/11/10 15:53:47 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/23 23:10:18 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/23 23:10:36 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-
-int	ft_toupper(int c)
+double	ft_round(double x)
 {
-	if (ft_islower(c))
-		c -= 32;
-	return (c);
+	double	dec;
+	double	round;
+
+	dec = x - (int)x;
+	if (dec >= 0.5)
+		round = (int)x + 1;
+	else
+		round = (int)x;
+	return (round);
 }

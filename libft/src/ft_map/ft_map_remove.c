@@ -6,32 +6,41 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 18:08:04 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/04/21 23:27:06 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/01 11:56:16 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_map.h"
 #include "ft_map_types.h"
+#include "ft_vector.h"
+#include "ft_list_types.h"
+#include <stdio.h>
 
-void	ft_map_remove(t_map *map, const void *key, size_t size)
+void	*ft_map_remove(t_map *map, const void *key, size_t size)
 {
-	size_t		index;
-	t_list		*node;
-	t_map_node	*map_node;
+	size_t		hash;
+	t_list		*prev;
+	t_list		*cur;
 
-	index = map->hash(key, map->capacity, size);
-	node = &map->nodes[index];
-	map_node = (t_map_node *)node->data;
-	while (node)
+	hash = map->hash(key, size) % map->capacity;
+	prev = NULL;
+	cur = map->nodes[hash];
+	while (cur)
 	{
-		if (((t_map_node *)node->data)->used && 
-		!map->cmp(((t_map_node *)node->data)->key, key))
+		if (map->cmp(((t_map_node *)cur->data)->key, key) == 0)
 			break ;
-		node = node->next;
+		prev = cur;
+		cur = cur->next;
 	}
-	if (node && map_node->used)
-	{
-		map_node->used = false;
-		map->size--;
-	}
+	if (!cur)
+		return (NULL);
+	if (!prev)
+		map->nodes[hash] = cur->next;
+	else
+		prev->next = cur->next;
+	cur->next = NULL;
+	ft_vec_add(&map->reserved_nodes, cur);
+	map->weights[hash]--;
+	map->w_total--;
+	return (((t_map_node *)cur->data)->data);
 }

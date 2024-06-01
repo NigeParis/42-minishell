@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 11:40:02 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/08 21:54:55 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/27 10:05:46 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_LIST_H
 
 # include "ft_list_types.h"
-# include <stddef.h>
+# include "ft_defs.h"
 
 /* ************************************************************************** */
 /*                           DOUBLY LINKED LIST                               */
@@ -131,8 +131,7 @@ size_t	ft_list_dl_delete(t_dlist **head, t_data_apply del);
 /// @param data The data to find
 /// @param cmp The compare function
 /// @return The node found or NULL
-t_dlist	*ft_list_dl_find(const t_dlist *head, const void *data,
-			int (*cmp)(const void *, const void *));
+t_dlist	*ft_list_dl_find(const t_dlist *head, const void *data, t_data_cmp cmp);
 
 // ft_list/ft_list_dl_getters.c
 
@@ -175,8 +174,7 @@ t_dlist	*ft_list_dl_begin(const t_dlist *head);
 /// @param f The function to apply
 /// @param del The function to delete the data if allocation fails
 /// @return The new list
-t_dlist	*ft_list_dl_map(const t_dlist *lst, void *(*f)(const void *),
-			t_data_apply del);
+t_dlist	*ft_list_dl_map(const t_dlist *lst, t_data_tr f, t_data_apply del);
 
 // ft_list/ft_list_dl_new.c
 
@@ -248,13 +246,13 @@ t_dlist	*ft_list_dl_subrange(const t_dlist *src, const t_dlist *to);
 /// @param head The head of the list
 /// @param added The node to add
 /// @return void
-void	ft_listadd_front(t_list **lst, t_list *const new);
+void	ft_listadd_front(t_list **lst, t_list *const new_node);
 
 /// @brief Add a node at the end of the list
 /// @param head The head of the list
 /// @param added The node to add
 /// @return void
-void	ft_listadd_back(t_list **lst, t_list *const new);
+void	ft_listadd_back(t_list **lst, t_list *const new_node);
 
 // ft_list/ft_list_ll_apply.c
 
@@ -342,8 +340,7 @@ size_t	ft_listdelete_range(t_list *lst, const t_list *end, t_data_apply del);
 /// @param data The data to find
 /// @param cmp The compare function
 /// @return The node found or NULL
-void	*ft_listfind(const t_list *list, const void *data,
-			int (*cmp)(const void *, const void *));
+void	*ft_listfind(const t_list *list, const void *data, t_data_cmp cmp);
 
 // ft_list/ft_list_ll_getters.c
 
@@ -359,11 +356,10 @@ t_list	**ft_listget_nodes(const t_list *src);
 
 // ft_list/ft_list_ll_iterator.c
 
-// TODO: implement rename last to end (match dl)
 /// @brief Get the last node of a list
 /// @param lst The list
 /// @return The last node of the list
-t_list	*ft_listlast(const t_list *lst);
+t_list	*ft_listend(const t_list *lst);
 
 /// @brief Get the node of a list at position index
 /// @param lst The list
@@ -378,8 +374,7 @@ t_list	*ft_listat(const t_list *lst, size_t index);
 /// @param f The function to apply
 /// @param del The function to delete the data if allocation fails
 /// @return The new list
-t_list	*ft_listmap(const t_list *lst, void *(*f)(const void *),
-			t_data_apply del);
+t_list	*ft_listmap(const t_list *lst, t_data_tr f, t_data_apply del);
 
 // ft_list/ft_list_ll_new.c
 

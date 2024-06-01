@@ -6,35 +6,56 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 18:35:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/01 16:54:51 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:57:35 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 
-char	*ft_str_replace(char *str, const char *to_replace,
-		const char *replace_by)
+static bool	setup(char **res, const char *targ, size_t targ_len, size_t sub_len)
 {
-	char	*new_str;
-	char	*ptr;
-	size_t	new_len;
-	size_t	to_replace_len;
-	size_t	replace_by_len;
+	char	*occurence;
+	size_t	nb_occurence;
 
-	ptr = ft_strnstr(str, to_replace, ft_strlen(str));
-	if (ptr == NULL || to_replace == NULL || replace_by == NULL)
+	occurence = ft_strnstr(*res, targ, ft_strlen(*res));
+	nb_occurence = 0;
+	while (occurence)
+	{
+		occurence = ft_strnstr(occurence + 1, targ, ft_strlen(occurence + 1));
+		nb_occurence++;
+	}
+	*res = malloc(ft_strlen(*res) + (sub_len - targ_len) * nb_occurence + 1);
+	if (!*res)
+		return (false);
+	return (true);
+}
+
+char	*ft_str_replace(const char *str, const char *target, \
+					const char *substitute)
+{
+	char			*res;
+	char			*ret;
+	char			*occurence;
+	const size_t	target_len = ft_strlen(target);
+	const size_t	substitute_len = ft_strlen(substitute);
+
+	occurence = ft_strnstr(str, target, ft_strlen(str));
+	if (!occurence)
+		return (ft_strdup(str));
+	res = (char *)str;
+	if (!setup(&res, target, target_len, substitute_len))
 		return (NULL);
-	to_replace_len = ft_strlen(to_replace);
-	replace_by_len = ft_strlen(replace_by);
-	new_len = ft_strlen(str) - to_replace_len + replace_by_len;
-	new_str = ft_calloc(new_len + 1, sizeof(char));
-	if (new_str == NULL)
-		return (NULL);
-	ft_memcpy(new_str, str, ptr - str);
-	ft_memcpy(new_str + (ptr - str), replace_by, replace_by_len);
-	ft_memcpy(new_str + (ptr - str) + replace_by_len, ptr + to_replace_len,
-		ft_strlen(ptr + to_replace_len));
-	return (new_str);
+	ret = res;
+	while (occurence)
+	{
+		ft_memcpy(res, str, occurence - str);
+		res += occurence - str;
+		ft_memcpy(res, substitute, substitute_len);
+		res += substitute_len;
+		str = occurence + target_len;
+		occurence = ft_strnstr(str, target, ft_strlen(str));
+	}
+	return (ft_strlcpy(res, str, ft_strlen(str) + 1), ret);
 }
 
 char	*ft_str_replace_chr(char *str, char to_replace, char replace_by)

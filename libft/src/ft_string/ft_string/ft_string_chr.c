@@ -6,13 +6,13 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 17:51:16 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/09 19:39:57 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:57:49 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 
-char	*ft_string_chr(t_string *str, char c)
+char	*ft_string_chr(const t_string *str, char c)
 {
 	size_t	i;
 
@@ -28,7 +28,7 @@ char	*ft_string_chr(t_string *str, char c)
 	return (NULL);
 }
 
-char	*ft_string_rchr(t_string *str, char c)
+char	*ft_string_rchr(const t_string *str, char c)
 {
 	size_t	i;
 
@@ -44,7 +44,7 @@ char	*ft_string_rchr(t_string *str, char c)
 	return (NULL);
 }
 
-size_t	ft_string_offset(t_string *str, char c)
+ssize_t	ft_string_offset(const t_string *str, char c)
 {
 	char	*ptr;
 
@@ -54,7 +54,7 @@ size_t	ft_string_offset(t_string *str, char c)
 	return (-1);
 }
 
-size_t	ft_string_roffset(t_string *str, char c)
+ssize_t	ft_string_roffset(const t_string *str, char c)
 {
 	char	*ptr;
 

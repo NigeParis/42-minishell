@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 10:37:44 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/30 12:09:27 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/19 17:48:07 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,10 @@ typedef struct s_dl_list
 	void				*data;
 }						t_dlist;
 
-/// @brief Type of function to apply on a node data
-typedef void			(*t_data_apply)(void *);
-
 /// @brief Type of function to apply on a doubly linked list node
 typedef void			(*t_dnode_apply)(t_dlist *);
 
 /// @brief Type of function to apply on a simply linked list node
 typedef void			(*t_lnode_apply)(t_list *);
-
-/// @brief Type of function to see if a node data is something
-typedef bool			(*t_data_is)(const void *);
 
 #endif /* FT_LIST_TYPES_H */

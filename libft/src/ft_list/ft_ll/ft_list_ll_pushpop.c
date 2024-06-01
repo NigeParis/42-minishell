@@ -39,7 +39,7 @@ t_list	*ft_listpush_back(t_list **lst, const void *data)
 	if (!*lst)
 		*lst = added;
 	else
-		ft_listlast(*lst)->next = added;
+		ft_listend(*lst)->next = added;
 	return (*lst);
 }
 

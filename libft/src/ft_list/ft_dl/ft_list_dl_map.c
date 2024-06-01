@@ -6,14 +6,13 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 12:21:43 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/30 11:41:18 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/01 14:08:50 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_list.h"
 
-t_dlist	*ft_list_dl_map(const t_dlist *lst, void *(*f)(const void *),
-		t_data_apply del)
+t_dlist	*ft_list_dl_map(const t_dlist *lst, t_data_tr f, t_data_apply del)
 {
 	t_dlist	*ret;
 	t_dlist	*tmp;

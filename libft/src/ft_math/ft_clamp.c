@@ -1,41 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_log.c                                           :+:      :+:    :+:   */
+/*   ft_torange.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 10:09:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/30 16:52:58 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/16 14:51:08 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/16 15:04:23 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_ullogof(unsigned long long nbr, int base)
+int	ft_clamp(int value, int min, int max)
 {
-	int	pow;
-
-	pow = -1;
-	while (nbr)
-	{
-		nbr /= base;
-		pow++;
-	}
-	return (pow);
+	if (value < min)
+		return (min);
+	else if (value > max)
+		return (max);
+	return (value);
 }
 
-int	ft_llogof(long long nbr, int base)
+float	ft_clamp_f(float value, float min, float max)
 {
-	if (nbr <= 0)
-		return (-1);
-	return (ft_ullogof((unsigned long long)nbr, base));
+	if (value < min)
+		return (min);
+	else if (value > max)
+		return (max);
+	return (value);
 }
 
-int	ft_logof(int nbr, int base)
+double	ft_clamp_d(double value, double min, double max)
 {
-	return (ft_llogof((long long)nbr, base));
-}
-
-int	ft_log(int nbr)
-{
-	return (ft_logof(nbr, 10));
+	if (value < min)
+		return (min);
+	else if (value > max)
+		return (max);
+	return (value);
 }

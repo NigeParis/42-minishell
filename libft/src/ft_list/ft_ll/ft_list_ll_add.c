@@ -25,5 +25,5 @@ void	ft_listadd_back(t_list **lst, t_list *new)
 	if (!*lst)
 		*lst = new;
 	else
-		ft_listlast(*lst)->next = new;
+		ft_listend(*lst)->next = new;
 }

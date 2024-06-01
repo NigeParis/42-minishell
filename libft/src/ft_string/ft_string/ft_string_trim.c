@@ -6,13 +6,11 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 17:50:18 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/07 13:36:22 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:58:38 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
-
-#include <stdio.h>
 
 void	ft_string_trim(t_string *str)
 {
@@ -30,8 +28,8 @@ void	ft_string_trim_chr(t_string *str, char c)
 // because str->str is not reset after.
 void	ft_string_trimstr(t_string *str, char *to_trim)
 {
-	size_t rpad;
-	size_t lpad;
+	size_t	rpad;
+	size_t	lpad;
 
 	lpad = 0;
 	if (to_trim == NULL || str == NULL || str->str == NULL || str->length == 0)
@@ -42,9 +40,8 @@ void	ft_string_trimstr(t_string *str, char *to_trim)
 	while (ft_strchr(to_trim, str->str[rpad]) != NULL && rpad > 0)
 		rpad--;
 	if (rpad < lpad)
-		return ((void) ft_string_set(str, ""));
+		return ((void)ft_string_set(str, ""));
 	ft_memmove(str->str, str->str + lpad, rpad - lpad + 1);
 	str->length = rpad - lpad + 1;
 	str->str[str->length] = '\0';
 }
-

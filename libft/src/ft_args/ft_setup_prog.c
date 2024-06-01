@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   ft_setup_prog.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 11:19:44 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/05 10:22:01 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/21 11:31:28 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/30 00:47:49 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
+#include "ft_args.h"
 
-int	ft_isalnum(int c)
+void	ft_setup_prog(const char *const *av)
 {
-	return (ft_isalpha(c) || ft_isdigit(c));
+	ft_set_progname(av[0]);
+	ft_set_version(VERSION);
 }

@@ -6,12 +6,11 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:16:47 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/04 15:33:23 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:53:50 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
-#include <stdlib.h>
 
 char	*ft_strndup(const char *str, size_t n)
 {

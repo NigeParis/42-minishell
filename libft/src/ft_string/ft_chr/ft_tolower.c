@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_tab.c                                      :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/24 14:19:26 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/05/08 12:04:09 by nrobinso         ###   ########.fr       */
+/*   Created: 2023/11/06 11:42:46 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/21 18:17:51 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "ft_char.h"
 
-void	ft_free_tab(char *tab)
+int	ft_tolower(int c)
 {
-	if (tab)
-		free (tab);
+	if (ft_isupper(c))
+		c += 32;
+	return (c);
 }

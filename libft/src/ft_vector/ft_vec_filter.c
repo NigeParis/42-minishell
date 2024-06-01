@@ -6,13 +6,14 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 16:10:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/13 09:45:07 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/24 12:39:00 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_defs.h"
 #include "ft_vector.h"
 
-void	ft_vec_filter(t_vector *vec, bool (*func)(void *), void (*del)(void *))
+void	ft_vec_filter(t_vector *vec, t_data_is func, t_data_apply del)
 {
 	size_t	i;
 	size_t	shift_count;

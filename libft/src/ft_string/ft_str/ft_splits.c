@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 21:48:50 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/01 17:38:21 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:40:56 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static size_t	loc_get_nbwords(const char *str, const char *delim)
 	return (ret);
 }
 
-static void		*loc_free_prev_words(char **words, size_t offset_words)
+static void	*loc_free_prev_words(char **words, size_t offset_words)
 {
 	size_t	i;
 

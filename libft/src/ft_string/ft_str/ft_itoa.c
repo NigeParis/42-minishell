@@ -6,12 +6,11 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:20:28 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/08 15:13:25 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:37:11 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
-#include <stdlib.h>
 
 char	*ft_itoa(int nbr)
 {

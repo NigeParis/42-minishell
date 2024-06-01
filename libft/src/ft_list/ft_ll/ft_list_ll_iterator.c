@@ -12,7 +12,7 @@
 
 #include "ft_list.h"
 
-t_list	*ft_listlast(const t_list *lst)
+t_list	*ft_listend(const t_list *lst)
 {
 	if (!lst)
 		return (NULL);

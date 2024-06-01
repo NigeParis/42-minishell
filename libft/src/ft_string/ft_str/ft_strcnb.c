@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_double_tab.c                               :+:      :+:    :+:   */
+/*   ft_strcnb.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/15 09:35:06 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/05/08 12:04:17 by nrobinso         ###   ########.fr       */
+/*   Created: 2023/12/28 10:58:46 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/18 20:04:31 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <stddef.h>
 
-void	ft_free_double_tab(char *tab[])
+size_t	ft_strcnb(char *str, char c)
 {
-	int	y;
+	size_t	i;
+	size_t	nb;
 
-	y = 0;
-	while (tab && tab[y])
-	{
-		free(tab[y]);
-		y++;
-	}
-	if (tab)
-		return (free(tab));
+	i = 0;
+	nb = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+		if (str[i++] == c)
+			nb++;
+	if (c == '\0')
+		nb++;
+	return (nb);
 }

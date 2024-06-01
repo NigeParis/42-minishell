@@ -6,12 +6,13 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:08:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/11/10 13:49:34 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/21 17:43:36 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include <unistd.h>
+#include "ft_char.h"
 #include "ft_string.h"
 
 void	ft_putnbr_fd(int nbr, int fd)

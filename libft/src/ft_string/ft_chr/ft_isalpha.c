@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_string_struct.h                                 :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/09 16:54:48 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/12 12:43:12 by bgoulard         ###   ########.fr       */
+/*   Created: 2023/11/06 11:13:03 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/21 17:57:25 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STRING_STRUCT_H
-# define FT_STRING_STRUCT_H
+#include "ft_char.h"
 
-# include <stddef.h>
-
-/// @brief Structure representing a string
-/// @param str The string
-/// @param length The length of the string
-/// @param capacity The capacity of the string
-typedef struct s_string
+int	ft_isalpha(int c)
 {
-	char	*str;
-	size_t	length;
-	size_t	capacity;
-}			t_string;
-
-#endif // FT_STRING_STRUCT_H
+	return (ft_islower(c) || ft_isupper(c));
+}

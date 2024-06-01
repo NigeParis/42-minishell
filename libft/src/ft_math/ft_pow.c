@@ -1,18 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_pow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 11:13:03 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/05 10:22:06 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/05/23 23:04:24 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/24 01:01:06 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
+#include <stddef.h>
 
-int	ft_isalpha(int c)
+size_t	ft_pow(size_t x, size_t y)
 {
-	return (ft_islower(c) || ft_isupper(c));
+	size_t	res;
+
+	res = 1;
+	if (y == 0)
+		return (1);
+	if (x == 0)
+		return (0);
+	while (y > 0)
+	{
+		res *= x;
+		y--;
+	}
+	return (res);
 }

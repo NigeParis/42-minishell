@@ -6,34 +6,19 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 23:25:27 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/07 09:46:08 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/01 14:18:41 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_STRING_H
 # define FT_STRING_H
 
+// sys types
 # include <stddef.h>
-
-// gnl
-
-# ifndef MAX_FD
-#  ifdef TEST
-#   define MAX_FD 5
-#  else
-#   define MAX_FD 1024
-#  endif
-# endif
-
-# ifndef BUFFER_SIZE
-#  ifdef TEST
-#   define BUFFER_SIZE 5
-#  else
-#   define BUFFER_SIZE 4096
-#  endif
-# endif
-
-# include "ft_string_struct.h"
+# include <stdbool.h>
+// self types
+# include "ft_defs.h"
+# include "ft_string_types.h"
 
 // malloc + free
 
@@ -41,62 +26,16 @@
 # include <unistd.h>
 
 /* ************************************************************************** */
-/* **                     FT_CHR SUB MODULE                                ** */
-/* ************************************************************************** */
-
-/// @brief check if the char is a digit or a letter
-/// @param c the char to check
-/// @return 1 if the char is a digit or a letter, 0 otherwise
-int			ft_isalnum(int c);
-
-/// @brief check if the char is a letter
-/// @param c the char to check
-/// @return 1 if the char is a letter, 0 otherwise
-int			ft_isalpha(int c);
-
-/// @brief check if the char is a ascii char
-/// @param c the char to check
-/// @return 1 if the char is a ascii char, 0 otherwise
-int			ft_isascii(int c);
-
-/// @brief check if the char is a digit
-/// @param c the char to check
-/// @return 1 if the char is a digit, 0 otherwise
-int			ft_isdigit(int c);
-
-/// @brief check if the char is a lower case letter
-/// @param c the char to check
-/// @return 1 if the char is a lower case letter, 0 otherwise
-int			ft_islower(int c);
-
-/// @brief check if the char is a printable char
-/// @param c the char to check
-/// @return 1 if the char is a printable char, 0 otherwise
-int			ft_isprint(int c);
-
-/// @brief check if the char is a space
-/// @param c the char to check
-/// @return 1 if the char is a space, 0 otherwise
-int			ft_isspace(int c);
-
-/// @brief check if the char is a upper case letter
-/// @param c the char to check
-/// @return 1 if the char is a upper case letter, 0 otherwise
-int			ft_isupper(int c);
-
-/// @brief convert the char to lower case
-/// @param c the char to convert
-/// @return the lower case char
-int			ft_tolower(int c);
-
-/// @brief convert the char to upper case
-/// @param c the char to convert
-/// @return the upper case char
-int			ft_toupper(int c);
-
-/* ************************************************************************** */
 /* **                     FT_MEM SUB MODULE                                ** */
 /* ************************************************************************** */
+
+/// @brief apply the function f on each byte of the memory
+/// @param s start of the memory
+/// @param n size of the memory
+/// @param f function to apply
+/// @return void
+/// @note the memory is modified in place
+void		ft_apply_2d(void **array, t_data_apply f);
 
 /// @brief fill the memory with 0
 /// @param s start of the memory
@@ -110,6 +49,9 @@ void		ft_bzero(void *s, size_t n);
 /// @return pointer to the allocated memory
 void		*ft_calloc(size_t nmemb, size_t weight);
 
+/// @brief 
+char		*ft_fd_to_buff(int fd);
+
 /// @brief allocate memory and copy the content of the source memory
 /// @param ptr pointer to the source memory.
 /// @param sizeNew size of the destination memory
@@ -122,6 +64,19 @@ void		*ft_realloc(void *ptr, size_t sizeNew, size_t sizeOld);
 /// @param ptr pointer to the memory to free (set to NULL after)
 /// @return void
 void		ft_free(void **ptr);
+
+/// @brief free the memory
+/// @param arr pointer to the 2d array to free.
+/// @return void
+/// @note the array is not set to NULL after as memory is freed and no longer
+/// valid to write to.
+void		ft_free_2d(void **arr);
+
+/// @brief return the length of the 2d array
+/// @param array pointer to the 2d array
+/// @return the length of the 2d array
+/// @note the array must be NULL terminated
+size_t		ft_len_2d(const void *const *array);
 
 /// @brief search for the first occurence of c in the memory
 /// @param s start of the memory
@@ -144,6 +99,13 @@ int			ft_memcmp(const void *s1, const void *s2, size_t n);
 /// @param n size of the memory to copy
 /// @return pointer to the destination memory
 void		*ft_memcpy(void *dest, const void *src, size_t n);
+
+/// @brief map memory region src to new region using f
+/// @param src start of the source memory
+/// @param nb_e number of elements
+/// @param f function to apply
+/// @return pointer to the new memory or NULL
+void		*ft_memmap(void **src, size_t nb_e, t_data_tr f);
 
 /// @brief copy the memory
 /// @param dest start of the destination memory
@@ -171,18 +133,12 @@ void		ft_swap(void **a, void **b);
 /// @param size size of each chunk
 /// @param cmp comparison function
 /// @return void
-void		ft_qsort(void *array, size_t nmb, size_t size,
-				int (*cmp)(const void *, const void *));
+/// @WARNING Do not use. Not implemented fully.
+void		ft_qsort(void *array, size_t nmb, size_t size, t_data_cmp cmp);
 
 /* ************************************************************************** */
 /* **                     FT_PUT SUB MODULE                                ** */
 /* ************************************************************************** */
-
-/// @brief print the char on the specified file descriptor
-/// @param c char to print
-/// @param fd file descriptor to print on
-/// @return void
-void		ft_putchar_fd(char c, int fd);
 
 /// @brief print the string on the specified file descriptor followed by a new
 /// line
@@ -204,52 +160,13 @@ void		ft_putnbr_fd(int nbr, int fd);
 void		ft_putstr_fd(const char *s, int fd);
 
 /* ************************************************************************** */
-/* **                     FT_NBR SUB MODULE                                ** */
-/* ************************************************************************** */
-
-/// @brief return the logaritm of the number in the specified base
-/// @param nbr number to get the logaritm
-/// @param base base of the logaritm
-/// @return the logaritm of the number in the specified base. in case of error
-/// return -1
-int			ft_llogof(long long nbr, int base);
-
-/// @brief return the logaritm of the number in the specified base
-/// @param nbr number to get the logaritm
-/// @param base base of the logaritm
-/// @return the logaritm of the number in the specified base. in case of error
-/// return -1
-int			ft_ullogof(unsigned long long nbr, int base);
-
-/// @brief return the logaritm of the number in the specified base
-/// @param nbr number to get the logaritm
-/// @param base base of the logaritm
-/// @return the logaritm of the number in the specified base. in case of error
-/// return -1
-int			ft_logof(int nbr, int base);
-
-/// @brief return the logaritm of the number in the specified base
-/// @param nbr number to get the logaritm
-/// @param base base of the logaritm
-/// @return the logaritm of the number in the specified base. in case of error
-/// return -1
-int			ft_log(int nbr);
-
-/// @brief returns the minimum of a and b
-/// @param a first number
-/// @param b second number
-/// @return the smallest between a and b
-int			ft_min(int a, int b);
-
-/// @brief returns the maximum of a and b
-/// @param a first number
-/// @param b second number
-/// @return the biggest between a and b
-int			ft_max(int a, int b);
-
-/* ************************************************************************** */
 /* **                     FT_STR MAIN MODULE                               ** */
 /* ************************************************************************** */
+
+/// @brief convert the string to a float
+/// @param str string to convert
+/// @return the float converted from the string
+double		ft_atof(const char *str);
 
 /// @brief convert the string to an int
 /// @param str string to convert
@@ -309,7 +226,8 @@ char		**ft_splits(const char *str, const char *delims);
 /// @param c char to search
 /// @return a pointer to the first occurence of c in the string str otherwise
 /// NULL
-/// @note TODO: pass return as const
+/// @note The returned pointer is from str and has the same constness as str
+///  it was left as non-const to align with glibc's strchr
 char		*ft_strchr(const char *str, int c);
 
 /// @brief duplicate the string src into a new allocated string
@@ -326,12 +244,21 @@ char		*ft_strdup(const char *strsrc);
 /// string s.
 void		ft_striteri(char *s, void (*f)(unsigned int, char *));
 
-/// @brief Add up two strings s1 and s2 and return the result
-/// @param s1 String to add
-/// @param s2 String to add
-/// @return The result of the addition of the two strings
-/// @note You must free the returned string
+/// @brief	Add up two strings s1 and s2 and return the result
+/// @param	s1 String to add
+/// @param	s2 String to add
+/// @return	The result of the addition of the two strings
+/// @note	You must free the returned string
 char		*ft_strjoin(char const *s1, char const *s2);
+
+/// @brief	Add up a char c at the end of a pre-existing and allocated string
+/// @param	str String to append to
+/// @param	c Char to append
+/// @return The new memory segment pointed by *str or null if re-allocation
+///	failed
+///	@note	You must free the returned string
+///	@note	Do no use this method to add two string, please use strjoin instead
+char		*ft_strappend_c(char **str, char c);
 
 /// @brief copy up to size - 1 characters from the NULL-terminated string src
 /// to dst, NULL-terminating the result.
@@ -359,6 +286,33 @@ size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 /// @param str String to get the length of
 /// @return the length of the string str
 size_t		ft_strlen(const char *str);
+
+/// @brief Get the length of the string str up to the first occurence of c
+/// @param str String to get the length of
+/// @param c Char to search
+/// @return the length of the string str up to the first c, if c is not found
+/// the length of the string str
+size_t		ft_strclen(char *str, char c);
+
+/// @brief Get the number of occurance of char c in string str
+/// @param str String to search from
+/// @param c Char to search
+/// @return the number of occurance of char c in string str
+size_t		ft_strcnb(char *str, char c);
+
+/// @brief Calculate the length of the starting segment of str that contain 
+/// char from the accept string
+/// @param str String to search from
+/// @param accept String of the valid char
+/// @return The calculated length.
+size_t		ft_strspn(const char *str, const char *accept);
+
+/// @brief Calculate the length of the starting segment of str that don't
+/// contain chars from the exclude string
+/// @param str String to search from
+/// @param exclude String of char to exclude
+/// @return The calculated length.
+size_t		ft_strcspn(const char *str, const char *exclude);
 
 /// @brief Execute the function f on each char of the string s
 /// @param s String to iterate over
@@ -404,14 +358,16 @@ char		*ft_strdup(const char *src);
 /// @return returns a pointer to the first occurrence of the string small in the
 /// string big, where not more than n characters are searched. Characters that
 /// appear after a `\0' character are not searched.
-/// @note TODO: pass return as const
+/// @note The returned pointer is from str and has the same constness as str
+///  it was left as non-const to align with glibc's strnstr
 char		*ft_strnstr(const char *big, const char *small, size_t n);
 
 /// @brief search for the last occurence of c in the string
 /// @param str string to search from
 /// @param c char to search
 /// @return pointer to the last occurence of c in the string otherwise NULL
-/// @note TODO: pass return as const
+/// @note The returned pointer is from str and has the same constness as str
+///  it was left as non-const to align with glibc's strrchr
 char		*ft_strrchr(const char *str, int c);
 
 /// @brief remove the specified chars from the string s1
@@ -436,17 +392,28 @@ char		*ft_substr(char const *s, unsigned int start, size_t len);
 /// @param replace_by string to replace with
 /// @return the string with the modified chars otherwise NULL
 /// @note to_replace and replace_by must not be NULL
-/// @note You must free the returned string
-/// @note TODO: pass str as const - clearer signal that it is not modified
-/// @note TODO: enable replacement of multiple occurences.
-char		*ft_str_replace(char *str, const char *to_replace,
+/// @note You must free the returned string !
+char		*ft_str_replace(const char *str, const char *to_replace,
 				const char *replace_by);
+
+/// @brief search if the string str ends with the string end
+/// @param str string to search from
+/// @param end string to search
+/// @return 1 if the string str ends with the string end, 0 otherwise
+int			ft_strend_with(const char *str, const char *end);
+
+/// @brief search if the string str starts with the string start
+/// @param str string to search from
+/// @param start string to search
+/// @return 1 if the string str starts with the string start, 0 otherwise
+int			ft_strstart_with(const char *str, const char *start);
 
 /// @brief replace the chars to_replace in the string by the char replace_by
 /// @param str string to in which the char will be replaced
 /// @param to_replace char to replace
 /// @param replace_by char to replace by
 /// @return A pointer to the string str
+/// @note The string is modified in place
 char		*ft_str_replace_chr(char *str, char to_replace, char replace_by);
 
 /// @brief Returns a pointer to the first string pointed to by args
@@ -456,6 +423,85 @@ char		*ft_str_replace_chr(char *str, char to_replace, char replace_by);
 /// is null fails and return null otherwise return the first
 /// const char pointed to by args
 const char	*ft_shift_args(const char **args[], int *index);
+
+/// @brief Checks if the string str is composed only of alphabetical characters
+/// @param str string to check
+/// @return true if the string is composed only of alphabetical characters, 
+/// false otherwise
+bool		ft_str_isalpha(const char *str);
+
+/// @brief Checks if the string str is composed only of alphabetical and
+/// numerical characters
+/// @param str string to check
+/// @return true if the string is composed only of alphabetical and numerical
+/// characters, false otherwise
+bool		ft_str_isalnum(const char *str);
+
+/// @brief Checks if the string str is comprised of only numbers.
+/// @param str string to check
+/// @return true if the string is composed only of numerical characters, false
+/// otherwise
+/// @note This function is not the same as ft_str_isdigit, as it checks for
+/// and accepts negative symbols.
+bool		ft_str_isnum(const char *str);
+
+/// @brief Checks if the string str is a valid boolean value ("false" || 
+/// "true" || "0" || "1")
+/// @param str string to check
+/// @return true if it ;atches with any of the following: "false" "0" "true" "1"
+///  false otherwise
+bool		ft_str_isbool(const char *str);
+
+/// @brief Checks if the string str is composed only of numerical characters
+/// @param str string to check
+/// @return true if the string is composed only of numerical characters, false
+/// otherwise
+/// @note This function is not the same as ft_str_isnum, as it does not accept
+/// ANYTHING other than numerical characters.
+bool		ft_str_isdigit(const char *str);
+
+/// @brief Check if the string is a float
+/// @param str string to check
+/// @return 1 if the string is a float, 0 otherwise
+/// @file: src/ft_string/ft_char/ft_isfloat.c
+bool		ft_str_isfloat(const char *str);
+
+/// @brief Check if the string is a float
+/// @param str string to check
+/// @return 1 if the string is a float, 0 otherwise
+/// @file: src/ft_string/ft_char/ft_isdouble.c
+bool		ft_str_isdouble(const char *str);
+
+/// @brief Check if the string is an int valid value
+/// @param str string to check
+/// @return 1 if the string is an int, 0 otherwise
+/// @file: src/ft_string/ft_char/ft_isint.c
+bool		ft_str_isint(const char *str);
+
+/// @brief Check if the string is a long
+/// @param str string to check
+///	@return 1 if the string is a number, 0 otherwise
+///	@file: src/ft_string/ft_char/ft_islong.c
+bool		ft_str_islong(const char *str);
+
+/// @brief check if the string is a hex character
+/// @param c char to check
+/// @return 1 if the char is a hex character, 0 otherwise
+/// @file: src/ft_string/ft_char/ft_ishex.c
+bool		ft_str_ishex(const char *str);
+
+/// @brief check if the string is an octal number
+/// @param str string to check
+/// @return 1 if the string is an octal number, 0 otherwise
+bool		ft_str_isoct(const char *str);
+
+/// @brief Check if the string is valid using a function pointer
+/// @param str string to check
+/// @param f function pointer to check the string (takes a char c as int 
+///		and returns 0 if the char is invalid)
+/// @return 1 if the string is valid, 0 otherwise
+/// @file: src/ft_string/ft_char/ft_isvalid.c
+bool		ft_str_isvalid(const char *str, int (*f)(int));
 
 /* ************************************************************************** */
 /*                        FT_GNL SUB MODULE                                   */
@@ -469,21 +515,6 @@ const char	*ft_shift_args(const char **args[], int *index);
 /// MAX_FD
 char		*get_next_line(int fd);
 
-/// @brief Split the string from the specified position with the specified
-/// delimiter
-/// @param dst destination of string
-/// @param from string to split
-/// @param pos position to split from
-/// @param delim delimiter to split the string
-/// @return -1 if allocation failed, 0 otherwise
-int			split_from(char **dst, char *from, int pos, char delim);
-
-/// @brief Search for the first occurence of c in the string
-/// @param from string to search from
-/// @param c char to search
-/// @return the index of the first occurence of c in the string otherwise -1
-int			ft_strchr_index(const char *from, char c);
-
 // printf
 
 // missing ...
@@ -491,8 +522,6 @@ int			ft_strchr_index(const char *from, char c);
 /* ************************************************************************** */
 /*                        FT_STRING SUB MODULE                                */
 /* ************************************************************************** */
-
-//// TODO: add doc
 
 /* ************************************************************************** */
 /* **                     ft_string_new                                    ** */
@@ -513,7 +542,7 @@ t_string	*ft_string_new(size_t capacity);
 /// @return a pointer to the new t_string
 /// @note You must free the returned string with ft_string_destroy
 /// @note This function does NOT take ownership of the passed string.
-t_string	*ft_string_from(char *str);
+t_string	*ft_string_from(const char *str);
 
 /// @brief create a new t_string from the string with at most n chars
 /// @param str string to copy from
@@ -521,13 +550,26 @@ t_string	*ft_string_from(char *str);
 ///  -> "123"
 /// @return a pointer to the new t_string
 /// @note You must free the returned string with ft_string_destroy
-t_string	*ft_string_from_n(char *str, size_t n);
+t_string	*ft_string_from_n(const char *str, size_t n);
 
 /// @brief create a new t_string from the char c
 /// @param c char to copy from
 /// @return a pointer to the new t_string
 /// @note You must free the returned string with ft_string_destroy
 t_string	*ft_string_from_c(char c);
+
+/// @brief create a new t_string from the t_string str
+/// @param str t_string to copy from
+/// @return a pointer to the new t_string
+/// @note You must free the returned string with ft_string_destroy
+t_string	*ft_string_from_s(const t_string *str);
+
+/// @brief create a new t_string from the t_string str using at most n chars
+/// @param str t_string to copy from
+/// @param n number of chars to copy
+/// @return a pointer to the new t_string created
+/// @note You must free the returned string with ft_string_destroy
+t_string	*ft_string_from_s_n(const t_string *str, size_t n);
 
 /* ************************************************************************** */
 /* **                     ft_string_put                                    ** */
@@ -537,10 +579,7 @@ t_string	*ft_string_from_c(char c);
 /// @param str t_string to write
 /// @param fd file descriptor to write on
 /// @return the return of write if the fd and str are valid otherwise -1
-int	ft_string_put(t_string *str, int fd);
-
-int ft_string_putdbg(t_string *str, int fd);
-
+int			ft_string_put(t_string *str, int fd);
 
 /* ************************************************************************** */
 /* **                     ft_string_append                                 ** */
@@ -727,8 +766,7 @@ void		ft_string_trimstr(t_string *str, char *to_trim);
 /// @param cmp string to compare
 /// @return 0 if the strings are identical, otherwise the difference between the
 /// first different char (s1 - s2)
-/// @note TODO: pass str as const - clearer signal that it is not modified
-int			ft_string_cmp(t_string *str, const char *cmp);
+int			ft_string_cmp(const t_string *str, const char *cmp);
 
 /// @brief compare the string with the string cmp up to n chars
 /// @param str t_string to compare
@@ -736,15 +774,14 @@ int			ft_string_cmp(t_string *str, const char *cmp);
 /// @param n number of chars to compare
 /// @return 0 if the strings are identical, otherwise the difference between the
 /// first different char (s1 - s2)
-int			ft_string_ncmp(t_string *str, const char *cmp, size_t n);
+int			ft_string_ncmp(const t_string *str, const char *cmp, size_t n);
 
 /// @brief compare the string with the string cmp
 /// @param str t_string to compare
 /// @param cmp string to compare
 /// @return 0 if the strings are identical, otherwise the difference between the
 /// first different char (s1 - s2)
-/// @note TODO: pass str as const - clearer signal that it is not modified
-int			ft_string_cmpstr(t_string *str, t_string *cmp);
+int			ft_string_cmpstr(const t_string *str, const t_string *cmp);
 
 /// @brief compare the string with the string cmp up to n chars
 /// @param str t_string to compare
@@ -752,8 +789,8 @@ int			ft_string_cmpstr(t_string *str, t_string *cmp);
 /// @param n number of chars to compare
 /// @return 0 if the strings are identical, otherwise the difference between the
 /// first different char (s1 - s2)
-/// @note TODO: pass str as const - clearer signal that it is not modified
-int			ft_string_ncmpstr(t_string *str, t_string *cmp, size_t n);
+int			ft_string_ncmpstr(const t_string *str, const t_string *cmp, size_t \
+			n);
 
 /* ************************************************************************** */
 /* **                     ft_string_get                                    ** */
@@ -762,20 +799,17 @@ int			ft_string_ncmpstr(t_string *str, t_string *cmp, size_t n);
 /// @brief get the length of the string
 /// @param str t_string to get the length
 /// @return the length of the string
-/// @note TODO: pass str as const - clearer signal that it is not modified
-size_t		ft_string_len(t_string *str);
+size_t		ft_string_len(const t_string *str);
 
 /// @brief get the capacity of the string
 /// @param str t_string to get the capacity
 /// @return the capacity of the string
-/// @note TODO: pass str as const - clearer signal that it is not modified
-size_t		ft_string_cap(t_string *str);
+size_t		ft_string_cap(const t_string *str);
 
 /// @brief get the content of the string
 /// @param str t_string to get the content
 /// @return the content of the string
-/// @note TODO: pass str as const - clearer signal that it is not modified
-const char	*ft_string_get(t_string *str);
+const char	*ft_string_get(const t_string *str);
 
 /* ************************************************************************** */
 /* **                     ft_string_set                                    ** */
@@ -791,7 +825,8 @@ int			ft_string_set(t_string *str, const char *src);
 /// string src
 /// @param str t_string to modify
 /// @param src string to copy from
-/// @param n number of chars to set
+/// @param n number of chars to set (including the '\0') "1234" with n = 3
+/// -> "123"
 /// @return 1 if the string has been set otherwise 0
 int			ft_string_set_n(t_string *str, const char *src, size_t n);
 
@@ -805,10 +840,11 @@ int			ft_string_set_inplace(t_string *str, char *src);
 /* ************************************************************************** */
 /* **                     ft_string_chr                                    ** */
 /* ************************************************************************** */
-size_t		ft_string_offset(t_string *str, char c);
-size_t		ft_string_roffset(t_string *str, char c);
-char		*ft_string_chr(t_string *str, char c);
-char		*ft_string_rchr(t_string *str, char c);
+//// TODO: add doc
+ssize_t		ft_string_offset(const t_string *str, char c);
+ssize_t		ft_string_roffset(const t_string *str, char c);
+char		*ft_string_chr(const t_string *str, char c);
+char		*ft_string_rchr(const t_string *str, char c);
 
 /* ************************************************************************** */
 /* **                     ft_string_replace                                ** */

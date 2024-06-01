@@ -6,29 +6,29 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 18:29:23 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/04/21 17:49:21 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:30:14 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_map.h"
-#include "ft_list.h"
-
-static void	clear_node(void *data)
-{
-	t_map_node	*map_node;
-
-	if (!data)
-		return ;
-	map_node = (t_map_node *)data;
-	map_node->used = false;
-}
+#include "ft_vector.h"
 
 void	ft_map_clear(t_map *map)
 {
 	size_t	i;
+	t_list	*cur;
 
 	i = 0;
 	while (i < map->capacity)
-		ft_listapply(&map->nodes[i++], clear_node);
-	map->size = 0;
+	{
+		while (map->nodes[i])
+		{
+			cur = map->nodes[i];
+			map->nodes[i] = map->nodes[i]->next;
+			ft_vec_add(&map->reserved_nodes, cur);
+		}
+		map->weights[i] = 0;
+		i++;
+	}
+	map->w_total = 0;
 }
