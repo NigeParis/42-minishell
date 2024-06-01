@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/06/01 13:54:22 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/06/01 14:54:27 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -546,9 +546,9 @@ STABLE		=	\
 			$(FT_STRING_SRC)	\
 			$(FT_MAP_SRC)		\
 			$(FT_OPTIONAL_SRC)	\
+			$(FT_ARGS_SRC)		\
 
 UNSTABLE	=	\
-			$(FT_ARGS_SRC)
 
 INNER_SRC   = \
 			$(STABLE)
@@ -597,7 +597,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(ECHO) $(RED) "Failed" $(RESET)					\
 	$(BOLD) "see:" $(CLOG_FILE) $(RESET)
 
-# Rule for tests objects imported from src/
+# Rule for tests objects imported from src/ or tests/
 $(BUILD_DIR)/$(TESTS_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(ECHO) -n	$(GRAY)	"building from " $< "..." $(RESET)
 	@mkdir -p $(dir $@)
@@ -607,7 +607,6 @@ $(BUILD_DIR)/$(TESTS_DIR)/%.o: $(SRC_DIR)/%.c
 	$(ECHO) $(RED) "Failed" $(RESET)					\
 	$(BOLD) "see:" $(CLOG_FILE) $(RESET)
 
-# Rule for tests objects imported from tests/
 $(BUILD_DIR)/$(TESTS_DIR)/%.o: $(TESTS_DIR)/%.c
 	@$(ECHO) -n	$(GRAY)	"building from " $< "..." $(RESET)
 	@mkdir -p $(dir $@)
@@ -619,9 +618,6 @@ $(BUILD_DIR)/$(TESTS_DIR)/%.o: $(TESTS_DIR)/%.c
 
 # Default rule
 all:	lib$(NAME).a
-
-tmp:
-	@echo $(SRCS)
 
 so: lib$(NAME).so
 
@@ -672,32 +668,6 @@ $(COVERAGE_DIR): $(TEST_NAME)
 	$(ECHO) $(GREEN) "Success" $(RESET)							|| \
 	$(ECHO) $(RED) "Failed" $(RESET)
 
-# Rule to compile using debug flags
-debug:
-	@$(ECHO) $(GRAY) "Compiling debug, flags are" $(RESET) 		\
-	"$(CFLAGS) $(DEBUG_FLAGS)" $(RESET)							&& \
-	make -C ./ re CFLAGS="$(CFLAGS) $(DEBUG_FLAGS)"				&& \
-	make -C ./ so CFLAGS="$(CFLAGS) $(DEBUG_FLAGS)"				&& \
-	$(ECHO) $(GREEN) "Success" $(RESET)							|| \
-	$(ECHO) $(RED) "Failed" $(RESET)
-
-.clangd: Makefile
-	@echo "Making clangd configuration file"
-	@$(ECHO) -n																\
-	"CompileFlags:\n"														\
-	"  Compiler: clang\n"													\
-	"  Add:\n"																\
-	"	- \"-Wall -Wextra -Werror\"\n"										\
-	"	- \"-Wno-unused-parameter -Wno-unused-variable "					\
-		"-Wno-unused-function\"\n"											\
-	"	- \"-Wno-unused-but-set-variable -Wno-unused-value "				\
-		"-Wno-unused-label\"\n"												\
-	"	- \"-Wno-unused-local-typedefs\"\n"									\
-	"	- \"-Wno-unused-result\"\n"											\
-	"	- \"-xc\"\n"  > .clangd
-	@echo "    - \"-I " $(shell pwd)"/includes\"" >> .clangd
-	@$(ECHO) $(GREEN) "Done" $(RESET)
-
 # Rule to clean objects
 clean:
 	@$(ECHO) -n $(GRAY) "Clean ... " $(RESET)						&& \
@@ -715,33 +685,8 @@ fclean: clean
 	$(ECHO) $(GREEN) "Success" $(RESET) )							|| \
 	$(ECHO) $(RED) "Failed" $(RESET)
 
-# Rule to generate Doxygen documentation
-Doxygen:
-	@$(ECHO) -n $(GRAY) "Generating Doxygen ... " $(RESET)			&& \
-	( doxygen tools/doxyfile 2> /dev/null							&& \
-	$(ECHO) $(GREEN) "Success" $(RESET) )							|| \
-	$(ECHO) $(RED) "Failed" $(RESET)
-
 # Rule to recompile
 re:	fclean all
-
-# rule to clean everything and make the project ready for 42 norm
-42ready: fclean
-	@$(ECHO) -n $(GRAY) "42ready ... " $(RESET)					&& \
-	$(RM) -rf $(COVERAGE_DIR) $(TESTS_DIR) tools README.md		\
-	.vscode 													&& \
-	awk '														\
-	BEGIN {to_del=0}											\
-    (/^TEST*/ || /^test*/ || /^coverage*/ || /so:/ || /^#/ && 	\
-	$$NF > 11 || /^debug/ || /^Doxygen/ || /^42ready/ ) 		\
-		{to_del=1}												\
-    (to_del == 0) 												\
-		{print}													\
-    (to_del==1 && /^$$/)										\
-		{to_del=0}' Makefile > Makefile.tmp						&& \
-	mv Makefile.tmp Makefile									&& \
-	$(ECHO) $(GREEN) "Success" $(RESET)							|| \
-	$(ECHO) $(RED) "Failed" $(RESET)
 
 -include $(OBJ:.o=.d)
 
