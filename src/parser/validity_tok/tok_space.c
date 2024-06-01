@@ -6,15 +6,15 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 14:22:46 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/17 14:27:34 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/20 09:28:07 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_addons.h"
 #include "parser_types.h"
+#include "ft_string.h"
 #include <stdbool.h>
 
-bool	tok_val_space(char *s, t_parser *parser)
+bool	tok_val_space(const char *s, t_parser *parser)
 {
 	if (!ft_isspace(*s))
 		return (false);

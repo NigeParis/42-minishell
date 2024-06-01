@@ -6,16 +6,13 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:19:22 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 12:19:41 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:06:35 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "minishell_types.h"
+#include "parser_types.h"
 
-void	token_space_handler(const char *str, t_parser *prs)
+void	tok_han_space(t_parser_line *line, t_cmd *cmd)
 {
-	if (prs->str_offset > 0 && prs->quote == QUOTE_NONE && str[-1] != ' ')
-		prs->word_offset++;
-	else
-		bulk_add_char(prs, str, 1);
 }

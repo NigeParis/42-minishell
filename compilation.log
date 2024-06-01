@@ -1,0 +1,35 @@
+src/builtins/exit.c:32:10: error: no member named 'ret' in 'struct s_minishell_control'
+                        ctrl->ret = 1;
+                        ~~~~  ^
+1 error generated.
+src/core/minishell_loop.c:26:14: error: no member named 'cmds' in 'struct s_minishell_control'
+        if (!shell->cmds)
+             ~~~~~  ^
+1 error generated.
+src/core/minishell_cleanup.c:31:13: error: no member named 'words' in 'struct s_minishell_control'
+        if (shell->words)
+            ~~~~~  ^
+src/core/minishell_cleanup.c:33:30: error: no member named 'words' in 'struct s_minishell_control'
+                ft_free_2d((void **)shell->words);
+                                    ~~~~~  ^
+src/core/minishell_cleanup.c:34:10: error: no member named 'words' in 'struct s_minishell_control'
+                shell->words = NULL;
+                ~~~~~  ^
+src/core/minishell_cleanup.c:46:17: error: no member named 'ret' in 'struct s_minishell_control'
+        return (shell->ret);
+                ~~~~~  ^
+4 errors generated.
+src/core/minishell_execute.c:23:8: error: implicit declaration of function 'parser_get_cmd' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+        cmd = parser_get_cmd(shell->preparsed);
+              ^
+src/core/minishell_execute.c:23:6: error: incompatible integer to pointer conversion assigning to 't_cmd *' (aka 'struct s_cmd *') from 'int' [-Werror,-Wint-conversion]
+        cmd = parser_get_cmd(shell->preparsed);
+            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/core/minishell_execute.c:40:7: error: incompatible integer to pointer conversion assigning to 't_cmd *' (aka 'struct s_cmd *') from 'int' [-Werror,-Wint-conversion]
+                cmd = parser_get_cmd(shell->preparsed);
+                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3 errors generated.
+clang: error: no such file or directory: 'build/src/builtins/exit.o'
+clang: error: no such file or directory: 'build/src/core/minishell_loop.o'
+clang: error: no such file or directory: 'build/src/core/minishell_cleanup.o'
+clang: error: no such file or directory: 'build/src/core/minishell_execute.o'

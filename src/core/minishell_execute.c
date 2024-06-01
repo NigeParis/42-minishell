@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/17 13:21:28 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:49:14 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,27 @@
 
 int	minishell_execute(t_minishell_control *shell)
 {
-	printf("debug:\n");
-	printf("Executing: %s\n", shell->input);
-	printf("Words: %p\n", (void *)shell->words);
-	for (size_t i = 0; shell->words && shell->words[i]; i++)
+	t_cmd	*cmd;
+	size_t	i;
+
+	cmd = parser_get_cmd(shell->preparsed);
+	while (cmd)
 	{
-		printf("word[%zu]: %s\n", i, shell->words[i]);
-		free(shell->words[i]);
+		printf("cmd %s\n", cmd->cmd);
+		printf("cmd %d\n", cmd->argc);
+		i = 0;
+		while (cmd->args[i])
+		{
+			printf("[%zu] %s\n", i, cmd->args[i]);
+			i++;
+		}
+		i = 0;
+		while (cmd->envp[i])
+		{
+			printf("[%zu] %s\n", i, cmd->envp[i]);
+			i++;
+		}
+		cmd = parser_get_cmd(shell->preparsed);
 	}
-	if (shell->words)
-		ft_free((void **)&shell->words);
-	if (shell->input)
-		ft_free((void **)&shell->input);
-	(void)shell;
 	return (0);
 }

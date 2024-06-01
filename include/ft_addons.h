@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 09:34:42 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/17 14:25:59 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/20 09:06:15 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,5 @@ char	*ft_strappend_c(char **str, char c);
 /// @param f The function to apply
 /// @file:	src/ft_addons/ft_apply_2d.c
 void	ft_apply_2d(void **array, t_data_apply f);
-
-/// @brief Check if a character is a space
-/// @param c The character to check
-/// @return true if the character is a space ( ' ', '\t', '\v', '\f', '\r')
-/// @file:	src/ft_addons/ft_isspace.c
-bool	ft_isspace(char c);
 
 #endif

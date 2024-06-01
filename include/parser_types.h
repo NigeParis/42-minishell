@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 22:36:53 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/17 14:19:02 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:13:12 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_TYPES_H
 
 # include "ft_vector_types.h"
+#include "minishell_types.h"
 # define TOKEN_MAX_SIZE 2
 
 /*
@@ -87,7 +88,14 @@ typedef struct s_parser
 	t_vector			*tokens_handlers;
 }						t_parser;
 
-typedef void			(*t_token_handler)(const char *str, t_parser *prs);
+typedef struct s_parser_line
+{
+	char				*ptr_offset;
+	t_token_type		type;
+	t_parser			*parser;
+}						t_parser_line;
+
+typedef void			(*t_token_handler)(t_parser_line *line, t_cmd *cmd);
 typedef bool			(*t_token_validator)(const char *str, t_parser *prs);
 
 typedef struct s_token
@@ -101,11 +109,5 @@ typedef struct s_token
 
 # undef t_token_handler
 # undef t_token_validator
-
-typedef struct s_parser_line
-{
-	char				*ptr_offseted;
-	t_token_type		type;
-}						t_parser_line;
 
 #endif /* PARSER_TYPES_H */

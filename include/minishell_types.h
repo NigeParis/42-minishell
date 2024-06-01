@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 10:50:34 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 13:04:14 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:43:08 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ typedef struct s_minishell_control
 {
 	char		*input;
 	t_vector	*env;
-	char		**words;
 	int			exit;
-	int			ret;
+	t_vector	*preparsed;
 	void		*prs;
 }	t_minishell_control;
 

@@ -1,0 +1,18 @@
+t_truct a la noix
+	t_parser		*
+	t_token_type	token_type
+	char			*ptr to endroit du token
+
+t_cmd_to_exec
+	char	*cmd_path (aka which)
+	char	**argv (["ls" "-la", NULL])
+	int		ac (ft_len_2d(argv))
+	char	**env (t_parser->env)
+	int		status		(result of nigel)
+	t_redir redir_to_do (expected of nigel)
+
+t_redir (linked list / table / whatever)
+	int		src (stdin | stdout | stderr)
+	int		flag (rdir_file | rdir_std)
+	char	*target_file (file)
+	int		target_std

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/11 13:50:17 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:32:50 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	minishell_should_exit(t_minishell_control *shell)
 int	minishell_parse(t_minishell_control *shell)
 {
 	parser(shell, shell->input);
-	if (!shell->words)
+	if (!shell->cmds)
 		return (1);
 	return (0);
 }

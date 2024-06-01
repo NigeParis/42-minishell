@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 12:25:28 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/17 13:26:31 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/05/20 11:44:14 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ void	token_handler(size_t token_t, const char *str, t_parser *prs,
 	if (token_t == TOKEN_UNKNOWN_ERROR)
 		return ;
 	token = (t_token *)ft_vec_at(prs->tokens_handlers, token_t);
-	token->handler(str, prs);
+//	token->handler(str, prs);
 	prs->str_offset += token->flag;
 }
