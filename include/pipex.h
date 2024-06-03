@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/03 08:42:27 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/03 11:19:10 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_pipex
 	int		cmd_not_flag;
 	int		doc;
 	int		pipe_doc[2];
+	int		lastcmd_flag;
 
 }	t_pipex;
 
