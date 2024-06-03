@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 11:52:01 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/03 08:37:50 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/03 12:06:52 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,17 @@ void	ft_free_double_tab(char *tab[])
 	if (tab)
 		return (free(tab));
 }
+
+
+
+
+void	ft_free_tab(char *tab)
+{
+	if (tab)
+		free (tab);
+}
+
+
 
 
 void	ft_cleanup(t_pipex *pipex, int type)
