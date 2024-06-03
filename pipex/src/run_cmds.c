@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_cmds.c                                         :+:      :+:    :+:   */
+/*   run_cmds.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:29:28 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/03 12:54:23 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/03 13:30:46 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 
 void	exec_cmd(t_pipex *pipex, int i, char *argv[], char *env[])
 {
-	int	ret;
 	t_cmd_to_exec *testargs;
+
+	int	ret;
 	(void)argv;
 	(void)i;
 	ret = -1;
