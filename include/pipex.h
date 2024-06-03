@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/05/13 17:46:20 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/03 08:42:27 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <sys/types.h>
-# include "libft.h"
 # include "ft_printf.h"
 # include "get_next_line.h"
+# include "ft_string.h"
+
+
+
 # define ERROR_MSG_SIZE 100
 
 typedef struct s_pipex
@@ -216,5 +219,17 @@ void	ft_find_delim(char *str, char delimiter, int *count, int *fst_pos);
 /// @param 
 /// @note 
 void	ft_make_toogle_cmd_arg(t_pipex *pipex);
+
+/// @brief 
+/// @param 
+/// @param 
+/// @note 
+void	ft_free_tab(char *tab);
+
+/// @brief 
+/// @param 
+/// @param 
+/// @note 
+void	ft_free_double_tab(char *tab[]);
 
 #endif
