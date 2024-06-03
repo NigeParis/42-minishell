@@ -30,10 +30,10 @@ PND=--no-print-directory
 ###############################################################################
 ## SOURCES 
 
-SRC= ./src/main.c ./src/pipex.c ./src/get_path.c 
-SRC+=./src/clean_and_errors.c ./src/get_cmds.c
+SRC= ./src/main.c ./src/pipex.c
+SRC+=./src/clean_and_errors.c ./src/run_cmds.c
 SRC+=./src/make_pipe.c ./src/get_heredoc.c
-SRC+=./src/ft_toggle_char.c 
+
 
 LIBFT_DIR=../libft
 FT_PRINTF_DIR= ../ft_printf

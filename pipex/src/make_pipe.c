@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/05/11 14:15:30 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/03 13:13:59 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ int	make_pipe(t_pipex *pipex, char *env[], char *argv[], int i)
 void	child_process(t_pipex *pipex, char *argv[], char *env[], int i)
 {
 	close(pipex->pipe_fd[0]);
-	// if (i == 1 && pipex->doc == 1)
-	// 	dup2(pipex->pipe_doc[0], STDIN_FILENO);   // interesting action to playwith
+	
 	if (i == 2 && pipex->doc == 0)
 		dup2(pipex->fdin, STDIN_FILENO);
 	if (i == 3 && pipex->doc == 1)
@@ -58,7 +57,6 @@ void	child_process(t_pipex *pipex, char *argv[], char *env[], int i)
 	close(pipex->fdout);
 	close_fd(pipex, 10);
 	close(pipex->pipe_fd[1]);
-	get_path_absolu(pipex, argv, i);
 	exec_cmd(pipex, i, argv, env);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/03 11:19:10 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/03 13:09:57 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "ft_printf.h"
 # include "get_next_line.h"
 # include "ft_string.h"
+# include "ft_list.h"
 
 
 
@@ -52,6 +53,26 @@ typedef struct s_pipex
 
 }	t_pipex;
 
+typedef struct s_cmd_to_exec
+{
+    char    *cmd_path;
+    char    **argv;
+    int        ac;
+    char    **env;
+    int        status;
+    t_list    *redir_to_do;
+}   t_cmd_to_exec;
+
+typedef struct s_redir
+{
+    int        src;
+    int        flag;
+    char    *target_file;
+    int        target_std;
+}   t_redir;
+
+
+
 /// @brief basically lanches either heredoc or pipex
 /// @param argc nbr of arguments passed by main
 /// @param argv[] the arguments separated by a space 
@@ -59,20 +80,6 @@ typedef struct s_pipex
 /// @returns 0 on success 1 on error
 int		pipex(int argc, char *argv[], char *env[]);
 
-/// @brief find && split in pipex->paths[][] all PATHS listed in env
-/// @param pipex structure that holds pipex->paths
-/// @param cmd pointer to a command to be joined to all valid paths 
-/// @param env is the tab[] of strings to be searched in.
-/// @returns nbr of the paths made for env variable "PATH=" and 0 on error
-int		ft_path(t_pipex *pipex, char *cmd, char **env);
-
-/// @brief find && split in pipex->cmds[][] argv separated by spaces
-/// @param pipex structure that holds the splitted cmds pipex->cmds
-/// @param argv[] the arguments separated by a space 
-/// @note function takes into account spaces betwwen simple quotes
-/// @note for ex: "grep 'spaces' " searches for the nbr spaces
-/// @returns 0 on success and -1 on error
-int		get_cmd(t_pipex *pipex, char *argv);
 
 /// @brief displays the error msg of execve() with the command held in pipex->cmds[0].
 /// @brief - Cleansup the frees to be done before exit and closes open FD .
@@ -204,7 +211,7 @@ void	cleanup_pipex_end(t_pipex *pipex);
 /// @param 
 /// @param 
 /// @note 
-void	ft_toggle_char(char *str[], char c, int toggle);
+//void	ft_toggle_char(char *str[], char c, int toggle);
 /// @brief 
 /// @param 
 /// @param 
@@ -232,5 +239,19 @@ void	ft_free_tab(char *tab);
 /// @param 
 /// @note 
 void	ft_free_double_tab(char *tab[]);
+
+
+
+/// @brief takes args from a list and passes them to a pointer;
+/// @param void function, see above main
+/// @note structure to call cmd
+t_cmd_to_exec    *cmd_to_exec_new(void);
+
+
+/// @brief function for testing redirections 
+/// @param void, see above main
+/// @note struction for redirections
+t_list    *test_redir(void);
+
 
 #endif
