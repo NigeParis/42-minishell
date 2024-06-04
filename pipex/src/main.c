@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/04 17:02:37 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:13:03 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ t_cmd_to_exec    *cmd_to_exec_new(void)
     return (blank);
 }
 
+
+
+
 void	ft_init(t_pipex *pipex, char *infile, char *outfile)
 {
 	pipex->fdin = -1;
@@ -63,8 +66,10 @@ int	main(void)
     t_pipex pipex;
 
     args = cmd_to_exec_new();
-    
     execute(args, &pipex);
+
+
+    
     return(0);
 
 }

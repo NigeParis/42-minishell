@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/04 16:39:35 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:29:50 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	make_pipe(t_pipex *pipex, t_cmd_to_exec *args, int i)
 	pid_t	process;
 	int		ret;
 
+	printf("i = %d   <-----------------\n", i); // i incremented
 	ret = pipe(pipex->pipe_fd);
 	if (ret < 0)
 		perror("pipe");
@@ -40,7 +41,10 @@ void	child_process(t_pipex *pipex, t_cmd_to_exec *args, int i)
 	
 	if (i == 2)
 		dup2(pipex->fdin, STDIN_FILENO);
-	if (i == /*pipex->nb_argc -*/ 2) //tablea BAPTISTE
+	args->ac = args->ac + 1;									// need to find a way to test
+	printf("args-ac = %d   <-----------------\n", args->ac);	// printout
+	
+	if (i == args->ac)
 	{
 		dup2(pipex->fdout, STDOUT_FILENO);
 		close_fd(pipex, 1);

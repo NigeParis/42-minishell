@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:45:37 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/04 17:04:09 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:30:09 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ int	execute(t_cmd_to_exec *args,  t_pipex *pipex)
 	if (ft_pipex(pipex, "infile", "outfile"))
 		return (1);
 	
-	while (i <= args->ac)
+	while (i <= args->ac + 1)  // added one to test pipes
 	{
+		ft_putstr_fd("HELLO", 1);
 		if (ft_strcmp(str, ">") == 0)
 		{
-			ft_putstr_fd("HELLO", 1);
 			//ft_open_files(pipex, args->ac, args->argv);
 		}
 		ft_pipes(pipex, args, i);
