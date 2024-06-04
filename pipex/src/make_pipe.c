@@ -6,13 +6,13 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/03 13:13:59 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:39:35 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	make_pipe(t_pipex *pipex, char *env[], char *argv[], int i)
+int	make_pipe(t_pipex *pipex, t_cmd_to_exec *args, int i)
 {
 	pid_t	process;
 	int		ret;
@@ -25,7 +25,7 @@ int	make_pipe(t_pipex *pipex, char *env[], char *argv[], int i)
 		perror("fork");
 	if (!process)
 	{
-		child_process(pipex, argv, env, i);
+		child_process(pipex, args, i);
 	}
 	else
 	{
@@ -34,15 +34,13 @@ int	make_pipe(t_pipex *pipex, char *env[], char *argv[], int i)
 	return (0);
 }
 
-void	child_process(t_pipex *pipex, char *argv[], char *env[], int i)
+void	child_process(t_pipex *pipex, t_cmd_to_exec *args, int i)
 {
 	close(pipex->pipe_fd[0]);
 	
-	if (i == 2 && pipex->doc == 0)
+	if (i == 2)
 		dup2(pipex->fdin, STDIN_FILENO);
-	if (i == 3 && pipex->doc == 1)
-		dup2(pipex->pipe_doc[0], STDIN_FILENO);
-	if (i == pipex->nb_argc - 2)
+	if (i == /*pipex->nb_argc -*/ 2) //tablea BAPTISTE
 	{
 		dup2(pipex->fdout, STDOUT_FILENO);
 		close_fd(pipex, 1);
@@ -52,12 +50,10 @@ void	child_process(t_pipex *pipex, char *argv[], char *env[], int i)
 		dup2(pipex->pipe_fd[1], STDOUT_FILENO);
 		close(pipex->pipe_fd[0]);
 	}
-	if (pipex->doc == 1)
-		close(pipex->pipe_doc[0]);
 	close(pipex->fdout);
 	close_fd(pipex, 10);
 	close(pipex->pipe_fd[1]);
-	exec_cmd(pipex, i, argv, env);
+	exec_cmd(pipex, i, args);
 }
 
 void	parent_process(t_pipex *pipex)
@@ -67,10 +63,9 @@ void	parent_process(t_pipex *pipex)
 	close(pipex->pipe_fd[1]);
 }
 
-void	ft_pipes(t_pipex *pipex, char *argv[], char *env[], int i)
+void	ft_pipes(t_pipex *pipex, t_cmd_to_exec *args, int i)
 {
-	make_pipe(pipex, env, argv, i);
+	make_pipe(pipex, args, i);
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);
-	ft_cleanup(pipex, 8);
 }

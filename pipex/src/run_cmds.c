@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:29:28 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/03 13:30:46 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:43:08 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,18 @@
 
 
 
-void	exec_cmd(t_pipex *pipex, int i, char *argv[], char *env[])
+void	exec_cmd(t_pipex *pipex, int i, t_cmd_to_exec *args)
 {
-	t_cmd_to_exec *testargs;
-
+	(void)pipex;
 	int	ret;
-	(void)argv;
 	(void)i;
 	ret = -1;
 	
 
-	testargs = cmd_to_exec_new();
-
-	if (pipex->valid_cmd == 0)
-	{
-		pipex->valid_cmd = 1;
-		ret = execve(testargs->cmd_path, testargs->argv, env);
-	}
+	ret = execve(args->cmd_path, args->argv, args->env);
 	if (ret == -1)
 	{
-		ft_exec_cmd_error(pipex, "pipex: command not found: ");
+		//ft_exec_cmd_error(pipex, "pipex: command not found: ");
 		exit(127);
 	}
 }
