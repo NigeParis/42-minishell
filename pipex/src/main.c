@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/05 16:36:38 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/05 18:12:26 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ t_cmd_to_exec    *cmd_to_exec_new(void)
     blank->status = 0;
     blank->redir_to_do = NULL;
     blank->lastcmd_index = 4;
+    blank->left_token = ';';
+    blank->right_token = ';';
     return (blank);
 }
 t_cmd_to_exec    *cmd_to_exec_new2(void)
@@ -60,6 +62,8 @@ t_cmd_to_exec    *cmd_to_exec_new2(void)
     blank->status = 0;
     blank->redir_to_do = NULL;
     blank->lastcmd_index = 4;
+    blank->left_token = '|';
+    blank->right_token = '|';
     return (blank);
 }
 
@@ -67,7 +71,6 @@ t_cmd_to_exec    *cmd_to_exec_new2(void)
 
 void	ft_init(t_pipex *pipex)
 {
-	pipex->fdin = -1;
 	pipex->fdout = -1;
 }
 

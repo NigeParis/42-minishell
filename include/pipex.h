@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/05 16:36:04 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/05 17:39:44 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 
 typedef struct s_pipex
 {
-	int		fdin;
 	int		fdout;
 	int		pipe_fd[2];
 	
@@ -44,6 +43,8 @@ typedef struct s_cmd_to_exec
     char    **env;
     int        status;
     int     lastcmd_index;
+    char    left_token;
+    char    right_token;
     t_list    *redir_to_do;
 }   t_cmd_to_exec;
 

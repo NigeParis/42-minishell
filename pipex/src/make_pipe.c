@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/05 16:37:17 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/05 17:08:23 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void	child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i)
 	if (i == args->lastcmd_index) // nbr cmds called - lastcmd important for sortie
 	{
 		if(redir->flag == 1)
-			dup2(pipex->fdout, STDOUT_FILENO);
+			dup2(pipex->fdout, redir->src);
 		close_fd(pipex);
 	}
 	else
 	{
-		dup2(pipex->pipe_fd[1], STDOUT_FILENO);
+		dup2(pipex->pipe_fd[1], redir->src);
 		close(pipex->pipe_fd[0]);
 	}
 	close(pipex->fdout);
