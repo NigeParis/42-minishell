@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/04 17:08:00 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:36:04 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_cmd_to_exec
     int        ac;
     char    **env;
     int        status;
+    int     lastcmd_index;
     t_list    *redir_to_do;
 }   t_cmd_to_exec;
 
@@ -55,48 +56,47 @@ typedef struct s_redir
 }   t_redir;
 
 
+/// @brief 
+/// @param 
+/// @param 
+/// @note 
+int		execute(t_cmd_to_exec *args, t_pipex *pipex, t_redir *redir);
 
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-int		execute(t_cmd_to_exec *args, t_pipex *pipex);
+void	exec_cmd(t_cmd_to_exec *args);
 
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-void	exec_cmd(t_pipex *pipex, int i, t_cmd_to_exec *args);
+void	close_fd(t_pipex *pipex);
 
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-void	close_fd(t_pipex *pipex, int type);
+void	ft_init(t_pipex *pipex);
 
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-void	ft_init(t_pipex *pipex, char *infile, char *outfile);
+void	ft_open_files(t_pipex *pipex, char *outfile);
 
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-void	ft_open_files(t_pipex *pipex, char *infile, char *outfile);
+int     make_pipe(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i);
 
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-int		make_pipe(t_pipex *pipex, t_cmd_to_exec *args, int i);
-
-/// @brief 
-/// @param 
-/// @param 
-/// @note 
-void	child_process(t_pipex *pipex, t_cmd_to_exec *args, int i);
+void	child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i);
 
 /// @brief 
 /// @param 
@@ -130,12 +130,12 @@ void	ft_here_doc(t_pipex *pipex, char *argv[]);
 /// @param 
 /// @param 
 /// @note 
-int		ft_pipex(t_pipex *pipex, char *infile, char *outfile);
+int		ft_pipex(t_pipex *pipex);
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-void	ft_pipes(t_pipex *pipex, t_cmd_to_exec *args, int i);
+void	ft_pipes(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i);
 
 /// @brief 
 /// @param 
@@ -160,7 +160,7 @@ t_cmd_to_exec    *cmd_to_exec_new(void);
 /// @brief function for testing redirections 
 /// @param void, see above main
 /// @note struction for redirections
-t_list    *test_redir(void);
+t_redir   *test_redir(void);
 
 
 #endif

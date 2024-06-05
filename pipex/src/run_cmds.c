@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:29:28 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/04 16:43:08 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:27:40 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 
 
 
-void	exec_cmd(t_pipex *pipex, int i, t_cmd_to_exec *args)
+void	exec_cmd(t_cmd_to_exec *args)
 {
-	(void)pipex;
 	int	ret;
-	(void)i;
 	ret = -1;
 	
 
