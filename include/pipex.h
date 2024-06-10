@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/05 17:39:44 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:56:25 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,16 @@
 
 # define ERROR_MSG_SIZE 100
 
+# define INFILE 0
+# define OUTFILE 1
+# define FIRST_CMD 0
+# define PIPE_CMD 1
+# define LAST_CMD 2
+
 typedef struct s_pipex
 {
 	int		fdout;
+	int		fdin;
 	int		pipe_fd[2];
 	
 }	t_pipex;
@@ -48,13 +55,17 @@ typedef struct s_cmd_to_exec
     t_list    *redir_to_do;
 }   t_cmd_to_exec;
 
+
 typedef struct s_redir
 {
-    int        src;
-    int        flag;
-    char    *target_file;
-    int        target_std;
+    int   std_src;
+    char  *file_src;
+    int   src_flag;
+    int   std_dst;
+    char  *file_dst;
+    int   dst_flag;
 }   t_redir;
+
 
 
 /// @brief 
@@ -73,7 +84,14 @@ void	exec_cmd(t_cmd_to_exec *args);
 /// @param 
 /// @param 
 /// @note 
-void	close_fd(t_pipex *pipex);
+void	close_fdout(t_pipex *pipex);
+
+
+/// @brief 
+/// @param 
+/// @param 
+/// @note 
+void	close_fdin(t_pipex *pipex);
 
 /// @brief 
 /// @param 
@@ -84,8 +102,20 @@ void	ft_init(t_pipex *pipex);
 /// @brief 
 /// @param 
 /// @param 
+/// @note
+int 	checkfile_read_and_exists(char *file, int type);
+
+/// @brief 
+/// @param 
+/// @param 
 /// @note 
-void	ft_open_files(t_pipex *pipex, char *outfile);
+void	ft_open_outfile(t_pipex *pipex, char *outfile);
+
+/// @brief 
+/// @param 
+/// @param 
+/// @note 
+void	ft_open_infile(t_pipex *pipex, char *outfile);
 
 /// @brief 
 /// @param 

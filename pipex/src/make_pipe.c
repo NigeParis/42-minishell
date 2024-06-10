@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/05 17:08:23 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/10 16:41:50 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,43 @@ int	make_pipe(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i)
 
 void	child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i)
 {
+	(void)i;
+
+
 	close(pipex->pipe_fd[0]);
 	
-
-	
-	if (i == args->lastcmd_index) // nbr cmds called - lastcmd important for sortie
+	if (args->lastcmd_index == FIRST_CMD) 
 	{
-		if(redir->flag == 1)
-			dup2(pipex->fdout, redir->src);
-		close_fd(pipex);
+		if(redir->src_flag)
+		{
+			dup2(pipex->fdin, redir->std_src);
+		}
+		dup2(pipex->pipe_fd[1], STDOUT_FILENO);
 	}
-	else
+	else if (args->lastcmd_index == PIPE_CMD)
 	{
-		dup2(pipex->pipe_fd[1], redir->src);
+		dup2(pipex->pipe_fd[1], redir->std_dst);
 		close(pipex->pipe_fd[0]);
 	}
+	else if (args->lastcmd_index == LAST_CMD) 
+	{
+		if(redir->dst_flag)
+			dup2(pipex->fdout, redir->std_dst);
+		close_fdout(pipex);
+	}
 	close(pipex->fdout);
-	close_fd(pipex);
+	close_fdout(pipex);
 	close(pipex->pipe_fd[1]);
+	
 	exec_cmd(args);
 }
 
 void	parent_process(t_pipex *pipex)
 {
 	close(pipex->pipe_fd[1]);
-	dup2(pipex->pipe_fd[0], STDIN_FILENO);
+		///. BAPTISTES c'est pas bon cett dup2 ici pour MINISHELL
+		/// Il doit etre dans l'enfant
+		dup2(pipex->pipe_fd[0], STDIN_FILENO);  
 	close(pipex->pipe_fd[1]);
 }
 
