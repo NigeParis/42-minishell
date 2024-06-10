@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/10 16:18:52 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/10 17:09:13 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,23 @@ int	main(void)
         execute(args, &pipex, redir);
         
         args = cmd_to_exec_new();
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
+        execute(args, &pipex, redir);
         execute(args, &pipex, redir);
         execute(args, &pipex, redir);
         //execute(args, &pipex, redir);
