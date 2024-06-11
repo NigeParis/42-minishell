@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/11 16:15:09 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:54:34 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,25 @@ void	ft_init(t_pipex *pipex, t_redir *redir)
 }
 
 
+char   *get_pwd(t_pipex *pipex)
+{
+    (void)pipex;
+
+    //char buff[PATH_MAX];
+    char *res = NULL;
+
+    //res = getcwd(buff, PATH_MAX);
+    
+    return (res);
+
+    
+}
+
+
+
+
+
+
 int	main(void)
 {
     t_cmd_to_exec *args;
@@ -125,19 +144,20 @@ int	main(void)
         if (ft_strcmp(str,"exe\n") == 0)
         {
             args = cmd_to_exec_new0();
+            
             execute(args, &pipex, redir);
             
             args = cmd_to_exec_new();
             execute(args, &pipex, redir);
+            execute(args, &pipex, redir);
+            execute(args, &pipex, redir);
+            execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
-            // // execute(args, &pipex, redir);
-            // // execute(args, &pipex, redir);
-            // // execute(args, &pipex, redir);
-            // // execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
-            // execute(args, &pipex, redir);
+            execute(args, &pipex, redir);
+            execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
@@ -163,6 +183,7 @@ int	main(void)
             
         }
         free(str);
+
     }
     
     return(0);

@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/11 12:52:52 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:48:40 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 
 
 # define ERROR_MSG_SIZE 100
+# define PATH_MAX 1024
 
 # define INFILE 0
 # define OUTFILE 1
@@ -69,6 +70,12 @@ typedef struct s_redir
 
 
 
+
+
+
+char   *get_pwd(t_pipex *pipex);
+
+
 /// @brief 
 /// @param 
 /// @param 
@@ -79,7 +86,7 @@ int		execute(t_cmd_to_exec *args, t_pipex *pipex, t_redir *redir);
 /// @param 
 /// @param 
 /// @note 
-void	exec_cmd(t_cmd_to_exec *args);
+void	exec_cmd(t_cmd_to_exec *args, t_pipex *pipex);
 
 /// @brief 
 /// @param 

@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/11 14:49:12 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/11 18:00:14 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ void	child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i)
 {
 	(void)i;
 
-
 	close(pipex->pipe_fd[0]);
 	
 	if (args->lastcmd_index == FIRST_CMD) 
 	{
+	ft_putstr_fd("Hello", 2);
 		if(redir->src_flag)
 		{
 			dup2(pipex->fdin, redir->std_src);
@@ -65,7 +65,7 @@ void	child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i)
 	close_fdout(pipex);
 	close(pipex->pipe_fd[1]);
 	
-	exec_cmd(args);
+	exec_cmd(args, pipex);
 }
 
 void	parent_process(t_pipex *pipex, t_redir *redir)
