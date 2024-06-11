@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/11 13:10:23 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/11 14:59:54 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,14 @@ int	main(void)
     ft_init(&pipex, redir);
     while (1)
     {
+        ft_putstr_fd("type exe to test> ", 1);
         str = get_next_line(0);
 
-        if (str)
+
+        if (ft_strcmp(str, "exit\n") == 0)
+            exit (0);
+
+        if (ft_strcmp(str,"exe\n") == 0)
         {
             args = cmd_to_exec_new0();
             execute(args, &pipex, redir);
@@ -150,10 +155,9 @@ int	main(void)
             execute(args, &pipex, redir);
             
             dup2(redir->saved_fd, STDIN_FILENO);
-            close(redir->saved_fd);
-            dup(STDIN_FILENO);
+            ft_putstr_fd("\n", 1);
+          
             
-            printf("Hello\n");
             
         }
         free(str);

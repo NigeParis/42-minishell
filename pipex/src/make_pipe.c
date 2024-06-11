@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/11 12:59:56 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/11 14:49:12 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,7 @@ void	parent_process(t_pipex *pipex, t_redir *redir)
 {
 	(void)redir;
 	close(pipex->pipe_fd[1]);
-		///. BAPTISTES c'est pas bon cett dup2 ici pour MINISHELL
-		/// Il doit etre dans l'enfant
-		dup2(pipex->pipe_fd[0], STDIN_FILENO);  
+	dup2(pipex->pipe_fd[0], STDIN_FILENO);  
 	close(pipex->pipe_fd[0]);
 
 }
