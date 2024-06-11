@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/11 14:59:54 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:15:09 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ t_cmd_to_exec    *cmd_to_exec_new0(void)
     blank = malloc(sizeof(t_cmd_to_exec));
     if (!blank)
         return (NULL);
-    blank->cmd_path = ft_strdup("/usr/bin/cat");
-    blank->argv = ft_split("cat", ' ');
+    blank->cmd_path = ft_strdup("/usr/bin/pwd");
+    blank->argv = ft_split("pwd", ' ');
     blank->ac = ft_len_2d((const void * const *)blank->argv);
     blank->env = NULL;
     blank->status = 0;
@@ -81,7 +81,7 @@ t_cmd_to_exec    *cmd_to_exec_new2(void)
     if (!blank)
         return (NULL);
     blank->cmd_path = ft_strdup("/usr/bin/cat");
-    blank->argv = ft_split("cat -n", ' ');
+    blank->argv = ft_split("cat", ' ');
     blank->ac = ft_len_2d((const void * const *)blank->argv);
     blank->env = NULL;
     blank->status = 0;
@@ -129,16 +129,16 @@ int	main(void)
             
             args = cmd_to_exec_new();
             execute(args, &pipex, redir);
-            execute(args, &pipex, redir);
-            execute(args, &pipex, redir);
-            execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
+            // // execute(args, &pipex, redir);
+            // // execute(args, &pipex, redir);
+            // // execute(args, &pipex, redir);
+            // // execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
-            execute(args, &pipex, redir);
-            execute(args, &pipex, redir);
-            execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
             // execute(args, &pipex, redir);
@@ -155,7 +155,9 @@ int	main(void)
             execute(args, &pipex, redir);
             
             dup2(redir->saved_fd, STDIN_FILENO);
-            ft_putstr_fd("\n", 1);
+
+            if (args->right_token != '>')
+                ft_putstr_fd("\n", 1);
           
             
             

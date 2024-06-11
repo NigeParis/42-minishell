@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:45:37 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/11 12:56:46 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/11 15:46:42 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,12 @@ int	execute(t_cmd_to_exec *args,  t_pipex *pipex, t_redir *redir)
 	static int i = 0;
 	i++;
 	
-	if (args->right_token == '>')
+	if ((args->right_token == '>') && (args->lastcmd_index == LAST_CMD))
 		redir->dst_flag = 1;
-	// 	i = args->lastcmd_index;
-	// if (args->right_token  == '|' && args->left_token == '|')
-	// {
-	// 	printf("-%s--->%d    %s\n",args->cmd_path, i, args->argv[0]);
-	// 	i = 2;
-	// 	ft_putstr_fd("HERE", 1);
-	// }
+
+	if ((args->left_token == '<') && (args->lastcmd_index == FIRST_CMD))
+		redir->src_flag = 1;
+
 	if (redir->dst_flag > 0)
 	{
 		ft_open_outfile(pipex, redir->file_dst);

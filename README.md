@@ -115,7 +115,7 @@ External functions accepted: <br>
 | sigaddset | | | | |
 | kill | | | | |
 | exit | | | | |
-| getcwd | | | | | 
+| getcwd | <unistd.h> | char *getcwd(char *buf, size_t size); | ptr to str with path / NULL and ERRNO set | absolute pathname of the current working directory to the array | 
 | chdir | | | | |
 | stat | | | | |
 | lstat | | | | |
