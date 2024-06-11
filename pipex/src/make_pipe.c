@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/10 16:59:34 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:59:56 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	make_pipe(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i)
 {
 	pid_t	process;
 	int		ret;
+
 
 	ret = pipe(pipex->pipe_fd);
 	if (ret < 0)
@@ -29,7 +30,7 @@ int	make_pipe(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i)
 	}
 	else
 	{
-		parent_process(pipex);
+		parent_process(pipex, redir);
 	}
 	return (0);
 }
@@ -67,13 +68,15 @@ void	child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i)
 	exec_cmd(args);
 }
 
-void	parent_process(t_pipex *pipex)
+void	parent_process(t_pipex *pipex, t_redir *redir)
 {
+	(void)redir;
 	close(pipex->pipe_fd[1]);
 		///. BAPTISTES c'est pas bon cett dup2 ici pour MINISHELL
 		/// Il doit etre dans l'enfant
 		dup2(pipex->pipe_fd[0], STDIN_FILENO);  
-	close(pipex->pipe_fd[1]);
+	close(pipex->pipe_fd[0]);
+
 }
 
 void	ft_pipes(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i)
@@ -81,4 +84,5 @@ void	ft_pipes(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i)
 	make_pipe(pipex, args, redir, i);
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);
+	
 }

@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/10 13:56:25 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:52:52 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_redir
     int   std_dst;
     char  *file_dst;
     int   dst_flag;
+    int   saved_fd;
 }   t_redir;
 
 
@@ -97,7 +98,8 @@ void	close_fdin(t_pipex *pipex);
 /// @param 
 /// @param 
 /// @note 
-void	ft_init(t_pipex *pipex);
+void	ft_init(t_pipex *pipex, t_redir *redir);
+
 
 /// @brief 
 /// @param 
@@ -133,7 +135,7 @@ void	child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i);
 /// @param 
 /// @param 
 /// @note 
-void	parent_process(t_pipex *pipex);
+void	parent_process(t_pipex *pipex, t_redir *redir);
 
 /// @brief 
 /// @param 

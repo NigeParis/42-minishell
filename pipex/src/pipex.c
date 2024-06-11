@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:45:37 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/10 13:57:39 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/11 12:56:46 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ int	execute(t_cmd_to_exec *args,  t_pipex *pipex, t_redir *redir)
 
 	while (wait(NULL) > 0)
 		;
+
 	return (0);
 }

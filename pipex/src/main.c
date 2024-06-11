@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/10 17:09:13 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/11 13:10:23 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_redir    *test_redir(void)
     redir->file_dst = ft_strdup("outfile");
     redir->std_dst = STDOUT_FILENO;
     redir->std_src = STDIN_FILENO;
+    redir->saved_fd = -1;
     return (redir);
 }
 
@@ -93,10 +94,12 @@ t_cmd_to_exec    *cmd_to_exec_new2(void)
 
 
 
-void	ft_init(t_pipex *pipex)
+void	ft_init(t_pipex *pipex, t_redir *redir)
 {
 	pipex->fdout = -1;
 	pipex->fdin = -1;
+	redir->saved_fd = dup(STDIN_FILENO);
+
 }
 
 
@@ -106,42 +109,54 @@ int	main(void)
     t_pipex pipex;
     t_redir *redir;
 
-    ft_init(&pipex);
+    char *str;
+
     redir = test_redir();
-    for (int i = 0; i < 2; i++)
+    ft_init(&pipex, redir);
+    while (1)
     {
-        args = cmd_to_exec_new0();
-        execute(args, &pipex, redir);
+        str = get_next_line(0);
+
+        if (str)
+        {
+            args = cmd_to_exec_new0();
+            execute(args, &pipex, redir);
+            
+            args = cmd_to_exec_new();
+            execute(args, &pipex, redir);
+            execute(args, &pipex, redir);
+            execute(args, &pipex, redir);
+            execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
+            execute(args, &pipex, redir);
+            execute(args, &pipex, redir);
+            execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
+            // execute(args, &pipex, redir);
+            // //execute(args, &pipex, redir);
+            // // execute(args, &pipex, redir);
         
-        args = cmd_to_exec_new();
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        execute(args, &pipex, redir);
-        //execute(args, &pipex, redir);
-        // execute(args, &pipex, redir);
-    
-    
-        args = cmd_to_exec_new2();
-    
-        execute(args, &pipex, redir);
-        // execute(args, &pipex, redir);
-        printf("\n");
+        
+            args = cmd_to_exec_new2();
+            execute(args, &pipex, redir);
+            
+            dup2(redir->saved_fd, STDIN_FILENO);
+            close(redir->saved_fd);
+            dup(STDIN_FILENO);
+            
+            printf("Hello\n");
+            
+        }
+        free(str);
     }
     
     return(0);
