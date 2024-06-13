@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:29:28 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/11 18:05:08 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:45:40 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,30 @@
 
 
 
-void	exec_cmd(t_cmd_to_exec *args, t_pipex *pipex)
+void	exec_cmd(t_cmd_to_exec *args, t_pipex *pipex, t_redir *redir)
 {
 	int	ret;
-	//char *ptr;
 	ret = -1;
 	(void)pipex;
 
-	// if (ft_strcmp(args->argv[0], "pwd") == 0)
-	// {
-    //     ptr = get_pwd(pipex);
-	// 	ft_putstr_fd("rrrrrrr", pipex->fdin);
-	// 	exit (1);
-	// }
-	// else
-	// {
-
+		if (ft_strcmp(args->argv[0], "pwd") == 0)
+		{
+			get_pwd(testminictrl(),test_cmd());
+			exit (1);
+		}
+	
+		close_fd(&pipex->fdin);
+		close_fd(&pipex->fdout);
+		close(pipex->pipe_fd[0]);
+		close(pipex->pipe_fd[1]);
+		close(redir->std_src);               
+        close(redir->std_dst); 
 		ret = execve(args->cmd_path, args->argv, args->env);
 		if (ret == -1)
 		{
 		//ft_exec_cmd_error(pipex, "pipex: command not found: ");
 		exit(127);
 		}
-	// }
+		
 }
 

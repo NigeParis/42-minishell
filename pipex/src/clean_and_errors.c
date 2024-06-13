@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 11:52:01 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/11 15:40:48 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:54:07 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,17 @@ void	close_fdin(t_pipex *pipex)
 		close (pipex->fdin);
 	
 }
+
+
+void    close_fd(int *fd)
+{
+    if (*fd != -1)
+    {
+        close(*fd);
+        *fd = -1;
+    }    
+}
+
 
 
 

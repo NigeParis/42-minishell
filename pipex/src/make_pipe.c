@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/13 15:39:52 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:49:37 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	make_pipe(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i)
 	{
 		parent_process(pipex, redir);
 		close(pipex->pipe_fd[1]);
-		close(pipex->fdin);
+		close_fd(&pipex->fdin);
 		dup2(pipex->pipe_fd[0], STDIN_FILENO);
 		close(pipex->pipe_fd[0]);
 	}		
@@ -49,7 +49,7 @@ void	child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i)
 		if(redir->src_flag)
 		{
 			dup2(pipex->fdin, STDIN_FILENO);
-			close(pipex->fdin);
+			close_fd(&pipex->fdin);
 		}
 		dup2(pipex->pipe_fd[1], STDOUT_FILENO);
 		close(pipex->pipe_fd[1]);
@@ -64,11 +64,11 @@ void	child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i)
 		if(redir->dst_flag)
 		{
 			dup2(pipex->fdout, STDOUT_FILENO);
-			close(pipex->fdout);
+			close_fd(&pipex->fdout);
 		}
 	}
 	
-	exec_cmd(args, pipex);
+	exec_cmd(args, pipex, redir);
 }
 
 void	parent_process(t_pipex *pipex, t_redir *redir)

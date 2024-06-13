@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/13 14:23:34 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:44:47 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,57 @@ typedef struct s_redir
 
 
 
+/// @brief Structure to store a command and its arguments
+/// @param cmd The command to execute with its full path
+/// @param args The arguments to pass to the command
+/// @param argc The number of arguments
+/// @param envp The environment variables as an array of strings
+/// @param ret The return value of the command
+typedef struct s_cmd
+{
+	char		*cmd;
+	char		**args;
+	int			argc;
+	char		**envp;
+	int			ret;
+}	t_cmd;
 
-char   *get_pwd(t_pipex *pipex);
+
+
+/// @brief vector structure
+/// @param datas array of pointers to the elements
+/// @param count number of elements in the vector
+/// @param cappacity number of elements that can be stored in the vector
+typedef struct s_vector
+{
+	void	**datas;
+	size_t	count;
+	size_t	cappacity;
+}			t_vector;
+
+typedef struct s_minishell_control
+{
+	char		*input;
+	t_vector	*env;
+	int			exit;
+	t_vector	*preparsed;
+	void		*prs;
+}	t_minishell_control;
+
+
+
+
+
+
+
+void    close_fd(int *fd);
+
+t_cmd    *test_cmd(void);
+t_minishell_control *testminictrl(void);
+
+char   *get_pwd(t_minishell_control *ctrl, t_cmd *cmd);
+
+//char   *get_pwd(t_pipex *pipex);
 
 
 /// @brief 
@@ -86,7 +135,7 @@ int		execute(t_cmd_to_exec *args, t_pipex *pipex, t_redir *redir);
 /// @param 
 /// @param 
 /// @note 
-void	exec_cmd(t_cmd_to_exec *args, t_pipex *pipex);
+void	exec_cmd(t_cmd_to_exec *args, t_pipex *pipex, t_redir *redir);
 
 /// @brief 
 /// @param 
