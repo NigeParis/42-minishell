@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/14 12:27:29 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:10:46 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,19 +116,27 @@ typedef struct s_minishell_control
 
 
 
-int	exit_main(t_minishell_control *ctrl, t_cmd *cmd);
-
 
 
 void    close_fd(int *fd);
 
 t_cmd    *test_cmd(void);
 t_minishell_control *testminictrl(void);
+t_cmd    *test_cmd_exit(void);
+t_minishell_control *testminictrl_exit(void);
+
+
 
 char   *get_pwd(t_minishell_control *ctrl, t_cmd *cmd);
 
 //char   *get_pwd(t_pipex *pipex);
 
+
+/// @brief exits minishell
+/// @param 
+/// @param 
+/// @returns 0 on SUCCESS or 1 on ERROR 
+int	exit_main(t_minishell_control *ctrl, t_cmd *cmd);
 
 /// @brief 
 /// @param 

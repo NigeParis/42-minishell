@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/14 13:37:37 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:31:54 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_cmd    *test_cmd_exit(void)
     testcmd = malloc(sizeof(t_cmd));
 
 	testcmd->cmd = ft_strdup("exit");
-	testcmd->args = ft_split("exit", ' ');
+	testcmd->args = ft_split("exit 127", ' ');
 	testcmd->argc = ft_len_2d((const void * const *)testcmd->args);
 	testcmd->envp = NULL;
 	testcmd->ret = 0;
@@ -146,8 +146,8 @@ t_cmd_to_exec    *cmd_to_exec_new0(void)
     blank = malloc(sizeof(t_cmd_to_exec));
     if (!blank)
         return (NULL);
-    blank->cmd_path = ft_strdup("/usr/bin/pwd");
-    blank->argv = ft_split("pwd", ' ');
+    blank->cmd_path = ft_strdup("/usr/bin/exit");
+    blank->argv = ft_split("exit", ' ');
     blank->ac = ft_len_2d((const void * const *)blank->argv);
     blank->env = NULL;
     blank->status = 0;
@@ -254,46 +254,6 @@ char   *get_pwd(t_minishell_control *ctrl, t_cmd *cmd)
 }
 
 
-
-
-//#include "ft_addons.h"
-#include "ft_string.h"
-
-static void  put_exit_error(const char *progname, t_cmd *cmd, char *msg)
-{
-    ft_putstr_fd(&progname[2], STDERR_FILENO);
-    ft_putstr_fd(": ", STDERR_FILENO);
-    ft_putstr_fd(cmd->args[0], STDERR_FILENO);
-    ft_putstr_fd(": ", STDERR_FILENO);
-    ft_putstr_fd(cmd->args[1], STDERR_FILENO);
-    ft_putendl_fd(msg, STDERR_FILENO);    
-}
-
-int	exit_main(t_minishell_control *ctrl, t_cmd *cmd)
-{
-    const char *progname = ft_progname();
-    
-	ft_putstr_fd("exit\n", STDERR_FILENO);
-	if (cmd->argc > 2)
-	{
-		ctrl->exit = 1;
-        put_exit_error(progname, cmd, ": too many arguments");
-		return (1);
-	}
-	cmd->ret = 0;
-	if (cmd->argc == 2)
-	{
-		if (ft_str_isdigit(cmd->args[1]) == false)
-		{
-			cmd->ret = 1;
-            put_exit_error(progname, cmd, ": numeric argument required");
-			return (1);
-		}
-		cmd->ret = ft_atoi(cmd->args[1]);
-	}
-	ctrl->exit = cmd->ret;
-	return (ctrl->exit);
-}
 
 
 
