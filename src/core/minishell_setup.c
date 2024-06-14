@@ -6,11 +6,10 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 13:43:52 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/03 14:29:47 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_addons.h"
 #include "ft_string.h"
 #include "ft_vector.h"
 #include "minishell_types.h"

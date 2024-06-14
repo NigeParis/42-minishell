@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_2d.c                                       :+:      :+:    :+:   */
+/*   update_lb.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 09:32:28 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/11 09:51:21 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/14 10:43:09 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/14 13:00:08 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_addons.h"
-#include <stddef.h>
-#include <stdlib.h>
+#include "ft_char.h"
+#include "parser_types.h"
 
-void	ft_free_2d(void **arr)
+bool prepn_space_update_line_buffer(t_preparsed_node *node, const char *line, size_t *offset)
 {
-	size_t	i;
-
-	i = 0;
-	while (arr[i] != NULL)
+	if (ft_isspace(line[*offset]))
 	{
-		free(arr[i]);
-		i++;
+		while (ft_isspace(line[*offset]))
+			(*offset)++;
+		return (true);
 	}
-	free(arr);
+	return (false);
 }

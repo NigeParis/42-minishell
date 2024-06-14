@@ -5,109 +5,132 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 22:36:53 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/20 11:13:12 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/04 10:55:31 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/14 14:36:11 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_TYPES_H
 # define PARSER_TYPES_H
 
+# include "ft_list_types.h"
 # include "ft_vector_types.h"
-#include "minishell_types.h"
-# define TOKEN_MAX_SIZE 2
+# include "minishell_types.h"
 
-/*
- * Token types explanation:
-	TOKEN_SPACE = 0,        // ' ' '\t' '\v' '\f' '\r'
-	TOKEN_EOL,              // '\n'
-	TOKEN_QUOTE_ALL,        // '\'' '"'
-	TOKEN_BACKSLASH,        // '\\'
-	TOKEN_PIPE,             // '|'
-	TOKEN_SEMICOLON,        // ';'
-	TOKEN_REDIRECTION,      // '<' '>' '>>' '<<'
-	TOKEN_REDIRECTION_REF,  // '>&' '<&'
-	TOKEN_BACKGROUD,        // '&\n' *only at the end of the line*
-	TOKEN_STRING_EXPANSION, // '$'
-	TOKEN_SUBSHELL,         // '(' ')'
-	TOKEN_OR,               // '||'
-	TOKEN_AND,              // '&&'
-	TOKEN_EOF,              // '\0'
-	TOKEN_UNKNOWN_ERROR     // unknow error // keep last used for error handling
- *
-*/
+typedef struct s_parser					t_parser;
+typedef struct s_token					t_token;
+typedef struct s_redir					t_redir;
+typedef t_vector						t_preparsed_cmd;
+typedef struct s_cmd_to_exec			t_cmd_to_exec;
+typedef struct s_preparser_context		t_preparser_context;
+typedef struct s_preparsed_node			t_preparsed_node;
 
-typedef enum e_token_type
+typedef bool							(*t_tok_is)\
+			(const char *str, t_preparser_context *ctx);
+
+typedef bool							(*t_preparsed_line_buffer_interact)\
+			(t_preparsed_node *node, const char *line, size_t offset);
+
+typedef bool							(*t_preparsed_line_buffer_update)\
+			(t_preparsed_node *node, const char *line, size_t *offset);
+
+typedef void							(*t_preparsed_apply)\
+			(t_preparsed_node *node);
+
+typedef enum e_tok_type
 {
-	TOKEN_SPACE = 0,
-	TOKEN_EOL,
-	TOKEN_QUOTE_ALL,
-	TOKEN_BACKSLASH,
-	TOKEN_PIPE,
-	TOKEN_SEMICOLON,
-	TOKEN_REDIRECTION,
-	TOKEN_REDIRECTION_REF,
-	TOKEN_BACKGROUD,
-	TOKEN_STRING_EXPANSION,
-	TOKEN_SUBSHELL,
-	TOKEN_OR,
-	TOKEN_AND,
-	TOKEN_EOF,
-	TOKEN_UNKNOWN_ERROR
-}						t_token_type;
+	TOK_WORD,
+	TOK_SPACE,
+	TOK_EOL,
+	/*
+	TOK_PIPE,
+	TOK_SEMICOLON,
+	TOK_AND,
+	TOK_OR,
+	TOK_REDIR,
+	TOK_VAR_EXP,
+	TOK_CMD_EXP,
+	TOK_BACKSLASH,
+	*/
+	TOK_UNKNOWN,
+}										t_tok_type;
 
-/*
- * Token flags explanation:
-	TOK_FLG_SINGLE = 1 << 0, // signifies that said token is a
-								// single character (e.g. ' ' '\t' '\v' '\f'...)
-	TOK_FLG_DOUBLE = 1 << 1, // signifies that said token is a
-								//	double character (e.g. '||' '&&' '>>' ...)
- *
-*/
-
-typedef enum e_tok_flags
+typedef enum e_rdir_flag
 {
-	TOK_FLG_SINGLE = 1 << 0,
-	TOK_FLG_DOUBLE = 1 << 1,
-}						t_token_flag;
+	RDIR_FILE,
+	RDIR_STD,
+}										t_rdir_flag;
+
+typedef enum e_rdir_type
+{
+	RDIR_INPUT,
+	RDIR_OUTPUT,
+	RDIR_TRUNC,
+	RDIR_APPEND,
+	RDIR_HEREDOC,
+	RDIR_DUP,
+}										t_rdir_type;
 
 typedef enum e_quote
 {
-	QUOTE_NONE = 0,
-	QUOTE_SINGLE,
-	QUOTE_DOUBLE
-}						t_quote;
+	QUOTE_NONE,
+	QUOTE_DQUOTE,
+	QUOTE_SQUOTE,
+}										t_quote;
 
-typedef struct s_parser
+struct									s_token
 {
-	size_t				str_offset;
-	size_t				word_offset;
-	t_quote				quote;
-	t_vector			*words;
-	void				*control;
-	t_vector			*tokens_handlers;
-}						t_parser;
+	const t_tok_type					type;
+	const char							*value;
+	t_tok_is							validator;
+};
 
-typedef struct s_parser_line
+struct									s_redir
 {
-	char				*ptr_offset;
-	t_token_type		type;
-	t_parser			*parser;
-}						t_parser_line;
+	int									src_std;
+	char								*src_file;
+	t_rdir_flag							flag;
+	t_rdir_type							rdir_type;
+	char								*target_file;
+	int									target_std;
+};
 
-typedef void			(*t_token_handler)(t_parser_line *line, t_cmd *cmd);
-typedef bool			(*t_token_validator)(const char *str, t_parser *prs);
-
-typedef struct s_token
+struct									s_cmd_to_exec
 {
-	t_token_type		type;
-	t_token_flag		flag;
-	char				token[TOKEN_MAX_SIZE + 1];
-	t_token_handler		handler;
-	t_token_validator	validator;
-}						t_token;
+	char								*cmd_path;
+	char								**argv;
+	int									ac;
+	char								**env;
+	int									status;
+	t_list								*redir_to_do;
+};
 
-# undef t_token_handler
-# undef t_token_validator
+struct									s_preparsed_node
+{
+	t_tok_type							type;
+	void								*value;
+	t_preparsed_line_buffer_interact	create;
+	t_preparsed_line_buffer_update		update_line_buffer;
+	t_preparsed_line_buffer_interact	append;
+	t_preparsed_apply					print;
+};
+
+struct									s_parser
+{
+	t_vector							*tokens;
+	t_minishell_control					*control;
+	char								*line;
+	t_preparsed_cmd						*preparsed;
+	t_cmd_to_exec						*res;
+};
+
+struct									s_preparser_context
+{
+	size_t								line_offset;
+	char								*unexpected;
+	t_token								*c_tok;
+	t_token								*n_tok;
+	t_quote								quote_ctx;
+};
 
 #endif /* PARSER_TYPES_H */

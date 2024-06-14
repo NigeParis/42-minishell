@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcspn.c                                       :+:      :+:    :+:   */
+/*   update_lb.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 23:02:45 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 09:11:18 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/14 10:43:09 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/14 14:42:41 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
+#include "parser_types.h"
 
-size_t	ft_strcspn(const char *str, const char *charset)
+bool prepn_eol_update_line_buffer(t_preparsed_node *node, const char *line, size_t *offset)
 {
-	size_t	i;
-
-	i = 0;
-	while (str[i])
+	if (line[*offset] == '\n' || line[*offset] == '\0')
 	{
-		if (ft_strchr(charset, str[i]))
-			return (i);
-		i++;
+		(*offset)++;
+		return (true);
 	}
-	return (i);
+	return (false);
 }

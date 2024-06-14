@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_main.c                                      :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 12:56:38 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/20 11:42:51 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/14 10:43:05 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/14 13:10:36 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_types.h"
-#include "parser.h"
+#include "ft_string_types.h"
+#include "parser_types.h"
 #include <stdio.h>
 
-int	parser(t_minishell_control *ctrl, char *str)
+void	prepn_word_print(t_preparsed_node *node)
 {
-	ctrl->input = str;
-	printf("ctrl %p\n", ctrl);
-	init_parser_line(ctrl->prs);
-	ctrl->preparsed = preparse_cmds(ctrl->input, ctrl->prs);
-	return (0);
+	printf("WORD:'%s'\t", ((t_string*)node->value)->str);
 }

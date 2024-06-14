@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_varexpansion.c                                 :+:      :+:    :+:   */
+/*   append.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/17 14:27:40 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/20 09:29:01 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/14 10:42:49 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/14 13:01:38 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_string.h"
 #include "parser_types.h"
 
-bool	tok_val_doll(const char *s, t_parser *parser)
+bool	prepn_word_append(t_preparsed_node *node, const char *line, size_t offset)
 {
-	if (*s != '$' || parser->quote == QUOTE_SINGLE)
-		return (false);
-	if (parser->quote == QUOTE_NONE || parser->quote == QUOTE_DOUBLE)
-		return (true);
-	return (false);
+	t_string	*val;
+
+	val = node->value;
+	ft_string_append_c(val, *(line + offset));
+	node->value = val;
+	return (true);
 }

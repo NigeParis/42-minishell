@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vec_get.c                                       :+:      :+:    :+:   */
+/*   parser_line_cleanup.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 14:24:49 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 09:33:43 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/04 10:54:56 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/04 11:33:31 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_vector_types.h"
+#include "parser_types.h"
+#include <stdlib.h>
 
-void	*ft_vec_get(t_vector *vector, const void *key, \
-					int (*cmp)(const void *v_data, const void *key))
+int	parser_line_cleanup(t_parser *prs)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < vector->count)
-	{
-		if (cmp(vector->datas[i], key) == 0)
-			return (vector->datas[i]);
-		i++;
-	}
-	return (NULL);
+	(void)prs;
+	return (EXIT_SUCCESS);
 }

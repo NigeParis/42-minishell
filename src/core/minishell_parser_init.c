@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 13:04:26 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/17 13:24:50 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:28:55 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,5 @@ int	minishell_parser_init(void *shell_d)
 		return (EXIT_FAILURE);
 	ft_bzero(shell->prs, sizeof(t_parser));
 	((t_parser *)(shell->prs))->control = shell;
-	parser_init_tokens_handlers(shell->prs);
-	return (EXIT_SUCCESS);
+	return (parser_glob_init(shell->prs));
 }

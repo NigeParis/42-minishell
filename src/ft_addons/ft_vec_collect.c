@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_none.c                                         :+:      :+:    :+:   */
+/*   ft_vec_collect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/10 12:27:26 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/11 14:42:57 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/13 14:36:21 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/14 09:52:52 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
+#include "ft_addons.h"
 #include "ft_vector.h"
 #include "ft_vector_types.h"
-#include "parser_types.h"
 
-void	bulk_add_char(t_parser *words, const char *str, int len, t_vector *env)
+void	*ft_vec_collect(t_vector *vec, void *(*f)(const void *c_val, \
+											   const void *d_val))
 {
-	char	*tmp[3];
+	size_t	i;
+	void	*data;
 
-	tmp[0] = ft_strndup(str + words->str_offset, len);
-	tmp[1] = ft_vec_at(words->words, words->word_offset);
-	tmp[2] = ft_strjoin(tmp[1], tmp[0]);
-	((char **)words->words->datas)[words->word_offset] = tmp[2];
-	free(tmp[0]);
-	free(tmp[1]);
-	words->words->count = words->word_offset + 1;
-	words->str_offset += len;
+	i = 0;
+	data = NULL;
+	while (i < vec->count)
+		data = f(data, ft_vec_at(vec, i++));
+	return (data);
 }

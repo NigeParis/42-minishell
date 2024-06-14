@@ -6,13 +6,15 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/20 11:32:50 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:38:58 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "ft_string.h"
 #include "minishell.h"
 #include "minishell_types.h"
+#include "parser.h"
+#include "parser_types.h"
 #include <stdio.h>
 
 int	minishell_should_exit(t_minishell_control *shell)
@@ -22,10 +24,18 @@ int	minishell_should_exit(t_minishell_control *shell)
 
 int	minishell_parse(t_minishell_control *shell)
 {
-	parser(shell, shell->input);
-	if (!shell->cmds)
-		return (1);
-	return (0);
+	((t_parser *)shell->prs)->line = shell->input;
+	parser_line_init(shell->prs);
+	shell->preparsed = ((t_parser*)shell->prs)->preparsed;
+	if (shell->preparsed == NULL || shell->preparsed->count == 0)
+		return (
+		printf("minishell_parse: shell->preparsed == NULL || shell->preparsed->count == 0\n"),
+		1);
+	if (minishell_execute(shell))
+		return (
+		printf("minishell_parse: minishell_execute(shell)\n"),
+		parser_line_cleanup(shell->prs), 1);
+	return (parser_line_cleanup(shell->prs), 0);
 }
 
 void	minishell_loop(t_minishell_control *shell)
@@ -36,6 +46,6 @@ void	minishell_loop(t_minishell_control *shell)
 		if (minishell_prompt(shell) || minishell_parse(shell)
 			|| minishell_should_exit(shell))
 			break ;
-		minishell_execute(shell);
 	}
+	printf("minishell_loop end\n");
 }

@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_str_isnum.c                                     :+:      :+:    :+:   */
+/*   append.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 15:56:04 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 15:56:12 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/14 10:42:49 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/14 13:26:50 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include <stdbool.h>
+#include "parser_types.h"
 
-bool	ft_str_isnum(char *str)
+bool	prepn_space_append(t_preparsed_node *node, const char *line, size_t offset)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (false);
-		i++;
-	}
+	(void)node;
+	(void)line;
+	(void)offset;
 	return (true);
 }

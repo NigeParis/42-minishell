@@ -6,14 +6,14 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:05 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 09:31:37 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:45:23 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pair.h"
 #include "ft_vector_types.h"
+#include "ft_vector.h"
 #include "ft_string.h"
-#include "ft_addons.h"
 
 static int	local_pair_cmp(const void *a, const void *b)
 {
@@ -28,4 +28,27 @@ char	*get_env(t_vector *env, char *keyname)
 	if (pair)
 		return (pair->second);
 	return (NULL);
+}
+
+char	**get_bourne_env(t_vector *env)
+{
+	char	**envp;
+	size_t	i;
+
+	envp = (char **)malloc(sizeof(char *) * (env->count + 1));
+	if (!envp)
+		return (NULL);
+	i = 0;
+	while (i < env->count)
+	{
+		envp[i] = ft_strjoin(((t_pair *)env->datas[i])->first, "=");
+		if (!envp[i])
+			return (NULL);
+		envp[i] = ft_strjoin(envp[i], ((t_pair *)env->datas[i])->second);
+		if (!envp[i])
+			return (NULL);
+		i++;
+	}
+	envp[i] = NULL;
+	return (envp);
 }

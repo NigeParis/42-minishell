@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/05/09 17:43:09 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/06/14 09:45:42 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ FFLAGS	   =\
 
 CFLAGS	   =\
 				$(WFLAGS) $(CPPFLAGS) $(STD)	\
-				-MMD -MP $(DEBUG) $(FFLAGS)
+				-MMD -MP $(DEBUG) 
 
 LDFLAGS		=\
 				-L./libft -lft_personal -lreadline
@@ -91,9 +91,6 @@ $(NAME):	$(OBJ) libft/libft_personal.a
 	@( $(CC) $(OBJ) -o $(NAME) $(CFLAGS) $(LDFLAGS) 2>> $(CLOG_FILE) && \
 	$(ECHO) $(GREEN) "Success" $(RESET) && $(RM) $(CLOG_FILE)) || \
 	$(ECHO) $(RED) "Failed" $(RESET) "see:" $(CLOG_FILE)
-
-debug:
-	@make -C ./ re CFLAGS="$(CFLAGS) $(DEBUG)"
 
 clean:
 	@$(ECHO) -n $(GRAY) "Clean ... " $(RESET)

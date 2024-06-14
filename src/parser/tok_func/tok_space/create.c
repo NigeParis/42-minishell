@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_str_isdigit.c                                   :+:      :+:    :+:   */
+/*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 13:39:43 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/09 13:40:06 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/14 12:56:56 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include <stdbool.h>
+#include "parser_types.h"
 
-bool	ft_str_isdigit(char *str)
+bool	prepn_space_create(t_preparsed_node *node, const char *line, size_t offset)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (false);
-		i++;
-	}
+	node->type = TOK_SPACE;
+	node->value = NULL;
 	return (true);
 }

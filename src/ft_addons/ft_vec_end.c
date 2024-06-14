@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vec_to_array.c                                  :+:      :+:    :+:   */
+/*   ft_vec_end.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 23:39:27 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/10 08:03:56 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/14 10:04:40 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/14 14:26:01 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_vector_types.h"
-#include <stdlib.h>
+#include <stdio.h>
 
-void	**ft_vec_to_array(t_vector **vec)
+void	*ft_vec_end(t_vector *vec)
 {
-	void	**array;
-
-	array = (*vec)->datas;
-	free(*vec);
-	return (array);
+	if (vec == NULL || vec->datas == NULL || vec->count == 0)
+		return (NULL);
+	return (vec->datas[vec->count - 1]);
 }
