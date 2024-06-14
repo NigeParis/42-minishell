@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/13 18:37:57 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/14 10:54:27 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ t_cmd    *test_cmd(void)
     testcmd = malloc(sizeof(t_cmd));
 
 	testcmd->cmd = ft_strdup("pwd");
-	testcmd->args = ft_split("pwd -s", ' ');
-	testcmd->argc = 2;
+	testcmd->args = ft_split("pwd --version", ' ');
+	testcmd->argc = ft_len_2d((const void * const *)testcmd->args);
 	testcmd->envp = NULL;
 	testcmd->ret = 0;
 
@@ -174,28 +174,47 @@ void	ft_init(t_pipex *pipex, t_redir *redir)
 
 }
 
+
+static void  put_builtin_msg_invalid_option(const char *progname, t_cmd *cmd)
+{
+    ft_putstr_fd(&progname[2], 2);
+    ft_putstr_fd(": ", 2);
+    ft_putstr_fd(cmd->args[0], 2);
+    ft_putstr_fd(": ", 2);
+    ft_putchar_fd(cmd->args[1][0], 2);
+    ft_putchar_fd(cmd->args[1][1], 2);
+    ft_putendl_fd(": invalid option", 2);
+    ft_putstr_fd(cmd->args[0], 2);
+    ft_putstr_fd(": ", 2);
+    ft_putstr_fd("usage: ", 2);
+    ft_putendl_fd(cmd->args[0], 2);
+}
+
+
+
+
 char   *get_pwd(t_minishell_control *ctrl, t_cmd *cmd)
 {
     (void)ctrl;
-
     char buff[PATH_MAX];
-    char *res = NULL;
-
-    if ((cmd->argc > 1) && (ft_strcmp(cmd->args[1], "-") != 0) && (ft_strlen(cmd->args[1]) > 1))
+    char *res;
+    const char *progname = ft_progname();
+    
+    if ((cmd->argc > 1) && (ft_strcmp(cmd->args[1], "-") != 0) \
+        && (ft_strlen(cmd->args[1]) > 1))
     {
-        ft_putstr_fd("pwd: ", 1);
-        ft_putstr_fd(cmd->args[1], 1);
-        ft_putendl_fd(" invalid option", 1);
-        ft_putendl_fd("pwd: usage: pwd", 1);
-        
-        
-        return (NULL);
+        if (cmd->args[1][0] != '-' || (ft_strlen(cmd->args[1]) == 2 \
+            && cmd->args[1][1] == '-'))
+            ;
+        else
+        {
+            put_builtin_msg_invalid_option(progname, cmd);
+            return (NULL);
+        }
     }
     res = getcwd(buff, PATH_MAX);
     if (!res)
-    {
         return (NULL);
-    }
     ft_putendl_fd(res, 1);
     return (res);
 }
@@ -206,10 +225,7 @@ char   *get_pwd(t_minishell_control *ctrl, t_cmd *cmd)
 
 
 
-
-
-
-int	main(void)
+int	main(int ac, const char *av[])
 {
     t_cmd_to_exec *args;
     t_pipex pipex;
@@ -218,8 +234,13 @@ int	main(void)
     char *str;
     redir = test_redir();
     (void)args;
-
+    (void)ac;
+    (void)av;
     
+    ft_setup_prog(av);
+   
+   
+   
     ft_init(&pipex, redir);
     
     while (1)
@@ -277,3 +298,7 @@ int	main(void)
     return(0);
 
 }
+
+
+
+

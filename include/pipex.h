@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/13 17:44:47 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/14 10:58:25 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include "get_next_line.h"
 # include "ft_string.h"
 # include "ft_list.h"
+# include "ft_char.h"
+# include "ft_args.h"
+
 
 
 
