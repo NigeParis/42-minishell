@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/14 11:02:38 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/14 12:27:29 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct s_minishell_control
 
 
 
+int	exit_main(t_minishell_control *ctrl, t_cmd *cmd);
 
 
 
