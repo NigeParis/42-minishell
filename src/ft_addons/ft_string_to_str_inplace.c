@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_glob_cleanup.c                              :+:      :+:    :+:   */
+/*   ft_string_to_str_i.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 10:54:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 16:45:38 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/14 17:06:01 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/14 17:09:48 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_vector.h"
-#include "parser_types.h"
-#include <stdlib.h>
+#include "ft_string_types.h"
+#include "ft_string.h"
 
-int	parser_glob_cleanup(t_parser *prs)
+char *ft_string_to_str_inplace(t_string **str)
 {
-	if (prs->tokens)
-		ft_vec_destroy(&prs->tokens);
+	char	*new_str;
 
-	return (EXIT_SUCCESS);
+	new_str = ft_calloc((*str)->length + 1, sizeof(char));
+	if (!new_str)
+		return (NULL);
+	ft_memcpy(new_str, (*str)->str, (*str)->length);
+	new_str[(*str)->length] = '\0';
+	ft_string_destroy(str);
+	return (new_str);
 }

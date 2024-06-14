@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:05 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 15:45:23 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:21:50 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char	*get_env(t_vector *env, char *keyname)
 char	**get_bourne_env(t_vector *env)
 {
 	char	**envp;
+	char	*tmp;
 	size_t	i;
 
 	envp = (char **)malloc(sizeof(char *) * (env->count + 1));
@@ -44,7 +45,9 @@ char	**get_bourne_env(t_vector *env)
 		envp[i] = ft_strjoin(((t_pair *)env->datas[i])->first, "=");
 		if (!envp[i])
 			return (NULL);
+		tmp = envp[i];
 		envp[i] = ft_strjoin(envp[i], ((t_pair *)env->datas[i])->second);
+		free(tmp);
 		if (!envp[i])
 			return (NULL);
 		i++;

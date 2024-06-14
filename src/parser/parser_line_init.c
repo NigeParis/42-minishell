@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 14:41:50 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/14 18:10:13 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,6 @@ static char *singleton_line(char *restrict line, bool set)
 	if (set == true)
 		singleton = line;
 	return (singleton);
-}
-
-void	*collect_by_min(const void *a, const void *b)
-{
-	t_pair	*pair_a = (t_pair*)a;
-	t_pair	*pair_b = (t_pair*)b;
-
-	if (a == NULL)
-		return ((void*) b);
-	if (b == NULL)
-		return ((void*) a);
-	if (pair_a->first < pair_b->first)
-		return ((void*) a);
-	return ((void*) b);
 }
 
 int	tok_cmpvalue(const void *a, const void *b)
@@ -72,10 +58,20 @@ void	get_next_token(t_parser *restrict p, t_preparser_context *restrict ctx)
 {
 	t_vector	*tok_proximity;
 	t_pair		*min;
+	t_pair		*eval;
 
 	tok_proximity = ft_vec_from_size(p->tokens->count);
 	custom_map(&tok_proximity, p->tokens, p->line + ctx->line_offset, ctx);
-	min = ft_vec_collect(tok_proximity, collect_by_min);
+	min = ft_vec_pop(tok_proximity);
+	while (tok_proximity->count > 0)
+	{
+		eval = ft_vec_pop(tok_proximity);
+		if (eval->first < min->first)
+			free(min), min = eval;
+		else
+			free(eval);
+	}
+	ft_vec_destroy(&tok_proximity);
 	if (min == NULL)
 	{
 		ctx->unexpected = ft_strndup(p->line + ctx->line_offset, 1);
@@ -83,6 +79,7 @@ void	get_next_token(t_parser *restrict p, t_preparser_context *restrict ctx)
 	}
 	else
 		ctx->n_tok = min->second;
+	free(min);
 }
 
 int	update_preparsed(t_parser *restrict p, t_preparser_context *restrict ctx)

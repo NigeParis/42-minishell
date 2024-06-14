@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 15:55:46 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/14 18:26:55 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char *resolve_cmd(char *cmd, t_minishell_control	*sh)
 	char *path;
 	char *fullpath;
 
-	if (p == NULL)
+	if (p == NULL || ft_strchr(cmd, '/') != NULL)
 		return (cmd);
 	paths = ft_split(p, ':');
 	if (paths == NULL)
@@ -42,7 +42,7 @@ static char *resolve_cmd(char *cmd, t_minishell_control	*sh)
 			return (ft_free_2d((void **)paths), fullpath);
 		free(fullpath);
 	}
-	return (cmd);
+	return (ft_free_2d((void **)paths), NULL);
 }
 
 t_cmd	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *sh)
@@ -67,11 +67,15 @@ t_cmd	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *sh)
 		}
 		else if (token->type == TOK_EOL)
 		{
+			free(token);
 			ft_vec_shift(preparsed_tokens, 0, 1);
 			break ;
 		}
 		else
 			ft_vec_shift(preparsed_tokens, 0, 1);
+		if (token->value)
+			free(token->value);
+		free(token);
 	}
 	cmd->argc = args->count;
 	cmd->args = (char **)ft_vec_to_array(&args);

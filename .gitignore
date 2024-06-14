@@ -17,3 +17,4 @@ test/
 .vscode/
 .clangd
 .clang-format
+./playground
