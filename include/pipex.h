@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/14 10:58:25 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:02:38 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PIPEX_H
 
 # include <unistd.h>
+# include <stddef.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>

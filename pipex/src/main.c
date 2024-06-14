@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/14 10:54:27 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:04:13 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,17 +177,17 @@ void	ft_init(t_pipex *pipex, t_redir *redir)
 
 static void  put_builtin_msg_invalid_option(const char *progname, t_cmd *cmd)
 {
-    ft_putstr_fd(&progname[2], 2);
-    ft_putstr_fd(": ", 2);
-    ft_putstr_fd(cmd->args[0], 2);
-    ft_putstr_fd(": ", 2);
-    ft_putchar_fd(cmd->args[1][0], 2);
-    ft_putchar_fd(cmd->args[1][1], 2);
-    ft_putendl_fd(": invalid option", 2);
-    ft_putstr_fd(cmd->args[0], 2);
-    ft_putstr_fd(": ", 2);
-    ft_putstr_fd("usage: ", 2);
-    ft_putendl_fd(cmd->args[0], 2);
+    ft_putstr_fd(&progname[2], STDERR_FILENO);
+    ft_putstr_fd(": ", STDERR_FILENO);
+    ft_putstr_fd(cmd->args[0], STDERR_FILENO);
+    ft_putstr_fd(": ", STDERR_FILENO);
+    ft_putchar_fd(cmd->args[1][0], STDERR_FILENO);
+    ft_putchar_fd(cmd->args[1][1], STDERR_FILENO);
+    ft_putendl_fd(": invalid option", STDERR_FILENO);
+    ft_putstr_fd(cmd->args[0], STDERR_FILENO);
+    ft_putstr_fd(": ", STDERR_FILENO);
+    ft_putstr_fd("usage: ", STDERR_FILENO);
+    ft_putendl_fd(cmd->args[0], STDERR_FILENO);
 }
 
 
