@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 18:26:55 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:31:32 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char *resolve_cmd(char *cmd, t_minishell_control	*sh)
 	char *fullpath;
 
 	if (p == NULL || ft_strchr(cmd, '/') != NULL)
-		return (cmd);
+		return (ft_strdup(cmd));
 	paths = ft_split(p, ':');
 	if (paths == NULL)
 		return (cmd);
@@ -45,6 +45,9 @@ static char *resolve_cmd(char *cmd, t_minishell_control	*sh)
 	return (ft_free_2d((void **)paths), NULL);
 }
 
+// to fix -
+//  - currently auto jumps to next word
+//   - should not.
 t_cmd	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *sh)
 {
 	t_cmd		*cmd;
@@ -73,7 +76,7 @@ t_cmd	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *sh)
 		}
 		else
 			ft_vec_shift(preparsed_tokens, 0, 1);
-		if (token->value)
+		if (token->value && token->type != TOK_QUOTE)
 			free(token->value);
 		free(token);
 	}

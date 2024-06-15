@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   isok.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/14 10:43:05 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/15 12:04:47 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/14 10:43:02 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/15 16:08:25 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "tokens_funcs.h"
 #include "parser_types.h"
-#include <stdio.h>
 
-void	prepn_blank_print(t_preparsed_node *node)
+bool	isok_quote(const char *line, t_preparser_context *ctx)
 {
-	printf("BLANK\t");
+	if (ctx->quote_ctx == QUOTE_NONE && (*line == '\"'
+	 || *line == '\''))
+		return (true);
+	if (ctx->quote_ctx == QUOTE_DQUOTE && *line == '\"')
+		return (true);
+	if (ctx->quote_ctx == QUOTE_SQUOTE && *line == '\'')
+		return (true);
+	return (false);
 }

@@ -6,18 +6,15 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:43:09 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 14:42:41 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/15 12:47:40 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_types.h"
 
-bool prepn_eol_update_line_buffer(t_preparsed_node *node, const char *line, size_t *offset)
+bool prepn_eol_update_line_buffer(t_preparsed_node *node, t_preparser_context *ctx)
 {
-	if (line[*offset] == '\n' || line[*offset] == '\0')
-	{
-		(*offset)++;
-		return (true);
-	}
+	if (ctx->line[ctx->line_offset] == '\n' || ctx->line[ctx->line_offset] == '\0')
+		return (ctx->line_offset++, true);
 	return (false);
 }

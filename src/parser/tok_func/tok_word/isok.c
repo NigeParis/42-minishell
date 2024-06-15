@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:43:02 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 14:30:44 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:00:32 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 
 bool isok_word(const char *line, t_preparser_context *ctx)
 {
-	(void)ctx;
+	if (ctx->quote_ctx == QUOTE_SQUOTE)
+		return (true);
 	if (ft_isprint(*line) && !ft_isspace(*line) && *line != '\0')
 		return (true);
 	return (false);

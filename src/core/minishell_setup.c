@@ -6,10 +6,11 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/03 14:29:47 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/15 11:49:05 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_args.h"
 #include "ft_string.h"
 #include "ft_vector.h"
 #include "minishell_types.h"
@@ -40,6 +41,7 @@ int	create_env(t_minishell_control *ctrl, const char **envp)
 int	setup_minishell(t_minishell_control *minishell, int ac, char **arg, \
 					char **envp)
 {
+	ft_setup_prog((const char *const *)arg);
 	ft_bzero(minishell, sizeof(t_minishell_control));
 	if (create_env(minishell, (const char **)envp) == EXIT_FAILURE)
 		return (minishell_error(MINI_ERR_ENVC, NULL, errno), \

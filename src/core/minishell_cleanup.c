@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:52 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 18:09:24 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:29:36 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int	minishell_cleanup(t_minishell_control *shell)
 {
 	if (shell->input)
 		free(shell->input);
-	if (shell->preparsed)
-		ft_vec_apply(shell->preparsed, free_preparsed_node), ft_vec_destroy(&shell->preparsed);
 	if (shell->env)
 		destroy_env(&shell->env);
 	if (shell->prs)

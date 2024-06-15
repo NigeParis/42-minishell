@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:55:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 14:36:11 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:13:46 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,13 @@ typedef t_vector						t_preparsed_cmd;
 typedef struct s_cmd_to_exec			t_cmd_to_exec;
 typedef struct s_preparser_context		t_preparser_context;
 typedef struct s_preparsed_node			t_preparsed_node;
+typedef struct s_quote_node				t_quote_node;
 
-typedef bool							(*t_tok_is)\
-			(const char *str, t_preparser_context *ctx);
+typedef bool							(*t_tok_chek)\
+			(const char *line, t_preparser_context *ctx);
 
-typedef bool							(*t_preparsed_line_buffer_interact)\
-			(t_preparsed_node *node, const char *line, size_t offset);
-
-typedef bool							(*t_preparsed_line_buffer_update)\
-			(t_preparsed_node *node, const char *line, size_t *offset);
+typedef bool							(*t_tok_action)\
+			(t_preparsed_node *nd, t_preparser_context *ctx);
 
 typedef void							(*t_preparsed_apply)\
 			(t_preparsed_node *node);
@@ -42,6 +40,7 @@ typedef enum e_tok_type
 	TOK_WORD,
 	TOK_SPACE,
 	TOK_EOL,
+	TOK_QUOTE,
 	/*
 	TOK_PIPE,
 	TOK_SEMICOLON,
@@ -78,11 +77,17 @@ typedef enum e_quote
 	QUOTE_SQUOTE,
 }										t_quote;
 
+struct									s_quote_node
+{
+	t_quote								type;
+	char								*value;
+};
+
 struct									s_token
 {
 	const t_tok_type					type;
 	const char							*value;
-	t_tok_is							validator;
+	t_tok_chek							validator;
 };
 
 struct									s_redir
@@ -109,9 +114,9 @@ struct									s_preparsed_node
 {
 	t_tok_type							type;
 	void								*value;
-	t_preparsed_line_buffer_interact	create;
-	t_preparsed_line_buffer_update		update_line_buffer;
-	t_preparsed_line_buffer_interact	append;
+	t_tok_action						create;
+	t_tok_action						update_line_buffer;
+	t_tok_action						append;
 	t_preparsed_apply					print;
 };
 
@@ -128,6 +133,7 @@ struct									s_preparser_context
 {
 	size_t								line_offset;
 	char								*unexpected;
+	char 								*line;
 	t_token								*c_tok;
 	t_token								*n_tok;
 	t_quote								quote_ctx;

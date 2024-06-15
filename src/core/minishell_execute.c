@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 18:25:00 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:28:45 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	print_cmd(t_cmd *cmd)
 		printf("[%zu] %s\n", i, cmd->args[i]), i++;
 	printf("\t--\tend of args\n");
 	i = 0;
-	while (cmd->envp[i] && i < 10)
+	while (cmd->envp[i] && i < 5)
 		printf("[%zu] %s\n", i, cmd->envp[i]), i++;
 	if (cmd->envp[i])
 		printf("\t--\trest of env ommited from log...\n\n");
@@ -56,10 +56,11 @@ int	minishell_execute(t_minishell_control *shell)
 	t_cmd	*cmd;
 	size_t	i;
 
-	cmd = parser_get_cmd(shell->preparsed, shell); 
-	while (cmd)
+	shell->exit = 0;
+	cmd = parser_get_cmd(shell->preparsed, shell);
+	printf("dbg:: prepn -> %p\n", shell->preparsed);
+	while (cmd && shell->exit == 0)
 	{
-		print_cmd(cmd);
 		int pid = fork();
 		if (pid == 0)
 		{
@@ -77,7 +78,9 @@ int	minishell_execute(t_minishell_control *shell)
 		else
 		{
 			waitpid(pid, NULL, 0);
+			cmd->ret = WEXITSTATUS(pid);
 		}
+		shell->exit = cmd->ret;
 		discard_cmd(cmd);
 		cmd = parser_get_cmd(shell->preparsed, shell); 
 	}

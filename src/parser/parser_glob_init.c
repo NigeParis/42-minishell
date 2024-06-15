@@ -6,16 +6,16 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:45 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 13:15:36 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:06:35 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_vector_types.h"
-#include "parser_types.h"
-#include "parser.h"
-#include "ft_vector.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "parser.h"
+#include "ft_vector.h"
+#include "tokens_funcs.h"
 
 static t_token	*load_tokens(void)
 {
@@ -27,6 +27,7 @@ static t_token	*load_tokens(void)
 		{TOK_OR, "||"},
 */
 		{TOK_EOL, "\n", isok_eol},
+		{TOK_QUOTE, NULL, isok_quote},
 		{TOK_WORD, NULL, isok_word},
 		{TOK_SPACE, " ", isok_space},
 		{TOK_UNKNOWN, NULL, NULL},

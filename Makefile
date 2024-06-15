@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/06/14 09:45:42 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/06/15 15:52:50 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,12 +55,14 @@ FFLAGS	   =\
 
 CFLAGS	   =\
 				$(WFLAGS) $(CPPFLAGS) $(STD)	\
-				-MMD -MP $(DEBUG) 
+				-MMD -MP $(DEBUG) -g3
 
 LDFLAGS		=\
 				-L./libft -lft_personal -lreadline
 SRC_FILES	=\
-				$(shell find $(SRC_DIR) -type f -name "*.c" | sed 's/\.\/src\///')
+				$(shell find $(SRC_DIR) -type f -name "*.c" |\
+				rg -v 'blank|test' \
+				| sed 's/\.\/src\///')
 
 OBJ			=\
 			 	$(patsubst %.c, %.o, $(addprefix $(BUILD_DIR)/,$(SRC_FILES)))
