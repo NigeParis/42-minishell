@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/14 14:31:54 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:29:17 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,24 @@ t_redir    *test_redir(void)
 }
 
 
+t_cmd_to_exec    *cmd_to_exec_yes(void)
+{
+    t_cmd_to_exec    *blank;
+
+    blank = malloc(sizeof(t_cmd_to_exec));
+    if (!blank)
+        return (NULL);
+    blank->cmd_path = ft_strdup("/usr/bin/yes");
+    blank->argv = ft_split("yes", ' ');
+    blank->ac = ft_len_2d((const void * const *)blank->argv);
+    blank->env = NULL;
+    blank->status = 0;
+    blank->redir_to_do = NULL;
+    blank->lastcmd_index = FIRST_CMD;
+    blank->left_token = ' ';
+    blank->right_token = ' ';
+    return (blank);
+}
 t_cmd_to_exec    *cmd_to_exec_new0(void)
 {
     t_cmd_to_exec    *blank;
@@ -146,8 +164,8 @@ t_cmd_to_exec    *cmd_to_exec_new0(void)
     blank = malloc(sizeof(t_cmd_to_exec));
     if (!blank)
         return (NULL);
-    blank->cmd_path = ft_strdup("/usr/bin/exit");
-    blank->argv = ft_split("exit", ' ');
+    blank->cmd_path = ft_strdup("/usr/bin/ls");
+    blank->argv = ft_split("ls", ' ');
     blank->ac = ft_len_2d((const void * const *)blank->argv);
     blank->env = NULL;
     blank->status = 0;
@@ -187,7 +205,7 @@ t_cmd_to_exec    *cmd_to_exec_new2(void)
     if (!blank)
         return (NULL);
     blank->cmd_path = ft_strdup("/usr/bin/cat");
-    blank->argv = ft_split("cat", ' ');
+    blank->argv = ft_split("cat -e", ' ');
     blank->ac = ft_len_2d((const void * const *)blank->argv);
     blank->env = NULL;
     blank->status = 0;
@@ -299,9 +317,12 @@ int	main(int ac, const char *av[])
 
             exit (0);
         }
-        if (ft_strcmp(str,"exe\n") == 0)
+        if ((ft_strcmp(str,"exe\n") == 0) || (ft_strcmp(str,"yes\n") == 0))
         {
-            args = cmd_to_exec_new0();
+            if(ft_strcmp(str,"exe\n") == 0)
+                args = cmd_to_exec_new0();
+            if(ft_strcmp(str,"yes\n") == 0)
+                args = cmd_to_exec_yes();
             execute(args, &pipex, redir);
             
             //free(args);

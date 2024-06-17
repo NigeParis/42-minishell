@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:45:37 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/13 14:09:49 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:25:39 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,8 @@ int	execute(t_cmd_to_exec *args,  t_pipex *pipex, t_redir *redir)
 		ft_open_infile(pipex, redir->file_src);
 	}
 	ft_pipes(pipex, args, redir, i);
-
-	while (wait(NULL) > 0)
-		;
 	
+	if (args->lastcmd_index == LAST_CMD)
+		waitpid(pipex->child_pid, &args->status, 0);
 	return (0);
 }

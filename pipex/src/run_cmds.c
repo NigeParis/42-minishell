@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:29:28 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/14 14:28:37 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:51:39 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	exec_cmd(t_cmd_to_exec *args, t_pipex *pipex, t_redir *redir)
 			exit (1);
 		}
 
-		
+		(void) redir;
 	
 		close_fd(&pipex->fdin);
 		close_fd(&pipex->fdout);

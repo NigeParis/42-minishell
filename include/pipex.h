@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/14 14:10:46 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:20:56 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_pipex
 	int		fdout;
 	int		fdin;
 	int		pipe_fd[2];
+	int		child_pid;
 	
 }	t_pipex;
 
