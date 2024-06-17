@@ -33,7 +33,7 @@ PND=--no-print-directory
 SRC= ./src/main.c ./src/pipex.c
 SRC+=./src/clean_and_errors.c ./src/run_cmds.c
 SRC+=./src/make_pipe.c ##./src/get_heredoc.c
-SRC+=./src/exit_builtin.c
+SRC+=./src/exit_builtin.c ./src/pwd_builtin.c ./src/echo_builtin.c
 
 
 LIBFT_DIR=../libft

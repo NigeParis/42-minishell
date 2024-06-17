@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/17 14:29:17 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:57:13 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,31 @@ t_cmd    *test_cmd(void)
     testcmd = malloc(sizeof(t_cmd));
 
 	testcmd->cmd = ft_strdup("pwd");
-	testcmd->args = ft_split("pwd --version", ' ');
+	testcmd->args = ft_split("pwd", ' ');
 	testcmd->argc = ft_len_2d((const void * const *)testcmd->args);
 	testcmd->envp = NULL;
 	testcmd->ret = 0;
 
     return (testcmd);
 }
+
+
+t_cmd    *test_cmd_echo(void)
+{
+    t_cmd *testcmd;
+
+    testcmd = malloc(sizeof(t_cmd));
+
+	testcmd->cmd = ft_strdup("echo");
+	testcmd->args = ft_split("echo hello *", ' ');
+	testcmd->argc = ft_len_2d((const void * const *)testcmd->args);
+	testcmd->envp = NULL;
+	testcmd->ret = 0;
+
+    return (testcmd);
+}
+
+
 
 t_cmd    *test_cmd_exit(void)
 {
@@ -139,6 +157,28 @@ t_redir    *test_redir(void)
 }
 
 
+
+
+t_cmd_to_exec    *cmd_to_exec_clear(char *env[])
+{
+    t_cmd_to_exec    *blank;
+
+    blank = malloc(sizeof(t_cmd_to_exec));
+    if (!blank)
+        return (NULL);
+    blank->cmd_path = ft_strdup("/usr/bin/clear");
+    blank->argv = ft_split("clear -x -T '\033[2J \033[1f'", ' ');
+    blank->ac = ft_len_2d((const void * const *)blank->argv);
+    blank->env = env;
+    blank->status = 0;
+    blank->redir_to_do = NULL;
+    blank->lastcmd_index = FIRST_CMD;
+    blank->left_token = ' ';
+    blank->right_token = ' ';
+    return (blank);
+}
+
+
 t_cmd_to_exec    *cmd_to_exec_yes(void)
 {
     t_cmd_to_exec    *blank;
@@ -157,6 +197,28 @@ t_cmd_to_exec    *cmd_to_exec_yes(void)
     blank->right_token = ' ';
     return (blank);
 }
+
+
+t_cmd_to_exec    *cmd_to_exec_pwd(void)
+{
+    t_cmd_to_exec    *blank;
+
+    blank = malloc(sizeof(t_cmd_to_exec));
+    if (!blank)
+        return (NULL);
+    blank->cmd_path = ft_strdup("/usr/bin/pwd");
+    blank->argv = ft_split("pwd --", ' ');
+    blank->ac = ft_len_2d((const void * const *)blank->argv);
+    blank->env = NULL;
+    blank->status = 0;
+    blank->redir_to_do = NULL;
+    blank->lastcmd_index = FIRST_CMD;
+    blank->left_token = ' ';
+    blank->right_token = ' ';
+    return (blank);
+}
+
+
 t_cmd_to_exec    *cmd_to_exec_new0(void)
 {
     t_cmd_to_exec    *blank;
@@ -166,6 +228,44 @@ t_cmd_to_exec    *cmd_to_exec_new0(void)
         return (NULL);
     blank->cmd_path = ft_strdup("/usr/bin/ls");
     blank->argv = ft_split("ls", ' ');
+    blank->ac = ft_len_2d((const void * const *)blank->argv);
+    blank->env = NULL;
+    blank->status = 0;
+    blank->redir_to_do = NULL;
+    blank->lastcmd_index = FIRST_CMD;
+    blank->left_token = ' ';
+    blank->right_token = ' ';
+    return (blank);
+}
+
+t_cmd_to_exec    *cmd_to_exec_qqqq(void)
+{
+    t_cmd_to_exec    *blank;
+
+    blank = malloc(sizeof(t_cmd_to_exec));
+    if (!blank)
+        return (NULL);
+    blank->cmd_path = ft_strdup("/usr/bin/qqqq");
+    blank->argv = ft_split("qqqq", ' ');
+    blank->ac = ft_len_2d((const void * const *)blank->argv);
+    blank->env = NULL;
+    blank->status = 0;
+    blank->redir_to_do = NULL;
+    blank->lastcmd_index = FIRST_CMD;
+    blank->left_token = ' ';
+    blank->right_token = ' ';
+    return (blank);
+}
+
+t_cmd_to_exec    *cmd_to_exec_echo()
+{
+    t_cmd_to_exec    *blank;
+
+    blank = malloc(sizeof(t_cmd_to_exec));
+    if (!blank)
+        return (NULL);
+    blank->cmd_path = ft_strdup("/usr/bin/echo");
+    blank->argv = ft_split("echo hello", ' ');
     blank->ac = ft_len_2d((const void * const *)blank->argv);
     blank->env = NULL;
     blank->status = 0;
@@ -223,53 +323,11 @@ void	ft_init(t_pipex *pipex, t_redir *redir)
 	pipex->fdout = -1;
 	pipex->fdin = -1;
 	redir->saved_fd = -1;
+	pipex->child_pid = -1;
 
 }
 
 
-static void  put_builtin_msg_invalid_option(const char *progname, t_cmd *cmd)
-{
-    ft_putstr_fd(&progname[2], STDERR_FILENO);
-    ft_putstr_fd(": ", STDERR_FILENO);
-    ft_putstr_fd(cmd->args[0], STDERR_FILENO);
-    ft_putstr_fd(": ", STDERR_FILENO);
-    ft_putchar_fd(cmd->args[1][0], STDERR_FILENO);
-    ft_putchar_fd(cmd->args[1][1], STDERR_FILENO);
-    ft_putendl_fd(": invalid option", STDERR_FILENO);
-    ft_putstr_fd(cmd->args[0], STDERR_FILENO);
-    ft_putstr_fd(": ", STDERR_FILENO);
-    ft_putstr_fd("usage: ", STDERR_FILENO);
-    ft_putendl_fd(cmd->args[0], STDERR_FILENO);
-}
-
-
-
-
-char   *get_pwd(t_minishell_control *ctrl, t_cmd *cmd)
-{
-    (void)ctrl;
-    char buff[PATH_MAX];
-    char *res;
-    const char *progname = ft_progname();
-    
-    if ((cmd->argc > 1) && (ft_strcmp(cmd->args[1], "-") != 0) \
-        && (ft_strlen(cmd->args[1]) > 1))
-    {
-        if (cmd->args[1][0] != '-' || (ft_strlen(cmd->args[1]) == 2 \
-            && cmd->args[1][1] == '-'))
-            ;
-        else
-        {
-            put_builtin_msg_invalid_option(progname, cmd);
-            return (NULL);
-        }
-    }
-    res = getcwd(buff, PATH_MAX);
-    if (!res)
-        return (NULL);
-    ft_putendl_fd(res, 1);
-    return (res);
-}
 
 
 
@@ -280,12 +338,13 @@ char   *get_pwd(t_minishell_control *ctrl, t_cmd *cmd)
 
 
 
-
-int	main(int ac, const char *av[])
+int	main(int ac, const char *av[], char *env[])
 {
     t_cmd_to_exec *args;
     t_pipex pipex;
     t_redir *redir;
+    
+    printf("%s\n", env[5]);
 
     char *str;
     redir = test_redir();
@@ -317,12 +376,25 @@ int	main(int ac, const char *av[])
 
             exit (0);
         }
-        if ((ft_strcmp(str,"exe\n") == 0) || (ft_strcmp(str,"yes\n") == 0))
+        if ((ft_strcmp(str,"exe\n") == 0) 
+            || (ft_strcmp(str,"yes\n") == 0)
+            || (ft_strcmp(str,"pwd\n") == 0)     
+            || (ft_strcmp(str,"echo\n") == 0)
+            || (ft_strcmp(str,"clear\n") == 0)
+             || (ft_strcmp(str,"qqqq\n") == 0))
         {
             if(ft_strcmp(str,"exe\n") == 0)
                 args = cmd_to_exec_new0();
             if(ft_strcmp(str,"yes\n") == 0)
                 args = cmd_to_exec_yes();
+            if(ft_strcmp(str,"pwd\n") == 0)
+                args = cmd_to_exec_pwd();
+            if(ft_strcmp(str,"echo\n") == 0)
+                args = cmd_to_exec_echo();
+            if(ft_strcmp(str,"clear\n") == 0)
+                args = cmd_to_exec_clear(env);    
+            if(ft_strcmp(str,"qqqq\n") == 0)
+                args = cmd_to_exec_qqqq();
             execute(args, &pipex, redir);
             
             //free(args);
@@ -347,7 +419,7 @@ int	main(int ac, const char *av[])
         }            
             
         dup2(redir->std_src, STDIN_FILENO); 
-        dup2(redir->std_dst, STDOUT_FILENO);                
+        dup2(redir->std_dst, STDOUT_FILENO);      // reset STDIN amd STDOUT          
         free(str);
 
     }

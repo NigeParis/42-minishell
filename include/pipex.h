@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/17 14:20:56 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:46:23 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 
 
 # define ERROR_MSG_SIZE 100
-# define PATH_MAX 1024
 
 # define INFILE 0
 # define OUTFILE 1
@@ -121,16 +120,24 @@ typedef struct s_minishell_control
 
 void    close_fd(int *fd);
 
+t_cmd_to_exec    *cmd_to_exec_pwd(void);
 t_cmd    *test_cmd(void);
 t_minishell_control *testminictrl(void);
 t_cmd    *test_cmd_exit(void);
 t_minishell_control *testminictrl_exit(void);
 
 
-
+/// @brief exits minishell
+/// @param 
+/// @param 
+/// @returns 0 on SUCCESS or 1 on ERROR 
 char   *get_pwd(t_minishell_control *ctrl, t_cmd *cmd);
 
-//char   *get_pwd(t_pipex *pipex);
+/// @brief 
+/// @param 
+/// @param 
+/// @note 
+int   put_echo(t_minishell_control *ctrl, t_cmd *cmd);
 
 
 /// @brief exits minishell
@@ -254,16 +261,14 @@ void	ft_free_double_tab(char *tab[]);
 
 
 
-/// @brief takes args from a list and passes them to a pointer;
-/// @param void function, see above main
-/// @note structure to call cmd
-t_cmd_to_exec    *cmd_to_exec_new(void);
 
 
-/// @brief function for testing redirections 
-/// @param void, see above main
-/// @note struction for redirections
+t_cmd    *test_cmd_echo(void);
 t_redir   *test_redir(void);
+t_cmd_to_exec    *cmd_to_exec_echo(void);
+t_cmd_to_exec    *cmd_to_exec_new(void);
+t_cmd_to_exec    *cmd_to_exec_clear(char *env[]);
+
 
 
 #endif

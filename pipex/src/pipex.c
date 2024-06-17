@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:45:37 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/17 14:25:39 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:07:46 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ft_open_infile(t_pipex *pipex, char *infile)
 
 int	execute(t_cmd_to_exec *args,  t_pipex *pipex, t_redir *redir)
 {
-	static int i = 0;
+	int i = 0;
 	i++;
 	
 	if ((args->right_token == '>') && (args->lastcmd_index == LAST_CMD))
