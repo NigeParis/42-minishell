@@ -12,7 +12,7 @@
 
 #include "parser_types.h"
 
-bool prepn_eol_update_line_buffer(t_preparsed_node *node, const char *line, size_t *offset)
+bool prepn_eol_ulb(t_preparsed_node *node, const char *line, size_t *offset)
 {
 	return (false);
 }

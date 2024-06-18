@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:43:05 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/15 16:19:29 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/18 12:47:40 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 void	prepn_quote_print(t_preparsed_node *node)
 {
-	printf("Quote (%s)\t", (int)((long)node->value) == QUOTE_NONE ?
-	"None" : (int)((long)node->value) == QUOTE_SQUOTE ? "Single" : "Double");
+	t_quote_node	*quote;
+
+	quote = node->value;
+	printf("%s('%s')\t", quote->type == QUOTE_SQUOTE ? "SQUOTE" : "DQUOTE", quote->value->str);
 }

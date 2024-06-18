@@ -1,32 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_dl_map.c                                   :+:      :+:    :+:   */
+/*   ft_ll__ll_size.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/10 12:21:43 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/01 14:08:50 by bgoulard         ###   ########.fr       */
+/*   Created: 2023/11/07 23:38:32 by bgoulard          #+#    #+#             */
+/*   Updated: 2023/12/12 14:40:49 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_list.h"
 
-t_dlist	*ft_list_dl_map(const t_dlist *lst, t_data_tr f, t_data_apply del)
+size_t	ft_ll_size(const t_list *lst)
 {
-	t_dlist	*ret;
-	t_dlist	*tmp;
+	t_list	*it;
+	size_t	i;
 
-	if (!lst || !f)
-		return (NULL);
-	ret = NULL;
-	while (lst)
+	i = 0;
+	it = (t_list *)lst;
+	while (it)
 	{
-		tmp = ft_list_dl_create(f(lst->data));
-		if (!tmp)
-			return (ft_list_dl_clear(&ret, del), NULL);
-		ft_list_dl_add_back(&ret, tmp);
-		lst = lst->next;
+		it = it->next;
+		i++;
 	}
-	return (ret);
+	return (i);
+}
+
+size_t	ft_ll_size_match(const t_list *lst, t_data_is function)
+{
+	size_t	i;
+	t_list	*it;
+
+	i = 0;
+	it = (t_list *)lst;
+	while (it)
+	{
+		if (function(it->data))
+			i++;
+		it = it->next;
+	}
+	return (i);
 }

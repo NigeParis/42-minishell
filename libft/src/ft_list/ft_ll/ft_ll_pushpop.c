@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_ll_pushpop.c                               :+:      :+:    :+:   */
+/*   ft_ll__ll_pushpop.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,13 +13,13 @@
 #include "ft_list.h"
 #include "ft_string.h"
 
-t_list	*ft_listpush(t_list **lst, const void *data)
+t_list	*ft_ll_push(t_list **lst, const void *data)
 {
 	t_list	*new;
 
 	if (!lst)
 		return (NULL);
-	new = ft_listcreate(data);
+	new = ft_ll_create(data);
 	if (!new)
 		return (NULL);
 	new->next = *lst;
@@ -27,23 +27,23 @@ t_list	*ft_listpush(t_list **lst, const void *data)
 	return (*lst);
 }
 
-t_list	*ft_listpush_back(t_list **lst, const void *data)
+t_list	*ft_ll_push_back(t_list **lst, const void *data)
 {
 	t_list	*added;
 
 	if (!lst)
 		return (NULL);
-	added = ft_listcreate(data);
+	added = ft_ll_create(data);
 	if (!added)
 		return (NULL);
 	if (!*lst)
 		*lst = added;
 	else
-		ft_listend(*lst)->next = added;
+		ft_ll_end(*lst)->next = added;
 	return (*lst);
 }
 
-void	*ft_listpop(t_list **lst)
+void	*ft_ll_pop(t_list **lst)
 {
 	t_list	*tmp;
 	void	*data;
@@ -57,7 +57,7 @@ void	*ft_listpop(t_list **lst)
 	return (data);
 }
 
-void	*ft_listpop_back(t_list **lst)
+void	*ft_ll_pop_back(t_list **lst)
 {
 	t_list	*pre_last;
 	void	*data;
@@ -65,7 +65,7 @@ void	*ft_listpop_back(t_list **lst)
 	if (!lst || !*lst)
 		return (NULL);
 	if (!(*lst)->next)
-		return (ft_listpop(lst));
+		return (ft_ll_pop(lst));
 	pre_last = *lst;
 	while (pre_last->next->next)
 		pre_last = pre_last->next;

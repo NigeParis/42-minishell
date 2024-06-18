@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/15 16:24:03 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:31:19 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ int	update_preparsed(t_parser *restrict p, t_preparser_context *restrict ctx)
 	if (ctx->c_tok && ctx->n_tok->type == ctx->c_tok->type)
 	{
 		node = ft_vec_end(p->preparsed);
-		node->append(node, ctx);
+		if (node->append(node, ctx) == false)
+			return (false);
 	}
 	else
 	{
@@ -114,9 +115,9 @@ int update_context(t_parser *restrict p, t_preparser_context *restrict ctx)
 		return (false);
 	if (node->type == TOK_UNKNOWN)
 		return (ctx->line_offset++, true);
-	if (node->update_line_buffer == NULL)
+	if (node->ulb == NULL)
 		return (false);
-	return (node->update_line_buffer(node, ctx));
+	return (node->ulb(node, ctx));
 }
 
 void	preparse_line(t_parser *restrict p)
@@ -135,17 +136,14 @@ void	preparse_line(t_parser *restrict p)
 			STDERR_FILENO);
 		else if (var_ctx.unexpected)
 			printf("Error: preparse_line: unexpected token: \'%s\'\n", \
-			var_ctx.unexpected);
-		else
+			var_ctx.unexpected); // todo add cleanup and ret err code
+		else if (update_preparsed(p, &var_ctx) == false 
+		|| update_context(p, &var_ctx) == false)
 		{
-			if (update_preparsed(p, &var_ctx) == false 
-			|| update_context(p, &var_ctx) == false)
-				printf("Error: preparse_line: update_preparsed or "\
-				"update_context failed\n");
+			printf("Error: preparse_line: update_preparsed or "\
+			"update_context failed\n"); // todo add cleanup and ret err code
+			break ;
 		}
-/*		((t_preparsed_node *)ft_vec_end(p->preparsed))->print( \
-			ft_vec_end(p->preparsed));
-		printf("\n"); */
 	}
 }
 

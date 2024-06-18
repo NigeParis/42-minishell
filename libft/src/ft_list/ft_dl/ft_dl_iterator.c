@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_dl_iterator.c                              :+:      :+:    :+:   */
+/*   ft_dl_iterator.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "ft_list.h"
 
-t_dlist	*ft_list_dl_at(const t_dlist *head, size_t index)
+t_dlist	*ft_dl_at(const t_dlist *head, size_t index)
 {
 	size_t	i;
 	t_dlist	*it;
@@ -27,7 +27,7 @@ t_dlist	*ft_list_dl_at(const t_dlist *head, size_t index)
 	return (it);
 }
 
-t_dlist	*ft_list_dl_end(const t_dlist *head)
+t_dlist	*ft_dl_end(const t_dlist *head)
 {
 	t_dlist	*it;
 
@@ -37,7 +37,7 @@ t_dlist	*ft_list_dl_end(const t_dlist *head)
 	return (it);
 }
 
-t_dlist	*ft_list_dl_begin(const t_dlist *head)
+t_dlist	*ft_dl_begin(const t_dlist *head)
 {
 	t_dlist	*it;
 

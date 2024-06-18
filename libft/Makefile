@@ -116,36 +116,36 @@ FT_MAP_SRC	=	\
 			$(FT_MAP_DIR)/ft_map_set.c
 
 FT_LIST_LL_SRC	=	\
-			$(FT_LIST_LL_DIR)/ft_list_ll_find.c			\
-			$(FT_LIST_LL_DIR)/ft_list_ll_add.c			\
-			$(FT_LIST_LL_DIR)/ft_list_ll_clear.c		\
-			$(FT_LIST_LL_DIR)/ft_list_ll_delete.c		\
-			$(FT_LIST_LL_DIR)/ft_list_ll_apply.c		\
-			$(FT_LIST_LL_DIR)/ft_list_ll_iterator.c		\
-			$(FT_LIST_LL_DIR)/ft_list_ll_map.c			\
-			$(FT_LIST_LL_DIR)/ft_list_ll_new.c			\
-			$(FT_LIST_LL_DIR)/ft_list_ll_rev.c			\
-			$(FT_LIST_LL_DIR)/ft_list_ll_size.c			\
-			$(FT_LIST_LL_DIR)/ft_list_ll_create.c		\
-			$(FT_LIST_LL_DIR)/ft_list_ll_getters.c		\
-			$(FT_LIST_LL_DIR)/ft_list_ll_pushpop.c		\
-			$(FT_LIST_LL_DIR)/ft_list_ll_sub.c			\
+			$(FT_LIST_LL_DIR)/ft_ll_find.c			\
+			$(FT_LIST_LL_DIR)/ft_ll_add.c			\
+			$(FT_LIST_LL_DIR)/ft_ll_clear.c		\
+			$(FT_LIST_LL_DIR)/ft_ll_delete.c		\
+			$(FT_LIST_LL_DIR)/ft_ll_apply.c		\
+			$(FT_LIST_LL_DIR)/ft_ll_iterator.c		\
+			$(FT_LIST_LL_DIR)/ft_ll_map.c			\
+			$(FT_LIST_LL_DIR)/ft_ll_new.c			\
+			$(FT_LIST_LL_DIR)/ft_ll_rev.c			\
+			$(FT_LIST_LL_DIR)/ft_ll_size.c			\
+			$(FT_LIST_LL_DIR)/ft_ll_create.c		\
+			$(FT_LIST_LL_DIR)/ft_ll_getters.c		\
+			$(FT_LIST_LL_DIR)/ft_ll_pushpop.c		\
+			$(FT_LIST_LL_DIR)/ft_ll_sub.c			\
 
 FT_LIST_DL_SRC	=	\
-			$(FT_LIST_DL_DIR)/ft_list_dl_apply.c		\
-			$(FT_LIST_DL_DIR)/ft_list_dl_clear.c		\
-			$(FT_LIST_DL_DIR)/ft_list_dl_create.c		\
-			$(FT_LIST_DL_DIR)/ft_list_dl_delete.c		\
-			$(FT_LIST_DL_DIR)/ft_list_dl_getters.c		\
-			$(FT_LIST_DL_DIR)/ft_list_dl_iterator.c		\
-			$(FT_LIST_DL_DIR)/ft_list_dl_pushpop.c		\
-			$(FT_LIST_DL_DIR)/ft_list_dl_size.c			\
-			$(FT_LIST_DL_DIR)/ft_list_dl_sub.c			\
-			$(FT_LIST_DL_DIR)/ft_list_dl_add.c			\
-			$(FT_LIST_DL_DIR)/ft_list_dl_rev.c			\
-			$(FT_LIST_DL_DIR)/ft_list_dl_map.c			\
-			$(FT_LIST_DL_DIR)/ft_list_dl_new.c			\
-			$(FT_LIST_DL_DIR)/ft_list_dl_find.c			\
+			$(FT_LIST_DL_DIR)/ft_dl_apply.c		\
+			$(FT_LIST_DL_DIR)/ft_dl_clear.c		\
+			$(FT_LIST_DL_DIR)/ft_dl_create.c		\
+			$(FT_LIST_DL_DIR)/ft_dl_delete.c		\
+			$(FT_LIST_DL_DIR)/ft_dl_getters.c		\
+			$(FT_LIST_DL_DIR)/ft_dl_iterator.c		\
+			$(FT_LIST_DL_DIR)/ft_dl_pushpop.c		\
+			$(FT_LIST_DL_DIR)/ft_dl_size.c			\
+			$(FT_LIST_DL_DIR)/ft_dl_sub.c			\
+			$(FT_LIST_DL_DIR)/ft_dl_add.c			\
+			$(FT_LIST_DL_DIR)/ft_dl_rev.c			\
+			$(FT_LIST_DL_DIR)/ft_dl_map.c			\
+			$(FT_LIST_DL_DIR)/ft_dl_new.c			\
+			$(FT_LIST_DL_DIR)/ft_dl_find.c			\
 
 FT_STR_SRC	=	\
 			$(FT_STR_DIR)/ft_atof.c				\

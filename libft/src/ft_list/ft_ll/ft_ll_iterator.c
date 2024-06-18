@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_ll_add.c                                   :+:      :+:    :+:   */
+/*   ft_list_ll_iterator.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 23:48:35 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/10 12:40:58 by bgoulard         ###   ########.fr       */
+/*   Created: 2023/11/07 23:43:27 by bgoulard          #+#    #+#             */
+/*   Updated: 2023/12/30 12:03:59 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_list.h"
 
-void	ft_listadd_front(t_list **lst, t_list *new)
+t_list	*ft_ll_end(const t_list *lst)
 {
 	if (!lst)
-		return ;
-	new->next = *lst;
-	*lst = new;
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return ((t_list *)lst);
 }
 
-void	ft_listadd_back(t_list **lst, t_list *new)
+t_list	*ft_ll_at(const t_list *lst, size_t index)
 {
-	if (!*lst)
-		*lst = new;
-	else
-		ft_listend(*lst)->next = new;
+	size_t	i;
+
+	i = 0;
+	while (lst && i < index)
+	{
+		lst = lst->next;
+		i++;
+	}
+	if (i != index)
+		return (NULL);
+	return ((t_list *)lst);
 }

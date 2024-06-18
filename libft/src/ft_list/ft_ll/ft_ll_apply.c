@@ -12,7 +12,7 @@
 
 #include "ft_list.h"
 
-void	ft_listapply(const t_list *lst, t_data_apply f)
+void	ft_ll_apply(const t_list *lst, t_data_apply f)
 {
 	t_list	*it;
 
@@ -26,7 +26,7 @@ void	ft_listapply(const t_list *lst, t_data_apply f)
 	}
 }
 
-void	ft_listapply_range(const t_list *lst, const t_list *end, t_data_apply f)
+void	ft_ll_apply_range(const t_list *lst, const t_list *end, t_data_apply f)
 {
 	t_list	*it;
 
@@ -42,7 +42,7 @@ void	ft_listapply_range(const t_list *lst, const t_list *end, t_data_apply f)
 
 // nxt = lst->next;
 // f may modify lst->next, we dont know
-void	ft_listapply_range_node(const t_list *lst, const t_list *end,
+void	ft_ll_apply_range_node(const t_list *lst, const t_list *end,
 		t_lnode_apply f)
 {
 	t_list	*nxt;

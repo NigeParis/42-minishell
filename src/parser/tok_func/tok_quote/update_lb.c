@@ -6,15 +6,25 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:43:09 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/15 16:09:07 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/18 12:29:35 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_types.h"
 #include "tokens_funcs.h"
 
-bool prepn_quote_update_line_buffer(t_preparsed_node *node, t_preparser_context *ctx)
+bool prepn_quote_ulb(t_preparsed_node *node, t_preparser_context *ctx)
 {
-	ctx->line_offset++;
+	size_t	ln_offset;
+
+	ln_offset = ctx->line_offset + 1;
+	while (ctx->line[ln_offset] != ctx->line[ctx->line_offset] && \
+	ctx->line[ln_offset] != '\0')
+	{
+		if (ctx->line[ln_offset] == '\\')
+			ln_offset++;
+		ln_offset++;
+	}
+	ctx->line_offset = ln_offset + 1;
 	return (true);
 }

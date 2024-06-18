@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_dl_delete.c                                :+:      :+:    :+:   */
+/*   ft_dl_delete.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,7 +13,7 @@
 #include "ft_list.h"
 #include <stdlib.h>
 
-int	ft_list_dl_delete_self(t_dlist *node, t_data_apply del)
+int	ft_dl_delete_self(t_dlist *node, t_data_apply del)
 {
 	if (!node)
 		return (FTLIST_FAILURE);
@@ -27,7 +27,7 @@ int	ft_list_dl_delete_self(t_dlist *node, t_data_apply del)
 	return (FTLIST_SUCCESS);
 }
 
-size_t	ft_list_dl_delete_range(t_dlist *start, const t_dlist *target,
+size_t	ft_dl_delete_range(t_dlist *start, const t_dlist *target,
 		t_data_apply del)
 {
 	t_dlist	*next;
@@ -55,21 +55,21 @@ size_t	ft_list_dl_delete_range(t_dlist *start, const t_dlist *target,
 	return (i);
 }
 
-size_t	ft_list_dl_delete(t_dlist **head, t_data_apply del)
+size_t	ft_dl_delete(t_dlist **head, t_data_apply del)
 {
 	size_t	i;
 	t_dlist	*firs_elem;
 
 	if (!head)
 		return (0);
-	firs_elem = ft_list_dl_begin(*head);
-	i = ft_list_dl_delete_range(firs_elem, NULL, del);
+	firs_elem = ft_dl_begin(*head);
+	i = ft_dl_delete_range(firs_elem, NULL, del);
 	*head = NULL;
 	return (i);
 }
 
 /*
-size_t	ft_list_dl_delete_dup(t_dlist **src)
+size_t	ft_dl_delete_dup(t_dlist **src)
 {
 	t_dlist	**node_ptrs;
 	size_t	nb_del;
@@ -80,16 +80,16 @@ size_t	ft_list_dl_delete_dup(t_dlist **src)
 	length = 0;
 	if (!*src)
 		return (0);
-	node_ptrs = ft_list_dl_get_nodes(*src);
+	node_ptrs = ft_dl_get_nodes(*src);
 	if (!node_ptrs)
 		return (0);
-	length = ft_list_dl_count(*src);
+	length = ft_dl_count(*src);
 	for (size_t j = 0; j + 1 != length; j++) {
 		for (size_t k = j + 1; k != length; k++) {
 			if (!node_ptrs[j] || !node_ptrs[k])
 				continue ;
 			if (node_ptrs[j]->data == node_ptrs[k]->data) {
-				ft_list_dl_delete_self(node_ptrs[k]);
+				ft_dl_delete_self(node_ptrs[k]);
 				node_ptrs[k] = NULL;
 				nb_del++;
 				j++;

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_dl_sub.c                                   :+:      :+:    :+:   */
+/*   ft_dl_sub.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "ft_list.h"
 
-t_dlist	*ft_list_dl_subrange(const t_dlist *src, const t_dlist *to)
+t_dlist	*ft_dl_subrange(const t_dlist *src, const t_dlist *to)
 {
 	t_dlist	*ret;
 	t_dlist	*prev;
@@ -22,16 +22,16 @@ t_dlist	*ft_list_dl_subrange(const t_dlist *src, const t_dlist *to)
 	ret = NULL;
 	if (!src)
 		return (ret);
-	ret = ft_list_dl_create(src->data);
+	ret = ft_dl_create(src->data);
 	if (src == to)
 		return (ret);
 	prev = ret;
 	it = src->next;
 	while (it != to)
 	{
-		new_node = ft_list_dl_create(it->data);
+		new_node = ft_dl_create(it->data);
 		if (!new_node)
-			return (ft_list_dl_delete(&prev, NULL), NULL);
+			return (ft_dl_delete(&prev, NULL), NULL);
 		new_node->prev = prev;
 		new_node->next = NULL;
 		prev->next = new_node;

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_dl_pushpop.c                               :+:      :+:    :+:   */
+/*   ft_dl_pushpop.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,11 +13,11 @@
 #include "ft_list.h"
 #include <stdlib.h>
 
-t_dlist	*ft_list_dl_push(t_dlist **node, const void *data)
+t_dlist	*ft_dl_push(t_dlist **node, const void *data)
 {
 	t_dlist	*added;
 
-	added = ft_list_dl_create(data);
+	added = ft_dl_create(data);
 	added->next = *node;
 	if (*node)
 		(*node)->prev = added;
@@ -25,15 +25,15 @@ t_dlist	*ft_list_dl_push(t_dlist **node, const void *data)
 	return (added);
 }
 
-t_dlist	*ft_list_dl_push_back(t_dlist **node, const void *data)
+t_dlist	*ft_dl_push_back(t_dlist **node, const void *data)
 {
 	t_dlist	*added;
 	t_dlist	*it;
 
 	it = *node;
 	if (!*node)
-		return (ft_list_dl_push(node, data));
-	added = ft_list_dl_create(data);
+		return (ft_dl_push(node, data));
+	added = ft_dl_create(data);
 	while (it->next)
 		it = it->next;
 	it->next = added;
@@ -41,7 +41,7 @@ t_dlist	*ft_list_dl_push_back(t_dlist **node, const void *data)
 	return (*node);
 }
 
-void	*ft_list_dl_pop(t_dlist **node)
+void	*ft_dl_pop(t_dlist **node)
 {
 	void	*data;
 	t_dlist	*it;
@@ -58,7 +58,7 @@ void	*ft_list_dl_pop(t_dlist **node)
 	return (data);
 }
 
-void	*ft_list_dl_pop_back(t_dlist **node)
+void	*ft_dl_pop_back(t_dlist **node)
 {
 	void	*data;
 	t_dlist	*it;
@@ -68,7 +68,7 @@ void	*ft_list_dl_pop_back(t_dlist **node)
 	prev = NULL;
 	if (!node || !*node)
 		return (NULL);
-	it = ft_list_dl_end(*node);
+	it = ft_dl_end(*node);
 	data = it->data;
 	prev = it->prev;
 	if (prev)

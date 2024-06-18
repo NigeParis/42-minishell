@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_ll_new.c                                   :+:      :+:    :+:   */
+/*   nd2ex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 23:30:32 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/10 11:40:41 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/18 15:05:12 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
-#include "ft_string.h"
+#include "parser_types.h"
 
-t_list	*ft_listnew(void)
+bool	nd2ex_blank(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *sh)
 {
-	t_list	*elem;
-
-	elem = ft_calloc(sizeof(t_list), 1);
-	return (elem);
+	(void)nd;
+	(void)cmd;
+	(void)sh;
+	return (true);
 }
+

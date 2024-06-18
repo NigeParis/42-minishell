@@ -12,7 +12,7 @@
 
 #include "ft_list.h"
 
-void	*ft_listfind(const t_list *list, const void *data,
+void	*ft_ll_find(const t_list *list, const void *data,
 		int (*cmp)(const void *, const void *))
 {
 	t_list	*it;

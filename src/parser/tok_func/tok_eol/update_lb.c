@@ -12,7 +12,7 @@
 
 #include "parser_types.h"
 
-bool prepn_eol_update_line_buffer(t_preparsed_node *node, t_preparser_context *ctx)
+bool prepn_eol_ulb(t_preparsed_node *node, t_preparser_context *ctx)
 {
 	if (ctx->line[ctx->line_offset] == '\n' || ctx->line[ctx->line_offset] == '\0')
 		return (ctx->line_offset++, true);

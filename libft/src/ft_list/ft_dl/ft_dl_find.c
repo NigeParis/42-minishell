@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_ll_sub.c                                   :+:      :+:    :+:   */
+/*   ft_dl_find.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/10 12:10:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/30 12:06:54 by bgoulard         ###   ########.fr       */
+/*   Created: 2023/12/10 13:05:32 by bgoulard          #+#    #+#             */
+/*   Updated: 2023/12/30 11:39:59 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_list.h"
 
-t_list	*ft_listsubrange(const t_list *lst, const t_list *end)
+t_dlist	*ft_dl_find(const t_dlist *head, const void *data,
+		int (*cmp)(const void *, const void *))
 {
-	t_list	*sub;
+	t_dlist	*it;
 
-	sub = NULL;
-	if (!lst)
-		return (sub);
-	if (lst == end)
-		return (ft_listcreate(lst->data));
-	while (lst && lst != end)
+	it = (t_dlist *)head;
+	while (it)
 	{
-		ft_listpush_back(&sub, lst->data);
-		lst = lst->next;
+		if (data == it->data || (cmp && !cmp(it->data, data)))
+			return (it);
+		it = it->next;
 	}
-	return (sub);
+	return (NULL);
 }

@@ -60,7 +60,7 @@ void	ft_map_destroy_free(t_map *map, t_data_apply free_fun)
 	i = 0;
 	while (i < map->capacity)
 	{
-		ft_listclear(&map->nodes[i++], wrapper_destroy);
+		ft_ll_clear(&map->nodes[i++], wrapper_destroy);
 	}
 	free(map->nodes);
 	free(map->weights);

@@ -13,14 +13,14 @@
 #include "ft_list.h"
 #include "ft_string.h"
 
-void	**ft_listget_datas(const t_list *src)
+void	**ft_ll_get_datas(const t_list *src)
 {
 	void	**datas;
 	size_t	i;
 
 	if (!src)
 		return (NULL);
-	datas = ft_calloc(sizeof(void *), ft_listsize(src) + 1);
+	datas = ft_calloc(sizeof(void *), ft_ll_size(src) + 1);
 	if (!datas)
 		return (NULL);
 	i = 0;
@@ -33,14 +33,14 @@ void	**ft_listget_datas(const t_list *src)
 	return (datas);
 }
 
-t_list	**ft_listget_nodes(const t_list *src)
+t_list	**ft_ll_get_nodes(const t_list *src)
 {
 	t_list	**nodes;
 	size_t	i;
 
 	if (!src)
 		return (NULL);
-	nodes = ft_calloc(sizeof(t_list *), ft_listsize(src) + 1);
+	nodes = ft_calloc(sizeof(t_list *), ft_ll_size(src) + 1);
 	if (!nodes)
 		return (NULL);
 	i = 0;

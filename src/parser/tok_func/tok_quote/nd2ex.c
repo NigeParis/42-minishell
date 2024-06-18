@@ -1,34 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_ll_clear.c                                 :+:      :+:    :+:   */
+/*   nd2ex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 03:12:14 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/10 12:37:43 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/18 16:46:56 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
+#include "parser_types.h"
 #include <stdlib.h>
 
-void	ft_listclear(t_list **lst, t_data_apply del)
+bool	nd2ex_quote(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *sh)
 {
-	t_list	*runner;
-	t_list	*next;
-
-	if (!lst)
-		return ;
-	runner = *lst;
-	while (runner)
-	{
-		next = runner->next;
-		if (del)
-			del(runner->data);
-		runner->data = NULL;
-		free(runner);
-		runner = next;
-	}
-	*lst = NULL;
+	return (free(nd), true);
 }

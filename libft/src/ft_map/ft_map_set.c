@@ -43,10 +43,10 @@ bool	ft_map_set(t_map *map, const void *key, const void *value, size_t size)
 	if (reuse_node)
 		map_node = reuse_node->data;
 	else
-		reuse_node = ft_listcreate(map_node);
+		reuse_node = ft_ll_create(map_node);
 	setup_map_node(map_node, key, value);
 	map_node->hash = map->hash(key, size);
-	ft_listadd_front(&map->nodes[map_node->hash % map->capacity], reuse_node);
+	ft_ll_add_front(&map->nodes[map_node->hash % map->capacity], reuse_node);
 	map->weights[map_node->hash % map->capacity]++;
 	map->w_total++;
 	return (true);

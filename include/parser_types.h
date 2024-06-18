@@ -6,59 +6,71 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:55:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/15 15:13:46 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:32:44 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_TYPES_H
 # define PARSER_TYPES_H
 
+// sub types needed
+
 # include "ft_list_types.h"
+# include "ft_string_types.h"
 # include "ft_vector_types.h"
 # include "minishell_types.h"
 
-typedef struct s_parser					t_parser;
-typedef struct s_token					t_token;
-typedef struct s_redir					t_redir;
-typedef t_vector						t_preparsed_cmd;
-typedef struct s_cmd_to_exec			t_cmd_to_exec;
-typedef struct s_preparser_context		t_preparser_context;
-typedef struct s_preparsed_node			t_preparsed_node;
-typedef struct s_quote_node				t_quote_node;
+// types definition for parser structs
 
-typedef bool							(*t_tok_chek)\
-			(const char *line, t_preparser_context *ctx);
+typedef struct s_parser				t_parser;
+typedef struct s_token				t_token;
+typedef struct s_redir				t_redir;
+typedef t_vector					t_preparsed_cmd;
+typedef struct s_cmd_to_exec		t_cmd_to_exec;
+typedef struct s_preparser_context	t_preparser_context;
+typedef struct s_preparsed_node		t_preparsed_node;
+typedef struct s_quote_node			t_quote_node;
 
-typedef bool							(*t_tok_action)\
-			(t_preparsed_node *nd, t_preparser_context *ctx);
+// function pointer definition for parser structs (norminette mandatory)
 
-typedef void							(*t_preparsed_apply)\
-			(t_preparsed_node *node);
+typedef bool						(*t_tok_chek)(const char *line,
+							t_preparser_context *ctx);
 
+typedef bool						(*t_tok_action)(t_preparsed_node *nd,
+							t_preparser_context *ctx);
+
+typedef void						(*t_preparsed_apply)(
+							t_preparsed_node *node);
+typedef bool						(*t_preparsed_exec)(
+							t_preparsed_node *node, t_cmd_to_exec *res,
+							t_minishell_control *control);
+
+// enum definition for parser structs
+
+/* >> todo <<
+TOK_PIPE,
+TOK_SEMICOLON,
+TOK_AND,
+TOK_OR,
+TOK_REDIR,
+TOK_VAR_EXP,
+TOK_CMD_EXP,
+TOK_BACKSLASH,
+*/
 typedef enum e_tok_type
 {
 	TOK_WORD,
 	TOK_SPACE,
 	TOK_EOL,
 	TOK_QUOTE,
-	/*
-	TOK_PIPE,
-	TOK_SEMICOLON,
-	TOK_AND,
-	TOK_OR,
-	TOK_REDIR,
-	TOK_VAR_EXP,
-	TOK_CMD_EXP,
-	TOK_BACKSLASH,
-	*/
 	TOK_UNKNOWN,
-}										t_tok_type;
+}									t_tok_type;
 
 typedef enum e_rdir_flag
 {
 	RDIR_FILE,
 	RDIR_STD,
-}										t_rdir_flag;
+}									t_rdir_flag;
 
 typedef enum e_rdir_type
 {
@@ -68,75 +80,114 @@ typedef enum e_rdir_type
 	RDIR_APPEND,
 	RDIR_HEREDOC,
 	RDIR_DUP,
-}										t_rdir_type;
+}									t_rdir_type;
 
 typedef enum e_quote
 {
 	QUOTE_NONE,
 	QUOTE_DQUOTE,
 	QUOTE_SQUOTE,
-}										t_quote;
+}									t_quote;
 
-struct									s_quote_node
+// struct definition for parser structs
+
+// type  -> QUOTE_DQUOTE | QUOTE_SQUOTE
+// value -> string without ' or "
+struct								s_quote_node
 {
-	t_quote								type;
-	char								*value;
+	t_quote							type;
+	t_string						*value;
 };
 
-struct									s_token
+// type  -> TOK_WORD | TOK_SPACE | TOK_EOL | TOK_QUOTE
+// value -> string of the token '\'' or '"' or ' ' or '\n' ...
+// validator -> function pointer to check if the token is valid 
+//   in the current context
+struct								s_token
 {
-	const t_tok_type					type;
-	const char							*value;
-	t_tok_chek							validator;
+	const t_tok_type				type;
+	const char						*value;
+	t_tok_chek						validator;
 };
 
-struct									s_redir
+// src_std -> source file descriptor
+// src_file -> source file path
+// flag -> RDIR_FILE | RDIR_STD
+// rdir_type -> RDIR_INPUT | RDIR_OUTPUT | RDIR_TRUNC | RDIR_APPEND
+//   | RDIR_HEREDOC | RDIR_DUP
+// target_file -> target file path
+// target_std -> target file descriptor
+struct								s_redir
 {
-	int									src_std;
-	char								*src_file;
-	t_rdir_flag							flag;
-	t_rdir_type							rdir_type;
-	char								*target_file;
-	int									target_std;
+	int								src_std;
+	char							*src_file;
+	t_rdir_flag						flag;
+	t_rdir_type						rdir_type;
+	char							*target_file;
+	int								target_std;
 };
 
-struct									s_cmd_to_exec
+struct								s_cmd_to_exec
 {
-	char								*cmd_path;
-	char								**argv;
-	int									ac;
-	char								**env;
-	int									status;
-	t_list								*redir_to_do;
+	t_vector						*construction_vector;
+	size_t							construction_index;
+	size_t							nb_tok_consumed;
+	char							*cmd_path;
+	char							**argv;
+	int								ac;
+	char							**env;
+	int								status;
+	t_list							*redir_to_do;
 };
 
-struct									s_preparsed_node
+// type -> TOK_WORD | TOK_SPACE | TOK_EOL | TOK_QUOTE ...
+// value -> string of the token.
+// create				->		create the token.
+// update_line_buffer	->		update the line buffer.
+// append				->		append the token to the command.
+// print				->		print the token.
+// # wow who could have guessed that print would print
+struct								s_preparsed_node
 {
-	t_tok_type							type;
-	void								*value;
-	t_tok_action						create;
-	t_tok_action						update_line_buffer;
-	t_tok_action						append;
-	t_preparsed_apply					print;
+	t_tok_type						type;
+	void							*value;
+	t_tok_action					create;
+	t_tok_action					ulb;
+	t_tok_action					append;
+	t_preparsed_apply				print;
+	t_preparsed_exec				execute;
 };
 
-struct									s_parser
+// parser struct for the minishell
+// tokens -> list of tokens in the parser
+// control -> minishell control structure (parent node)
+// line -> line to parse
+// preparsed -> list of preparsed nodes (vector of t_preparsed_node)
+// res -> command to execute
+struct								s_parser
 {
-	t_vector							*tokens;
-	t_minishell_control					*control;
-	char								*line;
-	t_preparsed_cmd						*preparsed;
-	t_cmd_to_exec						*res;
+	t_vector						*tokens;
+	t_minishell_control				*control;
+	char							*line;
+	t_preparsed_cmd					*preparsed;
+	t_cmd_to_exec					*res;
 };
 
-struct									s_preparser_context
+// context variables for the preparser
+// line_offset -> offset of the line
+// unexpected -> unexpected token
+// line -> line to parse
+// c_tok -> current token
+// n_tok -> next token
+// quote_ctx -> quote context
+struct								s_preparser_context
 {
-	size_t								line_offset;
-	char								*unexpected;
-	char 								*line;
-	t_token								*c_tok;
-	t_token								*n_tok;
-	t_quote								quote_ctx;
+	size_t							line_offset;
+	char							*unexpected;
+	char							*line;
+	t_token							*c_tok;
+	t_token							*n_tok;
+	t_quote							quote_ctx;
 };
 
 #endif /* PARSER_TYPES_H */

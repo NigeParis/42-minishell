@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_dl_get.c                                   :+:      :+:    :+:   */
+/*   ft_dl_get.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,14 +13,14 @@
 #include "ft_list.h"
 #include <stdlib.h>
 
-void	**ft_list_dl_get_datas(const t_dlist *src)
+void	**ft_dl_get_datas(const t_dlist *src)
 {
 	size_t	size;
 	void	**ret;
 
 	if (!src)
 		return (NULL);
-	size = ft_list_dl_size(src);
+	size = ft_dl_size(src);
 	ret = malloc(sizeof(void *) * (size + 1));
 	if (!ret)
 		return (NULL);
@@ -34,12 +34,12 @@ void	**ft_list_dl_get_datas(const t_dlist *src)
 	return (ret);
 }
 
-t_dlist	**ft_list_dl_get_nodes(const t_dlist *src)
+t_dlist	**ft_dl_get_nodes(const t_dlist *src)
 {
 	size_t	size;
 	t_dlist	**ret;
 
-	size = ft_list_dl_size(src);
+	size = ft_dl_size(src);
 	ret = NULL;
 	if (!src)
 		return (NULL);

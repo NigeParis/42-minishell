@@ -1,42 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_ll_delete.c                                :+:      :+:    :+:   */
+/*   ft_dl_add.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 03:09:13 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/12 15:09:54 by bgoulard         ###   ########.fr       */
+/*   Created: 2023/12/10 12:17:48 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/05/18 15:33:46 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_list.h"
-#include <stdlib.h>
 
-void	ft_listdelone(t_list *lst, t_data_apply del)
+void	ft_dl_add_back(t_dlist **head, t_dlist *const added)
 {
-	if (!lst)
+	t_dlist	*last;
+
+	if (!head || !added)
 		return ;
-	if (del)
-		del(lst->data);
-	free(lst);
+	if (!*head)
+		return (ft_dl_add_front(head, added));
+	last = ft_dl_end(*head);
+	last->next = added;
+	added->prev = last;
 }
 
-size_t	ft_listdelete_range(t_list *lst, const t_list *end, t_data_apply del)
+void	ft_dl_add_front(t_dlist **head, t_dlist *const added)
 {
-	t_list	*tmp;
-	size_t	i;
-
-	i = 0;
-	if (!lst || !del)
-		return (i);
-	while (lst && lst != end)
-	{
-		i++;
-		tmp = lst->next;
-		del(lst->data);
-		free(lst);
-		lst = tmp;
-	}
-	return (i);
+	if (!head || !added)
+		return ;
+	if (!*head)
+		return ((void)(*head = added));
+	added->next = *head;
+	(*head)->prev = added;
+	*head = added;
 }
