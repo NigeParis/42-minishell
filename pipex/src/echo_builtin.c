@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:43:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/17 17:46:38 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/18 18:09:50 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int   put_echo(t_minishell_control *ctrl, t_cmd *cmd)
 	{
 		i++;	
 	}
-
-	
 	while (cmd->args && cmd->args[i] != NULL)
 	{
 		ft_putstr_fd(cmd->args[i], STDOUT_FILENO);
@@ -33,9 +31,6 @@ int   put_echo(t_minishell_control *ctrl, t_cmd *cmd)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		i++;
 	}
-
-
-	
 	if (ft_strcmp(cmd->args[1], "-n") != 0)
 		ft_putchar_fd('\n', STDOUT_FILENO);	
 
