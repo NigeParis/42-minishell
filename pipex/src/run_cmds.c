@@ -6,11 +6,12 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:29:28 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/17 17:01:15 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/18 18:00:05 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
 
 
 
@@ -22,10 +23,12 @@ void	exec_cmd(t_cmd_to_exec *args, t_pipex *pipex, t_redir *redir)
 	
 	ret = -1;
 	(void)pipex;
+	(void)redir;
+	
 
 		if (ft_strcmp(args->argv[0], "pwd") == 0)
 		{
-			get_pwd(testminictrl(),test_cmd()); // testmin* to add test values
+			get_pwd(testminictrl(),test_cmd_pwd()); // testmin* to add test values
 			exit (1);
 		}
 		if (ft_strcmp(args->argv[0], "echo") == 0)
@@ -34,7 +37,6 @@ void	exec_cmd(t_cmd_to_exec *args, t_pipex *pipex, t_redir *redir)
 			exit (1);
 		}
 
-		(void) redir;
 	
 		close_fd(&pipex->fdin);
 		close_fd(&pipex->fdout);

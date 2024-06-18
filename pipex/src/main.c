@@ -6,13 +6,15 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/17 18:57:13 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/18 17:56:48 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 
-
+#include <readline/readline.h>
+#include <unistd.h>
+#include <signal.h>
 #include "pipex.h"
 
 #define FLAG_POUR_FILE_TMP 1
@@ -39,62 +41,7 @@
 // }
 
 
-t_cmd    *test_cmd(void)
-{
-    t_cmd *testcmd;
 
-    testcmd = malloc(sizeof(t_cmd));
-
-	testcmd->cmd = ft_strdup("pwd");
-	testcmd->args = ft_split("pwd", ' ');
-	testcmd->argc = ft_len_2d((const void * const *)testcmd->args);
-	testcmd->envp = NULL;
-	testcmd->ret = 0;
-
-    return (testcmd);
-}
-
-
-t_cmd    *test_cmd_echo(void)
-{
-    t_cmd *testcmd;
-
-    testcmd = malloc(sizeof(t_cmd));
-
-	testcmd->cmd = ft_strdup("echo");
-	testcmd->args = ft_split("echo hello *", ' ');
-	testcmd->argc = ft_len_2d((const void * const *)testcmd->args);
-	testcmd->envp = NULL;
-	testcmd->ret = 0;
-
-    return (testcmd);
-}
-
-
-
-t_cmd    *test_cmd_exit(void)
-{
-    t_cmd *testcmd;
-
-    testcmd = malloc(sizeof(t_cmd));
-
-	testcmd->cmd = ft_strdup("exit");
-	testcmd->args = ft_split("exit 127", ' ');
-	testcmd->argc = ft_len_2d((const void * const *)testcmd->args);
-	testcmd->envp = NULL;
-	testcmd->ret = 0;
-
-    return (testcmd);
-}
-
-
-
-// t_vector *testvector(void)
-// {
-// 	void	**datas;
-// 	size_t	count;
-// 	size_t	cappacity;
-// }
 
 t_minishell_control *testminictrl(void)
 {
@@ -111,34 +58,6 @@ t_minishell_control *testminictrl(void)
     return (minictrl);
 }
 
-
-
-
-t_minishell_control *testminictrl_exit(void)
-{
-    t_minishell_control *minictrl;
-
-    minictrl = malloc(sizeof(t_minishell_control));
-    
-	minictrl->input = NULL;
-	minictrl->env = NULL;
-	minictrl->exit = 0;
-	minictrl->preparsed = NULL;
-	minictrl->prs = NULL;
-
-    return (minictrl);
-}
-
-
-
-
-
-
-
-
-
-
-
 t_redir    *test_redir(void)
 {
     t_redir    *redir;
@@ -146,20 +65,16 @@ t_redir    *test_redir(void)
     redir = malloc(sizeof(t_redir));
     if (!redir)
         return (NULL); 
-    redir->src_flag = 1;
+    redir->src_flag = 0;
     redir->file_src = ft_strdup("infile");
     redir->dst_flag = 0;
     redir->file_dst = ft_strdup("outfile");
     redir->std_dst = dup(STDOUT_FILENO);
     redir->std_src = dup(STDIN_FILENO);
-    redir->saved_fd = -1;
     return (redir);
 }
 
-
-
-
-t_cmd_to_exec    *cmd_to_exec_clear(char *env[])
+t_cmd_to_exec    *cmd_to_exec_clear(void)  
 {
     t_cmd_to_exec    *blank;
 
@@ -167,9 +82,9 @@ t_cmd_to_exec    *cmd_to_exec_clear(char *env[])
     if (!blank)
         return (NULL);
     blank->cmd_path = ft_strdup("/usr/bin/clear");
-    blank->argv = ft_split("clear -x -T '\033[2J \033[1f'", ' ');
+    blank->argv = ft_split("clear", ' ');
     blank->ac = ft_len_2d((const void * const *)blank->argv);
-    blank->env = env;
+    blank->env = ft_split("TERM=xterm-256color HOME=$HOME PATH=/usr/bin:/bin /home/nrobinso/Documents/42-minishell/pipex", ' ');
     blank->status = 0;
     blank->redir_to_do = NULL;
     blank->lastcmd_index = FIRST_CMD;
@@ -177,166 +92,65 @@ t_cmd_to_exec    *cmd_to_exec_clear(char *env[])
     blank->right_token = ' ';
     return (blank);
 }
-
-
-t_cmd_to_exec    *cmd_to_exec_yes(void)
-{
-    t_cmd_to_exec    *blank;
-
-    blank = malloc(sizeof(t_cmd_to_exec));
-    if (!blank)
-        return (NULL);
-    blank->cmd_path = ft_strdup("/usr/bin/yes");
-    blank->argv = ft_split("yes", ' ');
-    blank->ac = ft_len_2d((const void * const *)blank->argv);
-    blank->env = NULL;
-    blank->status = 0;
-    blank->redir_to_do = NULL;
-    blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
-    return (blank);
-}
-
-
-t_cmd_to_exec    *cmd_to_exec_pwd(void)
-{
-    t_cmd_to_exec    *blank;
-
-    blank = malloc(sizeof(t_cmd_to_exec));
-    if (!blank)
-        return (NULL);
-    blank->cmd_path = ft_strdup("/usr/bin/pwd");
-    blank->argv = ft_split("pwd --", ' ');
-    blank->ac = ft_len_2d((const void * const *)blank->argv);
-    blank->env = NULL;
-    blank->status = 0;
-    blank->redir_to_do = NULL;
-    blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
-    return (blank);
-}
-
-
-t_cmd_to_exec    *cmd_to_exec_new0(void)
-{
-    t_cmd_to_exec    *blank;
-
-    blank = malloc(sizeof(t_cmd_to_exec));
-    if (!blank)
-        return (NULL);
-    blank->cmd_path = ft_strdup("/usr/bin/ls");
-    blank->argv = ft_split("ls", ' ');
-    blank->ac = ft_len_2d((const void * const *)blank->argv);
-    blank->env = NULL;
-    blank->status = 0;
-    blank->redir_to_do = NULL;
-    blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
-    return (blank);
-}
-
-t_cmd_to_exec    *cmd_to_exec_qqqq(void)
-{
-    t_cmd_to_exec    *blank;
-
-    blank = malloc(sizeof(t_cmd_to_exec));
-    if (!blank)
-        return (NULL);
-    blank->cmd_path = ft_strdup("/usr/bin/qqqq");
-    blank->argv = ft_split("qqqq", ' ');
-    blank->ac = ft_len_2d((const void * const *)blank->argv);
-    blank->env = NULL;
-    blank->status = 0;
-    blank->redir_to_do = NULL;
-    blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
-    return (blank);
-}
-
-t_cmd_to_exec    *cmd_to_exec_echo()
-{
-    t_cmd_to_exec    *blank;
-
-    blank = malloc(sizeof(t_cmd_to_exec));
-    if (!blank)
-        return (NULL);
-    blank->cmd_path = ft_strdup("/usr/bin/echo");
-    blank->argv = ft_split("echo hello", ' ');
-    blank->ac = ft_len_2d((const void * const *)blank->argv);
-    blank->env = NULL;
-    blank->status = 0;
-    blank->redir_to_do = NULL;
-    blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
-    return (blank);
-}
-
-
-
-t_cmd_to_exec    *cmd_to_exec_new(void)
-{
-    t_cmd_to_exec    *blank;
-
-    blank = malloc(sizeof(t_cmd_to_exec));
-    if (!blank)
-        return (NULL);
-    blank->cmd_path = ft_strdup("/usr/bin/cat");
-    blank->argv = ft_split("cat -e", ' ');
-    blank->ac = ft_len_2d((const void * const *)blank->argv);
-    blank->env = NULL;
-    blank->status = 0;
-    blank->redir_to_do = NULL;
-    blank->lastcmd_index = PIPE_CMD;
-    blank->left_token = ' ';
-    blank->right_token = '|';
-    return (blank);
-}
-
-t_cmd_to_exec    *cmd_to_exec_new2(void)
-{
-    t_cmd_to_exec    *blank;
-
-    blank = malloc(sizeof(t_cmd_to_exec));
-    if (!blank)
-        return (NULL);
-    blank->cmd_path = ft_strdup("/usr/bin/cat");
-    blank->argv = ft_split("cat -e", ' ');
-    blank->ac = ft_len_2d((const void * const *)blank->argv);
-    blank->env = NULL;
-    blank->status = 0;
-    blank->redir_to_do = NULL;
-    blank->lastcmd_index = LAST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
-    return (blank);
-}
-
 
 
 void	ft_init(t_pipex *pipex, t_redir *redir)
 {
+    (void)redir;
+
 	pipex->fdout = -1;
 	pipex->fdin = -1;
-	redir->saved_fd = -1;
 	pipex->child_pid = -1;
 
 }
 
+     
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <signal.h>
+// #include <unistd.h>
+
+// //Signal handler function for SIGINT
+//  void control_c_parent(int sig) {
+//     printf("Caught signal %d (SIGTSTP). Exiting CTRL-Z...\n", sig);
+//     return ; // Exit the program
+// }
+
+// void control_c_paren(int sig) {
+//     printf("Caught signal %d (SIGTSTP). Exiting CTRL-C...\n", sig);
+//     exit(0); // Exit the program
+// }
 
 
+// int main() {
 
+//     pid_t process;
 
+//     process = fork();
+//         // Set up the signal handler for SIGINT
+  
 
+//         if (signal(SIGINT, control_c_paren) == SIG_ERR) {
+//             perror("signal");
+//             return 1;
+//         }
+//         signal(SIGQUIT, SIG_IGN);       /* desactivates Ctrl-\ */
+ 
 
-
-
-
-
+//     if (!process)
+//     {
+//         // Infinite loop to keep the program running
+//         while (1) {
+//             printf("Running..with no signal. Press Ctrl+C to exit.\n");
+//             sleep(1); // Sleep for 1 second
+//         }
+//     }
+//     else
+//     {    
+//         wait(NULL);
+//     }
+//     return 0;
+// }
 
 int	main(int ac, const char *av[], char *env[])
 {
@@ -344,29 +158,28 @@ int	main(int ac, const char *av[], char *env[])
     t_pipex pipex;
     t_redir *redir;
     
-    printf("%s\n", env[5]);
-
-    char *str;
-    redir = test_redir();
     (void)args;
     (void)ac;
     (void)av;
+    (void)env;
     
+    
+    char *str;
+    
+    redir = test_redir();
     ft_setup_prog(av);
-   
-   
-   
     ft_init(&pipex, redir);
+    
     
     while (1)
     {
-        ft_putstr_fd("type exe to test> ", 1);
-        str = get_next_line(0);
+        signal(SIGQUIT, SIG_IGN);       /* desactivates Ctrl-\ */
+        str = readline("minishell $> ");
                 
-        if (ft_strcmp(str, "exit\n") == 0)
+        if (ft_strcmp(str, "exit") == 0)
         {
 
-            exit_main(testminictrl_exit(),test_cmd_exit());
+            exit_main(testminictrl(),test_cmd_exit());
             close(redir->std_src);               
             close(redir->std_dst); 
             free(redir->file_src);
@@ -376,43 +189,39 @@ int	main(int ac, const char *av[], char *env[])
 
             exit (0);
         }
-        if ((ft_strcmp(str,"exe\n") == 0) 
-            || (ft_strcmp(str,"yes\n") == 0)
-            || (ft_strcmp(str,"pwd\n") == 0)     
-            || (ft_strcmp(str,"echo\n") == 0)
-            || (ft_strcmp(str,"clear\n") == 0)
-             || (ft_strcmp(str,"qqqq\n") == 0))
+        if ((ft_strcmp(str,"ls") == 0) 
+            || (ft_strcmp(str,"yes") == 0)
+            || (ft_strcmp(str,"pwd") == 0)     
+            || (ft_strcmp(str,"echo") == 0)
+            || (ft_strcmp(str,"clear") == 0)
+            || (ft_strcmp(str,"cat") == 0)
+             || (ft_strcmp(str,"qqqq") == 0))
         {
-            if(ft_strcmp(str,"exe\n") == 0)
-                args = cmd_to_exec_new0();
-            if(ft_strcmp(str,"yes\n") == 0)
+            //first_cmds
+
+            if(ft_strcmp(str,"ls") == 0)
+                args = cmd_to_exec_ls();
+            if(ft_strcmp(str,"yes") == 0)
                 args = cmd_to_exec_yes();
-            if(ft_strcmp(str,"pwd\n") == 0)
+            if(ft_strcmp(str,"pwd") == 0)
                 args = cmd_to_exec_pwd();
-            if(ft_strcmp(str,"echo\n") == 0)
+            if(ft_strcmp(str,"echo") == 0)
                 args = cmd_to_exec_echo();
-            if(ft_strcmp(str,"clear\n") == 0)
-                args = cmd_to_exec_clear(env);    
-            if(ft_strcmp(str,"qqqq\n") == 0)
+            if(ft_strcmp(str,"clear") == 0)
+                args = cmd_to_exec_clear();
+            if(ft_strcmp(str,"cat") == 0)
+                args = cmd_to_exec_cat();    
+            if(ft_strcmp(str,"qqqq") == 0)
                 args = cmd_to_exec_qqqq();
             execute(args, &pipex, redir);
             
-            //free(args);
-            args = cmd_to_exec_new();
+            //cmds pipe to pipe;
+            args = cmd_to_exec_cat();
             execute(args, &pipex, redir);
+
+            //last_cmd_cat;
+            args = cmd_to_exec_cat_last();
             execute(args, &pipex, redir);
-            execute(args, &pipex, redir);
-            execute(args, &pipex, redir);
-         
-            execute(args, &pipex, redir);
-            execute(args, &pipex, redir);
-            //free(args);
-            
-        
-        
-            args = cmd_to_exec_new2();
-            execute(args, &pipex, redir);
-            //free(args);
             
 
           

@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/17 18:46:23 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/18 17:15:34 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,7 @@ typedef struct s_minishell_control
 
 void    close_fd(int *fd);
 
-t_cmd_to_exec    *cmd_to_exec_pwd(void);
-t_cmd    *test_cmd(void);
-t_minishell_control *testminictrl(void);
-t_cmd    *test_cmd_exit(void);
-t_minishell_control *testminictrl_exit(void);
+void backslash_handler(int sig);
 
 
 /// @brief exits minishell
@@ -200,19 +196,19 @@ void	ft_open_infile(t_pipex *pipex, char *outfile);
 /// @param 
 /// @param 
 /// @note 
-int     make_pipe(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i);
+int     make_pipe(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir);
 
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-void	child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i);
+void	child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir);
 
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-void	parent_process(t_pipex *pipex, t_redir *redir);
+void	parent_process(t_pipex *pipex, t_redir *redir, t_cmd_to_exec *args);
 
 /// @brief 
 /// @param 
@@ -245,7 +241,7 @@ int		ft_pipex(t_pipex *pipex);
 /// @param 
 /// @param 
 /// @note 
-void	ft_pipes(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir, int i);
+void	ft_pipes(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir);
 
 /// @brief 
 /// @param 
@@ -263,11 +259,25 @@ void	ft_free_double_tab(char *tab[]);
 
 
 
+t_cmd    *test_cmd_exit(void);
+t_cmd    *test_cmd_pwd(void);
 t_cmd    *test_cmd_echo(void);
+
 t_redir   *test_redir(void);
+
 t_cmd_to_exec    *cmd_to_exec_echo(void);
-t_cmd_to_exec    *cmd_to_exec_new(void);
-t_cmd_to_exec    *cmd_to_exec_clear(char *env[]);
+t_cmd_to_exec    *cmd_to_exec_cat(void);
+t_cmd_to_exec    *cmd_to_exec_clear(void);
+t_cmd_to_exec    *cmd_to_exec_pwd(void);
+t_cmd_to_exec    *cmd_to_exec_ls(void);
+t_cmd_to_exec    *cmd_to_exec_qqqq(void);
+t_cmd_to_exec    *cmd_to_exec_yes(void);
+t_cmd_to_exec    *cmd_to_exec_cat_last(void);
+
+
+
+t_minishell_control *testminictrl(void);
+t_minishell_control *testminictrl_exit(void);
 
 
 

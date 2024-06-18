@@ -34,6 +34,9 @@ SRC= ./src/main.c ./src/pipex.c
 SRC+=./src/clean_and_errors.c ./src/run_cmds.c
 SRC+=./src/make_pipe.c ##./src/get_heredoc.c
 SRC+=./src/exit_builtin.c ./src/pwd_builtin.c ./src/echo_builtin.c
+SRC+=./src/interupt_handlers.c
+
+SRC+= ./src/TEST_t_cmd_to_exec.c ./src/TEST_t_cmd.c
 
 
 LIBFT_DIR=../libft
@@ -59,7 +62,7 @@ $(NAME): $(OBJ)
 	@make $(PND) -C $(FT_PRINTF_DIR) all
 	@make $(PND) -C $(GNL_DIR) all
 	@echo -n $(GRAY) "Making ...  $(RESET) $(BOLD) pipex $(GRAY)              ...  " 
-	@( $(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(A_FILES) && \
+	@( $(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(A_FILES) -lreadline && \
 	($(ECHO) $(GREEN) "Success" $(RESET)) )   || \
 	$(ECHO) $(RED) "Failed" $(RESET) 
 
