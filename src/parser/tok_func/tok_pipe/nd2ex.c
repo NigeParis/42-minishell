@@ -6,12 +6,11 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/19 12:00:10 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:00:59 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
-#include "ft_vector.h"
 #include "minishell.h"
 #include "parser_types.h"
 #include "ft_list.h"
@@ -25,7 +24,7 @@ static char *resolve_cmd(char *cmd, t_minishell_control	*sh)
 	char *path;
 	char *fullpath;
 
-	if (p == NULL || ft_strchr(cmd, '/') != NULL)
+	if (!p || ft_strchr(cmd, '/') != NULL)
 		return (ft_strdup(cmd));
 	paths = ft_split(p, ':');
 	if (paths == NULL)
@@ -51,7 +50,6 @@ bool	nd2ex_pipe(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *s
 	t_redir *rd;
 
 	printf("PIPE nd2ex called\n");
-	fflush(stdout);
 	if (nd->type != TOK_PIPE)
 		return (false);
 	rd = ft_calloc(1, sizeof(t_redir));
@@ -63,15 +61,6 @@ bool	nd2ex_pipe(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *s
 	rd->flag = RDIR_STD;
 	if (ft_ll_push(&cmd->redir_to_do, rd) == NULL)
 		return (free(rd), false);
-	free(nd);
-	ft_vec_shift(sh->preparsed, 0, cmd->nb_tok_consumed);
-	if (sh->preparsed->count == 0)
-		ft_vec_destroy(&sh->preparsed), sh->preparsed = NULL;
-	cmd->ac = cmd->construction_vector->count;
-	cmd->argv = (char **)ft_vec_to_array(&cmd->construction_vector);
-	cmd->cmd_path = resolve_cmd(cmd->argv[0], sh);
-	cmd->env = get_bourne_env(sh->env);
-	return (true);
-	//return (nd2ex_eol(nd, cmd, sh));
+	return (nd2ex_eol(nd, cmd, sh));
 }
 

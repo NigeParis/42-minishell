@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/19 11:42:31 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:49:27 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,29 @@ static void debug_n_list(t_vector *tokens)
 	printf("\n");
 }
 
+bool syntax_check(t_vector *prep)
+{
+	bool vars[2] = {false, false};
+	t_preparsed_node *tok;
+	size_t i = 0;
+
+	while (prep->count > i)
+	{
+		tok = ft_vec_at(prep, i++);
+		if (tok->type == TOK_WORD)
+			vars[0] = true;
+		else if (tok->type == TOK_PIPE || tok->type == TOK_EOL)
+		{
+			if (vars[0] == false)
+				return (false);
+			if (tok->type == TOK_EOL)
+				return (true);
+			vars[0] = false;
+		}
+	}
+	return (vars[0]);
+}
+
 t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *sh)
 {
 	t_cmd_to_exec		*cmd;
@@ -46,12 +69,14 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *s
 		debug_n_list(preparsed_tokens);
 	if (preparsed_tokens == NULL || preparsed_tokens->count == 0)
 		return (NULL);
+	if (syntax_check(preparsed_tokens) == false)
+		return ( /* free prep toks here , */ NULL);
 	cmd = ft_calloc(1, sizeof(*cmd));
 	if (cmd == NULL)
 		return (NULL);
 	cmd->construction_vector = ft_vec_new();
 	cmd->construction_index = 0;
-	while (sh->preparsed && preparsed_tokens->count > cmd->nb_tok_consumed)
+	while (!cmd->cmd_path && sh->preparsed && preparsed_tokens->count > cmd->nb_tok_consumed)
 	{
 		token = ft_vec_at(preparsed_tokens, cmd->nb_tok_consumed++);
 		if (token && token->execute)

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/19 11:46:04 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:53:51 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	print_cmd(t_cmd_to_exec *cmd)
 	while (cmd->env[i] && i < 5)
 		printf("[%zu] %s\n", i, cmd->env[i]), i++;
 	if (cmd->env[i])
-		printf("\t--\trest of env ommited from log...\n\n");
+		printf("\t--\trest of env ommited from log...\n");
 }
 
 void discard_cmd(t_cmd_to_exec *cmd)
@@ -54,11 +54,9 @@ void discard_cmd(t_cmd_to_exec *cmd)
 	i = 0;
 	while (cmd->env[i])
 		free(cmd->env[i]), i++;
-/*
 	if (cmd->redir_to_do)
 		ft_ll_clear(&cmd->redir_to_do, free);
 	cmd->redir_to_do = NULL;
-*/
 	free(cmd->env);
 	free(cmd->cmd_path);
 	free(cmd);
