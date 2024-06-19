@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:29:28 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/18 18:00:05 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:40:28 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,15 @@ void	exec_cmd(t_cmd_to_exec *args, t_pipex *pipex, t_redir *redir)
 		if (ft_strcmp(args->argv[0], "echo") == 0)
 		{
 			put_echo(testminictrl(),test_cmd_echo()); // testmin* to add test values
-			exit (1);
+		
+			exit (1) ;
 		}
 
+		if ((ft_strcmp(args->argv[0], "exit2") == 0) && (args->lastcmd_index != FIRST_CMD))
+		{
+			exit (exit_main(testminictrl(),test_cmd_exit2()));
+			exit (1);
+		}
 	
 		close_fd(&pipex->fdin);
 		close_fd(&pipex->fdout);

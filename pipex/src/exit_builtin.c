@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:48:11 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/14 13:48:56 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:22:01 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void  put_exit_error(const char *progname, t_cmd *cmd, char *msg)
 int	exit_main(t_minishell_control *ctrl, t_cmd *cmd)
 {
     const char *progname = ft_progname();
-    
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->argc > 2)
 	{

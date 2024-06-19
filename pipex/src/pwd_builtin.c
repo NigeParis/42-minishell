@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 15:01:02 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/17 15:31:00 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/19 08:53:19 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ char   *get_pwd(t_minishell_control *ctrl, t_cmd *cmd)
             ;
         else
         {
-            dprintf(STDERR_FILENO, "here\n");
             put_builtin_msg_invalid_option(progname, cmd);
             return (NULL);
         }
@@ -55,6 +54,6 @@ char   *get_pwd(t_minishell_control *ctrl, t_cmd *cmd)
     res = getcwd(buff, PATH_MAX);
     if (!res)
         return (NULL);
-    ft_putendl_fd(res, 1);
+    ft_putendl_fd(res, STDOUT_FILENO);
     return (res);
 }

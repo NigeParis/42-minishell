@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/18 18:02:30 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:39:25 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@ int make_pipe(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir)
 	ret = pipe(pipex->pipe_fd);
 	if (ret < 0)
 		perror("pipe");
+
 	pipex->child_pid = fork();
 	if (pipex->child_pid == -1)
 		perror("fork");
+	
 	if (!pipex->child_pid)
 	{
+		
 		child_process(pipex, args, redir);
 	}
 	else
@@ -38,7 +41,6 @@ int make_pipe(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir)
 void child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir)
 {
 	close(pipex->pipe_fd[0]);
-	args->status = 1;
 	if (args->lastcmd_index == FIRST_CMD)
 	{
 		dup2(pipex->pipe_fd[1], STDOUT_FILENO);
@@ -46,7 +48,6 @@ void child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir)
 		{
 			dup2(pipex->fdin, STDIN_FILENO);
 			close_fd(&pipex->fdin);
-			
 		}
 	}
 	else if (args->lastcmd_index == PIPE_CMD)
@@ -63,8 +64,10 @@ void child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir)
 		}
 	}
 	close(pipex->pipe_fd[1]);
-	args->status = 0;
+
 	exec_cmd(args, pipex, redir);
+	
+	
 }
 
 void parent_process(t_pipex *pipex, t_redir *redir, t_cmd_to_exec *args)

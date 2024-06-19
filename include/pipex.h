@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/18 17:15:34 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:03:13 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_cmd
 	int			argc;
 	char		**envp;
 	int			ret;
+	int         lastcmd_index;
 }	t_cmd;
 
 
@@ -262,17 +263,25 @@ void	ft_free_double_tab(char *tab[]);
 t_cmd    *test_cmd_exit(void);
 t_cmd    *test_cmd_pwd(void);
 t_cmd    *test_cmd_echo(void);
+t_cmd    *test_cmd_exit2(void);
+
+
 
 t_redir   *test_redir(void);
 
 t_cmd_to_exec    *cmd_to_exec_echo(void);
 t_cmd_to_exec    *cmd_to_exec_cat(void);
+t_cmd_to_exec    *cmd_to_exec_cat_e(void);
 t_cmd_to_exec    *cmd_to_exec_clear(void);
 t_cmd_to_exec    *cmd_to_exec_pwd(void);
 t_cmd_to_exec    *cmd_to_exec_ls(void);
+t_cmd_to_exec    *cmd_to_exec_ls_l(void);
 t_cmd_to_exec    *cmd_to_exec_qqqq(void);
 t_cmd_to_exec    *cmd_to_exec_yes(void);
 t_cmd_to_exec    *cmd_to_exec_cat_last(void);
+t_cmd_to_exec    *cmd_to_exec_exit(void);
+t_cmd_to_exec    *cmd_to_exec_exit_pipe(void);
+t_cmd_to_exec    *cmd_to_exec_echo_n(void);
 
 
 
