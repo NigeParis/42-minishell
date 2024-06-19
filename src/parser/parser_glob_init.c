@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:45 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/15 16:06:35 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/19 10:27:13 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "parser.h"
 #include "ft_vector.h"
+#include "parser_types.h"
 #include "tokens_funcs.h"
 
 static t_token	*load_tokens(void)
@@ -28,8 +29,9 @@ static t_token	*load_tokens(void)
 */
 		{TOK_EOL, "\n", isok_eol},
 		{TOK_QUOTE, NULL, isok_quote},
-		{TOK_WORD, NULL, isok_word},
+		{TOK_PIPE, "|", isok_pipe},
 		{TOK_SPACE, " ", isok_space},
+		{TOK_WORD, NULL, isok_word}, // keep last - 1, accept all more or less
 		{TOK_UNKNOWN, NULL, NULL},
 	};
 

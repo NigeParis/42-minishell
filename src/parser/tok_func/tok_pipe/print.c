@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   append.c                                           :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/14 10:42:49 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/19 10:12:15 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/14 10:43:05 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/19 11:35:23 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_types.h"
+#include <stdio.h>
 
-bool	prepn_blank_append(t_preparsed_node *node, t_preparser_context *ctx)
+void	prepn_pipe_print(t_preparsed_node *node)
 {
-	(void)node;
-	(void)ctx;
-	return (true);
+	printf("PIPE\t");
+	fflush(stdout);
 }
-

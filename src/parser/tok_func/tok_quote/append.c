@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:49 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/18 16:47:41 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/19 08:44:10 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,5 @@ bool	prepn_quote_append(t_preparsed_node *node, t_preparser_context *ctx)
 			return (false);
 		ln_offset++;
 	}
-	printf("quote value: %s\n", quote->value->str);
 	return (true);
 }

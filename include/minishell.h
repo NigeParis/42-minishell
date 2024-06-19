@@ -6,12 +6,16 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:15:12 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 15:47:33 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/19 08:40:05 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# ifndef DEBUG_LVL
+#  define DEBUG_LVL 0
+# endif
 
 # include "minishell_types.h"
 

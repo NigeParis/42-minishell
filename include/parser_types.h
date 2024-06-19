@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:55:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/18 16:32:44 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/19 09:54:00 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef bool						(*t_preparsed_exec)(
 // enum definition for parser structs
 
 /* >> todo <<
-TOK_PIPE,
 TOK_SEMICOLON,
 TOK_AND,
 TOK_OR,
@@ -59,6 +58,7 @@ TOK_BACKSLASH,
 */
 typedef enum e_tok_type
 {
+	TOK_PIPE,
 	TOK_WORD,
 	TOK_SPACE,
 	TOK_EOL,
@@ -74,6 +74,7 @@ typedef enum e_rdir_flag
 
 typedef enum e_rdir_type
 {
+	RDIR_PIPE,
 	RDIR_INPUT,
 	RDIR_OUTPUT,
 	RDIR_TRUNC,

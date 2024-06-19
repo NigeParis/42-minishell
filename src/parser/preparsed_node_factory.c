@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:25:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/18 16:37:42 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/19 10:06:01 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ static const t_preparsed_node	g_preparser_nodes_tb[] = {
 {TOK_EOL, NULL, prepn_eol_create, prepn_eol_ulb, prepn_eol_append,
 	prepn_eol_print, nd2ex_eol},
 {TOK_QUOTE, NULL, prepn_quote_create, prepn_quote_ulb, prepn_quote_append,
-	prepn_quote_print, NULL},
+	prepn_quote_print, nd2ex_quote},
+{TOK_PIPE, NULL, prepn_pipe_create, prepn_pipe_ulb, prepn_pipe_append,
+	prepn_pipe_print, nd2ex_pipe},
 {TOK_UNKNOWN, NULL, NULL, NULL, NULL, NULL, NULL},
 };
 

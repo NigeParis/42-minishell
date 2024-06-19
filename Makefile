@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/06/15 15:52:50 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/06/19 08:42:01 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ BUILD_DIR	=	build
 INC_DIR		=	include
 
 DEBUG_LEVEL	=\
-			 	0
+			 	3
 DEBUG		=\
 				-DDEBUG_LVL=$(DEBUG_LEVEL) -g2 -O3
 STD			=\
@@ -55,7 +55,7 @@ FFLAGS	   =\
 
 CFLAGS	   =\
 				$(WFLAGS) $(CPPFLAGS) $(STD)	\
-				-MMD -MP $(DEBUG) -g3
+				-MMD -MP $(DEBUG)
 
 LDFLAGS		=\
 				-L./libft -lft_personal -lreadline
