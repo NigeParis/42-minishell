@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 11:04:12 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/19 20:06:57 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:12:42 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ t_cmd_to_exec    *cmd_to_exec_exit(void)
 
 
 
+
+
+
+
 t_cmd_to_exec    *cmd_to_exec_ls_l(void)
 {
     t_cmd_to_exec    *blank;
@@ -69,6 +73,7 @@ t_cmd_to_exec    *cmd_to_exec_ls_l(void)
     blank->env = NULL;
     blank->status = 0;
     blank->redir_to_do = NULL;
+    ft_ll_push(&blank->redir_to_do, test_redir());
     blank->lastcmd_index = FIRST_CMD;
     blank->left_token = ' ';
     blank->right_token = ' ';
@@ -96,45 +101,6 @@ t_cmd_to_exec    *cmd_to_exec_ls(void)
     return (blank);
 }
 
-// t_cmd_to_exec    *last_cmd_to_exec_ls(void)
-// {
-//     t_cmd_to_exec    *blank;
-
-//     blank = malloc(sizeof(t_cmd_to_exec));
-//     if (!blank)
-//         return (NULL);
-//     blank->cmd_path = ft_strdup("/usr/bin/ls");
-//     blank->argv = ft_split("ls -l", ' ');
-//     blank->ac = ft_len_2d((const void * const *)blank->argv);
-//     blank->env = NULL;
-//     blank->status = 0;
-//     blank->redir_to_do = NULL;
-//     blank->lastcmd_index = FIRST_CMD;
-//     blank->left_token = ' ';
-//     blank->right_token = ' ';
-//     return (blank);
-// }
-
-// t_cmd_to_exec    *last_cmd_to_exec_ls_l(void)
-// {
-//     t_cmd_to_exec    *blank;
-
-//     blank = malloc(sizeof(t_cmd_to_exec));
-//     if (!blank)
-//         return (NULL);
-//     blank->cmd_path = ft_strdup("/usr/bin/ls");
-//     blank->argv = ft_split("ls -l", ' ');
-//     blank->ac = ft_len_2d((const void * const *)blank->argv);
-//     blank->env = NULL;
-//     blank->status = 0;
-//     blank->redir_to_do = NULL;
-//     blank->lastcmd_index = FIRST_CMD;
-//     blank->left_token = ' ';
-//     blank->right_token = ' ';
-//     return (blank);
-// }
-
-
 
 t_cmd_to_exec    *cmd_to_exec_qqqq(void)
 {
@@ -143,8 +109,8 @@ t_cmd_to_exec    *cmd_to_exec_qqqq(void)
     blank = malloc(sizeof(t_cmd_to_exec));
     if (!blank)
         return (NULL);
-    blank->cmd_path = ft_strdup("/usr/bin/qqqq");
-    blank->argv = ft_split("qqqq", ' ');
+    blank->cmd_path = NULL;
+    blank->argv = ft_split("", ' ');
     blank->ac = ft_len_2d((const void * const *)blank->argv);
     blank->env = NULL;
     blank->status = 0;
@@ -195,26 +161,6 @@ t_cmd_to_exec    *cmd_to_exec_echo(void)
 }
 
 // SECOND CMD
-
-
-t_cmd_to_exec    *cmd_to_exec_exit_pipe(void)
-{
-    t_cmd_to_exec    *blank;
-
-    blank = malloc(sizeof(t_cmd_to_exec));
-    if (!blank)
-        return (NULL);
-    blank->cmd_path = ft_strdup("exit2");
-    blank->argv = ft_split("exit 12", ' ');
-    blank->ac = ft_len_2d((const void * const *)blank->argv);
-    blank->env = NULL;
-    blank->status = -1;
-    blank->redir_to_do = NULL;
-    blank->lastcmd_index = PIPE_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
-    return (blank);
-}
 
 
 t_cmd_to_exec    *cmd_to_exec_cat_e(void)
@@ -274,7 +220,25 @@ t_cmd_to_exec    *cmd_to_exec_echo_n(void)
     return (blank);
 }
 
+t_cmd_to_exec    *cmd_to_exec_wc(void)
+{
+    t_cmd_to_exec    *blank;
 
+    blank = malloc(sizeof(t_cmd_to_exec));
+    if (!blank)
+        return (NULL);
+    blank->cmd_path = ft_strdup("/usr/bin/wc");
+    blank->argv = ft_split("wc", ' ');
+    blank->ac = ft_len_2d((const void * const *)blank->argv);
+    blank->env = NULL;
+    blank->status = 0;
+    blank->redir_to_do = NULL;
+    //ft_ll_push(&blank->redir_to_do, test_redir());
+    blank->lastcmd_index = FIRST_CMD;
+    blank->left_token = ' ';
+    blank->right_token = ' ';
+    return (blank);
+}
 
 
 // LAST CMD

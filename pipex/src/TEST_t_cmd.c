@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 11:26:11 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/19 14:40:14 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/20 13:58:06 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,20 +77,3 @@ t_cmd    *test_cmd_exit(void)
     return (testcmd);
 }
 
-
-
-t_cmd    *test_cmd_exit2(void)
-{
-    t_cmd *testcmd;
-
-    testcmd = malloc(sizeof(t_cmd));
-
-	testcmd->cmd = ft_strdup("exit");
-	testcmd->args = ft_split("exit 127", ' ');
-	testcmd->argc = ft_len_2d((const void * const *)testcmd->args);
-	testcmd->envp = NULL;
-	testcmd->ret = 0;
-	testcmd->lastcmd_index = PIPE_CMD;
-
-    return (testcmd);
-}

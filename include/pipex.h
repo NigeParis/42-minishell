@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/19 20:03:13 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:56:36 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ typedef struct s_minishell_control
 void    close_fd(int *fd);
 
 void backslash_handler(int sig);
+void Ctrl_C_handler(int sig);
+void Ctrl_C_child_handler(int sig);
 
 
 /// @brief exits minishell
@@ -282,12 +284,20 @@ t_cmd_to_exec    *cmd_to_exec_cat_last(void);
 t_cmd_to_exec    *cmd_to_exec_exit(void);
 t_cmd_to_exec    *cmd_to_exec_exit_pipe(void);
 t_cmd_to_exec    *cmd_to_exec_echo_n(void);
+t_cmd_to_exec    *cmd_to_exec_wc(void);
 
 
 
 t_minishell_control *testminictrl(void);
 t_minishell_control *testminictrl_exit(void);
 
+
+
+// functions for testing cmd calls  - cmd1 | cmd2 | cmd3
+
+void test_first_cmd(t_cmd_to_exec *args, char *cmds[], char *str, t_cmd_to_exec *(*f)(void));
+void test_pipe_cmd(t_cmd_to_exec *args, char *cmds[], char *str, t_cmd_to_exec *(*f)(void));
+void test_last_cmd(t_cmd_to_exec *args, char *cmds[], char *str, t_cmd_to_exec *(*f)(void));
 
 
 #endif

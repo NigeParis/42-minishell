@@ -6,11 +6,13 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:45:37 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/18 18:01:55 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:33:03 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+
 
 int 	checkfile_read_and_exists(char *file, int type)
 {
@@ -77,6 +79,8 @@ int	execute(t_cmd_to_exec *args,  t_pipex *pipex, t_redir *redir)
 {
 	int i = 0;
 	i++;
+	
+
 	
 	if ((args->right_token == '>') && (args->lastcmd_index == LAST_CMD))
 		redir->dst_flag = 1;

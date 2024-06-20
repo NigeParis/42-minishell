@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/20 12:59:40 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:01:21 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,25 @@ t_redir    *test_redir(void)
     return (redir);
 }
 
+t_redir    *test_redir_pipe(void)
+{
+    t_redir    *redir;
+   
+    redir = malloc(sizeof(t_redir));
+    if (!redir)
+        return (NULL); 
+    redir->src_flag = 0;
+    redir->file_src = ft_strdup("infile");
+    redir->dst_flag = 0;
+    redir->file_dst = ft_strdup("outfile");
+    redir->std_dst = dup(STDOUT_FILENO);
+    redir->std_src = dup(STDIN_FILENO);
+    return (redir);
+}
+
+
+
+
 t_cmd_to_exec    *cmd_to_exec_clear(void)  
 {
     t_cmd_to_exec    *blank;
@@ -128,53 +147,6 @@ void	ft_init(t_pipex *pipex, t_redir *redir)
 
 }
 
-     
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <signal.h>
-// #include <unistd.h>
-
-// //Signal handler function for SIGINT
-//  void control_c_parent(int sig) {
-//     printf("Caught signal %d (SIGTSTP). Exiting CTRL-Z...\n", sig);
-//     return ; // Exit the program
-// }
-
-// void control_c_paren(int sig) {
-//     printf("Caught signal %d (SIGTSTP). Exiting CTRL-C...\n", sig);
-//     exit(0); // Exit the program
-// }
-
-
-// int main() {
-
-//     pid_t process;
-
-//     process = fork();
-//         // Set up the signal handler for SIGINT
-  
-
-//         if (signal(SIGINT, control_c_paren) == SIG_ERR) {
-//             perror("signal");
-//             return 1;
-//         }
-//         signal(SIGQUIT, SIG_IGN);       /* desactivates Ctrl-\ */
- 
-
-//     if (!process)
-//     {
-//         // Infinite loop to keep the program running
-//         while (1) {
-//             printf("Running..with no signal. Press Ctrl+C to exit.\n");
-//             sleep(1); // Sleep for 1 second
-//         }
-//     }
-//     else
-//     {    
-//         wait(NULL);
-//     }
-//     return 0;
-// }
 
 
 char *nospaces(char *str)
@@ -210,48 +182,6 @@ char *nospaces(char *str)
 }
 
 
-void test_first_cmd(t_cmd_to_exec *args, char *cmds[], char *str, t_cmd_to_exec *(*f)(void))
-{
-
-    if (ft_strcmp(cmds[0],str) == 0)
-    {
-        *args = *(*f)();   
-        if (!cmds[1])
-            args->lastcmd_index = LAST_CMD;
-        else
-            args->lastcmd_index = FIRST_CMD;
-    }   
-}
-
-
-void test_pipe_cmd(t_cmd_to_exec *args, char *cmds[], char *str, t_cmd_to_exec *(*f)(void))
-{
-
-    if (ft_strcmp(cmds[1],str) == 0)
-    {
-        *args = *(*f)();   
-        if (!cmds[2])
-            args->lastcmd_index = LAST_CMD;
-        else
-            args->lastcmd_index = PIPE_CMD;
-    }   
-}
-
-
-void test_last_cmd(t_cmd_to_exec *args, char *cmds[], char *str, t_cmd_to_exec *(*f)(void))
-{
-
-    if (ft_strcmp(cmds[2],str) == 0)
-    {
-        *args = *(*f)();   
-        if (!cmds[3])
-            args->lastcmd_index = LAST_CMD;
-        else
-            args->lastcmd_index = LAST_CMD;
-    }   
-}
-
-
 
 
 #include "string.h"
@@ -278,11 +208,14 @@ int	main(int ac, const char *av[], char *env[])
     ft_setup_prog(av);
     ft_init(&pipex, redir);
     args = cmd_to_exec_init();
-      
+
+    
     
     while (1)
     {
-        signal(SIGQUIT, SIG_IGN);       /* desactivates Ctrl-\ */
+        signal(SIGINT, Ctrl_C_handler);   /* Ctrl-c handler*/
+        signal(SIGQUIT, SIG_IGN);          /* desactivates Ctrl-\ */
+
         cmds = NULL;
         
         cmds =  ft_split(NULL, 0);
@@ -317,18 +250,20 @@ int	main(int ac, const char *av[], char *env[])
                 if (cmd_nb > 0 && cmds[0])
                 {
                     // first cmd
-                    
+                  
                     test_first_cmd(args, cmds, "ls-l", &cmd_to_exec_ls_l);
                     test_first_cmd(args, cmds, "ls", &cmd_to_exec_ls);
                     test_first_cmd(args, cmds, "yes", &cmd_to_exec_yes);
                     test_first_cmd(args, cmds, "pwd", &cmd_to_exec_pwd);
+                    test_first_cmd(args, cmds, "cat-e", &cmd_to_exec_cat_e);
                     test_first_cmd(args, cmds, "cat", &cmd_to_exec_cat);
-                    test_first_cmd(args, cmds, "qqqq", &cmd_to_exec_qqqq);
                     test_first_cmd(args, cmds, "echo", &cmd_to_exec_echo);
                     test_first_cmd(args, cmds, "clear", &cmd_to_exec_clear);
                     test_first_cmd(args, cmds, "echo-n", &cmd_to_exec_echo_n);
-
+                    test_first_cmd(args, cmds, "qqqq", &cmd_to_exec_qqqq);
+                    test_first_cmd(args, cmds, "wc", &cmd_to_exec_wc);
                     
+                     
                     execute(args, &pipex, redir);
                 }            
                 
@@ -345,6 +280,7 @@ int	main(int ac, const char *av[], char *env[])
                     test_pipe_cmd(args, cmds, "qqqq", &cmd_to_exec_qqqq);
                     test_pipe_cmd(args, cmds, "echo", &cmd_to_exec_echo);
                     test_pipe_cmd(args, cmds, "clear", &cmd_to_exec_clear);
+                    test_pipe_cmd(args, cmds, "wc", &cmd_to_exec_wc);
 
                     execute(args, &pipex, redir);
                 }
@@ -362,16 +298,24 @@ int	main(int ac, const char *av[], char *env[])
                     test_last_cmd(args, cmds, "qqqq", &cmd_to_exec_qqqq);
                     test_last_cmd(args, cmds, "echo", &cmd_to_exec_echo);
                     test_last_cmd(args, cmds, "clear", &cmd_to_exec_clear);
+                    test_last_cmd(args, cmds, "wc", &cmd_to_exec_wc);
                     
                     execute(args, &pipex, redir);
                 }      
                     
                 dup2(redir->std_src, STDIN_FILENO); 
                 dup2(redir->std_dst, STDOUT_FILENO);      // reset STDIN amd STDOUT          
-                free(str);
             }          
+        free(str);
     }
 	close(redir->std_src);               
-	close(redir->std_dst);         
+	close(redir->std_dst);     
+    
+    // if (str[0] == '\0')
+
+    dup2(redir->std_dst, STDOUT_FILENO);      // reset STDIN amd STDOUT
+    close(redir->std_dst);          
+    ft_putstr_fd("exit\n", 1);
+    
     return(0);
 }

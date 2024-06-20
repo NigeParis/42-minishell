@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/19 14:39:25 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:03:33 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ int make_pipe(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir)
 {
 	int ret;
 	if (!args->status)
+	{
 		signal(SIGQUIT, backslash_handler);
+    	signal(SIGINT, Ctrl_C_child_handler);   /* Ctrl-c handler*/
+
+	}
 	ret = pipe(pipex->pipe_fd);
 	if (ret < 0)
 		perror("pipe");

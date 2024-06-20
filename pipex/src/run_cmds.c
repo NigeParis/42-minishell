@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:29:28 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/19 14:40:28 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/20 13:08:58 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void	exec_cmd(t_cmd_to_exec *args, t_pipex *pipex, t_redir *redir)
 			exit (1) ;
 		}
 
-		if ((ft_strcmp(args->argv[0], "exit2") == 0) && (args->lastcmd_index != FIRST_CMD))
+		if ((ft_strcmp(args->argv[0], "exit") == 0) && (args->lastcmd_index != FIRST_CMD))
 		{
-			exit (exit_main(testminictrl(),test_cmd_exit2()));
+			exit (exit_main(testminictrl(),test_cmd_exit()));
 			exit (1);
 		}
 	
