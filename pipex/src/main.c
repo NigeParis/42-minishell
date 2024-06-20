@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/19 20:10:30 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:59:40 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,11 +197,13 @@ char *nospaces(char *str)
     
     while (str && str[i])
     {
-        while (str[i] == ' ')
-            i++;
-        newstr[y] = str[i];
-        y++;
-        i++;
+		if (str[i] == ' ')
+		{
+		    while (str[i] == ' ')
+			    i++;
+			continue;
+		}
+        newstr[y++] = str[i++];
     }
     newstr[y] = '\0';
     return (newstr);
@@ -270,6 +272,7 @@ int	main(int ac, const char *av[], char *env[])
     char *str;
     char *cmds_nospace;
     char **cmds = NULL;
+	size_t cmd_nb = 0;
     
     redir = test_redir();
     ft_setup_prog(av);
@@ -284,15 +287,18 @@ int	main(int ac, const char *av[], char *env[])
         
         cmds =  ft_split(NULL, 0);
         str = readline("minishell $> ");
+		if (!str)
+			break;
         if (!str[0]) continue;
    
             cmds_nospace = nospaces(str);
         
             if (ft_strlen(&cmds_nospace[0]) > 1)
                 cmds = ft_split(cmds_nospace, '|');
-        
-            printf("cmd1 '%s'   cmd2 '%s'   cmd3 '%s' \n", cmds[0], cmds[1], cmds[2]);
-            if(cmds[0])
+			if (cmds)
+				cmd_nb = ft_len_2d((const void *const *)cmds);
+//            printf("cmd1 '%s'   cmd2 '%s'   cmd3 '%s' \n", cmds[0], cmds[1], cmds[2]);
+            if(cmd_nb > 0 && cmds[0])
             {
                 
                 if (ft_strcmp(str, "exit") == 0)
@@ -308,7 +314,7 @@ int	main(int ac, const char *av[], char *env[])
 
                     exit (0);
                 }
-                if (cmds[0])
+                if (cmd_nb > 0 && cmds[0])
                 {
                     // first cmd
                     
@@ -326,7 +332,7 @@ int	main(int ac, const char *av[], char *env[])
                     execute(args, &pipex, redir);
                 }            
                 
-                if (cmds[1])
+                if (cmd_nb > 1 && cmds[1])
                 {
                     // middle cmds pipe to pipe
                 
@@ -343,7 +349,7 @@ int	main(int ac, const char *av[], char *env[])
                     execute(args, &pipex, redir);
                 }
                 
-                if (cmds[2])
+                if (cmd_nb > 2 && cmds[2])
                 {
                     //last_cmds;
                     
@@ -365,11 +371,7 @@ int	main(int ac, const char *av[], char *env[])
                 free(str);
             }          
     }
-        close(redir->std_src);               
-        close(redir->std_dst);         
+	close(redir->std_src);               
+	close(redir->std_dst);         
     return(0);
 }
-
-
-
-
