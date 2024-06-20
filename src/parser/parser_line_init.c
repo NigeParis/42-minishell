@@ -6,10 +6,11 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/18 14:31:19 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:52:17 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "pair.h"
 #include "parser.h"
 #include "parser_types.h"
@@ -72,6 +73,7 @@ void	get_next_token(t_parser *restrict p, t_preparser_context *restrict ctx)
 			free(eval);
 	}
 	ft_vec_destroy(&tok_proximity);
+	printf("min: %p\n", min);
 	if (min == NULL)
 	{
 		ctx->unexpected = ft_strndup(p->line + ctx->line_offset, 1);
@@ -120,6 +122,16 @@ int update_context(t_parser *restrict p, t_preparser_context *restrict ctx)
 	return (node->ulb(node, ctx));
 }
 
+void	preparser_destroy(t_preparser_context *restrict ctx, t_parser *restrict p)
+{
+	t_preparsed_node	*node;
+
+	(void)p;
+	(void)ctx;
+	(void)node;
+	p->preparsed = NULL; // yes yes i leak here -- todo
+}
+
 void	preparse_line(t_parser *restrict p)
 {
 	t_preparser_context	var_ctx;
@@ -130,6 +142,8 @@ void	preparse_line(t_parser *restrict p)
 	var_ctx.line = p->line;
 	while (var_ctx.line_offset <= len)
 	{
+		if (DEBUG_LVL >= 2)
+			printf("line: %s line_offset: %zu\n", var_ctx.line, var_ctx.line_offset);
 		get_next_token(p, &var_ctx);
 		if (var_ctx.n_tok->type == TOK_UNKNOWN)
 			ft_putendl_fd("Error: preparse_line: unknown token", \
@@ -142,6 +156,7 @@ void	preparse_line(t_parser *restrict p)
 		{
 			printf("Error: preparse_line: update_preparsed or "\
 			"update_context failed\n"); // todo add cleanup and ret err code
+			preparser_destroy(&var_ctx, p);
 			break ;
 		}
 	}

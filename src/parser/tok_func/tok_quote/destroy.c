@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_prompt.c                                 :+:      :+:    :+:   */
+/*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 16:13:21 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/20 10:38:22 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/20 14:30:49 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/20 15:16:10 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <readline/readline.h>
-#include <stdio.h>
+
+#include "ft_string.h"
+#include "parser_types.h"
 #include <stdlib.h>
-#include <unistd.h>
-
-int	minishell_prompt(t_minishell_control *shell)
+void destroy_quote(t_preparsed_node *node)
 {
-	int	tty;
+	t_quote_node	*quote;
 
-	shell->input = readline("minishell $> ");
-	if (shell->input == NULL)
-	{
-		tty = isatty(STDIN_FILENO);
-		if (tty)
-			printf("exit\n");
-		shell->exit = 0;
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
+	quote = (t_quote_node *)node->value;
+	ft_string_destroy(&quote->value);
+	free(quote);
+	free(node);
+	return ;
 }

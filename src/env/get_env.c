@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:05 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 17:21:50 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/20 11:42:46 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	*get_env(t_vector *env, char *keyname)
 {
 	const t_pair	*pair;
 
+	if (!env || !keyname)
+		return (NULL);
 	pair = (const t_pair *)ft_vec_get(env, keyname, &local_pair_cmp);
 	if (pair)
 		return (pair->second);

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/18 12:59:52 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:52:56 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
 
 bool	prepn_word_create(t_preparsed_node *node, t_preparser_context *ctx)
 {
-	size_t	cr_offset;
+	const	char	*stoper = "$'\"|";
+	size_t			cr_offset;
 
 	cr_offset = ctx->line_offset;
 	node->type = TOK_WORD;
 	node->value = ft_string_new(1);
-	while (ctx->line[cr_offset] && !ft_isspace(ctx->line[cr_offset])) // todo: check if current char is not token if yes break currently only check if space
+	while (ctx->line[cr_offset] && !ft_isspace(ctx->line[cr_offset]) 
+	&& ft_strchr(stoper, ctx->line[cr_offset]) == NULL)
 	{
 		if (ctx->line[cr_offset] == '\\' && ctx->line[cr_offset + 1] != '\0')
 			cr_offset++;

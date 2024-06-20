@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/15 16:29:22 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/20 10:48:31 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "parser.h"
 #include "parser_types.h"
 #include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 int	minishell_should_exit(t_minishell_control *shell)
 {
@@ -35,6 +37,9 @@ int	minishell_parse(t_minishell_control *shell)
 		return (
 		printf("minishell_parse: minishell_execute(shell)\n"),
 		parser_line_cleanup(shell->prs), 1);
+
+	add_history(shell->input);
+
 	return (parser_line_cleanup(shell->prs), 0);
 }
 

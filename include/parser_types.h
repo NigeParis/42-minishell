@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:55:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/19 09:54:00 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:24:15 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ struct								s_preparsed_node
 	t_tok_action					ulb;
 	t_tok_action					append;
 	t_preparsed_apply				print;
+	t_preparsed_apply				destroy;
 	t_preparsed_exec				execute;
 };
 

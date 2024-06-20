@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:52 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/15 16:29:36 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/20 10:49:20 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "minishell.h"
 #include "pair.h"
 #include "parser_types.h"
+#include <readline/history.h>
 #include <stdlib.h>
 
 static void	destroy_env_line(void *e)
@@ -48,6 +49,7 @@ void	free_preparsed_node(void *node_s)
 
 int	minishell_cleanup(t_minishell_control *shell)
 {
+	clear_history();
 	if (shell->input)
 		free(shell->input);
 	if (shell->env)

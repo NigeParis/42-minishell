@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/15 11:49:05 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/20 10:48:59 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "minishell_types.h"
 #include "minishell.h"
 #include <errno.h>
+#include <readline/history.h>
 
 int	create_env(t_minishell_control *ctrl, const char **envp)
 {
@@ -41,6 +42,7 @@ int	create_env(t_minishell_control *ctrl, const char **envp)
 int	setup_minishell(t_minishell_control *minishell, int ac, char **arg, \
 					char **envp)
 {
+	stifle_history(10);
 	ft_setup_prog((const char *const *)arg);
 	ft_bzero(minishell, sizeof(t_minishell_control));
 	if (create_env(minishell, (const char **)envp) == EXIT_FAILURE)

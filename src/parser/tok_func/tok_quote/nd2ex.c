@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/19 13:47:36 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:00:11 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "parser_types.h"
 #include <stdlib.h>
 
-void	resolve_word(t_string *word, t_minishell_control *sh);
+void	resolve_word(t_string **word, t_minishell_control *sh);
 
 bool	nd2ex_quote(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *sh)
 {
@@ -26,10 +26,10 @@ bool	nd2ex_quote(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *
 		return (false);
 	quote = nd->value;
 	if (quote->type == QUOTE_DQUOTE)
-		resolve_word(quote->value, sh);
+		resolve_word(&quote->value, sh);
 	if (cmd->construction_vector->count < cmd->construction_index)
 		ft_vec_add(&cmd->construction_vector, ft_strdup(""));
-	str[0] = cmd->construction_vector->datas[cmd->construction_index];
+	str[0] = ft_vec_pop(cmd->construction_vector);
 	str[1] = str[0];
 	if (!str[0])
 		str[0] = ft_string_to_str(quote->value);

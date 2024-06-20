@@ -9,12 +9,12 @@ There are also have a number of built-in functions: <br>
 ### TODO
 
   Commands execution and 'simple' argument parsing 
- - [ ] /bin/ls should be the same as ls
+ - [x] /bin/ls should be the same as ls
  - [ ] ./exec should work
 
   History of command line
- - [ ] History (Arrow up, Arrow down)
- - [ ] line edit (Arrow right, Arrow left) echo
+ - [x] History (Arrow up, Arrow down)
+ - [x] line edit (Arrow right, Arrow left) echo
 
   Quote and double quotes (simple)
  - [ ] '\'ls -l\'' shouldn't be the same as 'ls -l' (no quotes)
@@ -27,7 +27,7 @@ There are also have a number of built-in functions: <br>
  - [ ] cmd1 ';' cmd2
 
   Quote and double quotes (hard)
- - [ ] nested quotes and double quotes
+ - [x] nested quotes and double quotes
  - [ ] \\ character nullifies the quote end or start
 
   Built-ins (sorted by priority)(simple)
@@ -46,8 +46,8 @@ There are also have a number of built-in functions: <br>
        'ls > file' pipes the result of ls to file and truncates file
        'ls < file' pipes the contents of file to ls as stdin
        'ls | wc' pipes the result of ls to wc as stdin
-       'ls >> file' pipes the result of ls to file and appends to file
-       'ls > file' pipes stderr to file and prints stdout to stdout
+       'ls >> file' pipes the result of ls to file in appends mode
+       'ls > file' pipes stdout to file and prints stdout to stdout
        
   Variable substitution (simple)
  - [ ] $Field
@@ -57,11 +57,15 @@ There are also have a number of built-in functions: <br>
 
   Signal handling (simple)
  - [ ] CTRL + C sigint
- - [ ] CTRL + D eof
+ - [X] CTRL + D eof
  - [ ] CTRL + \ sigquit
 
   Redirection (hard)
  - [ ] any fd plus > or < or >>
+    - [ ] redirections of stdout and stderr
+        ex :
+        'ls 2> file' pipes stderr to file
+        'ls 2> file1 1> file2' pipes stderr to file1 and stdout to file2
  - [ ] redirect cmd to previous decl redirection
        e.g. >&fd redirect stdout to the same redirection as fd currently has.
        'ls > file >&1' pipes stdout to file and then pipes stderr to redirected stdout.
@@ -70,7 +74,9 @@ There are also have a number of built-in functions: <br>
        'ls > file1 > file2' results in stdout being redirected to file2
 
   Variable substitution (hard)
- - [ ] single line variables
+ - [ ] single line variables 
+    ex:
+        'let a=5; echo $a' should print 5 even if a is declared on the same line
  - [ ] subshell substitution $( cmd1 )
 
   Signal handling (hard)
@@ -79,7 +85,10 @@ There are also have a number of built-in functions: <br>
 
   Norme
  - [ ] Norminette OK
-
+  Leak
+ - [ ] Valgrind OK
+    - [ ] on normal lines
+    - [ ] on error lines
 
 <br>
 
