@@ -6,17 +6,43 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:43:09 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/18 12:56:14 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/22 17:16:44 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_char.h"
+#include "ft_string.h"
 #include "parser_types.h"
 #include <stdio.h>
 
 bool prepn_word_ulb(t_preparsed_node *node, t_preparser_context *ctx)
 {
+	size_t c_skip;
+	const char *stoper = "'\"|";
+	size_t cr_offset;
+	char *ptr;
+
+	c_skip = 0;
+	cr_offset = ctx->line_offset;
 	if (node->value == NULL)
 		return (false);
-	ctx->line_offset += ((t_string *)node->value)->length;
+	ptr = ft_strchr(ctx->line + ctx->line_offset, '\\');
+	while (ctx->line[cr_offset] && !ft_isspace(ctx->line[cr_offset]) 
+	&& ft_strchr(stoper, ctx->line[cr_offset]) == NULL)
+	{
+		if (ctx->line[cr_offset] == '\\' && ctx->line[cr_offset + 1] != '\0')
+		{
+			cr_offset++;
+			c_skip++;
+		}
+		cr_offset++;
+	}
+	printf("\tline : %s\n", ctx->line + ctx->line_offset);
+	printf("\tline_offset : %zu\n", ctx->line_offset);
+	printf("\tc_skip : %zu\n", c_skip);
+	ctx->line_offset += ((t_string *)node->value)->length + c_skip;
+	printf("\tline : %s\n", ctx->line + ctx->line_offset);
+	printf("\tline_offset : %zu\n", ctx->line_offset);
+	printf("\tc_skip : %zu\n", c_skip);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/20 15:52:17 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/22 17:07:05 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	get_next_token(t_parser *restrict p, t_preparser_context *restrict ctx)
 			free(eval);
 	}
 	ft_vec_destroy(&tok_proximity);
-	printf("min: %p\n", min);
 	if (min == NULL)
 	{
 		ctx->unexpected = ft_strndup(p->line + ctx->line_offset, 1);
@@ -142,8 +141,8 @@ void	preparse_line(t_parser *restrict p)
 	var_ctx.line = p->line;
 	while (var_ctx.line_offset <= len)
 	{
-		if (DEBUG_LVL >= 2)
-			printf("line: %s line_offset: %zu\n", var_ctx.line, var_ctx.line_offset);
+//		if (DEBUG_LVL >= 2)
+//			printf("line: %s line_offset: %zu\n", var_ctx.line, var_ctx.line_offset);
 		get_next_token(p, &var_ctx);
 		if (var_ctx.n_tok->type == TOK_UNKNOWN)
 			ft_putendl_fd("Error: preparse_line: unknown token", \
