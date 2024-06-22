@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vec_at.c                                        :+:      :+:    :+:   */
+/*   ft_optional_init.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/27 16:03:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/22 08:21:42 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/06/22 08:29:46 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/06/22 08:30:51 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_vector.h"
+#include "ft_optional_types.h"
 
-// return elem n
-void	*ft_vec_at(t_vector *vec, size_t n)
+void	ft_optional_init(t_optional *opt_ptr, const void *v)
 {
-	if (vec == NULL || vec->datas == NULL || vec->count < n)
-		return (NULL);
-	return (vec->datas[n]);
+	opt_ptr->val = (void *)v;
+	if (v == NULL)
+		opt_ptr->pres = OPT_NONE;
+	else
+		opt_ptr->pres = OPT_SOME;
+	return ;
 }

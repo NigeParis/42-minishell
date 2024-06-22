@@ -6,11 +6,14 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/20 15:59:01 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/22 08:44:15 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_addons.h"
 #include "ft_char.h"
+#include "ft_optional.h"
+#include "ft_optional_types.h"
 #include "ft_string.h"
 #include "ft_vector.h"
 #include "minishell.h"
@@ -98,23 +101,25 @@ void	resolve_word(t_string **word, t_minishell_control *sh)
 	*word = tmp;
 }
 
+
+
 bool	nd2ex_word(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *sh)
 {
 	char *str[2];
+	t_optional op[2];
+
 
 	if (!nd->value)
 		return (false);
 	resolve_word((t_string **)&nd->value, sh);
-	if (cmd->construction_vector->count < cmd->construction_index)
-		ft_vec_add(&cmd->construction_vector, ft_strdup(""));
-	str[0] = ft_vec_pop(cmd->construction_vector);
-	str[1] = str[0];
-	if (!str[0])
-		str[0] = ft_string_to_str(nd->value);
-	else
-		str[0] = ft_strjoin(str[1], ft_string_to_str(nd->value));
-	if (str[1])
-		free(str[1]);
-	return (ft_string_destroy((t_string**)&nd->value), \
-	ft_vec_add(&cmd->construction_vector, str[0]), free(nd), true);
+	str[0] = ft_vec_at(cmd->construction_vector, cmd->construction_index);
+	ft_optional_init(&op[0], str[0]);
+	ft_optional_init(&op[1], ((t_string *)nd->value)->str);
+	str[1] = optional_strjoin(&op[0], &op[1]);
+	if (op[0].pres == OPT_SOME)
+		ft_vec_pop(cmd->construction_vector), free(op[0].val);
+	ft_vec_add(&cmd->construction_vector, str[1]);
+	ft_string_destroy((t_string **)&nd->value);
+	free(nd);
+	return (true);
 }

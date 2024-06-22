@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/20 10:48:59 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:57:33 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include "minishell_types.h"
 #include "minishell.h"
 #include <errno.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <readline/readline.h>
 #include <readline/history.h>
 
 int	create_env(t_minishell_control *ctrl, const char **envp)
