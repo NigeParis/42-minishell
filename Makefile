@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/06/19 08:42:01 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/06/22 14:22:55 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,6 +105,18 @@ fclean: clean
 	@$(ECHO) -n $(GRAY) "FClean ... " $(RESET)
 	@( $(RM) $(NAME) 2> /dev/null && \
 	make --no-print-directory -C ./libft fclean 2> /dev/null &&	\
+	$(ECHO) $(GREEN) "Success" $(RESET) ) || \
+	$(ECHO) $(RED) "Failed" $(RESET)
+
+supression_file_readline:
+	@$(ECHO) -n $(GRAY) "Supression file readline ... " $(RESET)
+	@( $(ECHO) -en \
+	"{\n"\
+	"\tignore_libreadline_leaks\n"\
+	"\tMemcheck:Leak\n"\
+	"\t...\n"\
+	"\tobj:*/libreadline.so.*\n"\
+	"}\n" > supress_readline.valgrind && \
 	$(ECHO) $(GREEN) "Success" $(RESET) ) || \
 	$(ECHO) $(RED) "Failed" $(RESET)
 

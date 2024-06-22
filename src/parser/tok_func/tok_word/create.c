@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/20 15:52:56 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/22 10:49:07 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 bool	prepn_word_create(t_preparsed_node *node, t_preparser_context *ctx)
 {
-	const	char	*stoper = "$'\"|";
+	const	char	*stoper = "'\"|";
 	size_t			cr_offset;
 
 	cr_offset = ctx->line_offset;
