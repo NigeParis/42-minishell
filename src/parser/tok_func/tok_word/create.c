@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/22 16:37:46 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/23 12:20:13 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,5 @@ bool	prepn_word_create(t_preparsed_node *node, t_preparser_context *ctx)
 			return (false);
 		cr_offset++;
 	}
-	printf("\n\n\n%s : node->value '%s'\n\n\n", __func__, ((t_string *)node->value)->str);
 	return (true);
 }

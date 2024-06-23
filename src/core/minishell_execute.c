@@ -6,11 +6,12 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/19 13:53:51 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/23 13:12:13 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_list.h"
+#include "ft_string.h"
 #include "minishell.h"
 #include "minishell_types.h"
 #include "parser.h"
@@ -62,8 +63,26 @@ void discard_cmd(t_cmd_to_exec *cmd)
 	free(cmd);
 }
 
+int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
+{
+	if (ft_strcmp(cmd, "cd") == 0)
+		return (&cd_main);
+	if (ft_strcmp(cmd, "env") == 0)
+		return (&env_main);
+	if (ft_strcmp(cmd, "exit") == 0)
+		return (&exit_main);
+	if (ft_strcmp(cmd, "export") == 0)
+		return (&export_main);
+	if (ft_strcmp(cmd, "pwd") == 0)
+		return (&pwd_main);
+	if (ft_strcmp(cmd, "unset") == 0)
+		return (&unset_main);
+	return (NULL);
+}
+
 int	minishell_execute(t_minishell_control *shell)
 {
+	int				(*builtin)(t_minishell_control *, t_cmd_to_exec *);
 	t_cmd_to_exec	*cmd;
 	size_t	i;
 
@@ -75,6 +94,16 @@ int	minishell_execute(t_minishell_control *shell)
 		// yes branch-> 
 			// execute the command as fun bellows but use t_minishell_control 
 			// and other fun stuff
+		if (cmd && !cmd->cmd_path && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
+		{
+			printf("builtin: %s detected\n", cmd->argv[0]);
+			// run builtin here
+			builtin = get_builtin(cmd->argv[0]);
+			builtin(shell, cmd);
+			discard_cmd(cmd);
+			cmd = parser_get_cmd(shell->preparsed, shell);
+			continue ;
+		}
 		int pid = fork();
 		if (pid == 0)
 		{
@@ -102,7 +131,7 @@ int	minishell_execute(t_minishell_control *shell)
 			// shell->exit = cmd->status;
 			if (DEBUG_LVL >= 1)
 				printf("cmd status: %d\n", cmd->status);
-			if (DEBUG_LVL >= 2)
+			if (DEBUG_LVL >= 20)
 				print_cmd(cmd);
 			discard_cmd(cmd);
 		}

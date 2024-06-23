@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:08 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/03 14:27:59 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/23 13:10:50 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ void	set_env(t_vector **env, char *keyname, char *value)
 		pair->second = ft_strdup(value);
 		return ;
 	}
-	pair = new_pair(keyname, value);
+	pair = new_pair(ft_strdup(keyname), ft_strdup(value));
 	ft_vec_add(env, pair);
 }

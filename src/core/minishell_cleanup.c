@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:52 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/22 08:12:12 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/23 13:13:50 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	free_preparsed_node(void *node_s)
 
 int	minishell_cleanup(t_minishell_control *shell)
 {
+	if (DEBUG_LVL >= 2)
+		printf("cleanup\n");
 	// free readline buff
 	rl_clear_history();
 
