@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/20 10:48:31 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:19:06 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,32 @@
 #include "parser.h"
 #include "parser_types.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
 int	minishell_should_exit(t_minishell_control *shell)
 {
+	if (shell->shoulcontinue != true)
+		return (1);
 	return (0);
 }
 
 int	minishell_parse(t_minishell_control *shell)
 {
+	if (!shell->input)
+		return (EXIT_SUCCESS);
 	((t_parser *)shell->prs)->line = shell->input;
 	parser_line_init(shell->prs);
 	shell->preparsed = ((t_parser*)shell->prs)->preparsed;
 	if (shell->preparsed == NULL || shell->preparsed->count == 0)
 		return (
-		printf("minishell_parse: shell->preparsed == NULL || shell->preparsed->count == 0\n"),
-		1);
+		printf("%s: preparsed null or no elements\n", __func__),
+		EXIT_SUCCESS);
 	if (minishell_execute(shell))
-		return (
-		printf("minishell_parse: minishell_execute(shell)\n"),
-		parser_line_cleanup(shell->prs), 1);
-
+		return (parser_line_cleanup(shell->prs), EXIT_FAILURE);
 	add_history(shell->input);
-
-	return (parser_line_cleanup(shell->prs), 0);
+	return (parser_line_cleanup(shell->prs), EXIT_SUCCESS);
 }
 
 void	minishell_loop(t_minishell_control *shell)

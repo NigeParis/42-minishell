@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/06/22 17:28:58 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/06/23 16:16:28 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,7 +94,8 @@ $(NAME):	$(OBJ) libft/libft_personal.a
 
 clean:
 	@$(ECHO) -n $(GRAY) "Clean ... " $(RESET)
-	@( $(RM) -rf $(BUILD_DIR) $(CLOG_FILE) 2> /dev/null && \
+	@( $(RM) -rf $(BUILD_DIR) $(CLOG_FILE) supress_readline.valgrind \
+	2> /dev/null && \
 	make --no-print-directory -C ./libft clean	2> /dev/null &&		\
 	$(ECHO) $(GREEN) "Success" $(RESET) ) || \
 	$(ECHO) $(RED) "Failed" $(RESET)

@@ -6,12 +6,11 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/22 17:07:05 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:00:07 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "pair.h"
+#include "ft_string_types.h"
 #include "parser.h"
 #include "parser_types.h"
 #include "ft_vector_types.h"
@@ -21,66 +20,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static char *singleton_line(char *restrict line, bool set)
+void get_next_token(t_parser *restrict p, t_preparser_context *restrict ctx)
 {
-	static char *singleton = NULL;
-
-	if (set == true)
-		singleton = line;
-	return (singleton);
-}
-
-int	tok_cmpvalue(const void *a, const void *b)
-{
-	const t_token	*tok = b;
-	const char		*val = a;
-
-	if (tok->value == NULL)
-		return (1);
-	return (ft_strcmp(val, tok->value));
-}
-
-void	custom_map(t_vector **vec, t_vector *restrict tokens, char *line, t_preparser_context *restrict ctx)
-{
+	t_token	*tok;
 	size_t	i;
-	t_token	*tok_eval;
 
 	i = 0;
-	while (i < tokens->count)
+	ctx->n_tok = ft_vec_end(p->tokens); // default to unknown
+	while (i < p->tokens->count)
 	{
-		tok_eval = ft_vec_at(tokens, i);
-		if (tok_eval->validator && tok_eval->validator(line, ctx) == true)
-			ft_vec_add(vec, new_pair((void *)i, (void *)ft_vec_at(tokens, i)));
-		i++;
+		tok = ft_vec_at(p->tokens, i++);
+		if (tok->validator && tok->validator(ctx->line + ctx->line_offset, ctx) == true)
+		{
+			ctx->n_tok = tok;
+			return ;
+		}
 	}
-}
-
-void	get_next_token(t_parser *restrict p, t_preparser_context *restrict ctx)
-{
-	t_vector	*tok_proximity;
-	t_pair		*min;
-	t_pair		*eval;
-
-	tok_proximity = ft_vec_from_size(p->tokens->count);
-	custom_map(&tok_proximity, p->tokens, p->line + ctx->line_offset, ctx);
-	min = ft_vec_pop(tok_proximity);
-	while (tok_proximity->count > 0)
-	{
-		eval = ft_vec_pop(tok_proximity);
-		if (eval->first < min->first)
-			free(min), min = eval;
-		else
-			free(eval);
-	}
-	ft_vec_destroy(&tok_proximity);
-	if (min == NULL)
-	{
-		ctx->unexpected = ft_strndup(p->line + ctx->line_offset, 1);
-		ctx->n_tok = ft_vec_at(p->tokens, TOK_UNKNOWN);
-	}
-	else
-		ctx->n_tok = min->second;
-	free(min);
 }
 
 int	update_preparsed(t_parser *restrict p, t_preparser_context *restrict ctx)
@@ -89,18 +44,19 @@ int	update_preparsed(t_parser *restrict p, t_preparser_context *restrict ctx)
 
 	if (ctx->c_tok && ctx->n_tok->type == ctx->c_tok->type)
 	{
-		node = ft_vec_end(p->preparsed);
-		if (node->append(node, ctx) == false)
+		node = ft_vec_end(p->preparsed); // get last node
+		if (node->append(node, ctx) == false) // append to last node the current token (shouldn't be called very often)
 			return (false);
 	}
 	else
 	{
-		node = preparsed_node_factory(ctx->n_tok->type);
+		node = preparsed_node_factory(ctx->n_tok->type); // create new node from token using template in node_factory
 		if (node == NULL)
 			return (false);
 		node->type = ctx->n_tok->type;
-		node->create(node, ctx);
-		ft_vec_add(&p->preparsed, node);
+		if (node->create(node, ctx) == false ||
+		ft_vec_add(&p->preparsed, node))
+			return (false);
 	}
 	return (true);
 }
@@ -141,8 +97,6 @@ void	preparse_line(t_parser *restrict p)
 	var_ctx.line = p->line;
 	while (var_ctx.line_offset <= len)
 	{
-//		if (DEBUG_LVL >= 2)
-//			printf("line: %s line_offset: %zu\n", var_ctx.line, var_ctx.line_offset);
 		get_next_token(p, &var_ctx);
 		if (var_ctx.n_tok->type == TOK_UNKNOWN)
 			ft_putendl_fd("Error: preparse_line: unknown token", \
@@ -167,12 +121,12 @@ int	parser_line_init(t_parser *restrict prs)
 		return (ft_putendl_fd("Critical error: no parser", STDERR_FILENO), \
 		EXIT_FAILURE);
 	if (!prs->line)
-		return (ft_putendl_fd("Error: parser_line_init: prs->line is NULL", \
+		return (ft_putendl_fd("Critical Error: parser_line_init: prs->line is NULL", \
 		STDERR_FILENO), EXIT_FAILURE);
 	prs->preparsed = ft_vec_new();
 	preparse_line(prs);
 	if (!prs->preparsed)
 		return (ft_putendl_fd("Error: parser_line_init: prs->preparsed is " \
-		"NULL", STDERR_FILENO), EXIT_FAILURE);
+		"NULL", STDERR_FILENO), EXIT_SUCCESS);
 	return (EXIT_SUCCESS);
 }

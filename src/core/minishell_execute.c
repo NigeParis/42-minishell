@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 13:12:13 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/23 16:38:45 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,8 @@ int	minishell_execute(t_minishell_control *shell)
 		}
 		else // parent
 		{
-			waitpid(pid, NULL, 0);
-			cmd->status = WEXITSTATUS(pid);
-			// shell->exit = cmd->status;
+			waitpid(pid, &cmd->status, 0);
+			shell->exit = WEXITSTATUS(cmd->status);
 			if (DEBUG_LVL >= 1)
 				printf("cmd status: %d\n", cmd->status);
 			if (DEBUG_LVL >= 20)

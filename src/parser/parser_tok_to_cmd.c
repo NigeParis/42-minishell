@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 13:16:17 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/23 16:19:23 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *s
 	t_vector			*args;
 	t_preparsed_node	*token;
 
-	if (DEBUG_LVL > 20)
+	if (DEBUG_LVL > 2)
 		debug_n_list(preparsed_tokens);
 	if (preparsed_tokens == NULL || preparsed_tokens->count == 0)
 		return (NULL);

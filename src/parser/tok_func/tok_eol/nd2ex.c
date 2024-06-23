@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/20 15:46:32 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/23 16:51:56 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ bool	nd2ex_eol(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *sh
 	cmd->env = get_bourne_env(sh->env);
 	if (!cmd->env || !cmd->argv)
 		return (false);
-	printf("%s : tok_consued %zu\n", __func__, cmd->nb_tok_consumed);
 	ft_vec_shift(sh->preparsed, 0, cmd->nb_tok_consumed);
 
 	if (sh->preparsed->count == 0)

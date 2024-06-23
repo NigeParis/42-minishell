@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/22 11:12:08 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/23 16:33:45 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ bool	resolve_doll(t_string *word, t_minishell_control *sh, t_string *tmp, size_t
 	return (free(key), true);
 }
 
-void	resolve_word(t_string **word, t_minishell_control *sh)
+bool	resolve_word(t_string **word, t_minishell_control *sh)
 {
 	size_t		i;
 	t_string	*tmp;
@@ -86,18 +86,21 @@ void	resolve_word(t_string **word, t_minishell_control *sh)
 	tmp = ft_string_new((*word)->length); // check if this fails
 	while (i < (*word)->length)
 	{
-		if ((*word)->str[i] == '\\')
-			ft_string_append_c(tmp, (*word)->str[i++ + 1]); // check if this fails
-		else if ((*word)->str[i] == '$' && !resolve_doll(*word, sh, tmp, &i))
+		if ((*word)->str[i] == '$' && !resolve_doll(*word, sh, tmp, &i))
 		{
-			return ; //  return false if resolve_doll fails
+			ft_string_destroy(&tmp);
+			return (false); //  return false if resolve_doll fails
 		}
-		else
-			ft_string_append_c(tmp, (*word)->str[i]); // check if this fails
+		else if (ft_string_append_c(tmp, (*word)->str[i]))
+		{
+			ft_string_destroy(&tmp);
+			return (false);
+		}
 		i++;
 	}
 	ft_string_destroy(word);
 	*word = tmp;
+	return (true);
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 10:50:34 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 10:58:48 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:08:06 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 typedef struct s_minishell_control
 {
+	bool		shoulcontinue;
 	char		*input;
 	t_vector	*env;
 	int			exit;
