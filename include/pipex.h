@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/20 16:56:36 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:08:42 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ typedef struct s_redir
 typedef struct s_cmd
 {
 	char		*cmd;
-	char		**args;
+	char		**argv;
 	int			argc;
 	char		**envp;
 	int			ret;
@@ -130,7 +130,7 @@ void Ctrl_C_child_handler(int sig);
 /// @param 
 /// @param 
 /// @returns 0 on SUCCESS or 1 on ERROR 
-char   *get_pwd(t_minishell_control *ctrl, t_cmd *cmd);
+char   *get_pwd(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
 
 /// @brief 
 /// @param 

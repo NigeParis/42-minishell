@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 11:26:11 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/20 13:58:06 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:52:34 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ t_cmd    *test_cmd_pwd(void)
     testcmd = malloc(sizeof(t_cmd));
 
 	testcmd->cmd = ft_strdup("pwd");
-	testcmd->args = ft_split("pwd", ' ');
-	testcmd->argc = ft_len_2d((const void * const *)testcmd->args);
+	testcmd->argv = ft_split("pwd", ' ');
+	testcmd->argc = ft_len_2d((const void * const *)testcmd->argv);
 	testcmd->envp = NULL;
 	testcmd->ret = 0;
 
@@ -50,8 +50,8 @@ t_cmd    *test_cmd_echo(void)
     testcmd = malloc(sizeof(t_cmd));
 
 	testcmd->cmd = ft_strdup("echo");
-	testcmd->args = ft_split("echo hello", ' ');
-	testcmd->argc = ft_len_2d((const void * const *)testcmd->args);
+	testcmd->argv = ft_split("echo hello", ' ');
+	testcmd->argc = ft_len_2d((const void * const *)testcmd->argv);
 	testcmd->envp = NULL;
 	testcmd->ret = 0;
 	testcmd->lastcmd_index = FIRST_CMD;
@@ -68,8 +68,8 @@ t_cmd    *test_cmd_exit(void)
     testcmd = malloc(sizeof(t_cmd));
 
 	testcmd->cmd = ft_strdup("exit");
-	testcmd->args = ft_split("exit 1", ' ');
-	testcmd->argc = ft_len_2d((const void * const *)testcmd->args);
+	testcmd->argv = ft_split("exit 1", ' ');
+	testcmd->argc = ft_len_2d((const void * const *)testcmd->argv);
 	testcmd->envp = NULL;
 	testcmd->ret = 0;
 	testcmd->lastcmd_index = PIPE_CMD;

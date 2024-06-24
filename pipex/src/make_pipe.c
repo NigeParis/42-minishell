@@ -6,17 +6,17 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/20 16:03:33 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:03:18 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <signal.h>
 
-int make_pipe(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir)
+int make_pipe(t_pipex *pipex, t_cmd_to_exec *argv, t_redir *redir)
 {
 	int ret;
-	if (!args->status)
+	if (!argv->status)
 	{
 		signal(SIGQUIT, backslash_handler);
     	signal(SIGINT, Ctrl_C_child_handler);   /* Ctrl-c handler*/
@@ -33,19 +33,19 @@ int make_pipe(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir)
 	if (!pipex->child_pid)
 	{
 		
-		child_process(pipex, args, redir);
+		child_process(pipex, argv, redir);
 	}
 	else
 	{	
-		parent_process(pipex, redir, args);
+		parent_process(pipex, redir, argv);
 	}
 	return (0);
 }
 
-void child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir)
+void child_process(t_pipex *pipex, t_cmd_to_exec *argv, t_redir *redir)
 {
 	close(pipex->pipe_fd[0]);
-	if (args->lastcmd_index == FIRST_CMD)
+	if (argv->lastcmd_index == FIRST_CMD)
 	{
 		dup2(pipex->pipe_fd[1], STDOUT_FILENO);
 		if (redir->src_flag)
@@ -54,12 +54,12 @@ void child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir)
 			close_fd(&pipex->fdin);
 		}
 	}
-	else if (args->lastcmd_index == PIPE_CMD)
+	else if (argv->lastcmd_index == PIPE_CMD)
 	{
 		dup2(pipex->pipe_fd[1], STDOUT_FILENO);
 		close(pipex->pipe_fd[1]);
 	}
-	else if (args->lastcmd_index == LAST_CMD)
+	else if (argv->lastcmd_index == LAST_CMD)
 	{
 		if (redir->dst_flag)
 		{
@@ -69,16 +69,16 @@ void child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir)
 	}
 	close(pipex->pipe_fd[1]);
 
-	exec_cmd(args, pipex, redir);
+	exec_cmd(argv, pipex, redir);
 	
 	
 }
 
-void parent_process(t_pipex *pipex, t_redir *redir, t_cmd_to_exec *args)
+void parent_process(t_pipex *pipex, t_redir *redir, t_cmd_to_exec *argv)
 {
 	(void)redir;
 	(void)pipex;
-	(void)args;
+	(void)argv;
 	
 	close(pipex->pipe_fd[1]);
 	dup2(pipex->pipe_fd[0], STDIN_FILENO);
@@ -86,10 +86,10 @@ void parent_process(t_pipex *pipex, t_redir *redir, t_cmd_to_exec *args)
 	
 }
 
-void ft_pipes(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir)
+void ft_pipes(t_pipex *pipex, t_cmd_to_exec *argv, t_redir *redir)
 {
 
-	make_pipe(pipex, args, redir);
+	make_pipe(pipex, argv, redir);
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);
 }

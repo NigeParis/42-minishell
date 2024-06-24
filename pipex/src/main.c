@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/20 17:01:21 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:04:18 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,11 +189,11 @@ char *nospaces(char *str)
 
 int	main(int ac, const char *av[], char *env[])
 {
-    t_cmd_to_exec *args;
+    t_cmd_to_exec *argv;
     t_pipex pipex;
     t_redir *redir;
     
-    (void)args;
+    (void)argv;
     (void)ac;
     (void)av;
     (void)env;
@@ -207,7 +207,7 @@ int	main(int ac, const char *av[], char *env[])
     redir = test_redir();
     ft_setup_prog(av);
     ft_init(&pipex, redir);
-    args = cmd_to_exec_init();
+    argv = cmd_to_exec_init();
 
     
     
@@ -251,56 +251,56 @@ int	main(int ac, const char *av[], char *env[])
                 {
                     // first cmd
                   
-                    test_first_cmd(args, cmds, "ls-l", &cmd_to_exec_ls_l);
-                    test_first_cmd(args, cmds, "ls", &cmd_to_exec_ls);
-                    test_first_cmd(args, cmds, "yes", &cmd_to_exec_yes);
-                    test_first_cmd(args, cmds, "pwd", &cmd_to_exec_pwd);
-                    test_first_cmd(args, cmds, "cat-e", &cmd_to_exec_cat_e);
-                    test_first_cmd(args, cmds, "cat", &cmd_to_exec_cat);
-                    test_first_cmd(args, cmds, "echo", &cmd_to_exec_echo);
-                    test_first_cmd(args, cmds, "clear", &cmd_to_exec_clear);
-                    test_first_cmd(args, cmds, "echo-n", &cmd_to_exec_echo_n);
-                    test_first_cmd(args, cmds, "qqqq", &cmd_to_exec_qqqq);
-                    test_first_cmd(args, cmds, "wc", &cmd_to_exec_wc);
+                    test_first_cmd(argv, cmds, "ls-l", &cmd_to_exec_ls_l);
+                    test_first_cmd(argv, cmds, "ls", &cmd_to_exec_ls);
+                    test_first_cmd(argv, cmds, "yes", &cmd_to_exec_yes);
+                    test_first_cmd(argv, cmds, "pwd", &cmd_to_exec_pwd);
+                    test_first_cmd(argv, cmds, "cat-e", &cmd_to_exec_cat_e);
+                    test_first_cmd(argv, cmds, "cat", &cmd_to_exec_cat);
+                    test_first_cmd(argv, cmds, "echo", &cmd_to_exec_echo);
+                    test_first_cmd(argv, cmds, "clear", &cmd_to_exec_clear);
+                    test_first_cmd(argv, cmds, "echo-n", &cmd_to_exec_echo_n);
+                    test_first_cmd(argv, cmds, "qqqq", &cmd_to_exec_qqqq);
+                    test_first_cmd(argv, cmds, "wc", &cmd_to_exec_wc);
                     
                      
-                    execute(args, &pipex, redir);
+                    execute(argv, &pipex, redir);
                 }            
                 
                 if (cmd_nb > 1 && cmds[1])
                 {
                     // middle cmds pipe to pipe
                 
-                    test_pipe_cmd(args, cmds, "cat-e", &cmd_to_exec_cat_e);
-                    test_pipe_cmd(args, cmds, "ls-l", &cmd_to_exec_ls_l);
-                    test_pipe_cmd(args, cmds, "ls", &cmd_to_exec_ls);
-                    test_pipe_cmd(args, cmds, "yes", &cmd_to_exec_yes);
-                    test_pipe_cmd(args, cmds, "pwd", &cmd_to_exec_pwd);
-                    test_pipe_cmd(args, cmds, "cat", &cmd_to_exec_cat);
-                    test_pipe_cmd(args, cmds, "qqqq", &cmd_to_exec_qqqq);
-                    test_pipe_cmd(args, cmds, "echo", &cmd_to_exec_echo);
-                    test_pipe_cmd(args, cmds, "clear", &cmd_to_exec_clear);
-                    test_pipe_cmd(args, cmds, "wc", &cmd_to_exec_wc);
+                    test_pipe_cmd(argv, cmds, "cat-e", &cmd_to_exec_cat_e);
+                    test_pipe_cmd(argv, cmds, "ls-l", &cmd_to_exec_ls_l);
+                    test_pipe_cmd(argv, cmds, "ls", &cmd_to_exec_ls);
+                    test_pipe_cmd(argv, cmds, "yes", &cmd_to_exec_yes);
+                    test_pipe_cmd(argv, cmds, "pwd", &cmd_to_exec_pwd);
+                    test_pipe_cmd(argv, cmds, "cat", &cmd_to_exec_cat);
+                    test_pipe_cmd(argv, cmds, "qqqq", &cmd_to_exec_qqqq);
+                    test_pipe_cmd(argv, cmds, "echo", &cmd_to_exec_echo);
+                    test_pipe_cmd(argv, cmds, "clear", &cmd_to_exec_clear);
+                    test_pipe_cmd(argv, cmds, "wc", &cmd_to_exec_wc);
 
-                    execute(args, &pipex, redir);
+                    execute(argv, &pipex, redir);
                 }
                 
                 if (cmd_nb > 2 && cmds[2])
                 {
                     //last_cmds;
                     
-                    test_last_cmd(args, cmds, "cat-e", &cmd_to_exec_cat_e);
-                    test_last_cmd(args, cmds, "ls-l", &cmd_to_exec_ls_l);
-                    test_last_cmd(args, cmds, "ls", &cmd_to_exec_ls);
-                    test_last_cmd(args, cmds, "yes", &cmd_to_exec_yes);
-                    test_last_cmd(args, cmds, "pwd", &cmd_to_exec_pwd);
-                    test_last_cmd(args, cmds, "cat", &cmd_to_exec_cat);
-                    test_last_cmd(args, cmds, "qqqq", &cmd_to_exec_qqqq);
-                    test_last_cmd(args, cmds, "echo", &cmd_to_exec_echo);
-                    test_last_cmd(args, cmds, "clear", &cmd_to_exec_clear);
-                    test_last_cmd(args, cmds, "wc", &cmd_to_exec_wc);
+                    test_last_cmd(argv, cmds, "cat-e", &cmd_to_exec_cat_e);
+                    test_last_cmd(argv, cmds, "ls-l", &cmd_to_exec_ls_l);
+                    test_last_cmd(argv, cmds, "ls", &cmd_to_exec_ls);
+                    test_last_cmd(argv, cmds, "yes", &cmd_to_exec_yes);
+                    test_last_cmd(argv, cmds, "pwd", &cmd_to_exec_pwd);
+                    test_last_cmd(argv, cmds, "cat", &cmd_to_exec_cat);
+                    test_last_cmd(argv, cmds, "qqqq", &cmd_to_exec_qqqq);
+                    test_last_cmd(argv, cmds, "echo", &cmd_to_exec_echo);
+                    test_last_cmd(argv, cmds, "clear", &cmd_to_exec_clear);
+                    test_last_cmd(argv, cmds, "wc", &cmd_to_exec_wc);
                     
-                    execute(args, &pipex, redir);
+                    execute(argv, &pipex, redir);
                 }      
                     
                 dup2(redir->std_src, STDIN_FILENO); 

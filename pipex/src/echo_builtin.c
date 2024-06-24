@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:43:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/19 10:16:42 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:05:40 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ static int is_echo_flag(t_cmd *cmd, int i)
 	int y;
 
 	y = 1;
-	if (!cmd->args)
+	if (!cmd->argv)
 		return (0);
-	if(cmd && cmd->args[i][0] == '-')
+	if(cmd && cmd->argv[i][0] == '-')
 	{
-		while(cmd->args[i] && cmd->args[i][y] == 'n')
+		while(cmd->argv[i] && cmd->argv[i][y] == 'n')
 		{		
-			if (cmd->args[i][y] != 'n')	
+			if (cmd->argv[i][y] != 'n')	
 				return (0);
 			y++;
 		}
-		if (cmd->args[i][y] == '\0')
+		if (cmd->argv[i][y] == '\0')
 			return (1);
 		y = 1;
 	}
@@ -49,10 +49,10 @@ int   put_echo(t_minishell_control *ctrl, t_cmd *cmd)
 	{
 		i++;
 	}
-	while (cmd->args && cmd->args[i] != NULL)
+	while (cmd->argv && cmd->argv[i] != NULL)
 	{
-		ft_putstr_fd(cmd->args[i], STDOUT_FILENO);
-		if (cmd->args && cmd->args[i + 1]!= NULL)
+		ft_putstr_fd(cmd->argv[i], STDOUT_FILENO);
+		if (cmd->argv && cmd->argv[i + 1]!= NULL)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		i++;
 	}

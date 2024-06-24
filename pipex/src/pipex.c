@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:45:37 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/20 16:33:03 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:02:06 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,17 @@ void	ft_open_infile(t_pipex *pipex, char *infile)
 }
 
 
-int	execute(t_cmd_to_exec *args,  t_pipex *pipex, t_redir *redir)
+int	execute(t_cmd_to_exec *argv,  t_pipex *pipex, t_redir *redir)
 {
 	int i = 0;
 	i++;
 	
 
 	
-	if ((args->right_token == '>') && (args->lastcmd_index == LAST_CMD))
+	if ((argv->right_token == '>') && (argv->lastcmd_index == LAST_CMD))
 		redir->dst_flag = 1;
 
-	if ((args->left_token == '<') && (args->lastcmd_index == FIRST_CMD))
+	if ((argv->left_token == '<') && (argv->lastcmd_index == FIRST_CMD))
 		redir->src_flag = 1;
 
 	if (redir->dst_flag > 0)
@@ -96,9 +96,9 @@ int	execute(t_cmd_to_exec *args,  t_pipex *pipex, t_redir *redir)
 	{
 		ft_open_infile(pipex, redir->file_src);
 	}
-	ft_pipes(pipex, args, redir);
+	ft_pipes(pipex, argv, redir);
 	
-	if (args->lastcmd_index == LAST_CMD)
-		waitpid(pipex->child_pid, &args->status, 0);
+	if (argv->lastcmd_index == LAST_CMD)
+		waitpid(pipex->child_pid, &argv->status, 0);
 	return (0);
 }
