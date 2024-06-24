@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:59:37 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/31 18:51:02 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/25 00:21:34 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int			ft_logof(int nbr, int base);
 /// @param base base of the logaritm
 /// @return the logaritm of the number in the specified base. in case of error
 /// return -1
+/// @note The lenght of a number n in base 10 is always log(n) + 1 
+///		(just in case you were doing an off by 1 error and ended up here lol)
 int			ft_log(int nbr);
 
 /// @brief returns the minimum of a and b

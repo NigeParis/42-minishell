@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/06/23 16:16:28 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/06/25 00:25:28 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -118,6 +118,9 @@ supression_file_readline:
 	"}\n" > supress_readline.valgrind && \
 	$(ECHO) $(GREEN) "Success" $(RESET) ) || \
 	$(ECHO) $(RED) "Failed" $(RESET)
+
+tests_run:
+	make --no-print-directory -C ./libft tests_run
 
 -include $(OBJ:.o=.d)
 

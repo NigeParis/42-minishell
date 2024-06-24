@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:55:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/24 11:12:13 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/25 00:18:37 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,15 @@ typedef enum e_redir_flag
 
 typedef enum e_redir_type
 {
-	RDIR_PIPE = 1,		// 0 00 01
-	RDIR_INPUT = 2,		// 0 00 10
-	RDIR_OUTPUT = 3,	// 0 00 11
+	RDIR_PIPE		= 1,		// 0 00 01
+	RDIR_INPUT		= 2,		// 0 00 10
+	RDIR_OUTPUT		= 3,		// 0 00 11
 
-	RDIR_TRUNC = 4,		// 0 01 00
-	RDIR_APPEND = 8,	// 0 10 00
-	RDIR_HEREDOC = 12,	// 0 11 00
+	RDIR_TRUNC		= 1 << 2,	// 0 01 00
+	RDIR_APPEND		= 2 << 2,	// 0 10 00
+	RDIR_HEREDOC	= 3 << 2,	// 0 11 00
 	
-	RDIR_DUP = 16,		// 1 00 00 // >&
+	RDIR_DUP		= 1 << 4,	// 1 00 00 // >&
 }									t_redir_type;
 
 /*
@@ -135,8 +135,8 @@ struct								s_redir
 {
 	int								src_std;
 	char							*src_file;
-	t_redir_flag						flag;
-	t_redir_type						redir_type;
+	t_redir_flag					flag;
+	t_redir_type					redir_type;
 	char							*target_file;
 	int								target_std;
 };

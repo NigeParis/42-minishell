@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 16:19:23 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/25 00:13:10 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,15 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *s
 	{
 		token = ft_vec_at(preparsed_tokens, cmd->nb_tok_consumed++);
 		if (token && token->execute)
-			token->execute(token, cmd, sh);
+		{
+			if (token->execute(token, cmd, sh) == false)
+			{
+				printf("nd2ex on token failed.\ntoken respossible:\t");
+				token->print(token);
+				printf("\n");
+				return (NULL);
+			}
+		}
 		else
 		{
 			printf("error: no execute function for token %p\t", token), 

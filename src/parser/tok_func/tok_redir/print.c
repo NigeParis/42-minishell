@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:43:05 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/24 13:28:42 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:01:40 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	prepn_redir_print(t_preparsed_node *node)
 	t_redir	*redir;
 
 	redir = (t_redir *)node->value;
-	printf("redirection (%s %s %s)\t", 
+	printf("redirection (%s %s(t:%d, f:%d) %s)\t", 
 		redir->flag == RDIR_STD ?
 			redir->src_std == STDIN_FILENO ? "STDIN" : 
 			redir->src_std == STDOUT_FILENO ? "STDOUT" : 
@@ -34,6 +34,10 @@ void	prepn_redir_print(t_preparsed_node *node)
 			: (redir->flag & RDIR_MSK_MODE) == RDIR_TRUNC ? "<"
 			: "UNKNOWN"
 		: "UNKNOWN",
+		
+		redir->redir_type,
+		redir->flag,
+
 		redir->target_file == NULL?
 			redir->target_std == STDIN_FILENO ? "STDIN" :
 			redir->target_std == STDOUT_FILENO ? "STDOUT" :
