@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 17:00:07 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/24 10:35:44 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,9 @@ int	update_preparsed(t_parser *restrict p, t_preparser_context *restrict ctx)
 		if (node == NULL)
 			return (false);
 		node->type = ctx->n_tok->type;
-		if (node->create(node, ctx) == false ||
-		ft_vec_add(&p->preparsed, node))
+		if (node->create(node, ctx) == false)
+			return (node->destroy(node), false);
+		if (ft_vec_add(&p->preparsed, node) == false)
 			return (false);
 	}
 	return (true);
@@ -80,14 +81,29 @@ int update_context(t_parser *restrict p, t_preparser_context *restrict ctx)
 void	preparser_destroy(t_preparser_context *restrict ctx, t_parser *restrict p)
 {
 	t_preparsed_node	*node;
+	size_t				i;
 
-	(void)p;
-	(void)ctx;
-	(void)node;
-	p->preparsed = NULL; // yes yes i leak here -- todo
+	i = 0;
+	if (ctx == NULL || p == NULL)
+		return ;
+	node = ft_vec_at(p->preparsed, 0);
+	while (node)
+	{
+		node->destroy(node);
+		node = ft_vec_at(p->preparsed, ++i);
+	}
+	ft_vec_destroy(&p->preparsed);
+	p->preparsed = NULL;
 }
 
-void	preparse_line(t_parser *restrict p)
+/*
+** Preparse the line and create a list of preparsed nodes (tokens), the 
+** preparsed nodes are stored in the parser structure in a vector.
+** Todo: updat parser_destroy to free the preparsed nodes. 
+**		(check method destroy on tokens).
+** Todo: modify return to return an error code when failing to allocate memory.
+*/
+int	preparse_line(t_parser *restrict p)
 {
 	t_preparser_context	var_ctx;
 	const size_t		len = ft_strlen(p->line);
@@ -113,6 +129,7 @@ void	preparse_line(t_parser *restrict p)
 			break ;
 		}
 	}
+	return (EXIT_SUCCESS);
 }
 
 int	parser_line_init(t_parser *restrict prs)
@@ -123,10 +140,14 @@ int	parser_line_init(t_parser *restrict prs)
 	if (!prs->line)
 		return (ft_putendl_fd("Critical Error: parser_line_init: prs->line is NULL", \
 		STDERR_FILENO), EXIT_FAILURE);
+
 	prs->preparsed = ft_vec_new();
-	preparse_line(prs);
+	if (preparse_line(prs))
+		return (ft_putendl_fd("Error: parser_line_init: preparse_line failed", \
+		STDERR_FILENO), EXIT_FAILURE);
 	if (!prs->preparsed)
 		return (ft_putendl_fd("Error: parser_line_init: prs->preparsed is " \
-		"NULL", STDERR_FILENO), EXIT_SUCCESS);
+		"NULL", STDERR_FILENO), EXIT_FAILURE);
+
 	return (EXIT_SUCCESS);
 }

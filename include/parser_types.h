@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:55:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/20 14:24:15 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/24 11:12:13 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef bool						(*t_preparsed_exec)(
 TOK_SEMICOLON,
 TOK_AND,
 TOK_OR,
-TOK_REDIR,
 TOK_VAR_EXP,
 TOK_CMD_EXP,
 TOK_BACKSLASH,
@@ -59,29 +58,43 @@ TOK_BACKSLASH,
 typedef enum e_tok_type
 {
 	TOK_PIPE,
+	TOK_REDIR,
 	TOK_WORD,
 	TOK_SPACE,
-	TOK_EOL,
 	TOK_QUOTE,
+	TOK_EOL,
 	TOK_UNKNOWN,
 }									t_tok_type;
 
-typedef enum e_rdir_flag
+typedef enum e_redir_flag
 {
 	RDIR_FILE,
 	RDIR_STD,
-}									t_rdir_flag;
+}									t_redir_flag;
 
-typedef enum e_rdir_type
+#define RDIR_MSK_IO 0x03
+#define RDIR_MSK_MODE 0x0C
+#define RDIR_MSK_DUP 0x10
+
+typedef enum e_redir_type
 {
-	RDIR_PIPE,
-	RDIR_INPUT,
-	RDIR_OUTPUT,
-	RDIR_TRUNC,
-	RDIR_APPEND,
-	RDIR_HEREDOC,
-	RDIR_DUP,
-}									t_rdir_type;
+	RDIR_PIPE = 1,		// 0 00 01
+	RDIR_INPUT = 2,		// 0 00 10
+	RDIR_OUTPUT = 3,	// 0 00 11
+
+	RDIR_TRUNC = 4,		// 0 01 00
+	RDIR_APPEND = 8,	// 0 10 00
+	RDIR_HEREDOC = 12,	// 0 11 00
+	
+	RDIR_DUP = 16,		// 1 00 00 // >&
+}									t_redir_type;
+
+/*
+truc = RDIR_OUTPUT | RDIR_APPEND; // 0 00 11 | 0 10 00 
+  // = 0 10 11
+if (truc & RDIR_MSK_IO == RDIR_OUTPUT)
+  // redirect output
+*/
 
 typedef enum e_quote
 {
@@ -114,7 +127,7 @@ struct								s_token
 // src_std -> source file descriptor
 // src_file -> source file path
 // flag -> RDIR_FILE | RDIR_STD
-// rdir_type -> RDIR_INPUT | RDIR_OUTPUT | RDIR_TRUNC | RDIR_APPEND
+// redir_type -> RDIR_INPUT | RDIR_OUTPUT | RDIR_TRUNC | RDIR_APPEND
 //   | RDIR_HEREDOC | RDIR_DUP
 // target_file -> target file path
 // target_std -> target file descriptor
@@ -122,8 +135,8 @@ struct								s_redir
 {
 	int								src_std;
 	char							*src_file;
-	t_rdir_flag						flag;
-	t_rdir_type						rdir_type;
+	t_redir_flag						flag;
+	t_redir_type						redir_type;
 	char							*target_file;
 	int								target_std;
 };

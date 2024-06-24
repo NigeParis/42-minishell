@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/22 17:35:39 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/24 09:26:28 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	setup_minishell(t_minishell_control *minishell, int ac, char **arg, \
 	stifle_history(10);
 	ft_setup_prog((const char *const *)arg);
 	ft_bzero(minishell, sizeof(t_minishell_control));
+	minishell->shoulcontinue = true;
 	if (create_env(minishell, (const char **)envp) == EXIT_FAILURE)
 		return (minishell_error(MINI_ERR_ENVC, NULL, errno), \
 		minishell->exit = 1, EXIT_FAILURE);

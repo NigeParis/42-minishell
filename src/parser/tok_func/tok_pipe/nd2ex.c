@@ -57,7 +57,7 @@ bool	nd2ex_pipe(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *s
 		return (false);
 	rd->src_std = STDOUT_FILENO;
 	rd->target_std = STDIN_FILENO;
-	rd->rdir_type = RDIR_PIPE;
+	rd->redir_type = RDIR_PIPE;
 	rd->flag = RDIR_STD;
 	if (ft_ll_push(&cmd->redir_to_do, rd) == NULL)
 		return (free(rd), false);

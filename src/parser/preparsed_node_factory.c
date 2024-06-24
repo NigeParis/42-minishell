@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:25:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/20 15:05:42 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/24 09:45:41 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 #include <stdlib.h>
 
 static const t_preparsed_node	g_preparser_nodes_tb[] = {
+{TOK_PIPE, NULL, prepn_pipe_create, prepn_pipe_ulb, prepn_pipe_append,
+	prepn_pipe_print, destroy_pipe, nd2ex_pipe},
+{TOK_REDIR, NULL, prepn_redir_create, prepn_redir_ulb, prepn_redir_append,
+	prepn_redir_print, destroy_redir, nd2ex_redir},
 {TOK_WORD, NULL, prepn_word_create, prepn_word_ulb, prepn_word_append,
 	prepn_word_print, destroy_word, nd2ex_word},
 {TOK_SPACE, NULL, prepn_space_create, prepn_space_ulb, prepn_space_append,
@@ -25,8 +29,6 @@ static const t_preparsed_node	g_preparser_nodes_tb[] = {
 	prepn_eol_print, destroy_eol, nd2ex_eol},
 {TOK_QUOTE, NULL, prepn_quote_create, prepn_quote_ulb, prepn_quote_append,
 	prepn_quote_print, destroy_quote, nd2ex_quote},
-{TOK_PIPE, NULL, prepn_pipe_create, prepn_pipe_ulb, prepn_pipe_append,
-	prepn_pipe_print, destroy_pipe, nd2ex_pipe},
 {TOK_UNKNOWN, NULL, NULL, NULL, NULL, NULL, NULL, NULL},
 };
 
@@ -50,7 +52,11 @@ static void	set_functions(t_preparsed_node *node)
 		i++;
 	}
 }
-
+/*
+** Create a new preparsed node from a token type
+**
+** todo: add error handling, currently fails if token = TOK_UNKNOWN
+*/
 t_preparsed_node	*preparsed_node_factory(t_tok_type type)
 {
 	t_preparsed_node	*node;

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:45 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/19 10:27:13 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:37:45 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static t_token	*load_tokens(void)
 		{TOK_OR, "||"},
 */
 		{TOK_EOL, "\n", isok_eol},
+		{TOK_REDIR, NULL, isok_redir},
 		{TOK_QUOTE, NULL, isok_quote},
 		{TOK_PIPE, "|", isok_pipe},
 		{TOK_SPACE, " ", isok_space},

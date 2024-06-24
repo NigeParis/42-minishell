@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 10:50:34 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 17:08:06 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/24 09:37:16 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,5 @@ typedef enum e_mini_err
 	MINI_ERR_CMDE,
 	MINI_ERR_FATAL,
 }	t_mini_err;
-
-/// @brief Structure to store a command and its arguments
-/// @param cmd The command to execute with its full path
-/// @param args The arguments to pass to the command
-/// @param argc The number of arguments
-/// @param envp The environment variables as an array of strings
-/// @param ret The return value of the command
-typedef struct s_cmd
-{
-	char		*cmd;
-	char		**args;
-	int			argc;
-	char		**envp;
-	int			ret;
-}	t_cmd;
 
 #endif
