@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/24 09:26:28 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:06:09 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "ft_vector.h"
 #include "minishell_types.h"
 #include "minishell.h"
-#include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <readline/readline.h>
@@ -30,6 +29,8 @@ int	create_env(t_minishell_control *ctrl, const char **envp)
 
 	i = 0;
 	ctrl->env = ft_vec_from_size(ft_len_2d((const void **)envp));
+	if (ctrl->env == NULL)
+		return (EXIT_FAILURE);
 	while (envp[i])
 	{
 		pair = malloc(sizeof(t_pair));
@@ -53,9 +54,9 @@ int	setup_minishell(t_minishell_control *minishell, int ac, char **arg, \
 	ft_bzero(minishell, sizeof(t_minishell_control));
 	minishell->shoulcontinue = true;
 	if (create_env(minishell, (const char **)envp) == EXIT_FAILURE)
-		return (minishell_error(MINI_ERR_ENVC, NULL, errno), \
-		minishell->exit = 1, EXIT_FAILURE);
-	minishell_parser_init(minishell);
+		return (minishell->exit = 1, EXIT_FAILURE);
+	if (minishell_parser_init(minishell) == EXIT_FAILURE)
+		return (minishell->exit = 1, EXIT_FAILURE);
 	signal_init();
 	return (EXIT_SUCCESS);
 }

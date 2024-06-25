@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/25 00:13:10 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:51:09 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	call_destroy(void *data)
 	if (token && token->destroy)
 		token->destroy(token);
 }
+void discard_cmd(t_cmd_to_exec *cmd);
 
 t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *sh)
 {
@@ -103,6 +104,9 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *s
 				printf("nd2ex on token failed.\ntoken respossible:\t");
 				token->print(token);
 				printf("\n");
+				ft_vec_shift(sh->preparsed, 0, cmd->nb_tok_consumed - 1);
+				debug_n_list(preparsed_tokens);
+				discard_cmd(cmd);
 				return (NULL);
 			}
 		}
