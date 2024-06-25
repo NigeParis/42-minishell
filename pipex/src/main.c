@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/25 09:03:54 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:22:00 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,9 +242,9 @@ int	main(int ac, const char *av[], char *env[])
                     test_first_cmd(argv, cmds, "pwd", &cmd_to_exec_pwd);
                     test_first_cmd(argv, cmds, "cat-e", &cmd_to_exec_cat_e);
                     test_first_cmd(argv, cmds, "cat", &cmd_to_exec_cat);
-                    test_first_cmd(argv, cmds, "echo", &cmd_to_exec_echo);
+                    //test_first_cmd(argv, cmds, "echo", &cmd_to_exec_echo);
                     test_first_cmd(argv, cmds, "clear", &cmd_to_exec_clear);
-                    test_first_cmd(argv, cmds, "echo-n", &cmd_to_exec_echo_n);
+                    test_first_cmd(argv, cmds, "echo", &cmd_to_exec_echo_n);
                     test_first_cmd(argv, cmds, "qqqq", &cmd_to_exec_qqqq);
                     test_first_cmd(argv, cmds, "wc", &cmd_to_exec_wc);
                     
@@ -263,7 +263,7 @@ int	main(int ac, const char *av[], char *env[])
                     test_pipe_cmd(argv, cmds, "pwd", &cmd_to_exec_pwd);
                     test_pipe_cmd(argv, cmds, "cat", &cmd_to_exec_cat);
                     test_pipe_cmd(argv, cmds, "qqqq", &cmd_to_exec_qqqq);
-                    test_pipe_cmd(argv, cmds, "echo", &cmd_to_exec_echo);
+                    //test_pipe_cmd(argv, cmds, "echo", &cmd_to_exec_echo);
                     test_pipe_cmd(argv, cmds, "clear", &cmd_to_exec_clear);
                     test_pipe_cmd(argv, cmds, "wc", &cmd_to_exec_wc);
 
@@ -281,7 +281,7 @@ int	main(int ac, const char *av[], char *env[])
                     test_last_cmd(argv, cmds, "pwd", &cmd_to_exec_pwd);
                     test_last_cmd(argv, cmds, "cat", &cmd_to_exec_cat);
                     test_last_cmd(argv, cmds, "qqqq", &cmd_to_exec_qqqq);
-                    test_last_cmd(argv, cmds, "echo", &cmd_to_exec_echo);
+                   // test_last_cmd(argv, cmds, "echo", &cmd_to_exec_echo);
                     test_last_cmd(argv, cmds, "clear", &cmd_to_exec_clear);
                     test_last_cmd(argv, cmds, "wc", &cmd_to_exec_wc);
                     

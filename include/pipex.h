@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/25 10:12:32 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:00:51 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ int		execute(t_cmd_to_exec *args, t_pipex *pipex);
 /// @param 
 /// @param 
 /// @note 
-void	exec_cmd(t_cmd_to_exec *args, t_pipex *pipex, t_redir *redir);
+void	exec_cmd(t_cmd_to_exec *args, t_pipex *pipex);
 
 /// @brief 
 /// @param 
@@ -228,7 +228,14 @@ int 	checkfile_read_and_exists(char *file, int type);
 /// @param 
 /// @param 
 /// @note 
-void	ft_open_outfile(t_pipex *pipex, char *outfile);
+void	ft_open_outfile_trunc(t_pipex *pipex, char *outfile);
+
+
+/// @brief 
+/// @param 
+/// @param 
+/// @note 
+void	ft_open_outfile_append(t_pipex *pipex, char *outfile);
 
 /// @brief 
 /// @param 
@@ -240,19 +247,19 @@ void	ft_open_infile(t_pipex *pipex, char *outfile);
 /// @param 
 /// @param 
 /// @note 
-int     make_pipe(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir);
+int     make_pipe(t_pipex *pipex, t_cmd_to_exec *args);
 
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-void	child_process(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir);
+void	child_process(t_pipex *pipex, t_cmd_to_exec *args);
 
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-void	parent_process(t_pipex *pipex, t_redir *redir, t_cmd_to_exec *args);
+void	parent_process(t_pipex *pipex, t_cmd_to_exec *args);
 
 /// @brief 
 /// @param 
@@ -285,7 +292,7 @@ int		ft_pipex(t_pipex *pipex);
 /// @param 
 /// @param 
 /// @note 
-void	ft_pipes(t_pipex *pipex, t_cmd_to_exec *args, t_redir *redir);
+void	ft_pipes(t_pipex *pipex, t_cmd_to_exec *args);
 
 /// @brief 
 /// @param 
@@ -315,6 +322,7 @@ t_redir   *test_redir_ls_l(void);
 t_redir   *test_redir_ls(void);
 t_redir   *test_redir_cat_e(void);
 t_redir   *test_redir_cat(void);
+t_redir   *test_redir_echo_n(void);
 
 t_cmd_to_exec    *cmd_to_exec_echo(void);
 t_cmd_to_exec    *cmd_to_exec_cat(void);

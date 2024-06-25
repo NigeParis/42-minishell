@@ -6,14 +6,14 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/25 09:10:03 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:41:23 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <signal.h>
 
-int make_pipe(t_pipex *pipex, t_cmd_to_exec *argv, t_redir *redir)
+int make_pipe(t_pipex *pipex, t_cmd_to_exec *argv)
 {
 	int ret;
 	if (!argv->status)
@@ -32,64 +32,81 @@ int make_pipe(t_pipex *pipex, t_cmd_to_exec *argv, t_redir *redir)
 	
 	if (!pipex->child_pid)
 	{
-		
-		child_process(pipex, argv, redir);
+		child_process(pipex, argv);
 	}
 	else
 	{	
-		parent_process(pipex, redir, argv);
+		parent_process(pipex, argv);
 	}
 	return (0);
 }
 
-void child_process(t_pipex *pipex, t_cmd_to_exec *argv, t_redir *redir)
+void	ft_open_file(t_pipex *pipex, t_cmd_to_exec *argv)
 {
-	close(pipex->pipe_fd[0]);
-	if (argv->lastcmd_index == FIRST_CMD)
+	t_redir *redir;
+	redir = (t_redir*)argv->redir_to_do->data;
+
+	if (redir->flag == RDIR_FILE && redir->redir_type == RDIR_TRUNC)
 	{
-		dup2(pipex->pipe_fd[1], STDOUT_FILENO);
-		if (redir->flag && redir->redir_type == RDIR_FILE)
-		{
-			dup2(pipex->fdin, STDIN_FILENO);
-			close_fd(&pipex->fdin);
-		}
+		ft_open_outfile_trunc(pipex, redir->target_file);
 	}
-	else if (argv->lastcmd_index == PIPE_CMD)
+
+	if (redir->flag == RDIR_FILE && redir->redir_type == RDIR_APPEND)
+	{
+		ft_open_outfile_trunc(pipex, redir->target_file);
+	}
+	
+	if (redir->flag == RDIR_FILE && redir->redir_type == 0)
+	{
+		ft_open_infile(pipex, redir->src_file);
+	}
+
+}
+
+
+
+
+void child_process(t_pipex *pipex, t_cmd_to_exec *argv)
+{
+	t_redir *redir;
+
+	redir = (t_redir*)argv->redir_to_do->data;	
+	close(pipex->pipe_fd[0]);
+	if (redir->flag == RDIR_FILE  && redir->redir_type == 0)
+	{
+		ft_open_file(pipex, argv);
+		dup2(pipex->fdin, STDIN_FILENO);
+		close_fd(&pipex->fdin);
+	}
+	else if (redir->redir_type == RDIR_PIPE)
 	{
 		dup2(pipex->pipe_fd[1], STDOUT_FILENO);
 		close(pipex->pipe_fd[1]);
 	}
-	else if (argv->lastcmd_index == LAST_CMD)
+	else if (redir->flag == RDIR_FILE \
+			&& (redir->redir_type == RDIR_TRUNC \
+			|| redir->redir_type == RDIR_APPEND))
 	{
-		if (redir->flag == RDIR_FILE && redir->redir_type == RDIR_TRUNC)
-		{
+			ft_open_file(pipex, argv);
 			dup2(pipex->fdout, STDOUT_FILENO);
 			close_fd(&pipex->fdout);
-		}
 	}
 	close(pipex->pipe_fd[1]);
-
-	exec_cmd(argv, pipex, redir);
-	
-	
+	exec_cmd(argv, pipex);
 }
 
-void parent_process(t_pipex *pipex, t_redir *redir, t_cmd_to_exec *argv)
+void parent_process(t_pipex *pipex, t_cmd_to_exec *argv)
 {
-	(void)redir;
 	(void)pipex;
 	(void)argv;
 	
 	close(pipex->pipe_fd[1]);
 	dup2(pipex->pipe_fd[0], STDIN_FILENO);
 	close(pipex->pipe_fd[0]);
+		
+	//if (argv->lastcmd_index == LAST_CMD)
+		waitpid(pipex->child_pid, &argv->status, 0);
 	
 }
 
-void ft_pipes(t_pipex *pipex, t_cmd_to_exec *argv, t_redir *redir)
-{
 
-	make_pipe(pipex, argv, redir);
-	close(pipex->pipe_fd[0]);
-	close(pipex->pipe_fd[1]);
-}
