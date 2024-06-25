@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:43:09 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 10:31:49 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:17:05 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 bool prepn_word_ulb(t_preparsed_node *node, t_preparser_context *ctx)
 {
 	size_t		c_skip;
-	const char	*stoper = "'\"|";
+	const char	*stoper = "'\"|<>";
 	size_t		cr_offset;
 
 	c_skip = 0;
