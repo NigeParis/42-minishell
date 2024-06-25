@@ -11,7 +11,8 @@ build/
 
 # project tests
 test/
-*test*
+./test*
+test_*/
 
 # editor files
 .vscode/

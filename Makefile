@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/06/25 00:25:28 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/06/25 15:30:36 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ INC_DIR		=	include
 DEBUG_LEVEL	=\
 			 	3
 DEBUG		=\
-				-DDEBUG_LVL=$(DEBUG_LEVEL) -g2 -O3
+				-DDEBUG_LVL=$(DEBUG_LEVEL) -g2
 CPPFLAGS	=\
 				-I$(INC_DIR) -I./libft/include
 WFLAGS		=\
