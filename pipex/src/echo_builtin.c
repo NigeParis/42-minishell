@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:43:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/24 13:05:40 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:24:53 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft_char.h"
 
 
-static int is_echo_flag(t_cmd *cmd, int i)
+static int is_echo_flag(t_cmd_to_exec *cmd, int i)
 {
 	int y;
 
@@ -38,7 +38,7 @@ static int is_echo_flag(t_cmd *cmd, int i)
 }
 
 
-int   put_echo(t_minishell_control *ctrl, t_cmd *cmd)
+int   put_echo(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
 	(void)ctrl;
 	int i;

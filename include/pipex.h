@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/24 13:08:42 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:12:32 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,63 @@ typedef struct s_cmd_to_exec
     char    **env;
     int        status;
     int     lastcmd_index;
-    char    left_token;
-    char    right_token;
+ 
     t_list    *redir_to_do;
 }   t_cmd_to_exec;
 
 
+typedef enum e_redir_flag
+{
+	RDIR_FILE,
+	RDIR_STD,
+}									t_redir_flag;
+
+#define RDIR_MSK_IO 0x03
+#define RDIR_MSK_MODE 0x0C
+#define RDIR_MSK_DUP 0x10
+
+typedef enum e_redir_type
+{
+	RDIR_PIPE = 1,		// 0 00 01
+	RDIR_INPUT = 2,		// 0 00 10
+	RDIR_OUTPUT = 3,	// 0 00 11
+
+	RDIR_TRUNC = 4,		// 0 01 00
+	RDIR_APPEND = 8,	// 0 10 00
+	RDIR_HEREDOC = 12,	// 0 11 00
+	
+	RDIR_DUP = 16,		// 1 00 00 // >&
+}									t_redir_type;
+
+
+
+// src_std -> source file descriptor
+// src_file -> source file path
+// flag -> RDIR_FILE | RDIR_STD
+// redir_type -> RDIR_INPUT | RDIR_OUTPUT | RDIR_TRUNC | RDIR_APPEND
+//   | RDIR_HEREDOC | RDIR_DUP
+// target_file -> target file path
+// target_std -> target file descriptor
 typedef struct s_redir
 {
-    int   std_src;
-    char  *file_src;
-    int   src_flag;
-    int   std_dst;
-    char  *file_dst;
-    int   dst_flag;
-    int   saved_fd;
-}   t_redir;
+	int								src_std; 
+	char							*src_file;
+	t_redir_flag						flag;
+	t_redir_type						redir_type;
+	char							*target_file;
+	int								target_std;
+} t_redir;
+
+// typedef struct s_redir
+// {
+//     int   std_src;
+//     char  *file_src;
+//     int   src_flag;
+//     int   std_dst;
+//     char  *file_dst;
+//     int   dst_flag;
+//     int   saved_fd;
+// }   t_redir;
 
 
 
@@ -130,26 +171,26 @@ void Ctrl_C_child_handler(int sig);
 /// @param 
 /// @param 
 /// @returns 0 on SUCCESS or 1 on ERROR 
-char   *get_pwd(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
+int   get_pwd(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
 
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-int   put_echo(t_minishell_control *ctrl, t_cmd *cmd);
+int   put_echo(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
 
 
 /// @brief exits minishell
 /// @param 
 /// @param 
 /// @returns 0 on SUCCESS or 1 on ERROR 
-int	exit_main(t_minishell_control *ctrl, t_cmd *cmd);
+int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
 
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-int		execute(t_cmd_to_exec *args, t_pipex *pipex, t_redir *redir);
+int		execute(t_cmd_to_exec *args, t_pipex *pipex);
 
 /// @brief 
 /// @param 
@@ -269,7 +310,11 @@ t_cmd    *test_cmd_exit2(void);
 
 
 
-t_redir   *test_redir(void);
+t_redir   *test_redir_init(void);
+t_redir   *test_redir_ls_l(void);
+t_redir   *test_redir_ls(void);
+t_redir   *test_redir_cat_e(void);
+t_redir   *test_redir_cat(void);
 
 t_cmd_to_exec    *cmd_to_exec_echo(void);
 t_cmd_to_exec    *cmd_to_exec_cat(void);

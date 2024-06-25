@@ -6,11 +6,29 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 11:04:12 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/20 16:12:42 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:15:39 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+t_redir    *test_redir_init(void)
+{
+    t_redir    *redir;
+   
+    redir = malloc(sizeof(t_redir));
+    if (!redir)
+        return (NULL); 
+    redir->flag = RDIR_STD;
+    redir->redir_type = (t_redir_type)RDIR_INPUT;
+    redir->src_file = ft_strdup("infile");
+    redir->target_file = ft_strdup("oufile");
+    redir->target_std = dup(STDOUT_FILENO);
+    redir->src_std = dup(STDIN_FILENO);
+    return (redir);
+}
+
+
 
 
 //FIRST
@@ -29,8 +47,7 @@ t_cmd_to_exec    *cmd_to_exec_pwd(void)
     blank->status = -1;
     blank->redir_to_do = NULL;
     blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
+  
     return (blank);
 }
 
@@ -49,15 +66,38 @@ t_cmd_to_exec    *cmd_to_exec_exit(void)
     blank->status = -1;
     blank->redir_to_do = NULL;
     blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
+ 
     return (blank);
 }
 
 
 
 
+// src_std -> source file descriptor
+// src_file -> source file path
+// flag -> RDIR_FILE | RDIR_STD
+// redir_type -> RDIR_INPUT | RDIR_OUTPUT | RDIR_TRUNC | RDIR_APPEND
+//   | RDIR_HEREDOC | RDIR_DUP
+// target_file -> target file path
+// target_std -> target file descriptor
 
+
+
+t_redir    *test_redir_ls_l(void)
+{
+    t_redir    *redir;
+   
+    redir = malloc(sizeof(t_redir));
+    if (!redir)
+        return (NULL); 
+    redir->flag = (t_redir_flag)RDIR_STD;
+    redir->redir_type = (t_redir_type)RDIR_TRUNC;
+    redir->src_file = ft_strdup("infile");
+    redir->target_file = ft_strdup("outls_l");
+    redir->target_std = dup(STDOUT_FILENO);
+    redir->src_std = dup(STDIN_FILENO);
+    return (redir);
+}
 
 
 t_cmd_to_exec    *cmd_to_exec_ls_l(void)
@@ -72,14 +112,36 @@ t_cmd_to_exec    *cmd_to_exec_ls_l(void)
     blank->ac = ft_len_2d((const void * const *)blank->argv);
     blank->env = NULL;
     blank->status = 0;
-    blank->redir_to_do = NULL;
-    ft_ll_push(&blank->redir_to_do, test_redir());
+    blank->redir_to_do = (t_list*)test_redir_ls_l();
+    ft_ll_push(&blank->redir_to_do, (t_list*)test_redir_ls_l());
     blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
+   
     return (blank);
 }
 
+
+
+
+
+
+
+
+
+t_redir    *test_redir_ls(void)
+{
+    t_redir    *redir;
+   
+    redir = malloc(sizeof(t_redir));
+    if (!redir)
+        return (NULL); 
+    redir->flag = (t_redir_flag)RDIR_STD;
+    redir->redir_type = (t_redir_type)RDIR_TRUNC;
+    redir->src_file = ft_strdup("infile");
+    redir->target_file = ft_strdup("outls_l");
+    redir->target_std = dup(STDOUT_FILENO);
+    redir->src_std = dup(STDIN_FILENO);
+    return (redir);
+}
 
 
 t_cmd_to_exec    *cmd_to_exec_ls(void)
@@ -94,10 +156,10 @@ t_cmd_to_exec    *cmd_to_exec_ls(void)
     blank->ac = ft_len_2d((const void * const *)blank->argv);
     blank->env = NULL;
     blank->status = 0;
-    blank->redir_to_do = NULL;
+    blank->redir_to_do = (t_list*)test_redir_ls();
+    ft_ll_push(&blank->redir_to_do, (t_list*)test_redir_ls());
     blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
+   
     return (blank);
 }
 
@@ -110,14 +172,13 @@ t_cmd_to_exec    *cmd_to_exec_qqqq(void)
     if (!blank)
         return (NULL);
     blank->cmd_path = NULL;
-    blank->argv = ft_split("", ' ');
+    blank->argv = ft_split("qqqq", ' ');
     blank->ac = ft_len_2d((const void * const *)blank->argv);
     blank->env = NULL;
     blank->status = 0;
     blank->redir_to_do = NULL;
     blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
+ 
     return (blank);
 }
 
@@ -136,8 +197,7 @@ t_cmd_to_exec    *cmd_to_exec_yes(void)
     blank->status = 0;
     blank->redir_to_do = NULL;
     blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
+  
     return (blank);
 }
 
@@ -155,12 +215,30 @@ t_cmd_to_exec    *cmd_to_exec_echo(void)
     blank->status = -1;
     blank->redir_to_do = NULL;
     blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
+   
     return (blank);
 }
 
 // SECOND CMD
+
+
+t_redir    *test_redir_cat_e(void)
+{
+    t_redir    *redir;
+   
+    redir = malloc(sizeof(t_redir));
+    if (!redir)
+        return (NULL); 
+    redir->flag = (t_redir_flag)RDIR_STD;
+    redir->redir_type = (t_redir_type)RDIR_PIPE;
+    redir->src_file = ft_strdup("infile");
+    redir->target_file = ft_strdup("oufile");
+    redir->target_std = dup(STDOUT_FILENO);
+    redir->src_std = dup(STDIN_FILENO);
+    return (redir);
+}
+
+
 
 
 t_cmd_to_exec    *cmd_to_exec_cat_e(void)
@@ -175,12 +253,20 @@ t_cmd_to_exec    *cmd_to_exec_cat_e(void)
     blank->ac = ft_len_2d((const void * const *)blank->argv);
     blank->env = NULL;
     blank->status = 0;
-    blank->redir_to_do = NULL;
+    blank->redir_to_do = (t_list*)test_redir_cat_e();
+    ft_ll_push(&blank->redir_to_do, test_redir_cat_e());
     blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = '|';
+ 
     return (blank);
 }
+
+
+
+
+
+
+
+
 
 t_cmd_to_exec    *cmd_to_exec_cat(void)
 {
@@ -196,8 +282,7 @@ t_cmd_to_exec    *cmd_to_exec_cat(void)
     blank->status = 0;
     blank->redir_to_do = NULL;
     blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = '|';
+   
     return (blank);
 }
 
@@ -215,8 +300,7 @@ t_cmd_to_exec    *cmd_to_exec_echo_n(void)
     blank->status = -1;
     blank->redir_to_do = NULL;
     blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
+  
     return (blank);
 }
 
@@ -235,8 +319,7 @@ t_cmd_to_exec    *cmd_to_exec_wc(void)
     blank->redir_to_do = NULL;
     //ft_ll_push(&blank->redir_to_do, test_redir());
     blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
+  
     return (blank);
 }
 

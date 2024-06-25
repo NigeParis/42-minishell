@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/24 13:03:18 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/25 09:10:03 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void child_process(t_pipex *pipex, t_cmd_to_exec *argv, t_redir *redir)
 	if (argv->lastcmd_index == FIRST_CMD)
 	{
 		dup2(pipex->pipe_fd[1], STDOUT_FILENO);
-		if (redir->src_flag)
+		if (redir->flag && redir->redir_type == RDIR_FILE)
 		{
 			dup2(pipex->fdin, STDIN_FILENO);
 			close_fd(&pipex->fdin);
@@ -61,7 +61,7 @@ void child_process(t_pipex *pipex, t_cmd_to_exec *argv, t_redir *redir)
 	}
 	else if (argv->lastcmd_index == LAST_CMD)
 	{
-		if (redir->dst_flag)
+		if (redir->flag == RDIR_FILE && redir->redir_type == RDIR_TRUNC)
 		{
 			dup2(pipex->fdout, STDOUT_FILENO);
 			close_fd(&pipex->fdout);

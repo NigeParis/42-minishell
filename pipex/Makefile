@@ -36,7 +36,7 @@ SRC+=./src/make_pipe.c ##./src/get_heredoc.c
 SRC+=./src/exit_builtin.c ./src/pwd_builtin.c ./src/echo_builtin.c
 SRC+=./src/interupt_handlers.c
 
-SRC+= ./src/TEST_t_cmd_to_exec.c ./src/TEST_t_cmd.c ./src/TEST_cmds.c
+SRC+= ./src/TEST_t_cmd_to_exec.c ./src/TEST_cmds.c
 
 
 LIBFT_DIR=../libft

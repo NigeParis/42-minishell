@@ -3,6 +3,6 @@ drwxr-xr-x 3 nrobinso 2023_paris    77 Jun 10 13:44 .
 drwxr-xr-x 9 nrobinso 2023_paris  4096 Jun 10 13:26 ..
 -rw-r--r-- 1 nrobinso 2023_paris     0 Jun 10 13:31 infile
 -rw-r--r-- 1 nrobinso 2023_paris  2360 Jun  4 15:58 Makefile
--rwxr-xr-x 1 nrobinso 2023_paris 33096 Jun 10 13:44 pipex
+-rwxr-xr-x 1 nrobinso 2023_paris 33096 Jun 10 13:44 NIGEL
 -rw-r--r-- 1 nrobinso 2023_paris    17 Jun  4 15:13 README.md
 drwxr-xr-x 2 nrobinso 2023_paris   132 Jun 10 13:44 src

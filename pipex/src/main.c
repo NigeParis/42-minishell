@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:13:05 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/24 13:04:18 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/25 09:03:54 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,37 +58,24 @@ t_minishell_control *testminictrl(void)
     return (minictrl);
 }
 
-t_redir    *test_redir(void)
-{
-    t_redir    *redir;
-   
-    redir = malloc(sizeof(t_redir));
-    if (!redir)
-        return (NULL); 
-    redir->src_flag = 0;
-    redir->file_src = ft_strdup("infile");
-    redir->dst_flag = 0;
-    redir->file_dst = ft_strdup("outfile");
-    redir->std_dst = dup(STDOUT_FILENO);
-    redir->std_src = dup(STDIN_FILENO);
-    return (redir);
-}
 
-t_redir    *test_redir_pipe(void)
-{
-    t_redir    *redir;
+
+
+// t_redir    *test_redir_pipe(void)
+// {
+//     t_redir    *redir;
    
-    redir = malloc(sizeof(t_redir));
-    if (!redir)
-        return (NULL); 
-    redir->src_flag = 0;
-    redir->file_src = ft_strdup("infile");
-    redir->dst_flag = 0;
-    redir->file_dst = ft_strdup("outfile");
-    redir->std_dst = dup(STDOUT_FILENO);
-    redir->std_src = dup(STDIN_FILENO);
-    return (redir);
-}
+//     redir = malloc(sizeof(t_redir));
+//     if (!redir)
+//         return (NULL); 
+//     redir->src_flag = 0;
+//     redir->file_src = ft_strdup("infile");
+//     redir->dst_flag = 0;
+//     redir->file_dst = ft_strdup("outfile");
+//     redir->std_dst = dup(STDOUT_FILENO);
+//     redir->std_src = dup(STDIN_FILENO);
+//     return (redir);
+// }
 
 
 
@@ -107,8 +94,7 @@ t_cmd_to_exec    *cmd_to_exec_clear(void)
     blank->status = 0;
     blank->redir_to_do = NULL;
     blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
+ 
     return (blank);
 }
 
@@ -126,8 +112,7 @@ t_cmd_to_exec    *cmd_to_exec_init(void)
     blank->status = 0;
     blank->redir_to_do = NULL;
     blank->lastcmd_index = FIRST_CMD;
-    blank->left_token = ' ';
-    blank->right_token = ' ';
+  
     return (blank);
 }
 
@@ -204,7 +189,7 @@ int	main(int ac, const char *av[], char *env[])
     char **cmds = NULL;
 	size_t cmd_nb = 0;
     
-    redir = test_redir();
+    redir = test_redir_init();
     ft_setup_prog(av);
     ft_init(&pipex, redir);
     argv = cmd_to_exec_init();
@@ -237,11 +222,11 @@ int	main(int ac, const char *av[], char *env[])
                 if (ft_strcmp(str, "exit") == 0)
                 {
 
-                    exit_main(testminictrl(),test_cmd_exit());
-                    close(redir->std_src);               
-                    close(redir->std_dst); 
-                    free(redir->file_src);
-                    free(redir->file_dst);
+                    exit_main(testminictrl(),cmd_to_exec_exit());
+                    close(redir->target_std);               
+                    close(redir->target_std); 
+                    free(redir->src_file);
+                    free(redir->target_file);
                     free(redir);
                     free(str);
 
@@ -264,7 +249,7 @@ int	main(int ac, const char *av[], char *env[])
                     test_first_cmd(argv, cmds, "wc", &cmd_to_exec_wc);
                     
                      
-                    execute(argv, &pipex, redir);
+                    execute(argv, &pipex);
                 }            
                 
                 if (cmd_nb > 1 && cmds[1])
@@ -282,7 +267,7 @@ int	main(int ac, const char *av[], char *env[])
                     test_pipe_cmd(argv, cmds, "clear", &cmd_to_exec_clear);
                     test_pipe_cmd(argv, cmds, "wc", &cmd_to_exec_wc);
 
-                    execute(argv, &pipex, redir);
+                    execute(argv, &pipex);
                 }
                 
                 if (cmd_nb > 2 && cmds[2])
@@ -300,21 +285,21 @@ int	main(int ac, const char *av[], char *env[])
                     test_last_cmd(argv, cmds, "clear", &cmd_to_exec_clear);
                     test_last_cmd(argv, cmds, "wc", &cmd_to_exec_wc);
                     
-                    execute(argv, &pipex, redir);
+                    execute(argv, &pipex);
                 }      
                     
-                dup2(redir->std_src, STDIN_FILENO); 
-                dup2(redir->std_dst, STDOUT_FILENO);      // reset STDIN amd STDOUT          
+                dup2(redir->target_std, STDIN_FILENO); 
+                dup2(redir->target_std, STDOUT_FILENO);      // reset STDIN amd STDOUT          
             }          
         free(str);
     }
-	close(redir->std_src);               
-	close(redir->std_dst);     
+	close(redir->target_std);               
+	close(redir->target_std);     
     
     // if (str[0] == '\0')
 
-    dup2(redir->std_dst, STDOUT_FILENO);      // reset STDIN amd STDOUT
-    close(redir->std_dst);          
+    dup2(redir->target_std, STDOUT_FILENO);      // reset STDIN amd STDOUT
+    close(redir->target_std);          
     ft_putstr_fd("exit\n", 1);
     
     return(0);
