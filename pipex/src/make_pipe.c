@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/25 15:41:23 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:25:49 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void parent_process(t_pipex *pipex, t_cmd_to_exec *argv)
 	close(pipex->pipe_fd[0]);
 		
 	//if (argv->lastcmd_index == LAST_CMD)
-		waitpid(pipex->child_pid, &argv->status, 0);
+	waitpid(pipex->child_pid, &argv->status, 0);
 	
 }
 

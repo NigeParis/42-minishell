@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 11:04:12 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/25 15:43:26 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:29:58 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,25 @@ t_redir    *test_redir_init(void)
 
 //FIRST
 
+
+
+
+t_redir    *test_redir_pwd(void)
+{
+    t_redir    *redir;
+   
+    redir = malloc(sizeof(t_redir));
+    if (!redir)
+        return (NULL); 
+    redir->flag = (t_redir_flag)RDIR_STD;
+    redir->redir_type = RDIR_PIPE;
+    redir->src_file = ft_strdup("infile");
+    redir->target_file = ft_strdup("outls_l");
+    redir->target_std = dup(STDOUT_FILENO);
+    redir->src_std = dup(STDIN_FILENO);
+    return (redir);
+}
+
 t_cmd_to_exec    *cmd_to_exec_pwd(void)
 {
     t_cmd_to_exec    *blank;
@@ -45,7 +64,8 @@ t_cmd_to_exec    *cmd_to_exec_pwd(void)
     blank->ac = ft_len_2d((const void * const *)blank->argv);
     blank->env = NULL;
     blank->status = -1;
-    blank->redir_to_do = NULL;
+    blank->redir_to_do = (t_list*)test_redir_pwd();
+    ft_ll_push(&blank->redir_to_do, (t_list*)test_redir_pwd());
     blank->lastcmd_index = FIRST_CMD;
   
     return (blank);
