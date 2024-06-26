@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 11:52:01 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/13 16:54:07 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:57:28 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,32 +59,3 @@ void    close_fd(int *fd)
         *fd = -1;
     }    
 }
-
-
-
-
-// void	ft_exec_cmd_error(t_pipex *pipex, char *message)
-// {
-// 	char	str[ERROR_MSG_SIZE];
-// 	int		i;
-// 	int		j;
-
-// 	i = 0;
-// 	j = 0;
-// 	while (message && message[i])
-// 	{
-// 		str[i] = message[i];
-// 		i++;
-// 	}
-// 	while (pipex->cmds[0] && pipex->cmds[0][j])
-// 	{
-// 		str[i] = pipex->cmds[0][j];
-// 		j++;
-// 		i++;
-// 	}
-// 	str[i] = '\n';
-// 	i++;
-// 	str[i] = '\0';
-// 	ft_printf_fd(2, "%F", str);
-// 	close_fd(pipex, 10);
-// }

@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/26 15:33:39 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:08:58 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
 		return (&pwd_main);
 	if (ft_strcmp(cmd, "unset") == 0)
 		return (&unset_main);
+	if (ft_strcmp(cmd, "echo") == 0)
+		return (&echo_main);
 	return (NULL);
 }
 
@@ -106,8 +108,8 @@ t_redir    *test_redir_ls(void)   // NO REDIR STRUCTURE AVAILABLE so ADDED THIS
     redir = malloc(sizeof(t_redir));
     if (!redir)
         return (NULL); 
-    redir->flag = (t_redir_flag)RDIR_FILE;
-    redir->redir_type = RDIR_TRUNC;
+    redir->flag = (t_redir_flag)RDIR_STD;
+    redir->redir_type = 0;
     redir->src_file = ft_strdup("infile");
     redir->target_file = ft_strdup("testfile");
     redir->target_std = dup(STDOUT_FILENO);
@@ -125,41 +127,26 @@ void	ft_init(t_pipex *pipex)
 }
 
 
-
-
-
-
-
 int	minishell_execute(t_minishell_control *shell)
 {
 	int				(*builtin)(t_minishell_control *, t_cmd_to_exec *);
 	t_cmd_to_exec	*cmd;
 	t_pipex pipex;
-	t_redir *redir = NULL;
-
-
 	size_t	i;
-    ft_init(&pipex);
 
 	shell->exit = 0;
+    ft_init(&pipex);
+
 	cmd = parser_get_cmd(shell->preparsed, shell);
 	while (cmd && shell->exit == 0)
 	{
-		
-		//redir = (t_redir*)cmd->redir_to_do->data;
-		redir = test_redir_ls();	  // crash here argv->redir-to->data absent ?
+		dprintf(STDERR_FILENO, "exit = -> %d\n", shell->exit);
 
+		execute(cmd, &pipex, shell);
 
-
-
-
-		make_pipe(&pipex, cmd);
-		close(pipex.pipe_fd[0]);
-		close(pipex.pipe_fd[1]);
-
-	
-		
 		cmd = parser_get_cmd(shell->preparsed, shell); 
+		dprintf(STDERR_FILENO, "exit = -> %d\n", shell->exit);
+		
 	}
 	return (0);
 }

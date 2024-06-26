@@ -6,11 +6,32 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:09:49 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/26 15:29:37 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:47:32 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+int 	checkfile_read_and_exists(char *file, int type)
+{
+	if (access(file, F_OK) == -1)
+	{
+		if (type == INFILE)
+			perror(file);
+		return (0);
+	}
+	else if ((access(file, W_OK) == -1) && type == OUTFILE)
+	{
+		perror(file);
+		return (0);
+	}
+	else if ((access(file, R_OK) == -1) && type == INFILE)
+	{
+		perror(file);
+		return (0);
+	}	
+	return(1);
+}
 
 void	ft_open_file(t_pipex *pipex, t_cmd_to_exec *argv)
 {
@@ -33,27 +54,6 @@ void	ft_open_file(t_pipex *pipex, t_cmd_to_exec *argv)
 		ft_open_infile(pipex, redir->src_file);
 	}
 
-}
-
-int 	checkfile_read_and_exists(char *file, int type)
-{
-	if (access(file, F_OK) == -1)
-	{
-		if (type == INFILE)
-			perror(file);
-		return (0);
-	}
-	else if ((access(file, W_OK) == -1) && type == OUTFILE)
-	{
-		perror(file);
-		return (0);
-	}
-	else if ((access(file, R_OK) == -1) && type == INFILE)
-	{
-		perror(file);
-		return (0);
-	}	
-	return(1);
 }
 
 void	ft_open_outfile_trunc(t_pipex *pipex, char *outfile)

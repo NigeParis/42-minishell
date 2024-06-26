@@ -6,14 +6,16 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/26 15:10:16 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:31:13 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include <signal.h>
+#include <sys/wait.h>
 
-int make_pipe(t_pipex *pipex, t_cmd_to_exec *argv)
+
+int make_pipe(t_pipex *pipex, t_cmd_to_exec *argv, t_minishell_control *shell)
 {
 	int ret;
 	dprintf(STDERR_FILENO, "MakePipes\n");
@@ -35,11 +37,11 @@ int make_pipe(t_pipex *pipex, t_cmd_to_exec *argv)
 	
 	if (!pipex->child_pid)
 	{
-		child_process(pipex, argv);
+		child_process(pipex, argv, shell);
 	}
 	else
 	{	
-		parent_process(pipex, argv);
+		parent_process(pipex, argv, shell);
 	}
 	return (0);
 }
@@ -49,7 +51,7 @@ int make_pipe(t_pipex *pipex, t_cmd_to_exec *argv)
 
 
 
-void child_process(t_pipex *pipex, t_cmd_to_exec *argv)
+void child_process(t_pipex *pipex, t_cmd_to_exec *argv, t_minishell_control *shell)
 {
 	t_redir *redir = NULL;
 
@@ -84,15 +86,21 @@ void child_process(t_pipex *pipex, t_cmd_to_exec *argv)
 	close(pipex->pipe_fd[1]);
 	
 	dprintf(STDERR_FILENO, "Exec_cmd_call\n");
-	exec_cmd(argv, pipex);
+	exec_cmd(argv, pipex, shell);
 }
 
-void parent_process(t_pipex *pipex, t_cmd_to_exec *argv)
+void parent_process(t_pipex *pipex, t_cmd_to_exec *argv, t_minishell_control *shell)
 {
 	(void)pipex;
 	(void)argv;
 	dprintf(STDERR_FILENO, "Parent_process\n");
 	
+	shell->exit = WEXITSTATUS(argv->status);
+	if (DEBUG_LVL >= 1)
+		printf("cmd status: %d\n", argv->status);
+	if (DEBUG_LVL >= 20)
+		print_cmd(argv);
+	discard_cmd(argv);
 
 	
 	close(pipex->pipe_fd[1]);
