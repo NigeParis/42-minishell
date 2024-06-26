@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/25 14:00:51 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:39:21 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <sys/types.h>
-# include "ft_printf.h"
-# include "get_next_line.h"
+# include "../ft_printf/src/ft_printf.h"
+// # include "get_next_line.h"
 # include "ft_string.h"
 # include "ft_list.h"
 # include "ft_char.h"
 # include "ft_args.h"
-
+#include "parser_types.h"
 
 
 
@@ -47,113 +47,113 @@ typedef struct s_pipex
 	
 }	t_pipex;
 
-typedef struct s_cmd_to_exec
-{
-    char    *cmd_path;
-    char    **argv;
-    int        ac;
-    char    **env;
-    int        status;
-    int     lastcmd_index;
+// typedef struct s_cmd_to_exec
+// {
+//     char    *cmd_path;
+//     char    **argv;
+//     int        ac;
+//     char    **env;
+//     int        status;
+//     int     lastcmd_index;
  
-    t_list    *redir_to_do;
-}   t_cmd_to_exec;
+//     t_list    *redir_to_do;
+// }   t_cmd_to_exec;
 
 
-typedef enum e_redir_flag
-{
-	RDIR_FILE,
-	RDIR_STD,
-}									t_redir_flag;
+// typedef enum e_redir_flag
+// {
+// 	RDIR_FILE,
+// 	RDIR_STD,
+// }									t_redir_flag;
 
-#define RDIR_MSK_IO 0x03
-#define RDIR_MSK_MODE 0x0C
-#define RDIR_MSK_DUP 0x10
+// #define RDIR_MSK_IO 0x03
+// #define RDIR_MSK_MODE 0x0C
+// #define RDIR_MSK_DUP 0x10
 
-typedef enum e_redir_type
-{
-	RDIR_PIPE = 1,		// 0 00 01
-	RDIR_INPUT = 2,		// 0 00 10
-	RDIR_OUTPUT = 3,	// 0 00 11
+// typedef enum e_redir_type
+// {
+// 	RDIR_PIPE = 1,		// 0 00 01
+// 	RDIR_INPUT = 2,		// 0 00 10
+// 	RDIR_OUTPUT = 3,	// 0 00 11
 
-	RDIR_TRUNC = 4,		// 0 01 00
-	RDIR_APPEND = 8,	// 0 10 00
-	RDIR_HEREDOC = 12,	// 0 11 00
+// 	RDIR_TRUNC = 4,		// 0 01 00
+// 	RDIR_APPEND = 8,	// 0 10 00
+// 	RDIR_HEREDOC = 12,	// 0 11 00
 	
-	RDIR_DUP = 16,		// 1 00 00 // >&
-}									t_redir_type;
+// 	RDIR_DUP = 16,		// 1 00 00 // >&
+// }									t_redir_type;
 
 
 
-// src_std -> source file descriptor
-// src_file -> source file path
-// flag -> RDIR_FILE | RDIR_STD
-// redir_type -> RDIR_INPUT | RDIR_OUTPUT | RDIR_TRUNC | RDIR_APPEND
-//   | RDIR_HEREDOC | RDIR_DUP
-// target_file -> target file path
-// target_std -> target file descriptor
-typedef struct s_redir
-{
-	int								src_std; 
-	char							*src_file;
-	t_redir_flag						flag;
-	t_redir_type						redir_type;
-	char							*target_file;
-	int								target_std;
-} t_redir;
-
+// // src_std -> source file descriptor
+// // src_file -> source file path
+// // flag -> RDIR_FILE | RDIR_STD
+// // redir_type -> RDIR_INPUT | RDIR_OUTPUT | RDIR_TRUNC | RDIR_APPEND
+// //   | RDIR_HEREDOC | RDIR_DUP
+// // target_file -> target file path
+// // target_std -> target file descriptor
 // typedef struct s_redir
 // {
-//     int   std_src;
-//     char  *file_src;
-//     int   src_flag;
-//     int   std_dst;
-//     char  *file_dst;
-//     int   dst_flag;
-//     int   saved_fd;
-// }   t_redir;
+// 	int								src_std; 
+// 	char							*src_file;
+// 	t_redir_flag						flag;
+// 	t_redir_type						redir_type;
+// 	char							*target_file;
+// 	int								target_std;
+// } t_redir;
+
+// // typedef struct s_redir
+// // {
+// //     int   std_src;
+// //     char  *file_src;
+// //     int   src_flag;
+// //     int   std_dst;
+// //     char  *file_dst;
+// //     int   dst_flag;
+// //     int   saved_fd;
+// // }   t_redir;
 
 
 
 
 
-/// @brief Structure to store a command and its arguments
-/// @param cmd The command to execute with its full path
-/// @param args The arguments to pass to the command
-/// @param argc The number of arguments
-/// @param envp The environment variables as an array of strings
-/// @param ret The return value of the command
-typedef struct s_cmd
-{
-	char		*cmd;
-	char		**argv;
-	int			argc;
-	char		**envp;
-	int			ret;
-	int         lastcmd_index;
-}	t_cmd;
+// /// @brief Structure to store a command and its arguments
+// /// @param cmd The command to execute with its full path
+// /// @param args The arguments to pass to the command
+// /// @param argc The number of arguments
+// /// @param envp The environment variables as an array of strings
+// /// @param ret The return value of the command
+// typedef struct s_cmd
+// {
+// 	char		*cmd;
+// 	char		**argv;
+// 	int			argc;
+// 	char		**envp;
+// 	int			ret;
+// 	int         lastcmd_index;
+// }	t_cmd;
 
 
 
-/// @brief vector structure
-/// @param datas array of pointers to the elements
-/// @param count number of elements in the vector
-/// @param cappacity number of elements that can be stored in the vector
-typedef struct s_vector
-{
-	void	**datas;
-	size_t	count;
-	size_t	cappacity;
-}			t_vector;
+// /// @brief vector structure
+// /// @param datas array of pointers to the elements
+// /// @param count number of elements in the vector
+// /// @param cappacity number of elements that can be stored in the vector
+// typedef struct s_vector
+// {
+// 	void	**datas;
+// 	size_t	count;
+// 	size_t	cappacity;
+// }			t_vector;
 
-typedef struct s_minishell_control
-{
-	char		*input;
-	t_vector	*env;
-	int			exit;
-	t_vector	*preparsed;
-	void		*prs;
-}	t_minishell_control;
+// typedef struct s_minishell_control
+// {
+// 	char		*input;
+// 	t_vector	*env;
+// 	int			exit;
+// 	t_vector	*preparsed;
+// 	void		*prs;
+// }	t_minishell_control;
 
 
 
@@ -215,7 +215,8 @@ void	close_fdin(t_pipex *pipex);
 /// @param 
 /// @param 
 /// @note 
-void	ft_init(t_pipex *pipex, t_redir *redir);
+// void	ft_init(t_pipex *pipex, t_redir *redir);
+void	ft_init(t_pipex *pipex);
 
 
 /// @brief 
@@ -310,34 +311,34 @@ void	ft_free_double_tab(char *tab[]);
 
 
 
-t_cmd    *test_cmd_exit(void);
-t_cmd    *test_cmd_pwd(void);
-t_cmd    *test_cmd_echo(void);
-t_cmd    *test_cmd_exit2(void);
+// t_cmd    *test_cmd_exit(void);
+// t_cmd    *test_cmd_pwd(void);
+// t_cmd    *test_cmd_echo(void);
+// t_cmd    *test_cmd_exit2(void);
 
 
 
-t_redir   *test_redir_init(void);
-t_redir   *test_redir_ls_l(void);
-t_redir   *test_redir_ls(void);
-t_redir   *test_redir_cat_e(void);
-t_redir   *test_redir_cat(void);
-t_redir   *test_redir_echo_n(void);
+// t_redir   *test_redir_init(void);
+// t_redir   *test_redir_ls_l(void);
+// t_redir   *test_redir_ls(void);
+// t_redir   *test_redir_cat_e(void);
+// t_redir   *test_redir_cat(void);
+// t_redir   *test_redir_echo_n(void);
 
-t_cmd_to_exec    *cmd_to_exec_echo(void);
-t_cmd_to_exec    *cmd_to_exec_cat(void);
-t_cmd_to_exec    *cmd_to_exec_cat_e(void);
-t_cmd_to_exec    *cmd_to_exec_clear(void);
-t_cmd_to_exec    *cmd_to_exec_pwd(void);
-t_cmd_to_exec    *cmd_to_exec_ls(void);
-t_cmd_to_exec    *cmd_to_exec_ls_l(void);
-t_cmd_to_exec    *cmd_to_exec_qqqq(void);
-t_cmd_to_exec    *cmd_to_exec_yes(void);
-t_cmd_to_exec    *cmd_to_exec_cat_last(void);
-t_cmd_to_exec    *cmd_to_exec_exit(void);
-t_cmd_to_exec    *cmd_to_exec_exit_pipe(void);
-t_cmd_to_exec    *cmd_to_exec_echo_n(void);
-t_cmd_to_exec    *cmd_to_exec_wc(void);
+// t_cmd_to_exec    *cmd_to_exec_echo(void);
+// t_cmd_to_exec    *cmd_to_exec_cat(void);
+// t_cmd_to_exec    *cmd_to_exec_cat_e(void);
+// t_cmd_to_exec    *cmd_to_exec_clear(void);
+// t_cmd_to_exec    *cmd_to_exec_pwd(void);
+// t_cmd_to_exec    *cmd_to_exec_ls(void);
+// t_cmd_to_exec    *cmd_to_exec_ls_l(void);
+// t_cmd_to_exec    *cmd_to_exec_qqqq(void);
+// t_cmd_to_exec    *cmd_to_exec_yes(void);
+// t_cmd_to_exec    *cmd_to_exec_cat_last(void);
+// t_cmd_to_exec    *cmd_to_exec_exit(void);
+// t_cmd_to_exec    *cmd_to_exec_exit_pipe(void);
+// t_cmd_to_exec    *cmd_to_exec_echo_n(void);
+// t_cmd_to_exec    *cmd_to_exec_wc(void);
 
 
 

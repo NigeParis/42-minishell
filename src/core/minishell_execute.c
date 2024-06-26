@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/25 11:19:42 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:07:32 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include "pipex.h"
+
 
 void	print_cmd(t_cmd_to_exec *cmd)
 {
@@ -80,60 +82,83 @@ int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
 	return (NULL);
 }
 
+
+t_minishell_control *testminictrl(void)
+{
+    t_minishell_control *minictrl;
+
+    minictrl = malloc(sizeof(t_minishell_control));
+    
+	minictrl->input = NULL;
+	minictrl->env = NULL;
+	minictrl->exit = 0;
+	minictrl->preparsed = NULL;
+	minictrl->prs = NULL;
+
+    return (minictrl);
+}
+
+
+
+void	ft_init(t_pipex *pipex)
+{
+
+	pipex->fdout = -1;
+	pipex->fdin = -1;
+	pipex->child_pid = -1;
+    
+
+}
+
 int	minishell_execute(t_minishell_control *shell)
 {
 	int				(*builtin)(t_minishell_control *, t_cmd_to_exec *);
 	t_cmd_to_exec	*cmd;
+	t_pipex pipex;
+	t_redir *redir = NULL;
+
+
 	size_t	i;
+    ft_init(&pipex);
 
 	shell->exit = 0;
 	cmd = parser_get_cmd(shell->preparsed, shell);
 	while (cmd && shell->exit == 0)
 	{
-		// check for builtins
-		// yes branch-> 
-			// execute the command as fun bellows but use t_minishell_control 
-			// and other fun stuff
-		if (cmd && !cmd->cmd_path && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
-		{
-			printf("builtin: %s detected\n", cmd->argv[0]);
-			// run builtin here
-			builtin = get_builtin(cmd->argv[0]);
-			builtin(shell, cmd);
-			discard_cmd(cmd);
-			cmd = parser_get_cmd(shell->preparsed, shell);
-			continue ;
-		}
-		int pid = fork();
-		if (pid == 0)
-		{
-			// setup sigaction here for child process aka SIGSEGV etc...
-			// setup redirections
-			// execute the command :: see below
-			if (cmd->cmd_path == NULL)
-			{
-				printf("%s: %s: command not found\n", ft_progname(), cmd->argv[0]),
-				discard_cmd(cmd),
-				minishell_cleanup(shell),
-				exit(127);
-			}
-			execve(cmd->cmd_path, cmd->argv, cmd->env);
-			// if execve fails
-			discard_cmd(cmd);
-			minishell_cleanup(shell);
-			perror("execve");
-			exit(126);
-		}
-		else // parent
-		{
-			waitpid(pid, &cmd->status, 0);
-			shell->exit = WEXITSTATUS(cmd->status);
-			if (DEBUG_LVL >= 1)
-				printf("cmd status: %d\n", cmd->status);
-			if (DEBUG_LVL >= 20)
-				print_cmd(cmd);
-			discard_cmd(cmd);
-		}
+		
+	redir = (t_redir*)cmd->redir_to_do->data;
+		
+
+
+
+
+		make_pipe(&pipex, cmd);
+		close(pipex.pipe_fd[0]);
+		close(pipex.pipe_fd[1]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
 		cmd = parser_get_cmd(shell->preparsed, shell); 
 	}
 	return (0);
