@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/26 14:43:05 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:10:16 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,44 +43,8 @@ int make_pipe(t_pipex *pipex, t_cmd_to_exec *argv)
 	}
 	return (0);
 }
-t_redir    *test_redir_ls(void)   // NO REDIR STRUCTURE AVAILABLE so ADDED THIS
-{
-    t_redir    *redir;
-   
-    redir = malloc(sizeof(t_redir));
-    if (!redir)
-        return (NULL); 
-    redir->flag = (t_redir_flag)RDIR_FILE;
-    redir->redir_type = RDIR_TRUNC;
-    redir->src_file = ft_strdup("infile");
-    redir->target_file = ft_strdup("testfile");
-    redir->target_std = dup(STDOUT_FILENO);
-    redir->src_std = dup(STDIN_FILENO);
-    return (redir);
-}
 
-void	ft_open_file(t_pipex *pipex, t_cmd_to_exec *argv)
-{
-	t_redir *redir;
-	// redir = (t_redir*)argv->redir_to_do->data; // crashes
-	redir = test_redir_ls();	  // crash here argv->redir-to->data absent ?
 
-	if (redir->flag == RDIR_FILE && redir->redir_type == RDIR_TRUNC)
-	{
-		ft_open_outfile_trunc(pipex, redir->target_file);
-	}
-
-	if (redir->flag == RDIR_FILE && redir->redir_type == RDIR_APPEND)
-	{
-		ft_open_outfile_trunc(pipex, redir->target_file);
-	}
-	
-	if (redir->flag == RDIR_FILE && redir->redir_type == 0)
-	{
-		ft_open_infile(pipex, redir->src_file);
-	}
-
-}
 
 
 

@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/26 14:50:56 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:33:39 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,36 @@ t_minishell_control *testminictrl(void)   // ADDED because dont know how to plug
 }
 
 
+t_redir    *test_redir_ls(void)   // NO REDIR STRUCTURE AVAILABLE so ADDED THIS
+{
+    t_redir    *redir;
+   
+    redir = malloc(sizeof(t_redir));
+    if (!redir)
+        return (NULL); 
+    redir->flag = (t_redir_flag)RDIR_FILE;
+    redir->redir_type = RDIR_TRUNC;
+    redir->src_file = ft_strdup("infile");
+    redir->target_file = ft_strdup("testfile");
+    redir->target_std = dup(STDOUT_FILENO);
+    redir->src_std = dup(STDIN_FILENO);
+    return (redir);
+}
 
 void	ft_init(t_pipex *pipex)
 {
 
 	pipex->fdout = -1;
 	pipex->fdin = -1;
-	pipex->child_pid = -1;
-    
+	pipex->child_pid = -1;    
 
 }
+
+
+
+
+
+
 
 int	minishell_execute(t_minishell_control *shell)
 {
@@ -136,26 +156,6 @@ int	minishell_execute(t_minishell_control *shell)
 		make_pipe(&pipex, cmd);
 		close(pipex.pipe_fd[0]);
 		close(pipex.pipe_fd[1]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	
 		

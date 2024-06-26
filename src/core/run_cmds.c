@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:29:28 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/26 14:32:57 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:21:56 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,13 @@ void	exec_cmd(t_cmd_to_exec *argv, t_pipex *pipex)
 
 		if (ft_strcmp(argv->argv[0], "pwd") == 0)
 		{
-			get_pwd(testminictrl(),argv); // testmin* to add test values
+			pwd_main(testminictrl(),argv); // testmin* to add test values
 			exit (1);
 		}
 		if (ft_strcmp(argv->argv[0], "echo") == 0)
 		{
 			
-			put_echo(testminictrl(),argv); // testmin* to add test values
-		
+			echo_main(testminictrl(),argv); // testmin* to add test values
 			exit (1) ;
 		}
 

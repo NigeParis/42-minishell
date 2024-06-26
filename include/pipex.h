@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/26 14:52:36 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:20:58 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@
 # include "ft_char.h"
 # include "ft_args.h"
 #include "parser_types.h"
-
+#include "minishell_types.h"
+#include "minishell.h"
 
 
 # define ERROR_MSG_SIZE 100
@@ -167,11 +168,11 @@ void Ctrl_C_handler(int sig);
 void Ctrl_C_child_handler(int sig);
 
 
-/// @brief exits minishell
-/// @param 
-/// @param 
-/// @returns 0 on SUCCESS or 1 on ERROR 
-int   get_pwd(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
+// /// @brief exits minishell
+// /// @param 
+// /// @param 
+// /// @returns 0 on SUCCESS or 1 on ERROR 
+// int   get_pwd(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
 
 /// @brief 
 /// @param 
@@ -224,6 +225,14 @@ void	ft_init(t_pipex *pipex);
 /// @param 
 /// @note
 int 	checkfile_read_and_exists(char *file, int type);
+
+
+/// @brief 
+/// @param 
+/// @param 
+/// @note 
+void	ft_open_file(t_pipex *pipex, t_cmd_to_exec *argv);
+
 
 /// @brief 
 /// @param 
