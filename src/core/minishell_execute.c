@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/26 14:07:32 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:50:56 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
 }
 
 
-t_minishell_control *testminictrl(void)
+t_minishell_control *testminictrl(void)   // ADDED because dont know how to plug in the real one
 {
     t_minishell_control *minictrl;
 
@@ -126,8 +126,9 @@ int	minishell_execute(t_minishell_control *shell)
 	while (cmd && shell->exit == 0)
 	{
 		
-	redir = (t_redir*)cmd->redir_to_do->data;
-		
+		//redir = (t_redir*)cmd->redir_to_do->data;
+		redir = test_redir_ls();	  // crash here argv->redir-to->data absent ?
+
 
 
 
@@ -156,8 +157,7 @@ int	minishell_execute(t_minishell_control *shell)
 
 
 
-
-
+	
 		
 		cmd = parser_get_cmd(shell->preparsed, shell); 
 	}

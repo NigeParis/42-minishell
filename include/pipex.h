@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/26 13:39:21 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:52:36 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,7 +320,7 @@ void	ft_free_double_tab(char *tab[]);
 
 // t_redir   *test_redir_init(void);
 // t_redir   *test_redir_ls_l(void);
-// t_redir   *test_redir_ls(void);
+ t_redir   *test_redir_ls(void);
 // t_redir   *test_redir_cat_e(void);
 // t_redir   *test_redir_cat(void);
 // t_redir   *test_redir_echo_n(void);
