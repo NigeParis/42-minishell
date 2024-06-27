@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 11:08:25 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/27 11:46:29 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "minishell_types.h"
 #include "parser_types.h"
 
+#include <stdio.h>
 static void	put_exit_error(const char *progname, t_cmd_to_exec *cmd, char *msg)
 {
 	ft_putstr_fd(&progname[2], STDERR_FILENO);

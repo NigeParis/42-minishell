@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/27 10:59:52 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:32:12 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 int	minishell_should_exit(t_minishell_control *shell)
 {
-	dprintf(STDERR_FILENO,"should_exit_function ---->:%d\n", shell->shoulcontinue);
+	dprintf(STDERR_FILENO,"exit_flag ---->:%d\n", shell->exit);
 	
 	if (shell->shoulcontinue != true)
 		return (1);
@@ -56,13 +56,8 @@ void	minishell_loop(t_minishell_control *shell)
 	{
 		signal(SIGINT, Ctrl_C_handler);   /* Ctrl-c handler*/
         signal(SIGQUIT, SIG_IGN);          /* desactivates Ctrl-\ */
-		if (minishell_should_exit(shell))
-		{
-				dprintf(STDERR_FILENO,"return value exit %d\n", shell->shoulcontinue);
-				dprintf(STDERR_FILENO,"exit\n");
-			
-				break ;
-		}
+		
+		
 		if (minishell_prompt(shell))
 		{
 				dprintf(STDERR_FILENO,"return value prompt %d\n", shell->shoulcontinue);
@@ -73,6 +68,13 @@ void	minishell_loop(t_minishell_control *shell)
 		{
 				dprintf(STDERR_FILENO,"return value parse %d\n", shell->shoulcontinue);
 				dprintf(STDERR_FILENO,"parse\n");
+			
+				break ;
+		}
+		if (minishell_should_exit(shell))
+		{
+				dprintf(STDERR_FILENO,"return value exit %d\n", shell->shoulcontinue);
+				dprintf(STDERR_FILENO,"exit\n");
 			
 				break ;
 		}

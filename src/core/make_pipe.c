@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/27 10:49:27 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:49:55 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int make_pipe(t_pipex *pipex, t_cmd_to_exec *argv, t_minishell_control *shell)
     	signal(SIGINT, Ctrl_C_child_handler);   /* Ctrl-c handler*/
 
 	}
-
 	ret = pipe(pipex->pipe_fd);
 	if (ret < 0)
 		perror("pipe");
@@ -102,6 +101,7 @@ void parent_process(t_pipex *pipex, t_cmd_to_exec *argv, t_minishell_control *sh
 	if (DEBUG_LVL >= 20)
 		print_cmd(argv);
 	discard_cmd(argv);
+
 
  
 	//if (argv->lastcmd_index == LAST_CMD)

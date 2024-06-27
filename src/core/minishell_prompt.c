@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 16:13:21 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/27 09:46:33 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:26:38 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ int	minishell_prompt(t_minishell_control *shell)
 		if (tty)
 			printf("exit\n");	
 		shell->shoulcontinue = false;
-	}
+	}	
 	return (EXIT_SUCCESS);
 }

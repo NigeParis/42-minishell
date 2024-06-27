@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/27 10:17:22 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 13:18:22 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,39 +119,44 @@ t_redir    *test_redir_ls(void)   // NO REDIR STRUCTURE AVAILABLE so ADDED THIS
 
 void	ft_init(t_pipex *pipex)
 {
-
 	pipex->fdout = -1;
 	pipex->fdin = -1;
-	pipex->child_pid = -1;    
-
+	pipex->child_pid = -1;  \
+	pipex->pipe_fd[0] = -1;  
+	pipex->pipe_fd[1] = -1;  
 }
 
 
 int	minishell_execute(t_minishell_control *shell)
 {
 	int				(*builtin)(t_minishell_control *, t_cmd_to_exec *);
+	int				res;
 	t_cmd_to_exec	*cmd;
-	t_pipex pipex;
-	size_t	i;
-		t_redir *redir = NULL;
+	t_pipex 		pipex;
+	size_t			i;
+	
+	t_redir *redir = NULL;
 	// redir = (t_redir*)argv->redir_to_do->data;	  // crash here argv->redir-to->data absent ?
 	redir = test_redir_ls();
-
 	shell->exit = 0;
     ft_init(&pipex);
-
 	cmd = parser_get_cmd(shell->preparsed, shell);
 	while (cmd && shell->exit == 0)
 	{
-		dprintf(STDERR_FILENO, "exit = -> %d\n", shell->exit);
-
+		if (ft_strcmp(cmd->argv[0], "exit") == 0)
+		{			
+			res = exit_main(shell, cmd);
+			if (res != 1)
+			{
+				shell->exit = 1;
+				exit(res);
+			}			
+			break ;
+		}
 		execute(cmd, &pipex, shell);
-
 		cmd = parser_get_cmd(shell->preparsed, shell); 
-		dprintf(STDERR_FILENO, "exit = -> %d\n", shell->exit);
 		dup2(redir->target_std, STDIN_FILENO); 
     	dup2(redir->target_std, STDOUT_FILENO);      // reset STDIN amd STDOUT    
-		
 	}
 	return (0);
 }
