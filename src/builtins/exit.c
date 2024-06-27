@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/27 11:46:29 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:02:31 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,20 @@ int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->ac > 2)
 	{
-		ctrl->exit = 1;
 		put_exit_error(progname, cmd, ": too many arguments");
-		return (1);
+		ctrl->exit = 1;
+		return (ctrl->exit);
+
 	}
 	cmd->status = 0;
 	if (cmd->ac == 2)
 	{
-		if (ft_str_isdigit(cmd->argv[1]) == false)
+		if (ft_str_isnum(cmd->argv[1]) == false)
 		{
 			cmd->status = 1;
 			put_exit_error(progname, cmd, ": numeric argument required");
-			return (1);
+			ctrl->exit = 2;
+			return (ctrl->exit);
 		}
 		cmd->status = ft_atoi(cmd->argv[1]);
 	}

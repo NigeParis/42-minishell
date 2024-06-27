@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/27 12:32:12 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:34:43 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	minishell_parse(t_minishell_control *shell)
 	return (parser_line_cleanup(shell->prs), EXIT_SUCCESS);
 }
 
+
 void	minishell_loop(t_minishell_control *shell)
 {
 	printf("minishell_loop %p\n", shell);
@@ -60,22 +61,15 @@ void	minishell_loop(t_minishell_control *shell)
 		
 		if (minishell_prompt(shell))
 		{
-				dprintf(STDERR_FILENO,"return value prompt %d\n", shell->shoulcontinue);
-				dprintf(STDERR_FILENO,"prompt\n");
 				break ;
 		}
 		if (minishell_parse(shell))
 		{
-				dprintf(STDERR_FILENO,"return value parse %d\n", shell->shoulcontinue);
-				dprintf(STDERR_FILENO,"parse\n");
-			
 				break ;
 		}
 		if (minishell_should_exit(shell))
 		{
-				dprintf(STDERR_FILENO,"return value exit %d\n", shell->shoulcontinue);
-				dprintf(STDERR_FILENO,"exit\n");
-			
+				//return (shell->exit);
 				break ;
 		}
 

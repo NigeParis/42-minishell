@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 10:50:34 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/24 09:37:16 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:08:34 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 
 typedef struct s_minishell_control
 {
-	bool		shoulcontinue;
-	char		*input;
-	t_vector	*env;
-	int			exit;
-	t_vector	*preparsed;
-	void		*prs;
+	bool			shoulcontinue;
+	char			*input;
+	t_vector		*env;
+	unsigned int	exit;        //changed to unsigned int need for exit
+	t_vector		*preparsed;
+	void			*prs;
 }	t_minishell_control;
 
 // MINI_ERR_CMDP, parse

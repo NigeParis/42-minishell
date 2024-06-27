@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/27 13:18:22 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 15:10:21 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ int	minishell_execute(t_minishell_control *shell)
 	t_redir *redir = NULL;
 	// redir = (t_redir*)argv->redir_to_do->data;	  // crash here argv->redir-to->data absent ?
 	redir = test_redir_ls();
+	res = 0;
 	shell->exit = 0;
     ft_init(&pipex);
 	cmd = parser_get_cmd(shell->preparsed, shell);
@@ -146,17 +147,18 @@ int	minishell_execute(t_minishell_control *shell)
 		if (ft_strcmp(cmd->argv[0], "exit") == 0)
 		{			
 			res = exit_main(shell, cmd);
-			if (res != 1)
-			{
-				shell->exit = 1;
-				exit(res);
-			}			
-			break ;
+			shell->exit = res;	
+			if (res > 1)
+				return (res);
+			else if (res == 1)
+				return (0);
+			else
+				return (1);
 		}
 		execute(cmd, &pipex, shell);
-		cmd = parser_get_cmd(shell->preparsed, shell); 
 		dup2(redir->target_std, STDIN_FILENO); 
     	dup2(redir->target_std, STDOUT_FILENO);      // reset STDIN amd STDOUT    
+		cmd = parser_get_cmd(shell->preparsed, shell); 
 	}
-	return (0);
+	return (res);
 }
