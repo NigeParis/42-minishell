@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/27 15:10:21 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:34:14 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,10 +150,15 @@ int	minishell_execute(t_minishell_control *shell)
 			shell->exit = res;	
 			if (res > 1)
 				return (res);
-			else if (res == 1)
+			if (res < 1)
+				return (2);	
+			if ((res == 1) && (cmd->status == 0))
+			{
 				return (0);
-			else
-				return (1);
+			}
+			if ((res == 1) && (cmd->status = 1))
+				return (2);	
+		
 		}
 		execute(cmd, &pipex, shell);
 		dup2(redir->target_std, STDIN_FILENO); 
