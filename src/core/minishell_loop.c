@@ -6,21 +6,22 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/27 08:36:11 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 10:59:52 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "ft_string.h"
 #include "minishell.h"
 #include "minishell_types.h"
 #include "parser.h"
 #include "parser_types.h"
+#include "pipex.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <signal.h>
+#include <sys/types.h>
 
-#include <unistd.h>
 
 int	minishell_should_exit(t_minishell_control *shell)
 {
@@ -53,6 +54,8 @@ void	minishell_loop(t_minishell_control *shell)
 	printf("minishell_loop %p\n", shell);
 	while (1)
 	{
+		signal(SIGINT, Ctrl_C_handler);   /* Ctrl-c handler*/
+        signal(SIGQUIT, SIG_IGN);          /* desactivates Ctrl-\ */
 		if (minishell_should_exit(shell))
 		{
 				dprintf(STDERR_FILENO,"return value exit %d\n", shell->shoulcontinue);
