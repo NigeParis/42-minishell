@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/26 18:08:58 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 09:44:44 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,9 @@ int	minishell_execute(t_minishell_control *shell)
 	t_cmd_to_exec	*cmd;
 	t_pipex pipex;
 	size_t	i;
+		t_redir *redir = NULL;
+	// redir = (t_redir*)argv->redir_to_do->data;	  // crash here argv->redir-to->data absent ?
+	redir = test_redir_ls();
 
 	shell->exit = 0;
     ft_init(&pipex);
@@ -146,6 +149,8 @@ int	minishell_execute(t_minishell_control *shell)
 
 		cmd = parser_get_cmd(shell->preparsed, shell); 
 		dprintf(STDERR_FILENO, "exit = -> %d\n", shell->exit);
+		dup2(redir->target_std, STDIN_FILENO); 
+    	dup2(redir->target_std, STDOUT_FILENO);      // reset STDIN amd STDOUT    
 		
 	}
 	return (0);

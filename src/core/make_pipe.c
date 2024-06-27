@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/26 18:22:20 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 09:43:12 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int make_pipe(t_pipex *pipex, t_cmd_to_exec *argv, t_minishell_control *shell)
 	{	
 		parent_process(pipex, argv, shell);
 	}
+	
 	return (0);
 }
 
@@ -95,6 +96,10 @@ void parent_process(t_pipex *pipex, t_cmd_to_exec *argv, t_minishell_control *sh
 	(void)argv;
 	dprintf(STDERR_FILENO, "Parent_process\n");
 	
+	close(pipex->pipe_fd[1]);
+	dup2(pipex->pipe_fd[0], STDIN_FILENO);
+	close(pipex->pipe_fd[0]);
+	
 	waitpid(pipex->child_pid, &argv->status, 0);
 	shell->exit = WEXITSTATUS(argv->status);
 	if (DEBUG_LVL >= 1)
@@ -103,11 +108,7 @@ void parent_process(t_pipex *pipex, t_cmd_to_exec *argv, t_minishell_control *sh
 		print_cmd(argv);
 	discard_cmd(argv);
 
-	
-	close(pipex->pipe_fd[1]);
-	dup2(pipex->pipe_fd[0], STDIN_FILENO);
-	close(pipex->pipe_fd[0]);
-		
+ 
 	//if (argv->lastcmd_index == LAST_CMD)
 	
 }
