@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/27 16:34:14 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:03:58 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,8 @@ int	minishell_execute(t_minishell_control *shell)
 		
 		}
 		execute(cmd, &pipex, shell);
-		dup2(redir->target_std, STDIN_FILENO); 
-    	dup2(redir->target_std, STDOUT_FILENO);      // reset STDIN amd STDOUT    
+		dup2(redir->target_std, STDIN_FILENO); 		 // reset STDIN   
+    	dup2(redir->target_std, STDOUT_FILENO);      // reset STDOUT    
 		cmd = parser_get_cmd(shell->preparsed, shell); 
 	}
 	return (res);

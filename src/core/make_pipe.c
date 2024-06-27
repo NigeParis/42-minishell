@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/27 12:49:55 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:02:46 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,10 @@ int make_pipe(t_pipex *pipex, t_cmd_to_exec *argv, t_minishell_control *shell)
 {
 	int ret;
 	
-	// dprintf(STDERR_FILENO, "status -=> %d\n", argv->status);
 	if (!argv->status)
 	{
-		dprintf(STDERR_FILENO,"signal---->\n");
 		signal(SIGQUIT, backslash_handler);
     	signal(SIGINT, Ctrl_C_child_handler);   /* Ctrl-c handler*/
-
 	}
 	ret = pipe(pipex->pipe_fd);
 	if (ret < 0)
@@ -43,7 +40,6 @@ int make_pipe(t_pipex *pipex, t_cmd_to_exec *argv, t_minishell_control *shell)
 	{	
 		parent_process(pipex, argv, shell);
 	}
-	
 	return (0);
 }
 
@@ -62,7 +58,6 @@ void child_process(t_pipex *pipex, t_cmd_to_exec *argv, t_minishell_control *she
 	close(pipex->pipe_fd[0]);
 	if (redir->flag == RDIR_FILE  && redir->redir_type == 0)
 	{
-		
 		ft_open_file(pipex, argv);
 		dup2(pipex->fdin, STDIN_FILENO);
 		close_fd(&pipex->fdin);

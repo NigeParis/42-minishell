@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 08:29:28 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/27 12:45:52 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 16:59:00 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	exec_cmd(t_cmd_to_exec *argv, t_pipex *pipex, t_minishell_control *shell)
 	ret = -1;
 	(void)pipex;
 	
-		dprintf(STDERR_FILENO, "argv[0]------> %s\n", argv->argv[0]);
-
 		if ((ft_strcmp(argv->argv[0], "cd") == 0) ||
 			(ft_strcmp(argv->argv[0], "echo") == 0) ||
 			(ft_strcmp(argv->argv[0], "env") == 0) ||

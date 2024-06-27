@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/27 14:34:43 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:04:46 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 
 int	minishell_should_exit(t_minishell_control *shell)
 {
-	dprintf(STDERR_FILENO,"exit_flag ---->:%d\n", shell->exit);
-	
 	if (shell->shoulcontinue != true)
 		return (1);
 	return (0);
@@ -69,7 +67,6 @@ void	minishell_loop(t_minishell_control *shell)
 		}
 		if (minishell_should_exit(shell))
 		{
-				//return (shell->exit);
 				break ;
 		}
 
