@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 11:54:14 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/27 17:02:46 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:19:15 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void child_process(t_pipex *pipex, t_cmd_to_exec *argv, t_minishell_control *she
 	t_redir *redir = NULL;
 
 
-	// redir = (t_redir*)argv->redir_to_do->data;	  // crash here argv->redir-to->data absent ?
+	//redir = (t_redir*)argv->redir_to_do->data;	  // crash here argv->redir-to->data absent ?
 	redir = test_redir_ls();	  // crash here argv->redir-to->data absent ?
 	close(pipex->pipe_fd[0]);
 	if (redir->flag == RDIR_FILE  && redir->redir_type == 0)

@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/27 17:03:58 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:26:23 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,20 @@ int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
 }
 
 
-t_minishell_control *testminictrl(void)   // ADDED because dont know how to plug in the real one
-{
-    t_minishell_control *minictrl;
+// t_minishell_control *testminictrl(void)   // ADDED because dont know how to plug in the real one
+// {
+//     t_minishell_control *minictrl;
 
-    minictrl = malloc(sizeof(t_minishell_control));
+//     minictrl = malloc(sizeof(t_minishell_control));
     
-	minictrl->input = NULL;
-	minictrl->env = NULL;
-	minictrl->exit = 0;
-	minictrl->preparsed = NULL;
-	minictrl->prs = NULL;
+// 	minictrl->input = NULL;
+// 	minictrl->env = NULL;
+// 	minictrl->exit = 0;
+// 	minictrl->preparsed = NULL;
+// 	minictrl->prs = NULL;
 
-    return (minictrl);
-}
+//     return (minictrl);
+// }
 
 
 t_redir    *test_redir_ls(void)   // NO REDIR STRUCTURE AVAILABLE so ADDED THIS
@@ -111,7 +111,7 @@ t_redir    *test_redir_ls(void)   // NO REDIR STRUCTURE AVAILABLE so ADDED THIS
     redir->flag = (t_redir_flag)RDIR_STD;
     redir->redir_type = 0;
     redir->src_file = ft_strdup("infile");
-    redir->target_file = ft_strdup("testfile");
+    redir->target_file = ft_strdup("myfile");
     redir->target_std = dup(STDOUT_FILENO);
     redir->src_std = dup(STDIN_FILENO);
     return (redir);
@@ -121,7 +121,7 @@ void	ft_init(t_pipex *pipex)
 {
 	pipex->fdout = -1;
 	pipex->fdin = -1;
-	pipex->child_pid = -1;  \
+	pipex->child_pid = -1;  
 	pipex->pipe_fd[0] = -1;  
 	pipex->pipe_fd[1] = -1;  
 }
@@ -136,12 +136,24 @@ int	minishell_execute(t_minishell_control *shell)
 	size_t			i;
 	
 	t_redir *redir = NULL;
-	// redir = (t_redir*)argv->redir_to_do->data;	  // crash here argv->redir-to->data absent ?
 	redir = test_redir_ls();
 	res = 0;
 	shell->exit = 0;
     ft_init(&pipex);
 	cmd = parser_get_cmd(shell->preparsed, shell);
+	// if (!cmd)
+	// {
+   	// 	ft_putstr_fd("no cmd found\n", 2);
+	// } 
+	// else if (!cmd->redir_to_do)
+	// {
+   	// 	ft_putstr_fd("no redir found\n", 2);
+	// }
+	// else 
+	// {
+	// 	//redir = (t_redir*)cmd->redir_to_do->data; // crashes here
+	// 	ft_putstr_fd("------->here\n", 2);
+	// }
 	while (cmd && shell->exit == 0)
 	{
 		if (ft_strcmp(cmd->argv[0], "exit") == 0)
@@ -161,7 +173,7 @@ int	minishell_execute(t_minishell_control *shell)
 		
 		}
 		execute(cmd, &pipex, shell);
-		dup2(redir->target_std, STDIN_FILENO); 		 // reset STDIN   
+		dup2(redir->src_std, STDIN_FILENO); 		 // reset STDIN   
     	dup2(redir->target_std, STDOUT_FILENO);      // reset STDOUT    
 		cmd = parser_get_cmd(shell->preparsed, shell); 
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_signals.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:17:43 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/22 17:36:16 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/28 09:31:18 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	signal_handler(int signum)
 		rl_redisplay();
 	}
 }
-
 
 void	signal_init(void)
 {

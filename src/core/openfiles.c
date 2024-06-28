@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:09:49 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/26 15:47:32 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:19:05 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int 	checkfile_read_and_exists(char *file, int type)
 void	ft_open_file(t_pipex *pipex, t_cmd_to_exec *argv)
 {
 	t_redir *redir;
-	// redir = (t_redir*)argv->redir_to_do->data; // crashes
+	//redir = (t_redir*)argv->redir_to_do->data; // crashes
 	redir = test_redir_ls();	  // crash here argv->redir-to->data absent ?
 
 	if (redir->flag == RDIR_FILE && redir->redir_type == RDIR_TRUNC)
