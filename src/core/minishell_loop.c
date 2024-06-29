@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 17:19:06 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/29 14:41:29 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	minishell_parse(t_minishell_control *shell)
 		EXIT_SUCCESS);
 	if (minishell_execute(shell))
 		return (parser_line_cleanup(shell->prs), EXIT_FAILURE);
+	// todo check if input is 1 - null 2 - empty if yes dont add to history
 	add_history(shell->input);
 	return (parser_line_cleanup(shell->prs), EXIT_SUCCESS);
 }

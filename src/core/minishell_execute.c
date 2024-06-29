@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/25 15:19:24 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/06/29 14:40:08 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,33 @@ void	print_redirs(t_list *redirs)
 	t_redir	*redir;
 
 	node = redirs;
-	printf("redirs:\n");
+	dprintf(2, "redirs:\n");
 	while (node)
 	{
 		redir = node->data;
-		printf("\t\t");
+		dprintf(2, "\t\t");
 		if (redir->flag == RDIR_STD)
-			printf("%d", redir->src_std);
+			dprintf(2, "%d", redir->src_std);
 		else
-			printf("%s", redir->src_file);
+			dprintf(2, "%s", redir->src_file);
 		if ((redir->redir_type & RDIR_MSK_IO) == RDIR_INPUT
 		&& (redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND)
-			printf(" << ");
+			dprintf(2, " << ");
 		else if ((redir->redir_type & RDIR_MSK_IO) == RDIR_INPUT)
-			printf(" < ");
+			dprintf(2, " < ");
 		else if ((redir->redir_type & RDIR_MSK_IO) == RDIR_OUTPUT
 		&& (redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND)
-			printf(" >> ");
+			dprintf(2, " >> ");
 		else
-			printf(" | ");
+			dprintf(2, " | ");
 		if (redir->target_file)
-			printf("%s", redir->target_file);
+			dprintf(2, "%s", redir->target_file);
 		else
-			printf("%d", redir->target_std);
-		printf("\n");
+			dprintf(2, "%d", redir->target_std);
+		dprintf(2, "\n");
 		node = node->next;
 	}
-	printf("\n\n");
+	dprintf(2, "\n\n");
 }
 
 void	print_cmd(t_cmd_to_exec *cmd)
@@ -65,20 +65,20 @@ void	print_cmd(t_cmd_to_exec *cmd)
 
 	if (cmd == NULL)
 	{
-		printf("cmd is NULL\n");
+		dprintf(2, "cmd is NULL\n");
 		return ;
 	}
-	printf("cmd %s\t", cmd->cmd_path);
-	printf("\tac: %d\n", cmd->ac);
+	dprintf(2, "cmd %s\t", cmd->cmd_path);
+	dprintf(2, "\tac: %d\n", cmd->ac);
 	i = 0;
 	while (cmd->argv[i])
-		printf("[%zu] %s\n", i, cmd->argv[i]), i++;
-	printf("\t--\tend of args\n");
+		dprintf(2, "[%zu] %s\n", i, cmd->argv[i]), i++;
+	dprintf(2, "\t--\tend of args\n");
 	i = 0;
 	while (cmd->env[i] && i < 5)
-		printf("[%zu] %s\n", i, cmd->env[i]), i++;
+		dprintf(2, "[%zu] %s\n", i, cmd->env[i]), i++;
 	if (cmd->env[i])
-		printf("\t--\trest of env ommited from log...\n");
+		dprintf(2, "\t--\trest of env ommited from log...\n");
 	print_redirs(cmd->redir_to_do);
 }
 
@@ -89,7 +89,7 @@ void discard_cmd(t_cmd_to_exec *cmd)
 
 	if (cmd == NULL)
 		return 
-		(void) printf("error on error::cmd is NULL\n");
+		(void) dprintf(2, "error on error::cmd is NULL\n");
 	if (cmd->argv)
 		ft_free_2d((void **)cmd->argv), cmd->argv = NULL;
 	if (cmd->env)
@@ -122,77 +122,59 @@ int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
 		return (&unset_main);
 	return (NULL);
 }
-void	signal_init_child(void);
-
-int	minishell_execute(t_minishell_control *shell)
+static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd, int *pp_fd)
 {
-	int				(*builtin)(t_minishell_control *, t_cmd_to_exec *);
-	t_cmd_to_exec	*cmd;
-	size_t	i;
-
-	shell->exit = 0;
-	cmd = parser_get_cmd(shell->preparsed, shell);
-	while (cmd && shell->exit == 0)
+	if (pp_fd[0] != -1)
+		(dup2(pp_fd[0], STDIN_FILENO), close(pp_fd[0]), close(pp_fd[1]));
+	if (p_fd[STDOUT_FILENO] != -1)
+		(dup2(p_fd[1], STDOUT_FILENO), close(p_fd[1]), close(p_fd[0]));
+	if (cmd->cmd_path == NULL)
 	{
-		// check for builtins
-		// yes branch-> 
-			// execute the command as fun bellows but use t_minishell_control 
-			// and other fun stuff
-		if (cmd && !cmd->cmd_path && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
-		{
-			printf("builtin: %s detected\n", cmd->argv[0]);
-			// run builtin here
-			builtin = get_builtin(cmd->argv[0]);
-			builtin(shell, cmd);
-			discard_cmd(cmd);
-			cmd = parser_get_cmd(shell->preparsed, shell);
-			continue ;
-		}
-		int pid = fork();
-		if (pid == 0)
-		{
-			signal_init_child();
-			// setup sigaction here for child process aka SIGSEGV etc...
-			// setup redirections
-			// execute the command :: see below
-			if (cmd->cmd_path == NULL)
-			{
-				printf("%s: %s: command not found\n", ft_progname(), cmd->argv[0]),
-				discard_cmd(cmd),
-				minishell_cleanup(shell),
-				exit(127);
-			}
-			execve(cmd->cmd_path, cmd->argv, cmd->env);
-			// if execve fails
-			discard_cmd(cmd);
-			minishell_cleanup(shell);
-			perror("execve");
-			exit(126);
-		}
-		else // parent
-		{
-			waitpid(pid, &cmd->status, 0);
-			if (WIFSIGNALED(cmd->status))
-			{
-				printf("child process killed by signal %d\n", WTERMSIG(cmd->status));
-				shell->exit = 128 + WTERMSIG(cmd->status);
-				printf("%s : %d %s %s\n", ft_progname(), pid,
-				strsignal(WTERMSIG(cmd->status)), cmd->argv[0]);
-			}
-			else
-				shell->exit = WEXITSTATUS(cmd->status);
-			if (DEBUG_LVL >= 1)
-				printf("cmd status: %d\n", cmd->status);
-			if (DEBUG_LVL >= 2)
-				print_cmd(cmd);
-			discard_cmd(cmd);
-		}
-		cmd = parser_get_cmd(shell->preparsed, shell); 
+		printf("%s: %s: command not found\n", ft_progname(), cmd->argv[0]),
+		discard_cmd(cmd),
+		minishell_cleanup(shell),
+		exit(127);
 	}
+	execve(cmd->cmd_path, cmd->argv, cmd->env);
+	discard_cmd(cmd);
+	minishell_cleanup(shell);
+	perror("execve");
+	exit(126);
+}
+
+void	signal_init(void);
+
+static void parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid, int *prev_pipe)
+{
+	if (prev_pipe[1] != -1 || prev_pipe[0] != -1)
+		(close(prev_pipe[0]), close(prev_pipe[1]));
+	waitpid(pid, &cmd->status, 0);
+	if (WIFSIGNALED(cmd->status))
+	{
+		dprintf(2,"child process killed by signal %d\n", WTERMSIG(cmd->status));
+		shell->exit = 128 + WTERMSIG(cmd->status);
+		dprintf(2, "%s : %d %s %s\n", ft_progname(), pid,
+		strsignal(WTERMSIG(cmd->status)), cmd->argv[0]);
+	}
+	else
+		shell->exit = WEXITSTATUS(cmd->status);
+	if (DEBUG_LVL >= 10)
+		dprintf(2, "cmd status: %d\n", cmd->status);
+	if (DEBUG_LVL >= 20)
+		print_cmd(cmd);
+	discard_cmd(cmd);
+}
+
+static void exec_cl(t_minishell_control *shell)
+{
+	t_preparsed_node *node;
+	size_t i;
+
+	if (!shell)
+		return ;
+	i = 0;
 	if (shell->preparsed)
 	{
-		t_preparsed_node *node;
-		size_t i = 0;
 
 		while (i < shell->preparsed->count)
 		{
@@ -204,5 +186,72 @@ int	minishell_execute(t_minishell_control *shell)
 		ft_vec_destroy(&shell->preparsed);
 		shell->preparsed = NULL;
 	}
-	return (0);
+}
+
+static void b_in(t_minishell_control *shell, t_cmd_to_exec *cmd)
+{
+	int				(*builtin)(t_minishell_control *, t_cmd_to_exec *);
+
+	dprintf(2, "builtin: %s detected\n", cmd->argv[0]);
+	builtin = get_builtin(cmd->argv[0]);
+	builtin(shell, cmd);
+	shell->exit = cmd->status;
+	discard_cmd(cmd);
+}
+
+bool has_pipe(t_list *redirs)
+{
+	t_list	*node;
+	t_redir	*redir;
+
+	node = redirs;
+	while (node)
+	{
+		redir = node->data;
+		if (redir->redir_type == RDIR_PIPE)
+			return (true);
+		node = node->next;
+	}
+	return (false);
+}
+
+static void set_pipe(int *pipe_fd, int fd_1, int fd_2)
+{
+	pipe_fd[0] = fd_1;
+	pipe_fd[1] = fd_2;
+}
+
+int	minishell_execute(t_minishell_control *shell)
+{
+	t_cmd_to_exec	*cmd;
+	int				pid;
+	int				pp_fd[2];
+	int				p_fd[2];
+
+	(set_pipe(pp_fd, -1, -1), set_pipe(p_fd, -1, -1));
+	cmd = parser_get_cmd(shell->preparsed, shell);
+	while (cmd && shell->exit == 0)
+	{
+		if (cmd->redir_to_do && has_pipe(cmd->redir_to_do))
+			pipe(p_fd);
+		else
+			set_pipe(p_fd, -1, -1);
+		if (!cmd->cmd_path && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
+		{
+			cmd = (b_in(shell, cmd), parser_get_cmd(shell->preparsed, shell));
+			continue ;
+		}
+		pid = fork();
+		if (pid == -1)
+			return (perror("fork"), exec_cl(shell), EXIT_FAILURE);
+		if (pid == 0)
+			child_exec(shell, cmd, p_fd, (int *)pp_fd);
+		else // parent
+			parent_exec(shell, cmd, pid, pp_fd);
+		(set_pipe(pp_fd, p_fd[0], p_fd[1]), set_pipe(p_fd, -1, -1));
+		cmd = parser_get_cmd(shell->preparsed, shell);
+	}
+	if (pp_fd[0] != -1 || pp_fd[1] != -1)
+		(close(pp_fd[0]), close(pp_fd[1]));
+	return (exec_cl(shell), 0);
 }
