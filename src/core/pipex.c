@@ -6,16 +6,16 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:45:37 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/26 17:11:11 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/29 11:54:00 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	execute(t_cmd_to_exec *argv, t_pipex *pipex, t_minishell_control *shell)
+int	execute(t_cmd_to_exec *cmd, t_pipex *pipex, t_minishell_control *shell)
 {
 	
-	make_pipe(pipex, argv, shell);
+	make_pipe(pipex, cmd, shell);
 	close(pipex->pipe_fd[0]);
 	close(pipex->pipe_fd[1]);
 
