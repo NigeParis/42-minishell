@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/28 15:26:23 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/29 13:27:24 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,9 @@ void	ft_init(t_pipex *pipex)
 	pipex->fdin = -1;
 	pipex->child_pid = -1;  
 	pipex->pipe_fd[0] = -1;  
-	pipex->pipe_fd[1] = -1;  
+	pipex->pipe_fd[1] = -1; 
+	pipex->pipe_doc[0] = -1;  
+	pipex->pipe_doc[1] = -1;  
 }
 
 

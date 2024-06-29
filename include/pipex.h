@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 13:31:15 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/26 17:42:37 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/06/29 14:54:12 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,15 @@
 
 # define INFILE 0
 # define OUTFILE 1
-# define FIRST_CMD 0
-# define PIPE_CMD 1
-# define LAST_CMD 2
 
 typedef struct s_pipex
 {
 	int		fdout;
 	int		fdin;
 	int		pipe_fd[2];
+	int 	pipe_doc[2];
+	int 	doc;
 	int		child_pid;
-	
 }	t_pipex;
 
 
@@ -172,21 +170,21 @@ void	ft_heredoc_init(t_pipex *pipex, int argc, char *argv[]);
 /// @param 
 /// @note 
 void	ft_heredoc_cleanup(t_pipex *pipex);
+
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-int		ft_heredoc(t_pipex *pipex, int argc, char *argv[]);
+//int		ft_heredoc(t_pipex *pipex, int argc, char *argv[]);
+int	ft_heredoc(t_pipex *pipex, t_cmd_to_exec *cmd);
+
 /// @brief 
 /// @param 
 /// @param 
 /// @note 
-void	ft_here_doc(t_pipex *pipex, char *argv[]);
-/// @brief 
-/// @param 
-/// @param 
-/// @note 
-int		ft_pipex(t_pipex *pipex);
+//void	ft_here_doc(t_pipex *pipex, char *argv[]);
+void	ft_here_doc(t_pipex *pipex, t_cmd_to_exec *cmd);
+
 
 /// @brief 
 /// @param 
