@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/24 12:45:09 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/01 10:46:56 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "ft_args.h"
 #include "ft_string.h"
 #include "parser_types.h"
+#include <stdio.h>
 #define PATH_MAX 1024
 
 static void	put_builtin_msg_invalid_option(const char *progname, t_cmd_to_exec *cmd)

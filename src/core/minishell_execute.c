@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_execute.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/29 14:40:08 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/01 12:03:41 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <signal.h>
 
 void	print_redirs(t_list *redirs)
 {
@@ -106,14 +107,16 @@ void discard_cmd(t_cmd_to_exec *cmd)
 	free(cmd);
 }
 
+
 int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
 {
+	dprintf(STDERR_FILENO, "Inside builtin\n");
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (&cd_main);
 	if (ft_strcmp(cmd, "env") == 0)
 		return (&env_main);
-	if (ft_strcmp(cmd, "exit") == 0)
-		return (&exit_main);
+	if (ft_strcmp(cmd, "echo") == 0)
+		return (&echo_main);	
 	if (ft_strcmp(cmd, "export") == 0)
 		return (&export_main);
 	if (ft_strcmp(cmd, "pwd") == 0)
@@ -122,12 +125,30 @@ int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
 		return (&unset_main);
 	return (NULL);
 }
+
+static void b_in(t_minishell_control *shell, t_cmd_to_exec *cmd)
+{
+	int				(*builtin)(t_minishell_control *, t_cmd_to_exec *);
+
+	dprintf(2, "builtin: %s detected\n", cmd->argv[0]);
+	builtin = get_builtin(cmd->argv[0]);
+	builtin(shell, cmd);
+	shell->exit = cmd->status;
+	discard_cmd(cmd);
+}
+
 static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd, int *pp_fd)
 {
 	if (pp_fd[0] != -1)
 		(dup2(pp_fd[0], STDIN_FILENO), close(pp_fd[0]), close(pp_fd[1]));
 	if (p_fd[STDOUT_FILENO] != -1)
 		(dup2(p_fd[1], STDOUT_FILENO), close(p_fd[1]), close(p_fd[0]));
+
+	if (cmd->ac >= 1 && get_builtin(cmd->argv[0]))
+	{
+		cmd = (b_in(shell, cmd), parser_get_cmd(shell->preparsed, shell));
+		exit(0);
+	}	
 	if (cmd->cmd_path == NULL)
 	{
 		printf("%s: %s: command not found\n", ft_progname(), cmd->argv[0]),
@@ -188,16 +209,6 @@ static void exec_cl(t_minishell_control *shell)
 	}
 }
 
-static void b_in(t_minishell_control *shell, t_cmd_to_exec *cmd)
-{
-	int				(*builtin)(t_minishell_control *, t_cmd_to_exec *);
-
-	dprintf(2, "builtin: %s detected\n", cmd->argv[0]);
-	builtin = get_builtin(cmd->argv[0]);
-	builtin(shell, cmd);
-	shell->exit = cmd->status;
-	discard_cmd(cmd);
-}
 
 bool has_pipe(t_list *redirs)
 {
@@ -221,26 +232,59 @@ static void set_pipe(int *pipe_fd, int fd_1, int fd_2)
 	pipe_fd[1] = fd_2;
 }
 
+
+int	is_exit(t_cmd_to_exec	*cmd, t_minishell_control *shell)
+{
+	int	res;
+
+	if (ft_strcmp(cmd->argv[0], "exit") == 0)
+	{			
+		res = exit_main(shell, cmd);
+		shell->exit = res;	
+		if (res > 1)
+			return (exec_cl(shell),res);
+		if (res < 1)
+			return (exec_cl(shell),2);	
+		if ((res == 1) && (cmd->status == 0))
+		{
+			return (exec_cl(shell),0);
+		}
+		if ((res == 1) && (cmd->status = 1))
+			return (exec_cl(shell),2);	
+		
+	}
+	return (0);
+}
+
+
+void	signal_handler(int signum);
+
+
 int	minishell_execute(t_minishell_control *shell)
 {
 	t_cmd_to_exec	*cmd;
 	int				pid;
 	int				pp_fd[2];
 	int				p_fd[2];
+	int				res;
 
 	(set_pipe(pp_fd, -1, -1), set_pipe(p_fd, -1, -1));
 	cmd = parser_get_cmd(shell->preparsed, shell);
 	while (cmd && shell->exit == 0)
 	{
+		if (!cmd->status)
+			signal(SIGQUIT, signal_handler);
+	
+		res = is_exit(cmd, shell);
+		if (res)
+			return (exec_cl(shell), res);
+			
 		if (cmd->redir_to_do && has_pipe(cmd->redir_to_do))
 			pipe(p_fd);
 		else
 			set_pipe(p_fd, -1, -1);
-		if (!cmd->cmd_path && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
-		{
-			cmd = (b_in(shell, cmd), parser_get_cmd(shell->preparsed, shell));
-			continue ;
-		}
+
+
 		pid = fork();
 		if (pid == -1)
 			return (perror("fork"), exec_cl(shell), EXIT_FAILURE);

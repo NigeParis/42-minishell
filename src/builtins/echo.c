@@ -6,26 +6,61 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:43:26 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/06/24 12:41:52 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/01 10:57:07 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "minishell_types.h"
 #include "parser_types.h"
+#include "ft_char.h"
 
-int		echo_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
+#include <stdio.h>
+
+static int is_echo_flag(t_cmd_to_exec *cmd, int i)
 {
-	size_t	i;
+	int y;
+
+	y = 1;
+	if (!cmd->argv)
+		return (0);
+	if(cmd && cmd->argv[i][0] == '-')
+	{
+		while(cmd->argv[i] && cmd->argv[i][y] == 'n')
+		{		
+			if (cmd->argv[i][y] != 'n')	
+				return (0);
+			y++;
+		}
+		if (cmd->argv[i][y] == '\0')
+			return (1);
+		y = 1;
+	}
+	
+	return (0);
+}
+
+
+int   echo_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
+{
+	(void)ctrl;
+	int i;
 
 	i = 1;
-	while (cmd->argv[i])
+
+	while (is_echo_flag(cmd, i))
 	{
-		ft_putstr_fd(cmd->argv[i], STDOUT_FILENO);
-		if (cmd->argv[i + 1])
-			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
 	}
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	return (EXIT_SUCCESS);
+	while (cmd->argv && cmd->argv[i] != NULL)
+	{
+		ft_putstr_fd(cmd->argv[i], STDOUT_FILENO);
+		if (cmd->argv && cmd->argv[i + 1]!= NULL)
+			ft_putchar_fd(' ', STDOUT_FILENO);
+		i++;
+	}
+	if (!is_echo_flag(cmd, 1))
+		ft_putchar_fd('\n', STDOUT_FILENO);	
+
+	return (0);
 }

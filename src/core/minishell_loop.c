@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_loop.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/29 14:41:29 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:27:26 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+#include <signal.h>
+
 
 int	minishell_should_exit(t_minishell_control *shell)
 {
@@ -50,6 +53,7 @@ void	minishell_loop(t_minishell_control *shell)
 	printf("minishell_loop %p\n", shell);
 	while (1)
 	{
+		signal(SIGQUIT, SIG_IGN);          /* desactivates Ctrl-\ */
 		if (minishell_prompt(shell) || minishell_parse(shell)
 			|| minishell_should_exit(shell))
 			break ;

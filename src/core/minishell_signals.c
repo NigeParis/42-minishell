@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_signals.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:17:43 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/29 14:24:12 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/01 11:32:34 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ void	signal_handler(int signum)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
+
+	if (signum == SIGQUIT)
+	{
+		printf("Quit (core dumped)");
+		printf("\n");	
+	}
+	
 }
 
 void	signal_init(void)

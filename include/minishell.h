@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:15:12 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 11:30:10 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/01 09:51:47 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ int		cd_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
 int		env_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
 
 /// @file: src/builtins/exit.c
+int		echo_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
+
+/// @file: src/builtins/exit.c
 int		exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
+
 
 /// @file: src/builtins/export.c
 int		export_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
