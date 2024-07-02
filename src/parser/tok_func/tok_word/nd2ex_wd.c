@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 16:33:45 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:06:29 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "parser_types.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 void ft_string_del_ch(t_string *str, size_t index, size_t len)
 {
@@ -125,6 +126,8 @@ bool	nd2ex_word(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *s
 	str[1] = optional_strjoin(&op[0], &op[1]);
 	if (op[0].pres == OPT_SOME)
 		ft_vec_pop(cmd->construction_vector), free(op[0].val);
+	dprintf(STDERR_FILENO, "word: %s\n", str[1]);
+	fflush(stderr);
 	ft_vec_add(&cmd->construction_vector, str[1]);
 	return (ft_string_destroy(&word), free(nd), true);
 }

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/25 13:00:49 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:04:18 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "parser_types.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
 
 static char *resolve_cmd(char *cmd, t_minishell_control	*sh)
 {
@@ -46,7 +47,12 @@ static char *resolve_cmd(char *cmd, t_minishell_control	*sh)
 
 bool	nd2ex_eol(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *sh)
 {
+	printf("nd2ex_eol\n");
+	printf("nd->constr_vec = %p (%zd elem)\n", cmd->construction_vector, cmd->construction_vector ?
+		(ssize_t) cmd->construction_vector->count : -1);
 	free(nd);
+	if (cmd->construction_vector == NULL)
+		return (false);
 	cmd->ac = cmd->construction_vector->count;
 	cmd->argv = (char **)ft_vec_to_array(&cmd->construction_vector);
 	cmd->construction_vector = NULL;
@@ -55,8 +61,11 @@ bool	nd2ex_eol(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *sh
 	if (!cmd->env || !cmd->argv)
 		return (false);
 	ft_vec_shift(sh->preparsed, 0, cmd->nb_tok_consumed);
-
+	printf("nd2ex_eol 2\n");
 	if (sh->preparsed->count == 0)
 		ft_vec_destroy(&sh->preparsed), sh->preparsed = NULL;
+	printf("nd2ex_eol end\n");
+	printf("nd->constr_vec = %p (%zd elem)\n", cmd->construction_vector, cmd->construction_vector ?
+		(ssize_t) cmd->construction_vector->count : -1);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/29 14:40:08 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/02 10:55:35 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,19 +122,23 @@ int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
 		return (&unset_main);
 	return (NULL);
 }
+static void exec_cl(t_minishell_control *shell);
+
 static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd, int *pp_fd)
 {
+	if (cmd->cmd_path == NULL)
+	{
+		printf("%s: %s: command not found\n", ft_progname(), cmd->argv[0]);
+		if (pp_fd[0] != -1 || pp_fd[1] != -1)
+			(close(pp_fd[0]), close(pp_fd[1]));
+		if (p_fd[0] != -1 || p_fd[1] != -1)
+			(close(p_fd[0]), close(p_fd[1]));
+		discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(127);
+	}
 	if (pp_fd[0] != -1)
 		(dup2(pp_fd[0], STDIN_FILENO), close(pp_fd[0]), close(pp_fd[1]));
 	if (p_fd[STDOUT_FILENO] != -1)
 		(dup2(p_fd[1], STDOUT_FILENO), close(p_fd[1]), close(p_fd[0]));
-	if (cmd->cmd_path == NULL)
-	{
-		printf("%s: %s: command not found\n", ft_progname(), cmd->argv[0]),
-		discard_cmd(cmd),
-		minishell_cleanup(shell),
-		exit(127);
-	}
 	execve(cmd->cmd_path, cmd->argv, cmd->env);
 	discard_cmd(cmd);
 	minishell_cleanup(shell);
@@ -225,19 +229,23 @@ int	minishell_execute(t_minishell_control *shell)
 {
 	t_cmd_to_exec	*cmd;
 	int				pid;
+	int				status;
 	int				pp_fd[2];
 	int				p_fd[2];
 
 	(set_pipe(pp_fd, -1, -1), set_pipe(p_fd, -1, -1));
 	cmd = parser_get_cmd(shell->preparsed, shell);
-	while (cmd && shell->exit == 0)
+	status = 0;
+	while (cmd && status == 0)
 	{
+		dprintf(STDERR_FILENO, "%p : cmd\t rdir ? %s\n", cmd, cmd->redir_to_do ? "yes" : "no");
 		if (cmd->redir_to_do && has_pipe(cmd->redir_to_do))
 			pipe(p_fd);
 		else
 			set_pipe(p_fd, -1, -1);
 		if (!cmd->cmd_path && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
 		{
+			dprintf(STDERR_FILENO, "%d : b_in branch\n", __LINE__);
 			cmd = (b_in(shell, cmd), parser_get_cmd(shell->preparsed, shell));
 			continue ;
 		}
@@ -249,8 +257,11 @@ int	minishell_execute(t_minishell_control *shell)
 		else // parent
 			parent_exec(shell, cmd, pid, pp_fd);
 		(set_pipe(pp_fd, p_fd[0], p_fd[1]), set_pipe(p_fd, -1, -1));
+		status = shell->exit;
 		cmd = parser_get_cmd(shell->preparsed, shell);
 	}
+	if (cmd && status != 0)
+		discard_cmd(cmd);
 	if (pp_fd[0] != -1 || pp_fd[1] != -1)
 		(close(pp_fd[0]), close(pp_fd[1]));
 	return (exec_cl(shell), 0);

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/25 12:51:09 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:16:34 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,9 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *s
 	t_cmd_to_exec		*cmd;
 	t_vector			*args;
 	t_preparsed_node	*token;
+	bool				cmd_rdy;
 
-	if (DEBUG_LVL > 2)
+	if (DEBUG_LVL >= 20)
 		debug_n_list(preparsed_tokens);
 	if (preparsed_tokens == NULL || preparsed_tokens->count == 0)
 		return (NULL);
@@ -94,11 +95,15 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *s
 		return (NULL);
 	cmd->construction_vector = ft_vec_new();
 	cmd->construction_index = 0;
-	while (!cmd->cmd_path && sh->preparsed && preparsed_tokens->count > cmd->nb_tok_consumed)
+	cmd_rdy = false;
+	while (!cmd->cmd_path && sh->preparsed && preparsed_tokens->count > cmd->nb_tok_consumed &&
+	cmd_rdy == false)
 	{
 		token = ft_vec_at(preparsed_tokens, cmd->nb_tok_consumed++);
 		if (token && token->execute)
 		{
+			if (token->type == TOK_EOL || token->type == TOK_PIPE)
+				cmd_rdy = true;
 			if (token->execute(token, cmd, sh) == false)
 			{
 				printf("nd2ex on token failed.\ntoken respossible:\t");
@@ -112,7 +117,8 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *s
 		}
 		else
 		{
-			printf("error: no execute function for token %p\t", token), 
+			printf("error: no execute function for token %p\t", token);
+			if (token)
 				token->print(token);
 			return (NULL);
 		}

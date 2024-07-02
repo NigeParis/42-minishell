@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/19 14:00:59 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/02 10:30:04 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ bool	nd2ex_pipe(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *s
 	rd->redir_type = RDIR_PIPE;
 	rd->flag = RDIR_STD;
 	if (ft_ll_push(&cmd->redir_to_do, rd) == NULL)
-		return (free(rd), false);
+		return (false);
 	return (nd2ex_eol(nd, cmd, sh));
 }
 
