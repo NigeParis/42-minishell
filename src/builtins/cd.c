@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 13:14:52 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:19:33 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,37 +17,37 @@
 #include <stdio.h>
 #include <sys/param.h>
 
+#define PWD 0
+#define HOMEDIR 1
+#define OLDPWD 2
+#define TARGET 3
+#define BUFF 4
+
 int	cd_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
-	char	*pwd;
-	char	*homedir;
-	char	*oldpwd;
-	char	*target;
-	char	*buff;
+	char	*ptr[5];
 
-	homedir = get_env(ctrl->env, "HOME");
-	oldpwd = get_env(ctrl->env, "OLDPWD");
-	pwd = get_env(ctrl->env, "PWD");
+	ptr[HOMEDIR] = get_env(ctrl->env, "HOME");
+	ptr[OLDPWD] = get_env(ctrl->env, "OLDPWD");
+	ptr[PWD] = get_env(ctrl->env, "PWD");
 	if (cmd->ac > 2)
 		return (ft_putstr_fd("cd: too many arguments\n", STDERR_FILENO),
 			EXIT_FAILURE);
 	if (cmd->ac == 1)
-		target = homedir;
+		ptr[TARGET] = ptr[HOMEDIR];
 	else if (ft_strcmp(cmd->argv[1], "-") == 0)
-		target = oldpwd;
+		ptr[TARGET] = ptr[OLDPWD];
 	else
-		target = cmd->argv[1];
-	if (chdir(target) == -1)
+		ptr[TARGET] = cmd->argv[1];
+	if (chdir(ptr[TARGET]) == -1)
 	{
 		ft_putstr_fd("cd: ", STDERR_FILENO);
-		perror(target);
-		return (EXIT_FAILURE);
+		return (perror(ptr[TARGET]), EXIT_FAILURE);
 	}
-	buff = malloc(PATH_MAX);
-	if (!buff)
+	ptr[BUFF] = malloc(PATH_MAX);
+	if (!ptr[BUFF])
 		return (EXIT_FAILURE);
-	set_env(&ctrl->env, "OLDPWD", pwd);
-	set_env(&ctrl->env, "PWD", getcwd(buff, PATH_MAX));
-	free(buff);
-	return (EXIT_SUCCESS);
+	set_env(&ctrl->env, "OLDPWD", ptr[PWD]);
+	set_env(&ctrl->env, "PWD", getcwd(ptr[BUFF], PATH_MAX));
+	return (free(ptr[BUFF]), EXIT_SUCCESS);
 }
