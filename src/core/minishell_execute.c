@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/02 10:55:35 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 14:55:43 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,14 +236,14 @@ int	minishell_execute(t_minishell_control *shell)
 	(set_pipe(pp_fd, -1, -1), set_pipe(p_fd, -1, -1));
 	cmd = parser_get_cmd(shell->preparsed, shell);
 	status = 0;
-	while (cmd && status == 0)
+	while (cmd && (status == 0 || status == 127))
 	{
 		dprintf(STDERR_FILENO, "%p : cmd\t rdir ? %s\n", cmd, cmd->redir_to_do ? "yes" : "no");
 		if (cmd->redir_to_do && has_pipe(cmd->redir_to_do))
 			pipe(p_fd);
 		else
 			set_pipe(p_fd, -1, -1);
-		if (!cmd->cmd_path && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
+		if (cmd && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
 		{
 			dprintf(STDERR_FILENO, "%d : b_in branch\n", __LINE__);
 			cmd = (b_in(shell, cmd), parser_get_cmd(shell->preparsed, shell));
