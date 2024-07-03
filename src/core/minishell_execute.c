@@ -6,10 +6,11 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 17:13:36 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/03 17:27:42 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
 #include "ft_list.h"
 #include "ft_string.h"
 #include "ft_vector.h"

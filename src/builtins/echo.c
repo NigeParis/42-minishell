@@ -6,10 +6,11 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:43:26 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/07/03 15:55:31 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/03 17:30:14 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_string.h"
 #include "ft_string.h"
 #include "minishell_types.h"
 #include "parser_types.h"

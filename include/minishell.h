@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:15:12 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 17:15:11 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/03 17:35:10 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,36 +19,6 @@
 
 # include "parser_types.h"
 # include "minishell_types.h"
-
-/* ************************************************************************** */
-/* **************************builtins module internals*********************** */
-/* ************************************************************************** */
-
-/// @file: src/builtins/cd.c
-int		cd_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
-
-/// @file: src/builtins/env.c
-int		env_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
-
-/// @file: src/builtins/exit.c
-int		exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
-
-/// @file: src/builtins/echo.c
-int		echo_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
-
-/// @file: src/builtins/export.c
-int		export_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
-// todo: implement export
-
-/// @file: src/builtins/pwd.c
-int		pwd_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
-// todo: implement export
-
-/// @file: src/builtins/unset.c
-int		unset_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd);
-
-// todo: implement export
-// todo: implement echo
 
 /* ************************************************************************** */
 /* **************************core module internals*************************** */
