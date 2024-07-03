@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_funcs.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 12:15:48 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/24 09:42:58 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 17:09:17 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void	prepn_redir_print(t_preparsed_node *node);
 bool	prepn_redir_create(t_preparsed_node *node, t_preparser_context *ctx);
 bool	prepn_redir_append(t_preparsed_node *node, t_preparser_context *ctx);
 bool	prepn_redir_ulb(t_preparsed_node *node, t_preparser_context *ctx);
-bool	nd2ex_redir(t_preparsed_node *nd, t_cmd_to_exec *cmd, 
-				t_minishell_control *sh);
+bool	nd2ex_redir(t_preparsed_node *nd, t_cmd_to_exec *cmd,
+			t_minishell_control *sh);
 void	destroy_redir(t_preparsed_node *node);
 
 #endif

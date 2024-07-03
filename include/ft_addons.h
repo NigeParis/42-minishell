@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_addons.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:48:25 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/22 08:36:02 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 17:06:00 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_ADDONS_H
 # define FT_ADDONS_H
 
-#include "ft_optional_types.h"
+# include "ft_optional_types.h"
 # include "ft_string_types.h"
 # include "ft_vector_types.h"
 
@@ -25,6 +25,6 @@ char	*ft_string_to_str_inplace(t_string *str);
 
 void	ft_optional_init(t_optional *opt_ptr, const void *v);
 
-char *optional_strjoin(t_optional *str1, t_optional *str2);
+char	*optional_strjoin(t_optional *str1, t_optional *str2);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_execute.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 15:36:47 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 17:13:36 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
 		return (&env_main);
 	if (ft_strcmp(cmd, "exit") == 0)
 		return (&exit_main);
+	if (ft_strcmp(cmd, "echo") == 0)
+		return (&echo_main);	
 	if (ft_strcmp(cmd, "export") == 0)
 		return (&export_main);
 	if (ft_strcmp(cmd, "pwd") == 0)

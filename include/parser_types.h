@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_types.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:55:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/25 00:18:37 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 17:07:59 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,20 +72,18 @@ typedef enum e_redir_flag
 	RDIR_STD,
 }									t_redir_flag;
 
-#define RDIR_MSK_IO 0x03
-#define RDIR_MSK_MODE 0x0C
-#define RDIR_MSK_DUP 0x10
+# define RDIR_MSK_IO 0x03
+# define RDIR_MSK_MODE 0x0C
+# define RDIR_MSK_DUP 0x10
 
 typedef enum e_redir_type
 {
 	RDIR_PIPE		= 1,		// 0 00 01
 	RDIR_INPUT		= 2,		// 0 00 10
 	RDIR_OUTPUT		= 3,		// 0 00 11
-
 	RDIR_TRUNC		= 1 << 2,	// 0 01 00
 	RDIR_APPEND		= 2 << 2,	// 0 10 00
 	RDIR_HEREDOC	= 3 << 2,	// 0 11 00
-	
 	RDIR_DUP		= 1 << 4,	// 1 00 00 // >&
 }									t_redir_type;
 
