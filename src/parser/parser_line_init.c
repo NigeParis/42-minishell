@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_line_init.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 16:14:48 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 19:35:06 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	update_context(t_parser *restrict p, t_preparser_context *restrict ctx)
 	if (node == NULL)
 		return (false);
 	if (node->type == TOK_UNKNOWN)
-		return (ctx->line_offset++, true);
+		return (ctx->line_offset++, true); // todo : return false
 	if (node->ulb == NULL)
 		return (false);
 	return (node->ulb(node, ctx));

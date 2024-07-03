@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 19:03:10 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 19:53:44 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,10 +313,9 @@ int	minishell_execute(t_minishell_control *shell)
 	while (cmd && (status == 0 || status == 127))
 	{
 		dprintf(STDERR_FILENO, "%p : cmd\t rdir ? %s\n", cmd, cmd->redir_to_do ? "yes" : "no");
-		if (cmd->redir_to_do && has_pipe(cmd->redir_to_do))
-			pipe(p_fd);
-		else
-			set_pipe(p_fd, -1, -1);
+		set_pipe(p_fd, -1, -1);
+		if (cmd->redir_to_do && has_pipe(cmd->redir_to_do) && pipe(p_fd) != -1)
+			perror("pipe"); // todo : do better
 		if (cmd && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
 		{
 			cmd = (b_in(shell, cmd), parser_get_cmd(shell->preparsed, shell));
@@ -337,5 +336,5 @@ int	minishell_execute(t_minishell_control *shell)
 		discard_cmd(cmd);
 	if (pp_fd[0] != -1 || pp_fd[1] != -1)
 		(close(pp_fd[0]), close(pp_fd[1]));
-	return (exec_cl(shell), 0);
+	return (exec_cl(shell), EXIT_SUCCESS);
 }
