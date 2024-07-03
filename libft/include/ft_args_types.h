@@ -6,22 +6,16 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 23:42:58 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 18:16:46 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 18:01:45 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_ARGS_TYPES_H
 # define FT_ARGS_TYPES_H
 
-# define ARG_MASK_ATYPE ~(OPT_ARG | OPT_EQSIGN)
+# define ARG_MASK_ATYPE ~0x3
 # define ARG_MASK_ANY_ARG 0x1
-/*
-	OPT_ARG = 1,// technically the inverse of OPT_NOARG so mask it
-	OPT_EQSIGN = 2,// if it has an arg and not eqsign, 
-					it will be the next arg aka space separated
-	OPT_OTHER = 4,// custom type, see set_custom_checker
-*
-*/
+
 /// @brief Enum to define the type of the option
 /// @details The type of the option is defined by the flags that are set in the
 /// t_opt structure. The flags are defined in the enum e_opt_type.
@@ -125,7 +119,8 @@ typedef enum e_opt_type
 /// 	ft_bzero(&control, sizeof(t_control));
 /// 	ft_set_opt_list(opt_list);
 /// 	ft_parse_args(argv, &control);
-/// 	printf("n = %d\nname = %s\nf = %f\n", control.n, control.name, control.f);
+/// 	printf("n = %d\nname = %s\nf = %f\n", control.n, control.name, 
+/// 	control.f);
 /// 	return (0);
 /// }
 /// @endcode

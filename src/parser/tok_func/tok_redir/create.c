@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 16:02:30 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 17:02:49 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft_math.h"
 #include "ft_string.h"
 #include "parser_types.h"
+#define MAX_FD_RDIR 1024
 
 bool	prepn_redir_create(t_preparsed_node *node, t_preparser_context *ctx)
 {
@@ -29,7 +30,7 @@ bool	prepn_redir_create(t_preparsed_node *node, t_preparser_context *ctx)
 	if (ft_isdigit(ctx->line[cr_offset]))
 	{
 		redir->src_std = ft_atoi(ctx->line + cr_offset);
-		if (redir->src_std < 0 || redir->src_std > 1024)
+		if (redir->src_std < 0 || redir->src_std > MAX_FD_RDIR)
 			return (ctx->unexpected = "Invalid file descriptor", false);
 		cr_offset += ft_log(redir->src_std) + 1;
 		redir->flag = RDIR_STD;
@@ -52,7 +53,7 @@ bool	prepn_redir_create(t_preparsed_node *node, t_preparser_context *ctx)
 	if (ft_isdigit(ctx->line[cr_offset]))
 	{
 		fd = ft_atoi(ctx->line + cr_offset);
-		if (fd < 0 || fd > 1024)
+		if (fd < 0 || fd > MAX_FD_RDIR)
 			return (ctx->unexpected = "Invalid file descriptor", false);
 		cr_offset += ft_log(fd);
 		redir->target_std = fd;

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 16:27:31 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 18:13:35 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,10 @@ int	minishell_parse(t_minishell_control *shell)
 
 void	minishell_loop(t_minishell_control *shell)
 {
-	printf("minishell_loop %p\n", shell);
 	while (1)
 	{
 		if (minishell_prompt(shell) || minishell_parse(shell)
 			|| minishell_should_exit(shell))
 			break ;
 	}
-	printf("minishell_loop end\n");
 }

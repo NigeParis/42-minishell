@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:52 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 16:26:06 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 18:13:55 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	free_preparsed_node(void *node_s)
 
 int	minishell_cleanup(t_minishell_control *shell)
 {
-	if (DEBUG_LVL >= 2)
+	if (DEBUG_LVL >= 20)
 		printf("cleanup\n");
 	rl_clear_history();
 	if (shell->input)
