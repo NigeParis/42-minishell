@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/22 08:44:52 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 14:35:31 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 
 void	resolve_word(t_string **word, t_minishell_control *sh);
 
-bool	nd2ex_quote(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *sh)
+bool	nd2ex_quote(t_preparsed_node *nd, t_cmd_to_exec *cmd, \
+				t_minishell_control *sh)
 {
 	t_quote_node	*quote;
 	char			*str[2];
@@ -36,7 +37,7 @@ bool	nd2ex_quote(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *
 	ft_optional_init(&op[1], ((t_string *)quote->value)->str);
 	str[1] = optional_strjoin(&op[0], &op[1]);
 	if (op[0].pres == OPT_SOME)
-		ft_vec_pop(cmd->construction_vector), free(op[0].val);
+		(ft_vec_pop(cmd->construction_vector), free(op[0].val));
 	ft_vec_add(&cmd->construction_vector, str[1]);
 	ft_string_destroy((t_string **)&quote->value);
 	free(quote);

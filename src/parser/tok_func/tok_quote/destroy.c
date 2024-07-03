@@ -6,15 +6,15 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 14:30:49 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/20 15:16:10 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 14:28:22 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "ft_string.h"
 #include "parser_types.h"
 #include <stdlib.h>
-void destroy_quote(t_preparsed_node *node)
+
+void	destroy_quote(t_preparsed_node *node)
 {
 	t_quote_node	*quote;
 
