@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:52 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 13:13:50 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:26:06 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	destroy_env_line(void *e)
 	return ;
 }
 
-static void destroy_env(t_vector **env)
+static void	destroy_env(t_vector **env)
 {
 	ft_vec_apply(*env, destroy_env_line);
 	ft_vec_destroy(env);
@@ -53,15 +53,12 @@ int	minishell_cleanup(t_minishell_control *shell)
 {
 	if (DEBUG_LVL >= 2)
 		printf("cleanup\n");
-	// free readline buff
 	rl_clear_history();
-
-	// free shell fields
 	if (shell->input)
 		free(shell->input);
 	if (shell->env)
 		destroy_env(&shell->env);
 	if (shell->prs)
-		parser_glob_cleanup(shell->prs), free(shell->prs);
+		(parser_glob_cleanup(shell->prs), free(shell->prs));
 	return (shell->exit);
 }

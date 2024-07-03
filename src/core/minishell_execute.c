@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 14:55:43 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 15:36:47 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,8 @@ void	signal_init(void);
 
 static void parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid, int *prev_pipe)
 {
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (prev_pipe[1] != -1 || prev_pipe[0] != -1)
 		(close(prev_pipe[0]), close(prev_pipe[1]));
 	waitpid(pid, &cmd->status, 0);
@@ -167,6 +169,7 @@ static void parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
 	if (DEBUG_LVL >= 20)
 		print_cmd(cmd);
 	discard_cmd(cmd);
+	signal_init();
 }
 
 static void exec_cl(t_minishell_control *shell)

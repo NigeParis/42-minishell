@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/29 14:41:29 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:27:31 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,20 @@ int	minishell_should_exit(t_minishell_control *shell)
 	return (0);
 }
 
+// todo check if input is 1 - null 2 - empty if yes dont add to history
 int	minishell_parse(t_minishell_control *shell)
 {
 	if (!shell->input)
 		return (EXIT_SUCCESS);
 	((t_parser *)shell->prs)->line = shell->input;
 	parser_line_init(shell->prs);
-	shell->preparsed = ((t_parser*)shell->prs)->preparsed;
+	shell->preparsed = ((t_parser *)shell->prs)->preparsed;
 	if (shell->preparsed == NULL || shell->preparsed->count == 0)
 		return (
-		printf("%s: preparsed null or no elements\n", __func__),
-		EXIT_SUCCESS);
+			printf("%s: preparsed null or no elements\n", __func__),
+			EXIT_SUCCESS);
 	if (minishell_execute(shell))
 		return (parser_line_cleanup(shell->prs), EXIT_FAILURE);
-	// todo check if input is 1 - null 2 - empty if yes dont add to history
 	add_history(shell->input);
 	return (parser_line_cleanup(shell->prs), EXIT_SUCCESS);
 }

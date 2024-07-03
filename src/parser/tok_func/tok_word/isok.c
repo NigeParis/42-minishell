@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:43:02 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/18 16:39:13 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 15:47:41 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft_char.h"
 #include "parser_types.h"
 
-bool isok_word(const char *line, t_preparser_context *ctx)
+bool	isok_word(const char *line, t_preparser_context *ctx)
 {
 	if (ctx->quote_ctx == QUOTE_SQUOTE)
 		return (true);

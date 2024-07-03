@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:45 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/24 13:37:45 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:06:02 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,21 @@
 #include "parser_types.h"
 #include "tokens_funcs.h"
 
-static t_token	*load_tokens(void)
-{
-	static const t_token	tokens[] = {
 /*
-		{TOK_PIPE, "|"},
 		{TOK_SEMICOLON, ";"},
 		{TOK_AND, "&&"},
 		{TOK_OR, "||"},
 */
-		{TOK_EOL, "\n", isok_eol},
-		{TOK_REDIR, NULL, isok_redir},
-		{TOK_QUOTE, NULL, isok_quote},
-		{TOK_PIPE, "|", isok_pipe},
-		{TOK_SPACE, " ", isok_space},
-		{TOK_WORD, NULL, isok_word}, // keep last - 1, accept all more or less
-		{TOK_UNKNOWN, NULL, NULL},
+static t_token	*load_tokens(void)
+{
+	static const t_token	tokens[] = {
+	{TOK_EOL, "\n", isok_eol},
+	{TOK_REDIR, NULL, isok_redir},
+	{TOK_QUOTE, NULL, isok_quote},
+	{TOK_PIPE, "|", isok_pipe},
+	{TOK_SPACE, " ", isok_space},
+	{TOK_WORD, NULL, isok_word},
+	{TOK_UNKNOWN, NULL, NULL},
 	};
 
 	return ((t_token *)tokens);

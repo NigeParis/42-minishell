@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/25 12:56:17 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:02:30 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "ft_math.h"
 #include "ft_string.h"
 #include "parser_types.h"
-#include <stdio.h>
 
 bool	prepn_redir_create(t_preparsed_node *node, t_preparser_context *ctx)
 {

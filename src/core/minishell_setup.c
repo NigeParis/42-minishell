@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/25 15:06:09 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:28:24 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-void signal_init(void);
+void	signal_init(void);
 
 int	create_env(t_minishell_control *ctrl, const char **envp)
 {
@@ -44,7 +44,6 @@ int	create_env(t_minishell_control *ctrl, const char **envp)
 	}
 	return (EXIT_SUCCESS);
 }
-
 
 int	setup_minishell(t_minishell_control *minishell, int ac, char **arg, \
 					char **envp)

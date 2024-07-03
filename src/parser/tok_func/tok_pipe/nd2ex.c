@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/02 10:30:04 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 15:56:44 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,48 @@
 #include "tokens_funcs.h"
 #include <stdio.h>
 
-static char *resolve_cmd(char *cmd, t_minishell_control	*sh)
-{
-	const char *p = get_env(sh->env, "PATH");
-	char **paths;
-	char *path;
-	char *fullpath;
+/*
+ 		if (paths[i][ft_strlen(paths[i])] == '/')
+			path = ft_strdup(paths[i]); 
+		else
+			path = ft_strjoin(paths[i], "/"); check if ever called
+*/
 
+static char	*resolve_cmd(char *cmd, t_minishell_control *sh)
+{
+	const char	*p;
+	char		**paths;
+	char		*path;
+	char		*fullpath;
+	size_t		i;
+
+	p = get_env(sh->env, "PATH");
 	if (!p || ft_strchr(cmd, '/') != NULL)
 		return (ft_strdup(cmd));
 	paths = ft_split(p, ':');
 	if (paths == NULL)
 		return (cmd);
-	for (size_t i = 0; paths[i]; i++)
+	i = 0;
+	while (paths[i] != NULL)
 	{
 		if (paths[i][ft_strlen(paths[i])] == '/')
 			path = ft_strdup(paths[i]);
 		else
 			path = ft_strjoin(paths[i], "/");
 		fullpath = ft_strjoin(path, cmd);
-		free(path);
-		if (access(fullpath, X_OK) == 0)
+		if (free(path), access(fullpath, X_OK) == 0)
 			return (ft_free_2d((void **)paths), fullpath);
-		free(fullpath);
+		(free(fullpath), i++);
 	}
 	return (ft_free_2d((void **)paths), NULL);
 }
 
-bool	nd2ex_pipe(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *sh)
+bool	nd2ex_pipe(t_preparsed_node *nd, t_cmd_to_exec *cmd,
+		t_minishell_control *sh)
 {
-	(void)sh;
-	t_redir *rd;
+	t_redir	*rd;
 
+	(void)sh;
 	printf("PIPE nd2ex called\n");
 	if (nd->type != TOK_PIPE)
 		return (false);
@@ -63,4 +73,3 @@ bool	nd2ex_pipe(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *s
 		return (false);
 	return (nd2ex_eol(nd, cmd, sh));
 }
-

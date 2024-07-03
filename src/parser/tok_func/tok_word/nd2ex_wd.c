@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/02 11:06:29 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 15:47:03 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,20 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void ft_string_del_ch(t_string *str, size_t index, size_t len)
+void	ft_string_del_ch(t_string *str, size_t index, size_t len)
 {
 	if (index + len > str->length)
 		len = str->length - index;
-	ft_memmove(str->str + index, str->str + index + len, str->length - index - len);
+	ft_memmove(str->str + index, str->str + index + len, str->length - index
+		- len);
 	str->length -= len;
 	str->str[str->length] = '\0';
 }
 
-static char *get_key(t_string *word, size_t *i)
+static char	*get_key(t_string *word, size_t *i)
 {
-	size_t		j;
-	char		*key;
+	size_t	j;
+	char	*key;
 
 	*i += 1;
 	j = *i;
@@ -51,12 +52,14 @@ static char *get_key(t_string *word, size_t *i)
 	return (key);
 }
 
-bool	resolve_doll(t_string *word, t_minishell_control *sh, t_string *tmp, size_t *i)
+bool	resolve_doll(t_string *word, t_minishell_control *sh, t_string *tmp,
+		size_t *i)
 {
-	char *key = get_key(word, i);
-	char *value;
-	char *no_leaks;
+	char	*key;
+	char	*value;
+	char	*no_leaks;
 
+	key = get_key(word, i);
 	value = NULL;
 	if (!key)
 		return (false);
@@ -69,8 +72,6 @@ bool	resolve_doll(t_string *word, t_minishell_control *sh, t_string *tmp, size_t
 	no_leaks = value;
 	if (!value)
 		value = get_env(sh->env, key);
-	if (DEBUG_LVL >= 2)
-		printf("key: %s, value: %s\n", key, value);
 	if (value)
 		ft_string_append(tmp, value);
 	if (no_leaks)
@@ -78,25 +79,24 @@ bool	resolve_doll(t_string *word, t_minishell_control *sh, t_string *tmp, size_t
 	return (free(key), true);
 }
 
+/*
+	tmp = ft_string_new((*word)->length); // check if this fails
+			return (false); //  return false if resolve_doll fails
+*/
+
 bool	resolve_word(t_string **word, t_minishell_control *sh)
 {
 	size_t		i;
 	t_string	*tmp;
 
 	i = 0;
-	tmp = ft_string_new((*word)->length); // check if this fails
+	tmp = ft_string_new((*word)->length);
 	while (i < (*word)->length)
 	{
 		if ((*word)->str[i] == '$' && !resolve_doll(*word, sh, tmp, &i))
-		{
-			ft_string_destroy(&tmp);
-			return (false); //  return false if resolve_doll fails
-		}
+			return (ft_string_destroy(&tmp), false);
 		else if (ft_string_append_c(tmp, (*word)->str[i]))
-		{
-			ft_string_destroy(&tmp);
-			return (false);
-		}
+			return (ft_string_destroy(&tmp), false);
 		i++;
 	}
 	ft_string_destroy(word);
@@ -104,13 +104,12 @@ bool	resolve_word(t_string **word, t_minishell_control *sh)
 	return (true);
 }
 
-
-
-bool	nd2ex_word(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *sh)
+bool	nd2ex_word(t_preparsed_node *nd, t_cmd_to_exec *cmd,
+		t_minishell_control *sh)
 {
-	char *str[2];
-	t_optional op[2];
-	t_string *word;
+	char		*str[2];
+	t_optional	op[2];
+	t_string	*word;
 
 	if (!nd->value)
 		return (false);
@@ -125,7 +124,7 @@ bool	nd2ex_word(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *s
 	ft_optional_init(&op[1], word->str);
 	str[1] = optional_strjoin(&op[0], &op[1]);
 	if (op[0].pres == OPT_SOME)
-		ft_vec_pop(cmd->construction_vector), free(op[0].val);
+		(ft_vec_pop(cmd->construction_vector), free(op[0].val));
 	dprintf(STDERR_FILENO, "word: %s\n", str[1]);
 	fflush(stderr);
 	ft_vec_add(&cmd->construction_vector, str[1]);

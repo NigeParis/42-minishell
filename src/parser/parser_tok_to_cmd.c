@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/02 13:16:34 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:22:13 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@
 #include "ft_vector.h"
 #include <stdio.h>
 
-static void debug_n_list(t_vector *tokens)
+static void	debug_n_list(t_vector *tokens)
 {
-	size_t i = 0;
-	t_preparsed_node *node;
+	size_t				i;
+	t_preparsed_node	*node;
 
+	i = 0;
 	printf("debug_n_list -- (%p)\n", tokens);
 	fflush(stdout);
 	if (tokens == NULL)
@@ -37,14 +38,16 @@ static void debug_n_list(t_vector *tokens)
 	printf("\n");
 }
 
-bool syntax_check(t_vector *prep)
+bool	syntax_check(t_vector *prep)
 {
-	bool vars[2] = {false, false};
-	t_preparsed_node *tok;
-	size_t i = 0;
+	bool				vars[2];
+	t_preparsed_node	*tok;
+	size_t				i;
 
 	if (prep == NULL || prep->count == 0)
 		return (false);
+	i = 0;
+	ft_bzero(vars, sizeof(vars));
 	while (prep->count > i)
 	{
 		tok = ft_vec_at(prep, i++);
@@ -64,15 +67,17 @@ bool syntax_check(t_vector *prep)
 
 void	call_destroy(void *data)
 {
-	t_preparsed_node *token;
+	t_preparsed_node	*token;
 
 	token = data;
 	if (token && token->destroy)
 		token->destroy(token);
 }
-void discard_cmd(t_cmd_to_exec *cmd);
 
-t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *sh)
+void	discard_cmd(t_cmd_to_exec *cmd);
+
+t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens,
+		t_minishell_control *sh)
 {
 	t_cmd_to_exec		*cmd;
 	t_vector			*args;
@@ -85,10 +90,11 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *s
 		return (NULL);
 	if (syntax_check(preparsed_tokens) == false)
 		return (
-			printf("syntax error :: %p %zu\n", preparsed_tokens, preparsed_tokens->count),
-			ft_vec_apply(preparsed_tokens, call_destroy), 
-			ft_vec_destroy(&sh->preparsed),
-			preparsed_tokens = NULL,
+			printf("syntax error :: %p %zu\n", preparsed_tokens, \
+				preparsed_tokens->count), \
+			ft_vec_apply(preparsed_tokens, call_destroy), \
+			ft_vec_destroy(&sh->preparsed), \
+			preparsed_tokens = NULL, \
 		NULL);
 	cmd = ft_calloc(1, sizeof(*cmd));
 	if (cmd == NULL)
@@ -96,8 +102,8 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens, t_minishell_control *s
 	cmd->construction_vector = ft_vec_new();
 	cmd->construction_index = 0;
 	cmd_rdy = false;
-	while (!cmd->cmd_path && sh->preparsed && preparsed_tokens->count > cmd->nb_tok_consumed &&
-	cmd_rdy == false)
+	while (!cmd->cmd_path && sh->preparsed && \
+	preparsed_tokens->count > cmd->nb_tok_consumed && cmd_rdy == false)
 	{
 		token = ft_vec_at(preparsed_tokens, cmd->nb_tok_consumed++);
 		if (token && token->execute)

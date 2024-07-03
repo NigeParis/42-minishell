@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/15 14:10:31 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:05:07 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 int	parser_glob_cleanup(t_parser *prs)
 {
 	parser_line_cleanup(prs);
-	if (prs->tokens) {
+	if (prs->tokens)
+	{
 		ft_vec_destroy(&prs->tokens);
 		prs->tokens = NULL;
 	}

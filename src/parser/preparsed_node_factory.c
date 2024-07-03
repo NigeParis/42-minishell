@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:25:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/24 09:45:41 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:22:24 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	set_functions(t_preparsed_node *node)
 		i++;
 	}
 }
+
 /*
 ** Create a new preparsed node from a token type
 **
