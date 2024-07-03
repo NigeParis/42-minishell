@@ -6,19 +6,19 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/24 12:45:09 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:36:21 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
 #include <unistd.h>
 #include <minishell_types.h>
 #include "ft_char.h"
 #include "ft_args.h"
 #include "ft_string.h"
 #include "parser_types.h"
-#define PATH_MAX 1024
 
-static void	put_builtin_msg_invalid_option(const char *progname, t_cmd_to_exec *cmd)
+static void	msg_invalid_option(const char *progname, t_cmd_to_exec *cmd)
 {
 	ft_putstr_fd(&progname[2], STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
@@ -48,7 +48,7 @@ int	pwd_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 			;
 		else
 		{
-			put_builtin_msg_invalid_option(progname, cmd);
+			msg_invalid_option(progname, cmd);
 			return (cmd->status = 1, EXIT_FAILURE);
 		}
 	}

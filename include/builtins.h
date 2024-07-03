@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 16:24:41 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/07/03 16:26:35 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:35:58 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@
 # define OLDPWD 2
 # define TARGET 3
 # define BUFF 4
+# define PATH_MAX 1024
 
 #endif
