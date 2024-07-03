@@ -6,22 +6,17 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 16:19:33 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:27:41 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
 #include "ft_string.h"
 #include "minishell.h"
 #include "minishell_types.h"
 #include "parser_types.h"
 #include <stdio.h>
 #include <sys/param.h>
-
-#define PWD 0
-#define HOMEDIR 1
-#define OLDPWD 2
-#define TARGET 3
-#define BUFF 4
 
 int	cd_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
