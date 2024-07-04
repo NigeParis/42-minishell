@@ -6,11 +6,12 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 11:04:12 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/04 12:53:45 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+#include "ft_addons.h"
 #include "ft_list.h"
 #include "ft_string.h"
 #include "ft_vector.h"
@@ -19,6 +20,8 @@
 #include "parser.h"
 #include "ft_args.h"
 #include "parser_types.h"
+#include "ft_debug.h"
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,97 +29,26 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-void	print_redirs(t_list *redirs)
+static void exec_cl(t_minishell_control *shell)
 {
-	t_list	*node;
-	t_redir	*redir;
+	t_preparsed_node *node;
+	size_t i;
 
-	node = redirs;
-	dprintf(2, "redirs:\n");
-	while (node)
-	{
-		redir = node->data;
-		dprintf(2, "\t\t");
-		if (redir->flag == RDIR_STD)
-			dprintf(2, "%d", redir->src_std);
-		else
-			dprintf(2, "%s", redir->src_file);
-		if ((redir->redir_type & RDIR_MSK_IO) == RDIR_INPUT
-		&& (redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND)
-			dprintf(2, " << ");
-		else if ((redir->redir_type & RDIR_MSK_IO) == RDIR_INPUT)
-			dprintf(2, " < ");
-		else if ((redir->redir_type & RDIR_MSK_IO) == RDIR_OUTPUT
-		&& (redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND)
-			dprintf(2, " >> ");
-		else
-			dprintf(2, " | ");
-		if (redir->target_file)
-			dprintf(2, "%s", redir->target_file);
-		else
-			dprintf(2, "%d", redir->target_std);
-		dprintf(2, "\n");
-		node = node->next;
-	}
-	dprintf(2, "\n\n");
-}
-
-void	print_cmd(t_cmd_to_exec *cmd)
-{
-	size_t	i;
-
-	if (cmd == NULL)
-	{
-		dprintf(2, "cmd is NULL\n");
+	if (!shell)
 		return ;
-	}
-	dprintf(2, "cmd %s\t", cmd->cmd_path);
-	dprintf(2, "\tac: %d\n", cmd->ac);
 	i = 0;
-	while (cmd->argv[i])
-		dprintf(2, "[%zu] %s\n", i, cmd->argv[i]), i++;
-	dprintf(2, "\t--\tend of args\n");
-	i = 0;
-	while (cmd->env[i] && i < 5)
-		dprintf(2, "[%zu] %s\n", i, cmd->env[i]), i++;
-	if (cmd->env[i])
-		dprintf(2, "\t--\trest of env ommited from log...\n");
-	print_redirs(cmd->redir_to_do);
-}
-
-static void free_rdr_node(void *abst_node)
-{
-	t_redir	*redir;
-
-	redir = abst_node;
-	if (redir->target_file)
-		free(redir->target_file);
-	if (redir->src_file)
-		free(redir->src_file);
-	free(redir);
-}
-
-void discard_cmd(t_cmd_to_exec *cmd)
-{
-	size_t	i;
-	char	*nd;
-
-	if (cmd == NULL)
-		return ((void) dprintf(2, "error on error::cmd is NULL\n"));
-	if (cmd->argv)
-		ft_free_2d((void **)cmd->argv), cmd->argv = NULL;
-	if (cmd->env)
-		ft_free_2d((void **)cmd->env), cmd->env = NULL;
-	if (cmd->redir_to_do)
-		ft_ll_clear(&cmd->redir_to_do, free_rdr_node);
-	if (cmd->construction_vector)
+	if (shell->preparsed)
 	{
-		ft_vec_apply(cmd->construction_vector, free);
-		ft_vec_destroy(&cmd->construction_vector);
+		while (i < shell->preparsed->count)
+		{
+			node = ft_vec_at(shell->preparsed, i);
+			if (node && node->destroy)
+				node->destroy(node);
+			i++;
+		}
+		ft_vec_destroy(&shell->preparsed);
+		shell->preparsed = NULL;
 	}
-	cmd->redir_to_do = NULL;
-	free(cmd->cmd_path);
-	free(cmd);
 }
 
 int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
@@ -155,7 +87,7 @@ static int get_op_mode(int type)
 		op_mode |= O_TRUNC * (type & RDIR_MSK_IO) == RDIR_OUTPUT;
 	return (op_mode);
 }
-static void exec_cl(t_minishell_control *shell);
+
 static int	do_rdr(t_redir *rdr)
 {
 	int t_fd;
@@ -181,7 +113,13 @@ static int	do_rdr(t_redir *rdr)
 		return (ft_putstr_fd("minishell: ", STDERR_FILENO), 
 			perror(rdr->src_file), EXIT_FAILURE);
 	}
-	dup2(t_fd, s_fd);
+	if (dup2(t_fd, s_fd) == -1)
+	{
+		perror("dup2");
+		close(t_fd);
+		close(s_fd);
+		return (EXIT_FAILURE);
+	}
 	close(t_fd);
 	return (EXIT_SUCCESS);
 }
@@ -202,6 +140,8 @@ static int do_rdr_list(t_list *rdr_lst)
 
 static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd, int *pp_fd)
 {
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (cmd->cmd_path == NULL)
 	{
 		printf("%s: %s: command not found\n", ft_progname(), cmd->argv[0]);
@@ -217,7 +157,6 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 		(dup2(p_fd[1], STDOUT_FILENO), close(p_fd[1]), close(p_fd[0]));
 	if (cmd->redir_to_do && do_rdr_list(cmd->redir_to_do) == EXIT_FAILURE)
 	{
-		ft_ll_clear(&cmd->redir_to_do, free_rdr_node);
 		discard_cmd(cmd);
 		minishell_cleanup(shell);
 		exit(1);
@@ -230,8 +169,6 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 	exit(126);
 }
 
-void	signal_init(void);
-
 static void parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid, int *prev_pipe)
 {
 	signal(SIGINT, SIG_IGN);
@@ -241,10 +178,12 @@ static void parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
 	waitpid(pid, &cmd->status, 0);
 	if (WIFSIGNALED(cmd->status))
 	{
-		dprintf(2,"child process killed by signal %d\n", WTERMSIG(cmd->status));
 		shell->exit = 128 + WTERMSIG(cmd->status);
-		dprintf(2, "%s : %d %s %s\n", ft_progname(), pid,
-		strsignal(WTERMSIG(cmd->status)), cmd->argv[0]);
+		dprintf(2, "%s : %d %s %s", ft_progname(), pid,
+		ft_strsignal(WTERMSIG(cmd->status)), cmd->argv[0]);
+		if (WCOREDUMP(cmd->status))
+			printf("(core dumped)");
+		printf("\n");
 	}
 	else
 		shell->exit = WEXITSTATUS(cmd->status);
@@ -256,28 +195,6 @@ static void parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
 	signal_init();
 }
 
-static void exec_cl(t_minishell_control *shell)
-{
-	t_preparsed_node *node;
-	size_t i;
-
-	if (!shell)
-		return ;
-	i = 0;
-	if (shell->preparsed)
-	{
-
-		while (i < shell->preparsed->count)
-		{
-			node = ft_vec_at(shell->preparsed, i);
-			if (node && node->destroy)
-				node->destroy(node);
-			i++;
-		}
-		ft_vec_destroy(&shell->preparsed);
-		shell->preparsed = NULL;
-	}
-}
 
 static void b_in(t_minishell_control *shell, t_cmd_to_exec *cmd)
 {
@@ -288,28 +205,6 @@ static void b_in(t_minishell_control *shell, t_cmd_to_exec *cmd)
 	builtin(shell, cmd);
 	shell->exit = cmd->status;
 	discard_cmd(cmd);
-}
-
-bool has_pipe(t_list *redirs)
-{
-	t_list	*node;
-	t_redir	*redir;
-
-	node = redirs;
-	while (node)
-	{
-		redir = node->data;
-		if (redir->redir_type == RDIR_PIPE)
-			return (true);
-		node = node->next;
-	}
-	return (false);
-}
-
-static void set_pipe(int *pipe_fd, int fd_1, int fd_2)
-{
-	pipe_fd[0] = fd_1;
-	pipe_fd[1] = fd_2;
 }
 
 int	minishell_execute(t_minishell_control *shell)
@@ -326,8 +221,8 @@ int	minishell_execute(t_minishell_control *shell)
 	while (cmd && (status == 0 || status == 127))
 	{
 		set_pipe(p_fd, -1, -1);
-		if (cmd->redir_to_do && has_pipe(cmd->redir_to_do) && pipe(p_fd) != -1)
-			perror("pipe"); // todo : do better
+		if (cmd->redir_to_do && has_pipe(cmd->redir_to_do) && pipe(p_fd) == -1)
+			perror("pipe"); // todo : do better aka clean up and return
 		if (cmd && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
 		{
 			cmd = (b_in(shell, cmd), parser_get_cmd(shell->preparsed, shell));

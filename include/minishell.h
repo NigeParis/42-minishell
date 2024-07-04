@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:15:12 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 17:54:13 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/04 12:43:45 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,22 @@
 # include "minishell_types.h"
 
 /* ************************************************************************** */
+/* ***************************Pipe utils function**************************** */
+/* ************************************************************************** */
+
+bool has_pipe(t_list *redirs);
+void set_pipe(int *pipe_fd, int fd_1, int fd_2);
+
+
+void	signal_init(void);
+
+/* ************************************************************************** */
 /* **************************core module internals*************************** */
 /* ************************************************************************** */
+
+void free_rdr_node(void *abst_node);
+
+void discard_cmd(t_cmd_to_exec *cmd);
 
 /// @file: src/core/minishell_cleanup.c
 int		minishell_cleanup(t_minishell_control *shell);

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 17:58:12 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/04 12:44:32 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 #include "ft_list.h"
 #include "ft_string.h"
 #include "ft_vector.h"
+#include "parser.h"
 #include "parser_types.h"
 #include <stdbool.h>
 #include <stdio.h>
-
-void discard_cmd(t_cmd_to_exec *cmd);
-bool	resolve_word(t_string **word, t_minishell_control *sh);
 
 // leaks everywhere --- in dev | todo: fix leaks
 //		return (printf("ambiguous redirect\n"), false);	//	actual bash error 

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 16:22:13 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/04 12:40:52 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ void	call_destroy(void *data)
 	if (token && token->destroy)
 		token->destroy(token);
 }
-
-void	discard_cmd(t_cmd_to_exec *cmd);
 
 t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens,
 		t_minishell_control *sh)
