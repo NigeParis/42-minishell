@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 15:47:03 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/04 20:05:27 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,6 @@ bool	resolve_doll(t_string *word, t_minishell_control *sh, t_string *tmp,
 	return (free(key), true);
 }
 
-/*
-	tmp = ft_string_new((*word)->length); // check if this fails
-			return (false); //  return false if resolve_doll fails
-*/
-
 bool	resolve_word(t_string **word, t_minishell_control *sh)
 {
 	size_t		i;
@@ -125,7 +120,8 @@ bool	nd2ex_word(t_preparsed_node *nd, t_cmd_to_exec *cmd,
 	str[1] = optional_strjoin(&op[0], &op[1]);
 	if (op[0].pres == OPT_SOME)
 		(ft_vec_pop(cmd->construction_vector), free(op[0].val));
-	dprintf(STDERR_FILENO, "word: %s\n", str[1]);
+	if (DEBUG_LVL >= 30)
+		dprintf(STDERR_FILENO, "word: %s\n", str[1]);
 	fflush(stderr);
 	ft_vec_add(&cmd->construction_vector, str[1]);
 	return (ft_string_destroy(&word), free(nd), true);

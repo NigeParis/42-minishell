@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 12:42:46 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/04 21:48:18 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,16 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+int create_base_env(t_minishell_control *ctrl)
+{
+	const char *b_env[] = {
+		"PATH=/usr/bin/",
+		NULL
+	};
+
+	return (create_env(ctrl, (const char **)&b_env));
+}
 
 int	create_env(t_minishell_control *ctrl, const char **envp)
 {
@@ -40,6 +50,8 @@ int	create_env(t_minishell_control *ctrl, const char **envp)
 		ft_vec_add(&ctrl->env, pair);
 		i++;
 	}
+	if (!i)
+		return (create_base_env(ctrl));
 	return (EXIT_SUCCESS);
 }
 

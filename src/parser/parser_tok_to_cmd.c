@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 12:40:52 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:53:18 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	debug_n_list(t_vector *tokens)
 	t_preparsed_node	*node;
 
 	i = 0;
-	printf("debug_n_list -- (%p)\n", tokens);
+	printf("%s--\n", __func__);
 	fflush(stdout);
 	if (tokens == NULL)
 		return ;

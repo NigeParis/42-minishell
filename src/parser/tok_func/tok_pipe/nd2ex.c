@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 15:56:44 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/04 20:04:05 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ bool	nd2ex_pipe(t_preparsed_node *nd, t_cmd_to_exec *cmd,
 {
 	t_redir	*rd;
 
-	(void)sh;
-	printf("PIPE nd2ex called\n");
 	if (nd->type != TOK_PIPE)
 		return (false);
 	rd = ft_calloc(1, sizeof(t_redir));

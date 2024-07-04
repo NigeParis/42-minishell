@@ -6,14 +6,16 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 12:44:32 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:41:13 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_addons.h"
+#include "ft_args.h"
 #include "ft_list.h"
 #include "ft_string.h"
 #include "ft_vector.h"
+#include "minishell_types.h"
 #include "parser.h"
 #include "parser_types.h"
 #include <stdbool.h>
@@ -24,16 +26,13 @@
 //															message do not 
 //															remove
 
-bool	nd2ex_redir(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *sh)
+bool get_target(t_minishell_control *sh, int consumed, t_cmd_to_exec *cmd,
+				char **str_c)
 {
-	t_redir *rdr;
-	char *str_c;
-	t_string *str;
-	t_preparsed_node *nd_next;
-	t_quote_node *quote;
-	size_t consumed;
+	t_preparsed_node	*nd_next;
+	t_quote_node		*quote;
+	t_string			*str;
 
-	consumed = cmd->nb_tok_consumed;
 	nd_next = ft_vec_at(sh->preparsed, consumed++);
 	if (nd_next && nd_next->type == TOK_SPACE)
 	{
@@ -48,20 +47,47 @@ bool	nd2ex_redir(t_preparsed_node *nd, t_cmd_to_exec *cmd, t_minishell_control *
 		str = quote->value;
 		if (quote->type == QUOTE_DQUOTE	&& resolve_word(&str, sh) == false)
 			return (false);
-		str_c = ft_string_to_str_inplace(&str);
+		*str_c = ft_string_to_str_inplace(&str);
 		free(quote);
 	}
 	else
 	{
 		str = nd_next->value;
-		str_c = ft_string_to_str_inplace(&str);
+		*str_c = ft_string_to_str_inplace(&str);
 	}
 	free(nd_next);
+	ft_vec_shift(sh->preparsed, cmd->nb_tok_consumed, consumed - cmd->nb_tok_consumed);
+	return (true);
+}
+
+bool	nd2ex_redir(t_preparsed_node *nd, t_cmd_to_exec *cmd,
+		t_minishell_control *sh)
+{
+	t_redir				*rdr;
+	char				*str_c;
+	t_string			*str;
+	t_quote_node		*quote;
+
+	rdr = nd->value;
+	if (rdr->redir_type & RDIR_MSK_DUP && rdr->target_std != -1)
+		return (ft_ll_push_back(&cmd->redir_to_do, nd->value),
+		free(nd), true);
+	if (get_target(sh, cmd->nb_tok_consumed, cmd, &str_c) == false)
+		return (false);
 	if (ft_strchr(str_c, '$'))
 		return (printf("ambiguous redirect\n"), false);
-	ft_vec_shift(sh->preparsed, cmd->nb_tok_consumed, consumed - cmd->nb_tok_consumed);
-	rdr = nd->value;
 	rdr->target_file = str_c;
+	if (rdr->redir_type & RDIR_MSK_DUP)
+	{
+		if (ft_str_isdigit(rdr->target_file) == false)
+			return (
+				printf("%s:%s: bad file descriptor\n", 
+					ft_progname(), rdr->target_file), 
+				free(str_c), 
+				false);
+		rdr->target_std = ft_atoi(str_c);
+		rdr->target_file = NULL;
+	}
 	ft_ll_push_back(&cmd->redir_to_do, rdr);
 	return (free(nd), true);
 }

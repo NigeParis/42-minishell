@@ -6,14 +6,16 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 12:53:45 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/04 20:07:12 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "ft_addons.h"
 #include "ft_list.h"
+#include "ft_list_types.h"
 #include "ft_string.h"
+#include "ft_string_types.h"
 #include "ft_vector.h"
 #include "minishell.h"
 #include "minishell_types.h"
@@ -88,20 +90,63 @@ static int get_op_mode(int type)
 	return (op_mode);
 }
 
-static int	do_rdr(t_redir *rdr)
+static int do_dup(t_redir *rdr)
+{
+	char *err;
+
+	if (dup2(rdr->target_std, rdr->src_std) == -1)
+	{
+		err = ft_itoa(rdr->target_std);
+		ft_putstr_fd(ft_progname(), STDERR_FILENO);
+		perror(err);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
+
+static int do_heredoc(t_redir *rdr)
+{
+	char *line;
+	t_string *buf;
+	int pipe_fd[2];
+
+	ft_putstr_fd("hdoc >", STDOUT_FILENO);
+	buf = ft_string_new(1);
+	line = get_next_line(STDIN_FILENO);
+	while (line && ft_strncmp(line, rdr->target_file, ft_strlen(line) - 1) != 0)
+	{
+		ft_string_append(buf, line);
+		free(line);
+		ft_putstr_fd("hdoc >", STDOUT_FILENO);
+		line = get_next_line(STDIN_FILENO);
+	}
+	if (!line)
+		return (printf("\n"),
+		printf("%s: unexpected EOF while looking for matching heredoc string"\
+		" '%s'\n", ft_progname(), rdr->target_file), ft_string_destroy(&buf), 
+		EXIT_FAILURE);
+	if (pipe(pipe_fd) == -1)
+		return (perror("pipe"), ft_string_destroy(&buf), EXIT_FAILURE);
+	write(pipe_fd[1], buf->str, buf->length);
+	ft_string_destroy(&buf);
+	close(pipe_fd[1]);
+	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+		return (perror("dup2"), close(pipe_fd[0]), EXIT_FAILURE);
+	return (close(pipe_fd[0]), EXIT_SUCCESS);
+}
+
+static int	do_classic_rdr(t_redir *rdr)
 {
 	int t_fd;
 	int s_fd;
 	int op_mode;
 
-	if (rdr->redir_type == RDIR_PIPE)
-		return (EXIT_SUCCESS);
-	t_fd = rdr->target_std;
 	op_mode = get_op_mode(rdr->redir_type);
+	t_fd = rdr->target_std;
 	if (rdr->target_file)
 		t_fd = open(rdr->target_file, op_mode, 0644);
 	if (t_fd == -1)
-		return (ft_putstr_fd("minishell: ", STDERR_FILENO), 
+		return (ft_putstr_fd(ft_progname(), STDERR_FILENO), 
 			perror(rdr->target_file), EXIT_FAILURE);
 	s_fd = rdr->src_std;
 	if (rdr->src_file)
@@ -110,18 +155,21 @@ static int	do_rdr(t_redir *rdr)
 	{
 		if (t_fd > 2)
 			close(t_fd);
-		return (ft_putstr_fd("minishell: ", STDERR_FILENO), 
+		return (ft_putstr_fd(ft_progname(), STDERR_FILENO), 
 			perror(rdr->src_file), EXIT_FAILURE);
 	}
 	if (dup2(t_fd, s_fd) == -1)
-	{
-		perror("dup2");
-		close(t_fd);
-		close(s_fd);
-		return (EXIT_FAILURE);
-	}
-	close(t_fd);
-	return (EXIT_SUCCESS);
+		return (perror("dup2"), close(t_fd), close(s_fd), EXIT_FAILURE);
+	return (close(t_fd), EXIT_SUCCESS);
+}
+
+static int	do_rdr(t_redir *rdr)
+{
+	if (rdr->redir_type == RDIR_PIPE || rdr->redir_type == RDIR_HEREDOC)
+		return (EXIT_SUCCESS);
+	if ((rdr->redir_type & RDIR_MSK_DUP) == RDIR_DUP)
+		return (do_dup(rdr));
+	return (do_classic_rdr(rdr));
 }
 
 static int do_rdr_list(t_list *rdr_lst)
@@ -138,10 +186,40 @@ static int do_rdr_list(t_list *rdr_lst)
 	return (EXIT_SUCCESS);
 }
 
+static bool has_heredoc(t_list *rdr_lst)
+{
+	t_list *node;
+
+	node = rdr_lst;
+	while (node)
+	{
+		if (((t_redir *)node->data)->redir_type == RDIR_HEREDOC)
+			return (true);
+		node = node->next;
+	}
+	return (false);
+}
+
 static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd, int *pp_fd)
 {
+	t_list *node;
+
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+
+
+	if (cmd->redir_to_do && has_heredoc(cmd->redir_to_do))
+	{
+		node = cmd->redir_to_do;
+		while (node && ((t_redir *)node->data)->redir_type != RDIR_HEREDOC)
+			node = node->next;
+		if (do_heredoc(cmd->redir_to_do->data) == EXIT_FAILURE)
+		{
+			discard_cmd(cmd);
+			minishell_cleanup(shell);
+			exit(1);
+		}
+	}
 	if (cmd->cmd_path == NULL)
 	{
 		printf("%s: %s: command not found\n", ft_progname(), cmd->argv[0]);
@@ -152,7 +230,11 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 		discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(127);
 	}
 	if (pp_fd[0] != -1)
-		(dup2(pp_fd[0], STDIN_FILENO), close(pp_fd[0]), close(pp_fd[1]));
+	{
+		if (has_heredoc(cmd->redir_to_do) == false)
+			dup2(pp_fd[0], STDIN_FILENO);
+		(close(pp_fd[0]), close(pp_fd[1]));
+	}
 	if (p_fd[STDOUT_FILENO] != -1)
 		(dup2(p_fd[1], STDOUT_FILENO), close(p_fd[1]), close(p_fd[0]));
 	if (cmd->redir_to_do && do_rdr_list(cmd->redir_to_do) == EXIT_FAILURE)

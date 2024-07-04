@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 10:42:24 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:33:29 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft_math.h"
 #include "ft_string.h"
 #include "parser_types.h"
+#include <unistd.h>
 #define MAX_FD_RDIR 1024
 
 bool	prepn_redir_create(t_preparsed_node *node, t_preparser_context *ctx)
@@ -48,7 +49,9 @@ bool	prepn_redir_create(t_preparsed_node *node, t_preparser_context *ctx)
 		redir->redir_type |= RDIR_APPEND, cr_offset++;
 	else
 		redir->redir_type |= RDIR_TRUNC;
-	int fd = -1;
+	if (redir->redir_type == (RDIR_APPEND | RDIR_INPUT))
+		redir->redir_type = RDIR_HEREDOC;
+	redir->target_std = -1;
 	if (ctx->line[cr_offset] && ft_strchr("&", ctx->line[cr_offset]))
 	{
 		redir->redir_type |= RDIR_DUP;
@@ -56,11 +59,10 @@ bool	prepn_redir_create(t_preparsed_node *node, t_preparser_context *ctx)
 	}
 	if (ft_isdigit(ctx->line[cr_offset]))
 	{
-		fd = ft_atoi(ctx->line + cr_offset);
-		if (fd < 0 || fd > MAX_FD_RDIR)
+		redir->target_std = ft_atoi(ctx->line + cr_offset);
+		if (redir->target_std < 0 || redir->target_std > MAX_FD_RDIR)
 			return (ctx->unexpected = "Invalid file descriptor", false);
-		cr_offset += ft_log(fd);
-		redir->target_std = fd;
+		cr_offset += ft_log(redir->target_std);
 	}
 	return (true);
 }
