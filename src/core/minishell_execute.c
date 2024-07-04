@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 19:53:44 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/04 11:04:12 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,39 +138,51 @@ int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
 	return (NULL);
 }
 
+static int get_op_mode(int type)
+{
+	int op_mode;
+
+	op_mode = 0;
+	if ((type & RDIR_MSK_IO) == RDIR_PIPE)
+		return (EXIT_SUCCESS);
+	if ((type & RDIR_MSK_IO) == RDIR_INPUT)
+		op_mode = O_RDONLY;
+	else if ((type & RDIR_MSK_IO) == RDIR_OUTPUT)
+	op_mode = O_WRONLY | O_CREAT;
+	if ((type & RDIR_MSK_MODE) == RDIR_APPEND)
+		op_mode |= O_APPEND;
+	else
+		op_mode |= O_TRUNC * (type & RDIR_MSK_IO) == RDIR_OUTPUT;
+	return (op_mode);
+}
 static void exec_cl(t_minishell_control *shell);
 static int	do_rdr(t_redir *rdr)
 {
-	int fd;
+	int t_fd;
+	int s_fd;
 	int op_mode;
 
-	fd = -1;
-	op_mode = 0;
-	if ((rdr->redir_type & RDIR_MSK_IO) == RDIR_PIPE)
+	if (rdr->redir_type == RDIR_PIPE)
 		return (EXIT_SUCCESS);
-	if ((rdr->redir_type & RDIR_MSK_IO) == RDIR_INPUT)
-		op_mode = O_RDONLY;
-	else if ((rdr->redir_type & RDIR_MSK_IO) == RDIR_OUTPUT)
-		op_mode = O_WRONLY | O_CREAT;
-	if ((rdr->redir_type & RDIR_MSK_MODE) == RDIR_APPEND)
-		op_mode |= O_APPEND;
-	else
-		op_mode |= O_TRUNC;
+	t_fd = rdr->target_std;
+	op_mode = get_op_mode(rdr->redir_type);
 	if (rdr->target_file)
-		fd = open(rdr->target_file, op_mode, 0644);
-	else
-		fd = rdr->target_std;
-	if (fd == -1)
+		t_fd = open(rdr->target_file, op_mode, 0644);
+	if (t_fd == -1)
+		return (ft_putstr_fd("minishell: ", STDERR_FILENO), 
+			perror(rdr->target_file), EXIT_FAILURE);
+	s_fd = rdr->src_std;
+	if (rdr->src_file)
+		s_fd = open(rdr->src_file, O_WRONLY);
+	if (s_fd == -1)
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		perror(rdr->target_file);
-		return (EXIT_FAILURE);
+		if (t_fd > 2)
+			close(t_fd);
+		return (ft_putstr_fd("minishell: ", STDERR_FILENO), 
+			perror(rdr->src_file), EXIT_FAILURE);
 	}
-	if ((rdr->redir_type & RDIR_MSK_IO) == RDIR_INPUT)
-		dup2(fd, rdr->src_std);
-	else
-		dup2(fd, STDOUT_FILENO);
-	close(fd);
+	dup2(t_fd, s_fd);
+	close(t_fd);
 	return (EXIT_SUCCESS);
 }
 
@@ -205,6 +217,7 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 		(dup2(p_fd[1], STDOUT_FILENO), close(p_fd[1]), close(p_fd[0]));
 	if (cmd->redir_to_do && do_rdr_list(cmd->redir_to_do) == EXIT_FAILURE)
 	{
+		ft_ll_clear(&cmd->redir_to_do, free_rdr_node);
 		discard_cmd(cmd);
 		minishell_cleanup(shell);
 		exit(1);
@@ -312,7 +325,6 @@ int	minishell_execute(t_minishell_control *shell)
 	status = 0;
 	while (cmd && (status == 0 || status == 127))
 	{
-		dprintf(STDERR_FILENO, "%p : cmd\t rdir ? %s\n", cmd, cmd->redir_to_do ? "yes" : "no");
 		set_pipe(p_fd, -1, -1);
 		if (cmd->redir_to_do && has_pipe(cmd->redir_to_do) && pipe(p_fd) != -1)
 			perror("pipe"); // todo : do better

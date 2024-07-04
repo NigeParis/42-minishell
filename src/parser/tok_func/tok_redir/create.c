@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 17:02:49 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/04 10:42:24 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ bool	prepn_redir_create(t_preparsed_node *node, t_preparser_context *ctx)
 		redir->flag = RDIR_STD;
 	}
 	if (ctx->line[cr_offset] == '>')
+	{
 		redir->redir_type = RDIR_OUTPUT;
+		if (redir->src_std == 0)
+			redir->src_std = 1;
+	}
 	else if (ctx->line[cr_offset] == '<')
 		redir->redir_type = RDIR_INPUT;
 	cr_offset++;
@@ -58,7 +62,5 @@ bool	prepn_redir_create(t_preparsed_node *node, t_preparser_context *ctx)
 		cr_offset += ft_log(fd);
 		redir->target_std = fd;
 	}
-	if (fd == -1)
-		redir->target_std = 1;
 	return (true);
 }
