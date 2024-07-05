@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/05 12:01:11 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:17:14 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,6 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 
-
 	if (cmd->redir_to_do && has_heredoc(cmd->redir_to_do))
 	{
 		node = cmd->redir_to_do;
@@ -239,6 +238,15 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 	}
 	if (p_fd[STDOUT_FILENO] != -1)
 		(dup2(p_fd[1], STDOUT_FILENO), close(p_fd[1]), close(p_fd[0]));
+	if (cmd && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
+	{
+		print_buff(STDIN_FILENO);
+		print_buff(STDOUT_FILENO);
+		print_buff(STDERR_FILENO);
+		discard_cmd(cmd);
+		minishell_cleanup(shell);
+		exit (0);
+	}
 	if (cmd->redir_to_do && do_rdr_list(cmd->redir_to_do) == EXIT_FAILURE)
 	{
 		discard_cmd(cmd);
@@ -275,6 +283,9 @@ static void parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
 		dprintf(2, "cmd status: %d\n", cmd->status);
 	if (DEBUG_LVL >= 20)
 		print_cmd(cmd);
+	destroy_buff(STDIN_FILENO);
+	destroy_buff(STDOUT_FILENO);
+	destroy_buff(STDERR_FILENO);
 	discard_cmd(cmd);
 	signal_init();
 }
@@ -284,11 +295,9 @@ static void b_in(t_minishell_control *shell, t_cmd_to_exec *cmd)
 {
 	int				(*builtin)(t_minishell_control *, t_cmd_to_exec *);
 
-	dprintf(2, "builtin: %s detected\n", cmd->argv[0]);
 	builtin = get_builtin(cmd->argv[0]);
 	builtin(shell, cmd);
 	shell->exit = cmd->status;
-	discard_cmd(cmd);
 }
 
 int	minishell_execute(t_minishell_control *shell)
@@ -308,10 +317,7 @@ int	minishell_execute(t_minishell_control *shell)
 		if (cmd->redir_to_do && has_pipe(cmd->redir_to_do) && pipe(p_fd) == -1)
 			perror("pipe"); // todo : do better aka clean up and return
 		if (cmd && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
-		{
-			cmd = (b_in(shell, cmd), parser_get_cmd(shell->preparsed, shell));
-			continue ;
-		}
+			b_in(shell, cmd);
 		pid = fork();
 		if (pid == -1)
 			return (perror("fork"), exec_cl(shell), EXIT_FAILURE);

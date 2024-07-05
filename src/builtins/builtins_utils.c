@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins_util.c                                   :+:      :+:    :+:   */
+/*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 21:19:32 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 21:37:08 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:10:47 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	add_to_buff(char *str_to_add, int fd_dest)
 	current_buff = buff_func(NULL, false, fd_dest);
 	if (current_buff == NULL)
 		current_buff = ft_string_new(1);
-	if (ft_string_append(current_buff, str_to_add) == 0)
+	if (ft_string_append(current_buff, str_to_add) == -1)
 		return (false);
 	buff_func(current_buff, true, fd_dest);
 	return (true);
