@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 20:07:12 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:01:11 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ static int get_op_mode(int type)
 	op_mode = O_WRONLY | O_CREAT;
 	if ((type & RDIR_MSK_MODE) == RDIR_APPEND)
 		op_mode |= O_APPEND;
-	else
-		op_mode |= O_TRUNC * (type & RDIR_MSK_IO) == RDIR_OUTPUT;
+	else if ((type & RDIR_MSK_IO) != RDIR_INPUT)
+		op_mode |= O_TRUNC;
 	return (op_mode);
 }
 
@@ -147,6 +147,7 @@ static int	do_classic_rdr(t_redir *rdr)
 		t_fd = open(rdr->target_file, op_mode, 0644);
 	if (t_fd == -1)
 		return (ft_putstr_fd(ft_progname(), STDERR_FILENO), 
+			ft_putstr_fd(": ", STDERR_FILENO), 
 			perror(rdr->target_file), EXIT_FAILURE);
 	s_fd = rdr->src_std;
 	if (rdr->src_file)
@@ -156,6 +157,7 @@ static int	do_classic_rdr(t_redir *rdr)
 		if (t_fd > 2)
 			close(t_fd);
 		return (ft_putstr_fd(ft_progname(), STDERR_FILENO), 
+			ft_putstr_fd(": ", STDERR_FILENO),
 			perror(rdr->src_file), EXIT_FAILURE);
 	}
 	if (dup2(t_fd, s_fd) == -1)

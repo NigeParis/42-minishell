@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 19:41:13 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:29:00 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,15 @@
 //															message do not 
 //															remove
 
-bool get_target(t_minishell_control *sh, int consumed, t_cmd_to_exec *cmd,
+static void	catastrophe_quit(t_preparsed_node *nd_next, t_cmd_to_exec *cmd,
+		int consumed, t_minishell_control *sh)
+{
+	nd_next->destroy(nd_next);
+	ft_vec_shift(sh->preparsed, cmd->nb_tok_consumed, consumed
+		- cmd->nb_tok_consumed);
+}
+
+bool	get_target(t_minishell_control *sh, int consumed, t_cmd_to_exec *cmd,
 				char **str_c)
 {
 	t_preparsed_node	*nd_next;
@@ -35,29 +43,24 @@ bool get_target(t_minishell_control *sh, int consumed, t_cmd_to_exec *cmd,
 
 	nd_next = ft_vec_at(sh->preparsed, consumed++);
 	if (nd_next && nd_next->type == TOK_SPACE)
-	{
-		nd_next->destroy(nd_next);
-		nd_next = ft_vec_at(sh->preparsed, consumed++);
-	}
+		nd_next = (nd_next->destroy(nd_next), ft_vec_at(sh->preparsed, \
+					consumed++));
 	if (nd_next && nd_next->type != TOK_WORD && nd_next->type != TOK_QUOTE)
-		return (printf("unexpected token after redirection\n"), false);
+		return (catastrophe_quit(nd_next, cmd, consumed, sh),
+			printf("unexpected token after redirection\n"), false);
 	if (nd_next->type == TOK_QUOTE)
 	{
 		quote = nd_next->value;
 		str = quote->value;
-		if (quote->type == QUOTE_DQUOTE	&& resolve_word(&str, sh) == false)
-			return (false);
-		*str_c = ft_string_to_str_inplace(&str);
+		if (quote->type == QUOTE_DQUOTE && resolve_word(&str, sh) == false)
+			return (catastrophe_quit(nd_next, cmd, consumed, sh), false);
 		free(quote);
 	}
 	else
-	{
 		str = nd_next->value;
-		*str_c = ft_string_to_str_inplace(&str);
-	}
-	free(nd_next);
-	ft_vec_shift(sh->preparsed, cmd->nb_tok_consumed, consumed - cmd->nb_tok_consumed);
-	return (true);
+	*str_c = ft_string_to_str_inplace(&str);
+	return (free(nd_next), ft_vec_shift(sh->preparsed, cmd->nb_tok_consumed, \
+	consumed - cmd->nb_tok_consumed), true);
 }
 
 bool	nd2ex_redir(t_preparsed_node *nd, t_cmd_to_exec *cmd,
@@ -70,7 +73,7 @@ bool	nd2ex_redir(t_preparsed_node *nd, t_cmd_to_exec *cmd,
 
 	rdr = nd->value;
 	if (rdr->redir_type & RDIR_MSK_DUP && rdr->target_std != -1)
-		return (ft_ll_push_back(&cmd->redir_to_do, nd->value),
+		return (ft_ll_push_back(&cmd->redir_to_do, nd->value), \
 		free(nd), true);
 	if (get_target(sh, cmd->nb_tok_consumed, cmd, &str_c) == false)
 		return (false);
@@ -80,15 +83,12 @@ bool	nd2ex_redir(t_preparsed_node *nd, t_cmd_to_exec *cmd,
 	if (rdr->redir_type & RDIR_MSK_DUP)
 	{
 		if (ft_str_isdigit(rdr->target_file) == false)
-			return (
-				printf("%s:%s: bad file descriptor\n", 
-					ft_progname(), rdr->target_file), 
-				free(str_c), 
-				false);
+			return (\
+			printf("%s:%s: bad file descriptor\n", ft_progname(), \
+			rdr->target_file), free(str_c), false);
 		rdr->target_std = ft_atoi(str_c);
 		rdr->target_file = NULL;
 	}
 	ft_ll_push_back(&cmd->redir_to_do, rdr);
 	return (free(nd), true);
 }
-

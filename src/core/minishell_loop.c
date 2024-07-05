@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 18:13:35 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/05 11:28:18 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,17 @@ int	minishell_should_exit(t_minishell_control *shell)
 	return (0);
 }
 
+char *resolve_raw_exp(char *line, t_minishell_control *shell);
+
 // todo check if input is 1 - null 2 - empty if yes dont add to history
 int	minishell_parse(t_minishell_control *shell)
 {
 	if (!shell->input)
 		return (EXIT_SUCCESS);
-	((t_parser *)shell->prs)->line = shell->input;
+	((t_parser *)shell->prs)->line = resolve_raw_exp(shell->input, shell);
 	parser_line_init(shell->prs);
+	free(((t_parser *)shell->prs)->line);
+	((t_parser *)shell->prs)->line = NULL;
 	shell->preparsed = ((t_parser *)shell->prs)->preparsed;
 	if (shell->preparsed == NULL || shell->preparsed->count == 0)
 		return (

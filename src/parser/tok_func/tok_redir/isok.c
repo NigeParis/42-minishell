@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:43:02 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 16:03:15 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/05 10:31:49 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool	isok_redir(const char *line, t_preparser_context *ctx)
 	cr_offset = 0;
 	if (line[cr_offset] == '\0' || ctx->quote_ctx != QUOTE_NONE)
 		return (false);
-	while	(ft_isdigit(line[cr_offset]))
+	while (ft_isdigit(line[cr_offset]))
 		cr_offset++;
 	i = 0;
 	while (valid_rdirs[i] != NULL)

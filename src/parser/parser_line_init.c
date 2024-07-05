@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 19:35:06 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:33:56 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parser.h"
 #include "parser_types.h"
 #include "ft_vector_types.h"
+#include "ft_args.h"
 #include "ft_vector.h"
 #include "ft_string.h"
 #include "ft_addons.h"
@@ -134,13 +135,14 @@ int	preparse_line(t_parser *restrict p)
 			ft_putendl_fd("Error: preparse_line: unknown token", \
 			STDERR_FILENO);
 		else if (var_ctx.unexpected)
-			printf("Error: preparse_line: unexpected token: \'%s\'\n", \
-			var_ctx.unexpected);
+			printf("%s : %s\n", ft_progname(), var_ctx.unexpected);
 		else if (update_preparsed(p, &var_ctx) == false \
 		|| update_context(p, &var_ctx) == false)
 		{
 			printf("Error: preparse_line: update_preparsed or "\
 			"update_context failed\n");
+			if (var_ctx.unexpected)
+				printf("%s: %s\n", ft_progname(), var_ctx.unexpected);
 			preparser_destroy(&var_ctx, p);
 			break ;
 		}
