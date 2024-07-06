@@ -31,7 +31,7 @@ INC_DIR		=	include
 DEBUG_LEVEL	=\
 			 	3
 DEBUG		=\
-				-DDEBUG_LVL=$(DEBUG_LEVEL) -g2
+				-DDEBUG_LEVEL=$(DEBUG_LEVEL) -g2
 CPPFLAGS	=\
 				-I$(INC_DIR) -I./libft/include
 WFLAGS		=\

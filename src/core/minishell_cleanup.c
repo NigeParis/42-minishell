@@ -51,7 +51,7 @@ void	free_preparsed_node(void *node_s)
 
 int	minishell_cleanup(t_minishell_control *shell)
 {
-	if (DEBUG_LVL >= 20)
+	if (DEBUG_LEVEL >= 20)
 		printf("cleanup\n");
 	rl_clear_history();
 	if (shell->input)

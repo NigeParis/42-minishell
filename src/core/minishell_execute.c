@@ -279,9 +279,9 @@ static void parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
 	}
 	else
 		shell->exit = WEXITSTATUS(cmd->status);
-	if (DEBUG_LVL >= 10)
+	if (DEBUG_LEVEL >= 10)
 		dprintf(2, "cmd status: %d\n", cmd->status);
-	if (DEBUG_LVL >= 20)
+	if (DEBUG_LEVEL >= 20)
 		print_cmd(cmd);
 	destroy_buff(STDIN_FILENO);
 	destroy_buff(STDOUT_FILENO);

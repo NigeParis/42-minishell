@@ -48,7 +48,7 @@ void	destroy_buff(int fd_dest)
 	if (buff)
 		ft_string_destroy(&buff);
 	buff_func(NULL, true, fd_dest);
-	if (DEBUG_LVL > 30)
+	if (DEBUG_LEVEL > 30)
 		dprintf(STDERR_FILENO, "<destroybuff %d>", fd_dest);
 	return ;
 }
@@ -62,7 +62,7 @@ void	print_buff(int fd_dest)
 		return ;
 	ft_putstr_fd(buff->str, fd_dest);
 	destroy_buff(fd_dest);
-	if (DEBUG_LVL > 20)
+	if (DEBUG_LEVEL > 20)
 		dprintf(STDERR_FILENO, "<buff %d printed + free'd>\n", fd_dest);
 	return ;
 }

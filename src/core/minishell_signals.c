@@ -23,7 +23,7 @@ void	signal_handler(int signum)
 	if (signum == SIGINT)
 	{
 		printf("\n");
-		if (DEBUG_LVL >= 20)
+		if (DEBUG_LEVEL >= 20)
 			printf("shell %d\n", getpid());
 		rl_on_new_line();
 		rl_replace_line("", 0);

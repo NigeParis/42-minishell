@@ -120,7 +120,7 @@ bool	nd2ex_word(t_preparsed_node *nd, t_cmd_to_exec *cmd,
 	str[1] = optional_strjoin(&op[0], &op[1]);
 	if (op[0].pres == OPT_SOME)
 		(ft_vec_pop(cmd->construction_vector), free(op[0].val));
-	if (DEBUG_LVL >= 30)
+	if (DEBUG_LEVEL >= 30)
 		dprintf(STDERR_FILENO, "word: %s\n", str[1]);
 	fflush(stderr);
 	ft_vec_add(&cmd->construction_vector, str[1]);

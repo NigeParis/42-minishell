@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 12:48:32 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/06 15:06:38 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "ft_string.h"
 #include "ft_string_types.h"
 #include "ft_vector.h"
-#include "parser.h"
 #include "parser_types.h"
 #include <stdlib.h>
 
@@ -29,8 +28,6 @@ bool	nd2ex_quote(t_preparsed_node *nd, t_cmd_to_exec *cmd, \
 	if (nd->type != TOK_QUOTE || nd->value == NULL)
 		return (false);
 	quote = nd->value;
-	if (quote->type == QUOTE_DQUOTE)
-		resolve_word(&quote->value, sh);
 	str[0] = ft_vec_at(cmd->construction_vector, cmd->construction_index);
 	ft_optional_init(&op[0], str[0]);
 	ft_optional_init(&op[1], ((t_string *)quote->value)->str);

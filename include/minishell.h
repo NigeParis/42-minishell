@@ -13,8 +13,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# ifndef DEBUG_LVL
-#  define DEBUG_LVL 0
+# ifndef DEBUG_LEVEL
+#  define DEBUG_LEVEL 0
 # endif
 
 # include "parser_types.h"

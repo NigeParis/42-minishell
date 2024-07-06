@@ -82,7 +82,7 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens,
 	t_preparsed_node	*token;
 	bool				cmd_rdy;
 
-	if (DEBUG_LVL >= 20)
+	if (DEBUG_LEVEL >= 20)
 		debug_n_list(preparsed_tokens);
 	if (preparsed_tokens == NULL || preparsed_tokens->count == 0)
 		return (NULL);
@@ -127,7 +127,7 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens,
 			return (NULL);
 		}
 	}
-	if (DEBUG_LVL >= 20)
+	if (DEBUG_LEVEL >= 20)
 		printf("dbg :: cmd :: %s\n", cmd->cmd_path);
 	return (cmd);
 }
