@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:43:26 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/07/06 12:38:39 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/06 13:09:20 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	echo_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	i = 1;
 	flag_n = false;
 	error = false;
-	if (cmd->ac > 1)
+	if (cmd->ac > 1 && cmd->argv[1] != NULL)
 	{
 		i = option_checker(cmd, &flag_n, &error);
 		while (i < cmd->ac)
