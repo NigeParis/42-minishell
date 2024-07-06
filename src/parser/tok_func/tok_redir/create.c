@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/05 12:19:48 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/06 19:37:38 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ bool	prepn_redir_create(t_preparsed_node *node, t_preparser_context *ctx)
 	redir->flag = RDIR_FILE;
 	if (!f_part(ctx, &cr_offset, redir))
 		return (false);
+	if (!m_part(ctx, redir, &cr_offset))
+		return (false);
 	if ((redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND
 		&& redir->redir_type & RDIR_MSK_DUP)
 		return (ctx->unexpected = "Syntax error near '&'", false);
 	if (redir->redir_type == (RDIR_APPEND | RDIR_INPUT))
 		redir->redir_type = RDIR_HEREDOC;
-	if (!m_part(ctx, redir, &cr_offset))
-		return (false);
 	if (!l_part(ctx, redir, &cr_offset))
 		return (false);
 	if ((redir->redir_type & RDIR_MSK_IO) == RDIR_OUTPUT && !redir->src_std)
