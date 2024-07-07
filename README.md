@@ -31,8 +31,8 @@ There are also have a number of built-in functions: <br>
  - [ ] \\ character nullifies the quote end or start
 
   Built-ins (sorted by priority)(simple)
- - [ ] echo (with -n)
- - [ ] pwd (no args)
+ - [x] echo (with -n)
+ - [x] pwd (no args)
  - [ ] cd (handling of ~, '-', and no args)
  - [ ] exit (args aka return code otherwise last cmd exec otherwise 0)
  - [ ] env (-i, -u)
