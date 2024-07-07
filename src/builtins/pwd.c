@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 16:36:21 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/07 10:53:16 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	pwd_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	res = getcwd(buff, PATH_MAX);
 	if (!res)
 		return (cmd->status = 1, EXIT_FAILURE);
-	ft_putendl_fd(res, 1);
+	add_to_buff(res, STDOUT_FILENO);
+	add_to_buff("\n", STDOUT_FILENO);
 	return (cmd->status = 0, EXIT_SUCCESS);
 }
