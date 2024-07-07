@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 16:13:21 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 17:08:42 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/07 11:20:08 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	minishell_prompt(t_minishell_control *shell)
 {
 	int	tty;
 
-	shell->input = readline("minishell $> ");
+	shell->input = readline("\U0001f600 ""minishell $> ");
 	if (shell->input == NULL)
 	{
 		tty = isatty(STDIN_FILENO);
