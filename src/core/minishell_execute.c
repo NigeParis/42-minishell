@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/07 07:54:33 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:39:34 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,15 +221,6 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 			exit(1);
 		}
 	}
-	if (cmd->cmd_path == NULL)
-	{
-		printf("%s: %s: command not found\n", ft_progname(), cmd->argv[0]);
-		if (pp_fd[0] != -1 || pp_fd[1] != -1)
-			(close(pp_fd[0]), close(pp_fd[1]));
-		if (p_fd[0] != -1 || p_fd[1] != -1)
-			(close(p_fd[0]), close(p_fd[1]));
-		discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(127);
-	}
 	if (pp_fd[0] != -1)
 	{
 		if (has_heredoc(cmd->redir_to_do) == false)
@@ -252,6 +243,15 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 		discard_cmd(cmd);
 		minishell_cleanup(shell);
 		exit(1);
+	}
+	if (cmd->cmd_path == NULL)
+	{
+		printf("%s: %s: command not found\n", ft_progname(), cmd->argv[0]);
+		if (pp_fd[0] != -1 || pp_fd[1] != -1)
+			(close(pp_fd[0]), close(pp_fd[1]));
+		if (p_fd[0] != -1 || p_fd[1] != -1)
+			(close(p_fd[0]), close(p_fd[1]));
+		discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(127);
 	}
 	ft_ll_clear(&cmd->redir_to_do, free_rdr_node);
 	execve(cmd->cmd_path, cmd->argv, cmd->env);
