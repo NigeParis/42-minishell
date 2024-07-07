@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/07 15:00:31 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/07 15:08:44 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,12 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 			dup2(pp_fd[0], STDIN_FILENO);
 		(close(pp_fd[0]), close(pp_fd[1]));
 	}
+	if (cmd->redir_to_do && do_rdr_list(cmd->redir_to_do) == EXIT_FAILURE)
+	{
+		discard_cmd(cmd);
+		minishell_cleanup(shell);
+		exit(1);
+	}
 	if (cmd && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
 	{
 		print_buff(STDIN_FILENO);
@@ -237,12 +243,6 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 		discard_cmd(cmd);
 		minishell_cleanup(shell);
 		exit (0);
-	}
-	if (cmd->redir_to_do && do_rdr_list(cmd->redir_to_do) == EXIT_FAILURE)
-	{
-		discard_cmd(cmd);
-		minishell_cleanup(shell);
-		exit(1);
 	}
 	if (cmd->cmd_path == NULL)
 	{
