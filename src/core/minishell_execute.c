@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/05 15:17:14 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/07 07:54:33 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 		node = cmd->redir_to_do;
 		while (node && ((t_redir *)node->data)->redir_type != RDIR_HEREDOC)
 			node = node->next;
-		if (do_heredoc(cmd->redir_to_do->data) == EXIT_FAILURE)
+		if (do_heredoc(node->data) == EXIT_FAILURE)
 		{
 			discard_cmd(cmd);
 			minishell_cleanup(shell);
