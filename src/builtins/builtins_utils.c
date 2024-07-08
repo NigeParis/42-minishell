@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 21:19:32 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/05 15:10:47 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:43:42 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_string	*buff_func(t_string *set_v, bool set_f, int fd_dst)
 	return (data[fd_dst]);
 }
 
-bool	add_to_buff(char *str_to_add, int fd_dest)
+bool	add_to_buff(const char *str_to_add, int fd_dest)
 {
 	t_string	*current_buff;
 

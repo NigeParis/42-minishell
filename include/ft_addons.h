@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:48:25 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 12:16:00 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:42:24 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ void	ft_optional_init(t_optional *opt_ptr, const void *v);
 char	*optional_strjoin(t_optional *str1, t_optional *str2);
 
 const char	*ft_strsignal(int sig);
+const char	*ft_strerror(int errnum);
 
-#endif // 0#endif
+#endif /* FT_ADDONS_H */

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:46:48 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/05 11:39:07 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/08 11:36:07 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,16 @@ static void	resolve_dollarsign(char *line, t_minishell_control *sh,
 	if (len == 0 && (line[i] == '?' || line[i] == '$'))
 		(len++, i++);
 	key = ft_string_from_n(line + 1, len);
-	if (ft_string_cmp(key, "?") == 0 || ft_string_cmp(key, "$") == 0)
+	if (ft_string_cmp(key, "?") == 0 || ft_string_cmp(key, "$") == 0
+	|| ft_string_cmp(key, "") == 0)
 	{
 		value = NULL;
 		if (ft_string_cmp(key, "?") == 0)
 			value = ft_itoa(sh->exit);
-		else 
+		else if (ft_string_cmp(key, "$") == 0)
 			value = ft_itoa(getpid());
+		else
+			value = ft_strdup("$");
 	}
 	else
 	{

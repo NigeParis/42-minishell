@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 23:25:27 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/01 15:28:33 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:43:18 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -589,7 +589,7 @@ int			ft_string_put(t_string *str, int fd);
 /// @param str t_string to modify
 /// @param src string to append
 /// @return 1 if the string has been appended otherwise 0
-int			ft_string_append(t_string *str, char *src);
+int			ft_string_append(t_string *str, const char *src);
 
 /// @brief append at most n chars of the string src to the string str
 /// @param str t_string to modify
