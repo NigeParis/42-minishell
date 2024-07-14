@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:52 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 20:01:40 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/08 21:00:32 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ void	free_preparsed_node(void *node_s)
 	t_preparsed_node	*node;
 
 	node = (t_preparsed_node *)node_s;
-	if (node->type == TOK_WORD)
-		free(node->value);
-	free(node);
+	if (node->type != TOK_UNKNOWN && node->destroy)
+		node->destroy(node);
+	else
+		free(node);
 }
 
 int	minishell_cleanup(t_minishell_control *shell)
@@ -60,5 +61,10 @@ int	minishell_cleanup(t_minishell_control *shell)
 		destroy_env(&shell->env);
 	if (shell->prs)
 		(parser_glob_cleanup(shell->prs), free(shell->prs));
+	if (shell->preparsed)
+	{
+		ft_vec_apply(shell->preparsed, free_preparsed_node);
+		ft_vec_destroy(&shell->preparsed);
+	}
 	return (shell->exit);
 }

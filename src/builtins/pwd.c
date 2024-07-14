@@ -6,53 +6,38 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/07 10:53:16 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/13 10:27:10 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include <unistd.h>
 #include <minishell_types.h>
-#include "ft_char.h"
 #include "ft_args.h"
 #include "ft_string.h"
 #include "parser_types.h"
 
 static void	msg_invalid_option(const char *progname, t_cmd_to_exec *cmd)
 {
-	ft_putstr_fd(&progname[2], STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putchar_fd(cmd->argv[1][0], STDERR_FILENO);
-	ft_putchar_fd(cmd->argv[1][1], STDERR_FILENO);
-	ft_putendl_fd(": invalid option", STDERR_FILENO);
-	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd("usage: ", STDERR_FILENO);
-	ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
+	add_to_buff(progname, STDERR_FILENO);
+	add_to_buff(": ", STDERR_FILENO);
+	add_to_buff(cmd->argv[0], STDERR_FILENO);
+	add_to_buff(": Does not support arguments\n", STDERR_FILENO);
 }
 
 int	pwd_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
 	const char	*progname = ft_progname();
-	char		buff[PATH_MAX];
+	char		buff[PATH_MAX + 1];
 	char		*res;
 
-	(void) ctrl;
-	if ((cmd->ac > 1) && (ft_strcmp(cmd->argv[1], "-") != 0) \
-		&& (ft_strlen(cmd->argv[1]) > 1))
-	{
-		if (cmd->argv[1][0] != '-' || (ft_strlen(cmd->argv[1]) == 2 \
-			&& cmd->argv[1][1] == '-'))
-			;
-		else
-		{
-			msg_invalid_option(progname, cmd);
-			return (cmd->status = 1, EXIT_FAILURE);
-		}
-	}
+	ft_bzero(buff, PATH_MAX + 1);
 	res = getcwd(buff, PATH_MAX);
+	if (cmd->ac > 1)
+	{
+		return (msg_invalid_option(progname, cmd), cmd->status = 1,
+		EXIT_FAILURE);
+	}
 	if (!res)
 		return (cmd->status = 1, EXIT_FAILURE);
 	add_to_buff(res, STDOUT_FILENO);

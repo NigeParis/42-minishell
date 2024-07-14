@@ -6,13 +6,13 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 22:24:43 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/31 11:04:08 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/14 10:31:32 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 
-int	ft_string_append(t_string *str, char *append)
+int	ft_string_append(t_string *str, const char *append)
 {
 	size_t	len;
 

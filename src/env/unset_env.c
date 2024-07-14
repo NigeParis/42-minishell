@@ -6,18 +6,33 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 11:20:02 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/23 11:26:48 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:35:21 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_defs.h"
 #include "ft_string.h"
 #include "ft_vector.h"
 #include "pair.h"
+#include <stdio.h>
 
-static int	loc_pair_cmpfirst(const void *a, const void *b)
+
+static int	loc_pair_cmpfirst(void *a, void *b)
 {
-	return (ft_strcmp((const char *)a, ((const t_pair *)b)->first));
+	if (!a || !b)
+		return (-1);
+	return (
+		ft_strcmp(((const t_pair *) a)->first, ((const t_pair *) b)->first)
+	);
 }
+
+// We cant use ft_vec_get as we need the index of the occurence to call 
+// ft_vec_remove. Sadge
+// We could use pair_fcmp_first directly with ft_strcmp but we would need to 
+// do an ugly cast to pass ft_strcmp to bool return.
+// (still, would works tho but ugly)
+//
+// maybe add a ft_vecspn that would return the index of the first occurence?
 
 bool	unset_env(t_vector *env, const char *key)
 {
@@ -30,15 +45,13 @@ bool	unset_env(t_vector *env, const char *key)
 	key_pair.second = NULL;
 	while (i < env->count)
 	{
-		pair = ft_vec_get(env, key, loc_pair_cmpfirst);
-		if (pair)
-		{
-			free(pair->first);
-			free(pair->second);
-			free(pair);
-			ft_vec_remove(env, i, NULL);
-			return (true);
-		}
+		pair = ft_vec_at(env, i);
+		if (pair && pair_fcmp(pair, &key_pair, loc_pair_cmpfirst) == 0)
+			break ;
+		i++;
 	}
-	return (false);
+	if (!pair)
+		return (false);
+	ft_vec_remove(env, i, (t_data_apply)destroy_pair_deep);
+	return (true);
 }
