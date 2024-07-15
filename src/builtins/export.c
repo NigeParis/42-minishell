@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:47 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/09 13:16:47 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 12:37:42 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 #include "minishell_types.h"
 #include <unistd.h>
 
-int export_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
+int	export_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
-	int	i;
-	char *val;
+	int		i;
+	char	*val;
 
 	i = 1;
 	while (cmd->ac > i)

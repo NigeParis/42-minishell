@@ -6,13 +6,27 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:20:11 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 12:20:12 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 12:52:29 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_list_types.h"
 #include "parser_types.h"
 #include <stdio.h>
+
+void	print_symbol(t_redir *redir)
+{
+	if ((redir->redir_type & RDIR_MSK_IO) == RDIR_INPUT \
+	&& (redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND)
+		dprintf(2, " << ");
+	else if ((redir->redir_type & RDIR_MSK_IO) == RDIR_INPUT)
+		dprintf(2, " < ");
+	else if ((redir->redir_type & RDIR_MSK_IO) == RDIR_OUTPUT \
+	&& (redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND)
+		dprintf(2, " >> ");
+	else
+		dprintf(2, " | ");
+}
 
 void	print_redirs(t_list *redirs)
 {
@@ -29,16 +43,7 @@ void	print_redirs(t_list *redirs)
 			dprintf(2, "%d", redir->src_std);
 		else
 			dprintf(2, "%s", redir->src_file);
-		if ((redir->redir_type & RDIR_MSK_IO) == RDIR_INPUT
-		&& (redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND)
-			dprintf(2, " << ");
-		else if ((redir->redir_type & RDIR_MSK_IO) == RDIR_INPUT)
-			dprintf(2, " < ");
-		else if ((redir->redir_type & RDIR_MSK_IO) == RDIR_OUTPUT
-		&& (redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND)
-			dprintf(2, " >> ");
-		else
-			dprintf(2, " | ");
+		print_symbol(redir);
 		if (redir->target_file)
 			dprintf(2, "%s", redir->target_file);
 		else
@@ -48,4 +53,3 @@ void	print_redirs(t_list *redirs)
 	}
 	dprintf(2, "\n\n");
 }
-

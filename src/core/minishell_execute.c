@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/08 21:00:37 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/14 11:24:18 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ static bool has_heredoc(t_list *rdr_lst)
 
 static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd, int *pp_fd)
 {
-	t_list *node;
+	t_list	*node;
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -237,12 +237,15 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 	}
 	if (cmd && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
 	{
+		int		status;
+
+		status = cmd->status;
 		print_buff(STDIN_FILENO);
 		print_buff(STDOUT_FILENO);
 		print_buff(STDERR_FILENO);
 		discard_cmd(cmd);
 		minishell_cleanup(shell);
-		exit (0);
+		exit (status);
 	}
 	if (cmd->cmd_path == NULL)
 	{

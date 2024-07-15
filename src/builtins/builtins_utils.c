@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 21:19:32 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/08 14:43:42 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 12:47:21 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 
 t_string	*buff_func(t_string *set_v, bool set_f, int fd_dst)
 {
-	static t_string *data[3] = {NULL};
+	static t_string	*data[3] = {NULL};
+
 	if (fd_dst > 3 || fd_dst < 0)
 		return (NULL);
 	if (set_f == true)

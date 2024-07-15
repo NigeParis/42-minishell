@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:43:26 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/07/07 10:01:38 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/15 12:40:31 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ int	echo_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 			add_to_buff(" ", STDOUT_FILENO);
 	}
 	if (flag_n == false)
-			add_to_buff("\n", STDOUT_FILENO);
+		add_to_buff("\n", STDOUT_FILENO);
 	return (0);
 }
