@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 14:48:25 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/08 14:42:24 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:47:45 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@
 # include "ft_string_types.h"
 # include "ft_vector_types.h"
 
-void	*ft_vec_collect(t_vector **vec, void *(*f)(const void *c_val,
-				const void *d_val));
-void	*ft_vec_end(t_vector *vec);
+void		*ft_vec_collect(t_vector **vec, void *(*f)(const void *c_val,
+					const void *d_val));
+void		*ft_vec_end(t_vector *vec);
 
-char	*ft_string_to_str_inplace(t_string **str);
+char		*ft_string_to_str_inplace(t_string **str);
 
-void	ft_optional_init(t_optional *opt_ptr, const void *v);
+void		ft_optional_init(t_optional *opt_ptr, const void *v);
 
-char	*optional_strjoin(t_optional *str1, t_optional *str2);
+char		*optional_strjoin(t_optional *str1, t_optional *str2);
 
 const char	*ft_strsignal(int sig);
 const char	*ft_strerror(int errnum);

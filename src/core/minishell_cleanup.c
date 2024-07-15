@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:52 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 13:16:24 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:07:37 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static void	destroy_env_line(void *e)
 {
 	t_pair	*pair;
 
+	if (!e)
+		return ;
 	pair = (t_pair *)e;
 	free(pair->first);
 	free(pair->second);

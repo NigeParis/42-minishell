@@ -6,15 +6,22 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:15:12 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 12:43:45 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:49:13 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define DEFAULT_PROMPT "\U0001f600 minishell $> "
+
 # ifndef DEBUG_LEVEL
 #  define DEBUG_LEVEL 0
+#  define PROMPT DEFAULT_PROMPT
+# elif DEBUG_LEVEL >= 20
+#  define PROMPT "dbg $> "
+# else
+#  define PROMPT DEFAULT_PROMPT
 # endif
 
 # include "parser_types.h"
@@ -24,9 +31,8 @@
 /* ***************************Pipe utils function**************************** */
 /* ************************************************************************** */
 
-bool has_pipe(t_list *redirs);
-void set_pipe(int *pipe_fd, int fd_1, int fd_2);
-
+bool	has_pipe(t_list *redirs);
+void	set_pipe(int *pipe_fd, int fd_1, int fd_2);
 
 void	signal_init(void);
 
@@ -34,9 +40,9 @@ void	signal_init(void);
 /* **************************core module internals*************************** */
 /* ************************************************************************** */
 
-void free_rdr_node(void *abst_node);
+void	free_rdr_node(void *abst_node);
 
-void discard_cmd(t_cmd_to_exec *cmd);
+void	discard_cmd(t_cmd_to_exec *cmd);
 
 /// @file: src/core/minishell_cleanup.c
 int		minishell_cleanup(t_minishell_control *shell);

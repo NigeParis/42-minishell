@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 16:01:18 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/30 12:59:25 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:16:18 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ bool	ft_vec_reserve(t_vector **vec, size_t size)
 	if ((*vec)->cappacity > size)
 		return (true);
 	ret.datas = malloc(sizeof(void *) * size);
+	if (!ret.datas)
+		return (false);
 	i = 0;
 	while (i < (*vec)->count)
 	{

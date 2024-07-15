@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 16:13:21 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 13:28:40 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:32:00 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,10 @@
 
 int	minishell_prompt(t_minishell_control *shell)
 {
-	int	tty;
-
 	if (!shell)
 		return (EXIT_FAILURE);
-	shell->input = readline("\U0001f600 minishell $> ");
+	shell->input = readline(PROMPT);
 	if (shell->input == NULL)
-	{
-		tty = isatty(STDIN_FILENO);
-		if (tty)
-			printf("exit\n");
 		shell->shoulcontinue = false;
-	}
 	return (EXIT_SUCCESS);
 }

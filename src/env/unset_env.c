@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 11:20:02 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/09 13:35:21 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:40:16 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,11 @@
 #include "pair.h"
 #include <stdio.h>
 
-
 static int	loc_pair_cmpfirst(void *a, void *b)
 {
 	if (!a || !b)
 		return (-1);
-	return (
-		ft_strcmp(((const t_pair *) a)->first, ((const t_pair *) b)->first)
-	);
+	return (ft_strcmp(a, b));
 }
 
 // We cant use ft_vec_get as we need the index of the occurence to call 
@@ -46,7 +43,7 @@ bool	unset_env(t_vector *env, const char *key)
 	while (i < env->count)
 	{
 		pair = ft_vec_at(env, i);
-		if (pair && pair_fcmp(pair, &key_pair, loc_pair_cmpfirst) == 0)
+		if (pair && pair_fcmpfirst(pair, &key_pair, loc_pair_cmpfirst) == 0)
 			break ;
 		i++;
 	}
