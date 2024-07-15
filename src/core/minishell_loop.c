@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 12:53:52 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:42:53 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,21 @@ char	*resolve_raw_exp(char *line, t_minishell_control *shell);
 // todo check if input is 1 - null 2 - empty if yes dont add to history
 int	minishell_parse(t_minishell_control *shell)
 {
+	t_parser	*prs;
+
+
+	if (!shell)
+		return (EXIT_FAILURE);
 	if (!shell->input || shell->input[0] == '\0')
 		return (EXIT_SUCCESS);
-	((t_parser *)shell->prs)->line = resolve_raw_exp(shell->input, shell);
+	prs = (t_parser *)shell->prs;
+	prs->line = resolve_raw_exp(shell->input, shell);
 	parser_line_init(shell->prs);
-	free(((t_parser *)shell->prs)->line);
-	((t_parser *)shell->prs)->line = NULL;
-	shell->preparsed = ((t_parser *)shell->prs)->preparsed;
+	free(prs->line);
+	prs->line = NULL;
+	shell->preparsed = prs->preparsed;
 	if (shell->preparsed == NULL || shell->preparsed->count == 0)
-		return (
-			printf("%s: preparsed null or no elements\n", __func__),
-			EXIT_SUCCESS);
+		return (EXIT_SUCCESS);
 	if (minishell_execute(shell))
 		return (parser_line_cleanup(shell->prs), EXIT_FAILURE);
 	add_history(shell->input);
@@ -51,6 +55,8 @@ int	minishell_parse(t_minishell_control *shell)
 
 void	minishell_loop(t_minishell_control *shell)
 {
+	if (!shell)
+		return ;
 	while (1)
 	{
 		if (minishell_prompt(shell) || minishell_parse(shell)

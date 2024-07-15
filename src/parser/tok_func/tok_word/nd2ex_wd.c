@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 20:05:27 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:59:17 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ bool	resolve_word(t_string **word, t_minishell_control *sh)
 
 	i = 0;
 	tmp = ft_string_new((*word)->length);
+	if (!tmp)
+		return (false);
 	while (i < (*word)->length)
 	{
 		if ((*word)->str[i] == '$' && !resolve_doll(*word, sh, tmp, &i))
@@ -118,6 +120,8 @@ bool	nd2ex_word(t_preparsed_node *nd, t_cmd_to_exec *cmd,
 	ft_optional_init(&op[0], str[0]);
 	ft_optional_init(&op[1], word->str);
 	str[1] = optional_strjoin(&op[0], &op[1]);
+	if (str[1] == NULL)
+		return (ft_string_destroy(&word), false);
 	if (op[0].pres == OPT_SOME)
 		(ft_vec_pop(cmd->construction_vector), free(op[0].val));
 	if (DEBUG_LEVEL >= 30)

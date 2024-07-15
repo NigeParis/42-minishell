@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 12:56:37 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:35:21 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,12 @@ int	create_env(t_minishell_control *ctrl, const char **envp)
 		if (pair == NULL)
 			return (EXIT_FAILURE);
 		pair->first = ft_strdup(envp[i]);
+		if (pair->first == NULL)
+			return (EXIT_FAILURE);
 		((char *)pair->first)[ft_strchr(envp[i], '=') - envp[i]] = '\0';
 		pair->second = ft_strdup(ft_strchr(envp[i], '=') + 1);
-		ft_vec_add(&ctrl->env, pair);
+		if (pair->second == NULL || ft_vec_add(&ctrl->env, pair) == false)
+			return (EXIT_FAILURE);
 		i++;
 	}
 	if (!i)

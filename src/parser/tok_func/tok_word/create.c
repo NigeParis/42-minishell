@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 15:49:20 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:50:00 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ bool	prepn_word_create(t_preparsed_node *node, t_preparser_context *ctx)
 	cr_offset = ctx->line_offset;
 	node->type = TOK_WORD;
 	node->value = ft_string_new(1);
+	if (node->value == NULL)
+		return (false);
 	while (ctx->line[cr_offset] && !ft_isspace(ctx->line[cr_offset])
 		&& ft_strchr(stoper, ctx->line[cr_offset]) == NULL)
 	{

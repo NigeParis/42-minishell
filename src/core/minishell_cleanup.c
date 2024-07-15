@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:52 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/08 21:00:32 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:16:24 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,28 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+void	exec_cl(t_minishell_control *shell)
+{
+	t_preparsed_node	*node;
+	size_t				i;
+
+	if (!shell)
+		return ;
+	i = 0;
+	if (shell->preparsed)
+	{
+		while (i < shell->preparsed->count)
+		{
+			node = ft_vec_at(shell->preparsed, i);
+			if (node && node->destroy)
+				node->destroy(node);
+			i++;
+		}
+		ft_vec_destroy(&shell->preparsed);
+		shell->preparsed = NULL;
+	}
+}
 
 static void	destroy_env_line(void *e)
 {

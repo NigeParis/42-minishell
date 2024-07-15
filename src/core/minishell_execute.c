@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/14 11:24:18 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:15:53 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "ft_list_types.h"
 #include "ft_string.h"
 #include "ft_string_types.h"
-#include "ft_vector.h"
 #include "minishell.h"
 #include "minishell_types.h"
 #include "parser.h"
@@ -31,29 +30,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static void exec_cl(t_minishell_control *shell)
-{
-	t_preparsed_node *node;
-	size_t i;
+void	exec_cl(t_minishell_control *shell);
 
-	if (!shell)
-		return ;
-	i = 0;
-	if (shell->preparsed)
-	{
-		while (i < shell->preparsed->count)
-		{
-			node = ft_vec_at(shell->preparsed, i);
-			if (node && node->destroy)
-				node->destroy(node);
-			i++;
-		}
-		ft_vec_destroy(&shell->preparsed);
-		shell->preparsed = NULL;
-	}
-}
-
-int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
+int	(*get_builtin(const char *cmd))(t_minishell_control *a, t_cmd_to_exec *b)
 {
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (&cd_main);
@@ -62,7 +41,7 @@ int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
 	if (ft_strcmp(cmd, "exit") == 0)
 		return (&exit_main);
 	if (ft_strcmp(cmd, "echo") == 0)
-		return (&echo_main);	
+		return (&echo_main);
 	if (ft_strcmp(cmd, "export") == 0)
 		return (&export_main);
 	if (ft_strcmp(cmd, "pwd") == 0)
@@ -72,9 +51,9 @@ int (*get_builtin(const char *cmd))(t_minishell_control *, t_cmd_to_exec *)
 	return (NULL);
 }
 
-static int get_op_mode(int type)
+static int	get_op_mode(int type)
 {
-	int op_mode;
+	int	op_mode;
 
 	op_mode = 0;
 	if ((type & RDIR_MSK_IO) == RDIR_PIPE)
@@ -90,9 +69,9 @@ static int get_op_mode(int type)
 	return (op_mode);
 }
 
-static int do_dup(t_redir *rdr)
+static int	do_dup(t_redir *rdr)
 {
-	char *err;
+	char	*err;
 
 	if (dup2(rdr->target_std, rdr->src_std) == -1)
 	{
@@ -104,11 +83,11 @@ static int do_dup(t_redir *rdr)
 	return (EXIT_SUCCESS);
 }
 
-static int do_heredoc(t_redir *rdr)
+static int	do_heredoc(t_redir *rdr)
 {
-	char *line;
-	t_string *buf;
-	int pipe_fd[2];
+	char		*line;
+	t_string	*buf;
+	int			pipe_fd[2];
 
 	ft_putstr_fd("hdoc >", STDOUT_FILENO);
 	buf = ft_string_new(1);
@@ -121,9 +100,9 @@ static int do_heredoc(t_redir *rdr)
 		line = get_next_line(STDIN_FILENO);
 	}
 	if (!line)
-		return (printf("\n"),
-		printf("%s: unexpected EOF while looking for matching heredoc string"\
-		" '%s'\n", ft_progname(), rdr->target_file), ft_string_destroy(&buf), 
+		return (printf("\n"), \
+		printf("%s: unexpected EOF while looking for matching heredoc string" \
+		" '%s'\n", ft_progname(), rdr->target_file), ft_string_destroy(&buf), \
 		EXIT_FAILURE);
 	if (pipe(pipe_fd) == -1)
 		return (perror("pipe"), ft_string_destroy(&buf), EXIT_FAILURE);
@@ -137,18 +116,18 @@ static int do_heredoc(t_redir *rdr)
 
 static int	do_classic_rdr(t_redir *rdr)
 {
-	int t_fd;
-	int s_fd;
-	int op_mode;
+	int	t_fd;
+	int	s_fd;
+	int	op_mode;
 
 	op_mode = get_op_mode(rdr->redir_type);
 	t_fd = rdr->target_std;
 	if (rdr->target_file)
 		t_fd = open(rdr->target_file, op_mode, 0644);
 	if (t_fd == -1)
-		return (ft_putstr_fd(ft_progname(), STDERR_FILENO), 
-			ft_putstr_fd(": ", STDERR_FILENO), 
-			perror(rdr->target_file), EXIT_FAILURE);
+		return (ft_putstr_fd(ft_progname(), STDERR_FILENO), \
+		ft_putstr_fd(": ", STDERR_FILENO), \
+		perror(rdr->target_file), EXIT_FAILURE);
 	s_fd = rdr->src_std;
 	if (rdr->src_file)
 		s_fd = open(rdr->src_file, O_WRONLY);
@@ -156,8 +135,8 @@ static int	do_classic_rdr(t_redir *rdr)
 	{
 		if (t_fd > 2)
 			close(t_fd);
-		return (ft_putstr_fd(ft_progname(), STDERR_FILENO), 
-			ft_putstr_fd(": ", STDERR_FILENO),
+		return (ft_putstr_fd(ft_progname(), STDERR_FILENO), \
+			ft_putstr_fd(": ", STDERR_FILENO), \
 			perror(rdr->src_file), EXIT_FAILURE);
 	}
 	if (dup2(t_fd, s_fd) == -1)
@@ -174,7 +153,7 @@ static int	do_rdr(t_redir *rdr)
 	return (do_classic_rdr(rdr));
 }
 
-static int do_rdr_list(t_list *rdr_lst)
+static int	do_rdr_list(t_list *rdr_lst)
 {
 	t_list	*node;
 
@@ -188,9 +167,9 @@ static int do_rdr_list(t_list *rdr_lst)
 	return (EXIT_SUCCESS);
 }
 
-static bool has_heredoc(t_list *rdr_lst)
+static bool	has_heredoc(t_list *rdr_lst)
 {
-	t_list *node;
+	t_list	*node;
 
 	node = rdr_lst;
 	while (node)
@@ -202,13 +181,13 @@ static bool has_heredoc(t_list *rdr_lst)
 	return (false);
 }
 
-static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd, int *pp_fd)
+static void	child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd,
+		int *p_fd, int *pp_fd)
 {
 	t_list	*node;
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-
 	if (cmd->redir_to_do && has_heredoc(cmd->redir_to_do))
 	{
 		node = cmd->redir_to_do;
@@ -254,7 +233,7 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 			(close(pp_fd[0]), close(pp_fd[1]));
 		if (p_fd[0] != -1 || p_fd[1] != -1)
 			(close(p_fd[0]), close(p_fd[1]));
-		discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(127);
+		(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(127));
 	}
 	ft_ll_clear(&cmd->redir_to_do, free_rdr_node);
 	execve(cmd->cmd_path, cmd->argv, cmd->env);
@@ -264,7 +243,8 @@ static void child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int *p_fd
 	exit(126);
 }
 
-static void parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid, int *prev_pipe)
+static void	parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
+		int *prev_pipe)
 {
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
@@ -275,7 +255,7 @@ static void parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
 	{
 		shell->exit = 128 + WTERMSIG(cmd->status);
 		dprintf(2, "%s : %d %s %s", ft_progname(), pid,
-		ft_strsignal(WTERMSIG(cmd->status)), cmd->argv[0]);
+			ft_strsignal(WTERMSIG(cmd->status)), cmd->argv[0]);
 		if (WCOREDUMP(cmd->status))
 			printf("(core dumped)");
 		printf("\n");
@@ -293,10 +273,9 @@ static void parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
 	signal_init();
 }
 
-
-static void b_in(t_minishell_control *shell, t_cmd_to_exec *cmd)
+static void	b_in(t_minishell_control *shell, t_cmd_to_exec *cmd)
 {
-	int				(*builtin)(t_minishell_control *, t_cmd_to_exec *);
+	int	(*builtin)(t_minishell_control *, t_cmd_to_exec *);
 
 	builtin = get_builtin(cmd->argv[0]);
 	builtin(shell, cmd);

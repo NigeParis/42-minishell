@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/05 12:33:56 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:07:49 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,13 +156,14 @@ int	parser_line_init(t_parser *restrict prs)
 		return (ft_putendl_fd("Critical error: no parser", STDERR_FILENO), \
 		EXIT_FAILURE);
 	if (!prs->line)
-		return (\
-		ft_putendl_fd("Critical Error: parser_line_init: prs->line is NULL", \
-		STDERR_FILENO), EXIT_FAILURE);
+		return (ft_putendl_fd("Critical Error: parser_line_init: prs->line " \
+		"is NULL", STDERR_FILENO), EXIT_FAILURE);
 	prs->preparsed = ft_vec_new();
+	if (!prs->preparsed)
+		return (ft_putendl_fd("Error: parser_line_init: ft_vec_new failed", \
+		STDERR_FILENO), EXIT_FAILURE);
 	if (preparse_line(prs))
-		return (\
-		ft_putendl_fd("Error: parser_line_init: preparse_line failed", \
+		return (ft_putendl_fd("Error: parser_line_init: preparse_line failed", \
 		STDERR_FILENO), EXIT_FAILURE);
 	if (!prs->preparsed)
 		return (ft_putendl_fd("Error: parser_line_init: prs->preparsed is " \

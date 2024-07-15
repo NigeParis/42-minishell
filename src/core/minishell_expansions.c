@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:46:48 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/08 11:36:07 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:57:32 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void update_ctx(t_quote *ctx, char c)
 		*ctx = QUOTE_NONE;
 }
 
-static void	resolve_dollarsign(char *line, t_minishell_control *sh, 
+static int	resolve_dollarsign(char *line, t_minishell_control *sh, 
 			t_string *ret, size_t *cr_offset)
 {
 	t_string	*key;
@@ -48,6 +48,8 @@ static void	resolve_dollarsign(char *line, t_minishell_control *sh,
 	if (len == 0 && (line[i] == '?' || line[i] == '$'))
 		(len++, i++);
 	key = ft_string_from_n(line + 1, len);
+	if (key == NULL)
+		return (EXIT_FAILURE);
 	if (ft_string_cmp(key, "?") == 0 || ft_string_cmp(key, "$") == 0
 	|| ft_string_cmp(key, "") == 0)
 	{
@@ -67,11 +69,13 @@ static void	resolve_dollarsign(char *line, t_minishell_control *sh,
 		else
 			value = ft_strdup(value);
 	}
+	if (value == NULL)
+		return (ft_string_destroy(&key), EXIT_FAILURE);
 	ft_string_append(ret, value);
 	*cr_offset += key->length + 1;
 	ft_string_destroy(&key);
 	free(value);
-	return ;
+	return (EXIT_SUCCESS);
 }
 
 char *resolve_raw_exp(char *line, t_minishell_control *shell)
@@ -87,12 +91,15 @@ char *resolve_raw_exp(char *line, t_minishell_control *shell)
 	if (!line)
 		return (line);
 	ret_s = ft_string_new(1);
+	if (!ret_s)
+		return (NULL);
 	while (line[cr_offset])
 	{
 		if (line[cr_offset] == '$' && (ctx == QUOTE_NONE \
 		|| ctx == QUOTE_DQUOTE))
 		{
-			ft_string_append_n(ret_s, line + buff_add, cr_offset - buff_add);
+			if (ft_string_append_n(ret_s, line + buff_add, cr_offset - buff_add))
+				return (ft_string_destroy(&ret_s), NULL);
 			resolve_dollarsign(line + cr_offset, shell, ret_s, &cr_offset);
 			buff_add = cr_offset;
 			continue ;

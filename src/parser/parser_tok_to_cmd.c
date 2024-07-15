@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/05 12:35:28 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:01:57 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens,
 		return (NULL);
 	cmd->construction_vector = ft_vec_new();
 	cmd->construction_index = 0;
+	if (cmd->construction_vector == NULL)
+		return (free(cmd), NULL);
 	cmd_rdy = false;
 	while (!cmd->cmd_path && sh->preparsed && \
 	preparsed_tokens->count > cmd->nb_tok_consumed && cmd_rdy == false)
