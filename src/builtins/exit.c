@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 12:37:11 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/15 18:00:32 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
 	long		user_input;
 
-	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (cmd->ac > 2)
 		return (print_err(cmd, ": too many arguments"), cmd->status = 1, 1);
 	ctrl->shoulcontinue = false;
@@ -67,6 +66,5 @@ int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	while (user_input < 0)
 		user_input += 256;
 	user_input %= 256;
-	dprintf(STDERR_FILENO, "exit: %ld\n", user_input);
 	return (cmd->status = user_input, user_input);
 }
