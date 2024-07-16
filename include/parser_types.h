@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:55:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 17:07:59 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:07:54 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ struct								s_cmd_to_exec
 	int								ac;
 	char							**env;
 	int								status;
+	int								nbr_cmds;
 	t_list							*redir_to_do;
 };
 

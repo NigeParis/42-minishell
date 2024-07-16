@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 13:16:46 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:03:37 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "ft_string.h"
 #include "minishell_types.h"
 #include "parser_types.h"
+
+#include <stdio.h>
 
 // todo: move to ft_addons
 static long	ft_atol(const char *str)
@@ -50,13 +52,13 @@ static void	print_err(t_cmd_to_exec *cmd, char *msg)
 int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
 	long		user_input;
-
-
+	
 	if (cmd->ac > 2)
 	{
-		if (ft_str_islong(cmd->argv[1]) == false)
+		if (ft_str_islong(cmd->argv[1]) == false) 
 		{
-			ctrl->shoulcontinue = false;
+			if (cmd->nbr_cmds == 1)
+				ctrl->shoulcontinue = false;
 			return (print_err(cmd, ": numeric argument required"), \
 			cmd->status = 2, 2);
 		}
@@ -74,7 +76,7 @@ int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	while (user_input < 0)
 		user_input += 256;
 	user_input %= 256;
-	if (cmd->redir_to_do != NULL)
+	if ((cmd->redir_to_do != NULL) || (cmd->nbr_cmds < 1))
 		return(ctrl->shoulcontinue = true, cmd->status = user_input, user_input);
 	return (cmd->status = user_input, user_input);
 }
