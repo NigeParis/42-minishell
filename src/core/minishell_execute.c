@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 14:45:04 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/16 15:46:49 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,10 @@ static void	child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd,
 	}
 	if (cmd->cmd_path == NULL)
 	{
-		printf("%s: %s: command not found\n", ft_progname(), cmd->argv[0]);
+		ft_putstr_fd(ft_progname(), STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found \n", STDERR_FILENO);
 		if (pp_fd[0] != -1 || pp_fd[1] != -1)
 			(close(pp_fd[0]), close(pp_fd[1]));
 		if (p_fd[0] != -1 || p_fd[1] != -1)
