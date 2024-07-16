@@ -12,6 +12,7 @@
 
 #include "ft_string.h"
 #include "tests/tests.h"
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>

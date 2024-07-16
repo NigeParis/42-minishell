@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_vector_types.h"
+
 #include <stdlib.h>
 
 void	**ft_vec_to_array(t_vector **vec)

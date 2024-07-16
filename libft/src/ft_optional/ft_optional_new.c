@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_optional.h"
+
 #include <stdlib.h>
 
 t_optional	*ft_optional_new(void)

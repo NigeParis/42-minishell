@@ -6,14 +6,14 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:15:12 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 16:49:13 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 10:46:18 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define DEFAULT_PROMPT "\U0001f600 minishell $> "
+# define DEFAULT_PROMPT " minishell $> "
 
 # ifndef DEBUG_LEVEL
 #  define DEBUG_LEVEL 0

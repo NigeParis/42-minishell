@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_defs.h"
+
 #include <stddef.h>
 
 void	ft_apply_2d(void **array, t_data_apply f)

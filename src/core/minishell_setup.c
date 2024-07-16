@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 13:35:21 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:07:44 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include "ft_vector.h"
 #include "minishell_types.h"
 #include "minishell.h"
+
 #include <stdlib.h>
-#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 

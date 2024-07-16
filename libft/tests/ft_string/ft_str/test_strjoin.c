@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_string.h"
+
 #include <stdlib.h>
 
 static int	test_right_empty(void)

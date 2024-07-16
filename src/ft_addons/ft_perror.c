@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_debug.h                                         :+:      :+:    :+:   */
+/*   ft_perror.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/04 12:27:30 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 16:46:57 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/07/16 12:13:22 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/07/16 12:45:56 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_DEBUG_H
-# define FT_DEBUG_H
+#include "ft_string.h"
+#include "ft_addons.h"
 
-# include "ft_list_types.h"
-# include "parser_types.h"
+#include <errno.h>
 
-void	print_redirs(t_list *redirs);
-void	print_cmd(t_cmd_to_exec *cmd);
-
-#endif // FT_DEBUG_H
+void	ft_perror(const char *str)
+{
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(ft_strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
+}

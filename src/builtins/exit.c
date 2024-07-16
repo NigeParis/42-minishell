@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 13:07:28 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:16:46 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "ft_string.h"
 #include "minishell_types.h"
 #include "parser_types.h"
-#include <stdio.h>
 
 // todo: move to ft_addons
 static long	ft_atol(const char *str)

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_string.h"
+
 #include <stdlib.h>
 
 static int	loc_strchr(const char *str, int c)

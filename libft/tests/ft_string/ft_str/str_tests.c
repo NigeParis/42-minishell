@@ -12,6 +12,7 @@
 
 #include "tests/str__str_tests.h"
 #include "tests/tests.h"
+
 #include <stddef.h>
 
 static const t_test	*load_tests01(void)

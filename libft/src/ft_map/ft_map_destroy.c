@@ -14,6 +14,7 @@
 #include "ft_list.h"
 #include "ft_map.h"
 #include "ft_vector.h"
+
 #include <stdlib.h>
 
 static t_data_apply	singleton_custom_destroy(const t_data_apply custom_destroy)

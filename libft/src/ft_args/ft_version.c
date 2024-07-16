@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_args.h"
+
 #include <stddef.h>
 
 static const char	*singleton_version(const char *version)

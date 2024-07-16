@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "pair.h"
+
 #include <stdlib.h>
 
 t_pair	*new_pair(void *first, void *second)

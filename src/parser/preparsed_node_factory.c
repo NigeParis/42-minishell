@@ -6,14 +6,15 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:25:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 16:22:24 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:36:54 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_string.h"
 #include "parser.h"
 #include "parser_types.h"
 #include "tokens_funcs.h"
-#include <stdio.h>
+
 #include <stdlib.h>
 
 static const t_preparsed_node	g_preparser_nodes_tb[] = {
@@ -37,6 +38,9 @@ static void	set_functions(t_preparsed_node *node)
 	size_t	i;
 
 	i = 0;
+	if (node->type == TOK_UNKNOWN)
+		return (ft_bzero(node, sizeof(t_preparsed_node)), \
+		node->type = TOK_UNKNOWN, (void)0);
 	while (g_preparser_nodes_tb[i].type != TOK_UNKNOWN)
 	{
 		if (g_preparser_nodes_tb[i].type == node->type)
@@ -53,11 +57,6 @@ static void	set_functions(t_preparsed_node *node)
 	}
 }
 
-/*
-** Create a new preparsed node from a token type
-**
-** todo: add error handling, currently fails if token = TOK_UNKNOWN
-*/
 t_preparsed_node	*preparsed_node_factory(t_tok_type type)
 {
 	t_preparsed_node	*node;

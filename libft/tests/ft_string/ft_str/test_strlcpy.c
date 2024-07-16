@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_string.h"
+
 #include <stdlib.h>
 
 int	test_strlcpy(void)

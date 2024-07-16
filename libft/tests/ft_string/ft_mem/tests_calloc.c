@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_string.h"
+
 #include <stdint.h>
 
 int	test_calloc(void)

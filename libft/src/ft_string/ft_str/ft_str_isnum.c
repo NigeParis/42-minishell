@@ -12,6 +12,7 @@
 
 #include "ft_char.h"
 #include "ft_string.h"
+
 #include <stdbool.h>
 
 bool	ft_str_isnum(const char *str)

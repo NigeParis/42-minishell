@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 13:15:53 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:17:00 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "parser.h"
 #include "ft_args.h"
 #include "parser_types.h"
-#include "ft_debug.h"
+
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -77,7 +77,7 @@ static int	do_dup(t_redir *rdr)
 	{
 		err = ft_itoa(rdr->target_std);
 		ft_putstr_fd(ft_progname(), STDERR_FILENO);
-		perror(err);
+		ft_perror(err);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -105,12 +105,12 @@ static int	do_heredoc(t_redir *rdr)
 		" '%s'\n", ft_progname(), rdr->target_file), ft_string_destroy(&buf), \
 		EXIT_FAILURE);
 	if (pipe(pipe_fd) == -1)
-		return (perror("pipe"), ft_string_destroy(&buf), EXIT_FAILURE);
+		return (ft_perror("pipe"), ft_string_destroy(&buf), EXIT_FAILURE);
 	write(pipe_fd[1], buf->str, buf->length);
 	ft_string_destroy(&buf);
 	close(pipe_fd[1]);
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
-		return (perror("dup2"), close(pipe_fd[0]), EXIT_FAILURE);
+		return (ft_perror("dup2"), close(pipe_fd[0]), EXIT_FAILURE);
 	return (close(pipe_fd[0]), EXIT_SUCCESS);
 }
 
@@ -127,7 +127,7 @@ static int	do_classic_rdr(t_redir *rdr)
 	if (t_fd == -1)
 		return (ft_putstr_fd(ft_progname(), STDERR_FILENO), \
 		ft_putstr_fd(": ", STDERR_FILENO), \
-		perror(rdr->target_file), EXIT_FAILURE);
+		ft_perror(rdr->target_file), EXIT_FAILURE);
 	s_fd = rdr->src_std;
 	if (rdr->src_file)
 		s_fd = open(rdr->src_file, O_WRONLY);
@@ -137,10 +137,10 @@ static int	do_classic_rdr(t_redir *rdr)
 			close(t_fd);
 		return (ft_putstr_fd(ft_progname(), STDERR_FILENO), \
 			ft_putstr_fd(": ", STDERR_FILENO), \
-			perror(rdr->src_file), EXIT_FAILURE);
+			ft_perror(rdr->src_file), EXIT_FAILURE);
 	}
 	if (dup2(t_fd, s_fd) == -1)
-		return (perror("dup2"), close(t_fd), close(s_fd), EXIT_FAILURE);
+		return (ft_perror("dup2"), close(t_fd), close(s_fd), EXIT_FAILURE);
 	return (close(t_fd), EXIT_SUCCESS);
 }
 
@@ -239,7 +239,7 @@ static void	child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd,
 	execve(cmd->cmd_path, cmd->argv, cmd->env);
 	discard_cmd(cmd);
 	minishell_cleanup(shell);
-	perror("execve");
+	ft_perror("execve");
 	exit(126);
 }
 
@@ -254,7 +254,7 @@ static void	parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
 	if (WIFSIGNALED(cmd->status))
 	{
 		shell->exit = 128 + WTERMSIG(cmd->status);
-		dprintf(2, "%s : %d %s %s", ft_progname(), pid,
+		printf("%s : %d %s %s", ft_progname(), pid,
 			ft_strsignal(WTERMSIG(cmd->status)), cmd->argv[0]);
 		if (WCOREDUMP(cmd->status))
 			printf("(core dumped)");
@@ -262,10 +262,6 @@ static void	parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
 	}
 	else
 		shell->exit = WEXITSTATUS(cmd->status);
-	if (DEBUG_LEVEL >= 10)
-		dprintf(2, "cmd status: %d\n", cmd->status);
-	if (DEBUG_LEVEL >= 20)
-		print_cmd(cmd);
 	destroy_buff(STDIN_FILENO);
 	destroy_buff(STDOUT_FILENO);
 	destroy_buff(STDERR_FILENO);
@@ -297,12 +293,12 @@ int	minishell_execute(t_minishell_control *shell)
 	{
 		set_pipe(p_fd, -1, -1);
 		if (cmd->redir_to_do && has_pipe(cmd->redir_to_do) && pipe(p_fd) == -1)
-			perror("pipe"); // todo : do better aka clean up and return
+			ft_perror("pipe"); // todo : do better aka clean up and return
 		if (cmd && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
 			b_in(shell, cmd);
 		pid = fork();
 		if (pid == -1)
-			return (perror("fork"), exec_cl(shell), EXIT_FAILURE);
+			return (ft_perror("fork"), exec_cl(shell), EXIT_FAILURE);
 		if (pid == 0)
 			child_exec(shell, cmd, p_fd, (int *)pp_fd);
 		else // parent

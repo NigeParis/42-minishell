@@ -6,17 +6,16 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:45 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 16:06:02 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:37:30 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "parser.h"
 #include "ft_vector.h"
 #include "parser_types.h"
 #include "tokens_funcs.h"
+
+#include <stdlib.h>
 
 /*
 		{TOK_SEMICOLON, ";"},

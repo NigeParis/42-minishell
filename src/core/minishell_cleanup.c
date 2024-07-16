@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:52 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 15:07:37 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:10:20 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 #include "minishell.h"
 #include "pair.h"
 #include "parser_types.h"
+
 #include <stdlib.h>
-#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -76,8 +76,6 @@ void	free_preparsed_node(void *node_s)
 
 int	minishell_cleanup(t_minishell_control *shell)
 {
-	if (DEBUG_LEVEL >= 20)
-		printf("cleanup\n");
 	rl_clear_history();
 	if (shell->input)
 		free(shell->input);

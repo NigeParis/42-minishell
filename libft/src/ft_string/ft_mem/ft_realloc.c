@@ -12,6 +12,7 @@
 
 #include "ft_string.h"
 #include "ft_math.h"
+
 #include <stdlib.h>
 
 // direct call to malloc as ft_bzero is not needed

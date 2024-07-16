@@ -6,16 +6,17 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 12:39:58 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:57:36 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-#include <unistd.h>
-#include <minishell_types.h>
 #include "ft_args.h"
 #include "ft_string.h"
 #include "parser_types.h"
+
+#include <unistd.h>
+#include <minishell_types.h>
 
 static void	msg_invalid_option(t_cmd_to_exec *cmd)
 {

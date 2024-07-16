@@ -12,6 +12,7 @@
 
 #include "ft_vector.h"
 #include "ft_vector_types.h"
+
 #include <stdlib.h>
 
 //	ft_vec_destroy(&vec);

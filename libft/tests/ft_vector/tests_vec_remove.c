@@ -12,6 +12,7 @@
 
 #include "ft_vector.h"
 #include "ft_vector_types.h"
+
 #include <stdlib.h>
 
 // tests vector has removed the arr[2]orrect element

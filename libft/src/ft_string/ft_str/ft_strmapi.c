@@ -6,12 +6,13 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 09:39:40 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/04 15:33:02 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:59:52 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "ft_string.h"
+
+#include <stdlib.h>
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {

@@ -12,6 +12,7 @@
 
 #include "ft_string.h"
 #include "tests/tests.h"
+
 #include <fcntl.h>
 
 static int	write_lines(const char **lines, size_t n)

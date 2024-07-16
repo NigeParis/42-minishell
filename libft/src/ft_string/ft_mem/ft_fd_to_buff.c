@@ -6,16 +6,14 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 19:52:02 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/27 09:31:20 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:03:10 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <unistd.h>
-
 #include "ft_string.h"
 
-#define READ_BLOCKS 4096
+#include <fcntl.h>
+#include <unistd.h>
 
 char	*ft_fd_to_buff(int fd)
 {

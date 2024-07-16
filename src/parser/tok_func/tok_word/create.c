@@ -6,14 +6,13 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 13:50:00 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:31:17 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_char.h"
 #include "ft_string.h"
 #include "parser_types.h"
-#include <stdio.h>
 
 bool	prepn_word_create(t_preparsed_node *node, t_preparser_context *ctx)
 {

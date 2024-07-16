@@ -12,6 +12,7 @@
 
 #include "ft_char.h"
 #include "ft_string.h"
+
 #include <stdbool.h>
 
 // 0 success, !0 failure

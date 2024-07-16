@@ -6,14 +6,13 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/06 15:07:22 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:33:34 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "parser_types.h"
 #include "tokens_funcs.h"
-#include <stdio.h>
 
 bool	set_quote_value(t_quote_node *quote, t_preparser_context *ctx)
 {

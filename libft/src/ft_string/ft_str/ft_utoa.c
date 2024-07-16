@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_string.h"
+
 #include <stdlib.h>
 
 static int	loc_getlen(unsigned long long nbr)

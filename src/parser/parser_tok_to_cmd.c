@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 14:01:57 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:38:08 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,8 @@
 #include "parser_types.h"
 #include "ft_string.h"
 #include "ft_vector.h"
+
 #include <stdio.h>
-
-static void	debug_n_list(t_vector *tokens)
-{
-	size_t				i;
-	t_preparsed_node	*node;
-
-	i = 0;
-	printf("%s--\n", __func__);
-	fflush(stdout);
-	if (tokens == NULL)
-		return ;
-	while (i < tokens->count)
-	{
-		node = ft_vec_at(tokens, i++);
-		printf("(%p) ", node);
-		node->print(node);
-	}
-	printf("\n");
-}
 
 bool	syntax_check(t_vector *prep)
 {
@@ -74,26 +56,10 @@ void	call_destroy(void *data)
 		token->destroy(token);
 }
 
-t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens,
-		t_minishell_control *sh)
+t_cmd_to_exec	*init_cmd(void)
 {
-	t_cmd_to_exec		*cmd;
-	t_vector			*args;
-	t_preparsed_node	*token;
-	bool				cmd_rdy;
+	t_cmd_to_exec	*cmd;
 
-	if (DEBUG_LEVEL >= 20)
-		debug_n_list(preparsed_tokens);
-	if (preparsed_tokens == NULL || preparsed_tokens->count == 0)
-		return (NULL);
-	if (syntax_check(preparsed_tokens) == false)
-		return (
-			printf("syntax error :: %p %zu\n", preparsed_tokens, \
-				preparsed_tokens->count), \
-			ft_vec_apply(preparsed_tokens, call_destroy), \
-			ft_vec_destroy(&sh->preparsed), \
-			preparsed_tokens = NULL, \
-		NULL);
 	cmd = ft_calloc(1, sizeof(*cmd));
 	if (cmd == NULL)
 		return (NULL);
@@ -101,6 +67,25 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens,
 	cmd->construction_index = 0;
 	if (cmd->construction_vector == NULL)
 		return (free(cmd), NULL);
+	return (cmd);
+}
+
+void	print_syntax_error(t_vector *preparsed_tokens,
+		t_minishell_control *sh)
+{
+	printf("syntax error :: %p %zu\n", preparsed_tokens,
+		preparsed_tokens->count);
+	ft_vec_apply(preparsed_tokens, call_destroy);
+	ft_vec_destroy(&sh->preparsed);
+	preparsed_tokens = NULL;
+}
+
+bool	loop_body(t_cmd_to_exec *cmd, t_vector *preparsed_tokens,
+		t_minishell_control *sh)
+{
+	t_preparsed_node	*token;
+	bool				cmd_rdy;
+
 	cmd_rdy = false;
 	while (!cmd->cmd_path && sh->preparsed && \
 	preparsed_tokens->count > cmd->nb_tok_consumed && cmd_rdy == false)
@@ -111,25 +96,31 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens,
 			if (token->type == TOK_EOL || token->type == TOK_PIPE)
 				cmd_rdy = true;
 			if (token->execute(token, cmd, sh) == false)
-			{
-				printf("nd2ex on token failed.\ntoken respossible:\t");
-				token->print(token);
-				printf("\n");
-				ft_vec_shift(sh->preparsed, 0, cmd->nb_tok_consumed - 1);
-				debug_n_list(preparsed_tokens);
-				discard_cmd(cmd);
-				return (NULL);
-			}
+				return (discard_cmd(cmd), false);
 		}
 		else
 		{
-			printf("error: no execute function for token %p\t", token);
 			if (token)
 				token->print(token);
-			return (NULL);
+			return (false);
 		}
 	}
-	if (DEBUG_LEVEL >= 20)
-		printf("dbg :: cmd :: %s\n", cmd->cmd_path);
+	return (true);
+}
+
+t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens,
+		t_minishell_control *sh)
+{
+	t_cmd_to_exec		*cmd;
+
+	if (preparsed_tokens == NULL || preparsed_tokens->count == 0)
+		return (NULL);
+	if (syntax_check(preparsed_tokens) == false)
+		return (print_syntax_error(preparsed_tokens, sh), NULL);
+	cmd = init_cmd();
+	if (cmd == NULL)
+		return (NULL);
+	if (loop_body(cmd, preparsed_tokens, sh) == false)
+		return (NULL);
 	return (cmd);
 }

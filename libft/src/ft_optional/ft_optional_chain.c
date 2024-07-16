@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_optional.h"
+
 #include <stdbool.h>
 
 bool	ft_optional_chain(t_optional *opt, const t_data_tr_i *f)

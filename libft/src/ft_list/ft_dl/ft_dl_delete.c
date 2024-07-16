@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_list.h"
+
 #include <stdlib.h>
 
 int	ft_dl_delete_self(t_dlist *node, t_data_apply del)

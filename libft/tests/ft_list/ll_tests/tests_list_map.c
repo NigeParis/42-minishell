@@ -14,6 +14,7 @@
 #include "ft_list_types.h"
 #include "tests/lists_test_utils.h"
 #include "tests/tests_lambda_functions.h"
+
 #include <stdlib.h>
 
 int	t_ll_map(void)

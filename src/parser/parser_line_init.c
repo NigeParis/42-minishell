@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 14:07:49 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:25:50 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@
 #include "ft_vector.h"
 #include "ft_string.h"
 #include "ft_addons.h"
+
+#include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 //	ctx->n_tok = ft_vec_end(p->tokens); // default to unknown
 void	get_next_token(t_parser *restrict p, t_preparser_context *restrict ctx)
@@ -84,7 +85,7 @@ int	update_context(t_parser *restrict p, t_preparser_context *restrict ctx)
 	if (node == NULL)
 		return (false);
 	if (node->type == TOK_UNKNOWN)
-		return (ctx->line_offset++, true); // todo : return false
+		return (ctx->line_offset++, false);
 	if (node->ulb == NULL)
 		return (false);
 	return (node->ulb(node, ctx));

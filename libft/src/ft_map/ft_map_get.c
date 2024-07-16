@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_map.h"
+
 #include <stdio.h>
 
 t_map_node	*ft_map_get_node(t_map *map, const void *key, size_t size)

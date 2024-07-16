@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "pair.h"
+
 #include <stdlib.h>
 
 void	destroy_pair(t_pair *pair)

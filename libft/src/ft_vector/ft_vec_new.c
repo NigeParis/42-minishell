@@ -12,6 +12,7 @@
 
 #include "ft_vector.h"
 #include "ft_string.h"
+
 #include <stdlib.h>
 
 t_vector	*ft_vec_new(void)

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_string.h"
+
 #include <stdlib.h>
 
 static char	local_mapi(unsigned int i, char c)

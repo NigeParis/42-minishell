@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_optional.h"
+
 #include <stdbool.h>
 #include <stdlib.h>
 

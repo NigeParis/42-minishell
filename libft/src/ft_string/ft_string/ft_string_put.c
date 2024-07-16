@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_string_types.h"
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>

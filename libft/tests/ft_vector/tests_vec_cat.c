@@ -12,6 +12,7 @@
 
 #include "ft_vector.h"
 #include "ft_vector_types.h"
+
 #include <stdbool.h>
 
 /*

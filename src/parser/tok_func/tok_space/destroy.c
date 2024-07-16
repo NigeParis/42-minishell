@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser_types.h"
+
 #include <stdlib.h>
 
 void	destroy_space(t_preparsed_node *node)

@@ -12,6 +12,7 @@
 
 #include "ft_string.h"
 #include "parser_types.h"
+
 #include <stdlib.h>
 
 void	destroy_word(t_preparsed_node *node)

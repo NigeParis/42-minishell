@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/05 12:29:00 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:33:20 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "minishell_types.h"
 #include "parser.h"
 #include "parser_types.h"
+
 #include <stdbool.h>
 #include <stdio.h>
 

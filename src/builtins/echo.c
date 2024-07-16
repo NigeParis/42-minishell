@@ -14,6 +14,7 @@
 #include "ft_string_types.h"
 #include "minishell_types.h"
 #include "parser_types.h"
+
 #include <stdbool.h>
 #include <unistd.h>
 

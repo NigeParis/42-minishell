@@ -16,6 +16,7 @@
 #include "ft_addons.h"
 #include "minishell_types.h"
 #include "parser_types.h"
+
 #include <errno.h>
 #include <sys/param.h>
 #include <unistd.h>

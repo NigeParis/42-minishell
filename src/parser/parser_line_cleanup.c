@@ -12,6 +12,7 @@
 
 #include "ft_vector.h"
 #include "parser_types.h"
+
 #include <stdlib.h>
 
 int	parser_line_cleanup(t_parser *prs)

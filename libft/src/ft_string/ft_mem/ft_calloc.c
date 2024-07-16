@@ -6,13 +6,14 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 20:28:30 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/05 10:21:52 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:58:24 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_string.h"
+
 #include <limits.h>
 #include <stdlib.h>
-#include "ft_string.h"
 
 void	*ft_calloc(size_t nmemb, size_t weight)
 {

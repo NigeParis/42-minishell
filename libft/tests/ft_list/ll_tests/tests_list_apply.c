@@ -15,6 +15,7 @@
 #include "tests/ll_tests.h"
 #include "tests/lists_test_utils.h"
 #include "tests/tests_lambda_functions.h"
+
 #include <stdlib.h>
 
 static void	lnode_add42(t_list *node)

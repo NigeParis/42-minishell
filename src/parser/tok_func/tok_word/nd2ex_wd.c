@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 15:03:43 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:31:41 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 #include "minishell.h"
 #include "minishell_types.h"
 #include "parser_types.h"
-#include <stdio.h>
+
+#include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -124,9 +125,7 @@ bool	nd2ex_word(t_preparsed_node *nd, t_cmd_to_exec *cmd,
 		return (false);
 	if (op[0].pres == OPT_SOME)
 		(ft_vec_pop(cmd->construction_vector), free(op[0].val));
-	if (DEBUG_LEVEL >= 30)
-		dprintf(STDERR_FILENO, "word: %s\n", str[1]);
-	fflush(stderr);
-	ft_vec_add(&cmd->construction_vector, str[1]);
+	if (ft_vec_add(&cmd->construction_vector, str[1]) == false)
+		return (free(str[1]), false);
 	return (ft_string_destroy(&word), free(nd), true);
 }

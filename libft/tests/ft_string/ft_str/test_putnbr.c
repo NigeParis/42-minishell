@@ -12,6 +12,7 @@
 
 #include "ft_string.h"
 #include "tests/tests.h"
+
 #include <limits.h>
 
 static int	nb_to_file(const int *nbs, size_t size, const char *file_name)

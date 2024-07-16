@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 11:20:02 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 16:40:16 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:37:47 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "ft_string.h"
 #include "ft_vector.h"
 #include "pair.h"
-#include <stdio.h>
 
 static int	loc_pair_cmpfirst(void *a, void *b)
 {

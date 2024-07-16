@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_defs.h"
+
 #include <stddef.h>
 
 static t_data_is	singleton_custom_checker(t_data_is custom_checker)

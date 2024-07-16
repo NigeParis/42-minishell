@@ -6,13 +6,14 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:17:43 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 20:02:53 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:07:33 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_string.h"
 #include "minishell.h"
+
 #include <signal.h>
-#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdlib.h>
@@ -22,9 +23,7 @@ void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		printf("\n");
-		if (DEBUG_LEVEL >= 20)
-			printf("shell %d\n", getpid());
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

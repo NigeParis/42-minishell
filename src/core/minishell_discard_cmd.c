@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:23:36 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 12:56:06 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:38:29 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #include "ft_string.h"
 #include "ft_vector.h"
 #include "parser_types.h"
+
 #include <stddef.h>
-#include <stdio.h>
 
 void	free_rdr_node(void *abst_node)
 {
@@ -35,7 +35,7 @@ void	discard_cmd(t_cmd_to_exec *cmd)
 	char	*nd;
 
 	if (cmd == NULL)
-		return ((void) dprintf(2, "error on error::cmd is NULL\n"));
+		return ;
 	if (cmd->argv)
 		(ft_free_2d((void **)cmd->argv), cmd->argv = NULL);
 	if (cmd->env)
@@ -49,6 +49,7 @@ void	discard_cmd(t_cmd_to_exec *cmd)
 		ft_vec_destroy(&cmd->construction_vector);
 		cmd->construction_vector = NULL;
 	}
-	free(cmd->cmd_path);
+	if (cmd->cmd_path)
+		free(cmd->cmd_path);
 	free(cmd);
 }

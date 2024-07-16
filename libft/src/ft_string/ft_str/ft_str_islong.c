@@ -6,14 +6,15 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:50:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/31 18:29:20 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:00:11 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
-#include <stddef.h>
 #include "ft_string.h"
 #include "ft_char.h"
+
+#include <stdbool.h>
+#include <stddef.h>
 
 bool	ft_str_islong(const char *str)
 {

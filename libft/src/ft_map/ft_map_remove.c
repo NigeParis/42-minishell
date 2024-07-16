@@ -14,6 +14,7 @@
 #include "ft_map_types.h"
 #include "ft_vector.h"
 #include "ft_list_types.h"
+
 #include <stdio.h>
 
 void	*ft_map_remove(t_map *map, const void *key, size_t size)

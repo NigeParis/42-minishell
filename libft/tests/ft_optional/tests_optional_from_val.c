@@ -12,6 +12,7 @@
 
 #include "ft_optional.h"
 #include "ft_optional_types.h"
+
 #include <stdlib.h>
 
 int	test_optional_from_val(void)

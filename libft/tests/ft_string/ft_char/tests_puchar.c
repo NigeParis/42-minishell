@@ -12,6 +12,7 @@
 
 #include "ft_char.h"
 #include "tests/tests.h"
+
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>

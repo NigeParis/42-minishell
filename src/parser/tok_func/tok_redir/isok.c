@@ -6,14 +6,13 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:43:02 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/05 10:31:49 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:33:26 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "parser_types.h"
 #include "ft_char.h"
-#include <stdio.h>
 
 bool	isok_redir(const char *line, t_preparser_context *ctx)
 {

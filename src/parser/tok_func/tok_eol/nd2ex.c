@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 16:41:19 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:15:21 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft_vector.h"
 #include "minishell.h"
 #include "parser_types.h"
-#include <stdio.h>
+
 #include <stdlib.h>
 #include <sys/types.h>
 
@@ -32,7 +32,11 @@ static char	*resolve_p(const char **paths, const char *cmd)
 			path = ft_strdup(paths[i]);
 		else
 			path = ft_strjoin(paths[i], "/");
+		if (path == NULL)
+			return (NULL);
 		fullpath = ft_strjoin(path, cmd);
+		if (fullpath == NULL)
+			return (free(path), NULL);
 		if (free(path), access(fullpath, X_OK) == 0)
 			return (fullpath);
 		free(fullpath);
@@ -54,7 +58,7 @@ static char	*resolve_cmd(char *cmd, t_minishell_control *sh)
 		return (ft_strdup(cmd));
 	paths = ft_split(p, ':');
 	if (paths == NULL)
-		return (cmd);
+		return (NULL);
 	ret = resolve_p((const char **)paths, cmd);
 	return (ft_free_2d((void **)paths), ret);
 }

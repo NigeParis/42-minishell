@@ -6,12 +6,11 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:04:40 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/14 14:26:01 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:37:05 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_vector_types.h"
-#include <stdio.h>
 
 void	*ft_vec_end(t_vector *vec)
 {

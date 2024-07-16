@@ -12,6 +12,7 @@
 
 #include "ft_string.h"
 #include "ft_vector.h"
+
 #include <stdio.h>
 
 int	test_vec_pop(void)
