@@ -6,14 +6,13 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 16:47:52 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:40:19 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "ft_args.h"
 #include "ft_addons.h"
-
 #include "ft_string.h"
 #include "minishell_types.h"
 #include "parser_types.h"
@@ -27,20 +26,31 @@ static void	print_err(t_cmd_to_exec *cmd, char *msg)
 	add_to_buff("\n", STDERR_FILENO);
 }
 
+static int	ft_is_arg_num(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
+{
+	if (cmd->nbr_cmds == 1)
+		ctrl->shoulcontinue = false;
+	return (print_err(cmd, ": numeric argument required"), cmd->status = 2, 2);
+}
+
+static void	flag_invalid_exit(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
+{
+	if ((cmd->redir_to_do != NULL) || (cmd->nbr_cmds < 1))
+	{
+		cmd->nbr_cmds = 1;
+		ctrl->shoulcontinue = true;
+	}
+}
+
 int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
-	long		user_input;
+	long	user_input;
 
 	ctrl->exit = 0;
 	if (cmd->ac > 2)
 	{
-		if (ft_str_islong(cmd->argv[1]) == false) 
-		{
-			if (cmd->nbr_cmds == 1)
-				ctrl->shoulcontinue = false;
-			return (print_err(cmd, ": numeric argument required"), \
-			cmd->status = 2, 2);
-		}
+		if (ft_str_islong(cmd->argv[1]) == false)
+			return (ft_is_arg_num(ctrl, cmd));
 		return (print_err(cmd, ": too many arguments"), cmd->status = 1, 1);
 	}
 	ctrl->shoulcontinue = false;
@@ -55,7 +65,6 @@ int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	while (user_input < 0)
 		user_input += 256;
 	user_input %= 256;
-	if ((cmd->redir_to_do != NULL) || (cmd->nbr_cmds < 1))
-		(cmd->nbr_cmds = 1 ,ctrl->shoulcontinue = true);
+	flag_invalid_exit(ctrl, cmd);
 	return (cmd->status = user_input, user_input);
 }
