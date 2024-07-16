@@ -6,37 +6,17 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 15:16:10 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/16 16:14:16 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "ft_args.h"
-#include "ft_char.h"
+#include "ft_addons.h"
+
 #include "ft_string.h"
 #include "minishell_types.h"
 #include "parser_types.h"
-
-// todo: move to ft_addons
-static long	ft_atol(const char *str)
-{
-	long	n;
-	int		sign;
-
-	n = 0;
-	sign = 0;
-	while (ft_isspace(*str))
-		str++;
-	if (*str == '+')
-		str++;
-	else if (*str == '-')
-		sign += *str++ == '-';
-	while (ft_isdigit(*str))
-		n = n * 10 + (*str++ - '0');
-	if (sign)
-		return (-n);
-	return (n);
-}
 
 static void	print_err(t_cmd_to_exec *cmd, char *msg)
 {
