@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 11:43:04 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:07:28 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
 	long		user_input;
 
+
 	if (cmd->ac > 2)
 	{
 		if (ft_str_islong(cmd->argv[1]) == false)
@@ -64,7 +65,7 @@ int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	}
 	ctrl->shoulcontinue = false;
 	user_input = ctrl->exit;
-	if (cmd->ac == 2)
+	if ((cmd->ac == 2) && (cmd->redir_to_do == NULL))
 	{
 		if (ft_str_islong(cmd->argv[1]) == false)
 			return (print_err(cmd, ": numeric argument required"), \
@@ -74,5 +75,7 @@ int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	while (user_input < 0)
 		user_input += 256;
 	user_input %= 256;
+	if (cmd->redir_to_do != NULL)
+		return(ctrl->shoulcontinue = true, cmd->status = user_input, user_input);
 	return (cmd->status = user_input, user_input);
 }
