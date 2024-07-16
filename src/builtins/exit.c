@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 16:14:16 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/16 16:47:52 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,15 @@ static void	print_err(t_cmd_to_exec *cmd, char *msg)
 int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
 	long		user_input;
-	
+
+	ctrl->exit = 0;
 	if (cmd->ac > 2)
 	{
 		if (ft_str_islong(cmd->argv[1]) == false) 
 		{
 			if (cmd->nbr_cmds == 1)
 				ctrl->shoulcontinue = false;
-			return (cmd->nbr_cmds = 0, print_err(cmd, ": numeric argument required"), \
+			return (print_err(cmd, ": numeric argument required"), \
 			cmd->status = 2, 2);
 		}
 		return (print_err(cmd, ": too many arguments"), cmd->status = 1, 1);
