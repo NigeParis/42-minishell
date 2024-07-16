@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 17:40:19 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:43:14 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	print_err(t_cmd_to_exec *cmd, char *msg)
 	add_to_buff("\n", STDERR_FILENO);
 }
 
-static int	ft_is_arg_num(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
+static int	flag_arg_num_error(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
 	if (cmd->nbr_cmds == 1)
 		ctrl->shoulcontinue = false;
@@ -50,7 +50,7 @@ int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	if (cmd->ac > 2)
 	{
 		if (ft_str_islong(cmd->argv[1]) == false)
-			return (ft_is_arg_num(ctrl, cmd));
+			return (flag_arg_num_error(ctrl, cmd));
 		return (print_err(cmd, ": too many arguments"), cmd->status = 1, 1);
 	}
 	ctrl->shoulcontinue = false;
