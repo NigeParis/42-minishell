@@ -17,11 +17,11 @@ There are also have a number of built-in functions: <br>
  - [x] line edit (Arrow right, Arrow left) echo
 
   Quote and double quotes (simple)
- - [ ] '\'ls -l\'' shouldn't be the same as 'ls -l' (no quotes)
- - [ ] 'ls -l' should be the same as 'ls        -l'
- - [ ] 'ls -l' should be the same as 'ls "-l"'
- - [ ] 'ls -l' should be the same as 'ls '-l''
- - [ ] 'ls -l' should not be the same as 'ls \'-l \''
+ - [x] '\'ls -l\'' shouldn't be the same as 'ls -l' (no quotes)
+ - [x] 'ls -l' should be the same as 'ls        -l'
+ - [x] 'ls -l' should be the same as 'ls "-l"'
+ - [x] 'ls -l' should be the same as 'ls '-l''
+ - [x] 'ls -l' should not be the same as 'ls \'-l \''
 
   Multiple commands execution on single line
  - [ ] cmd1 ';' cmd2
