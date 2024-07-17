@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 15:46:49 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:54:33 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,7 +292,9 @@ int	minishell_execute(t_minishell_control *shell)
 	(set_pipe(pp_fd, -1, -1), set_pipe(p_fd, -1, -1));
 	cmd = parser_get_cmd(shell->preparsed, shell);
 	status = 0;
-	cmd->nbr_cmds = 1;
+	//dprintf(STDERR_FILENO, "cmd->argv[0] '%s'\n", cmd->argv[0]);
+	if (cmd != NULL)
+		cmd->nbr_cmds = 1;
 	while (cmd && (status == 0 || status == 127))
 	{
 		set_pipe(p_fd, -1, -1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_tok_to_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:38:08 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/17 11:07:57 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ bool	syntax_check(t_vector *prep)
 	bool				vars[2];
 	t_preparsed_node	*tok;
 	size_t				i;
-
 	if (prep == NULL || prep->count == 0)
 		return (false);
 	i = 0;
@@ -73,8 +72,12 @@ t_cmd_to_exec	*init_cmd(void)
 void	print_syntax_error(t_vector *preparsed_tokens,
 		t_minishell_control *sh)
 {
-	printf("syntax error :: %p %zu\n", preparsed_tokens,
-		preparsed_tokens->count);
+	if ((sh->input[0] == '|') && (sh->input[1] == '|'))
+		printf("minishell: syntax error near unexpected token '||'\n");
+	else if (sh->input[0] == '|')
+		printf("minishell: syntax error near unexpected token '|'\n");
+	else if (sh->input[0] != ' ')
+		printf("syntax error :: %p %zu\n", preparsed_tokens,preparsed_tokens->count);
 	ft_vec_apply(preparsed_tokens, call_destroy);
 	ft_vec_destroy(&sh->preparsed);
 	preparsed_tokens = NULL;
