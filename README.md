@@ -66,11 +66,11 @@ There are also have a number of built-in functions: <br>
         ex :
         'ls 2> file' pipes stderr to file
         'ls 2> file1 1> file2' pipes stderr to file1 and stdout to file2
- - [ ] redirect cmd to previous decl redirection
+ - [x] redirect cmd to previous decl redirection
        e.g. >&fd redirect stdout to the same redirection as fd currently has.
        'ls > file >&1' pipes stdout to file and then pipes stderr to redirected stdout.
        'ls >&1 > file' pipes stderr to redirection of stdout and then pipes stdout to file.
- - [ ] redirections should be able to be chained
+ - [x] redirections should be able to be chained
        'ls > file1 > file2' results in stdout being redirected to file2
 
   Variable substitution (hard)
