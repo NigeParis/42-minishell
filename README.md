@@ -33,11 +33,11 @@ There are also have a number of built-in functions: <br>
   Built-ins (sorted by priority)(simple)
  - [x] echo (with -n)
  - [x] pwd (no args)
- - [ ] cd (handling of ~, '-', and no args)
- - [ ] exit (args aka return code otherwise last cmd exec otherwise 0)
+ - [x] cd (handling of ~, '-', and no args)
+ - [x] exit (args aka return code otherwise last cmd exec otherwise 0)
  - [ ] env (-i, -u)
- - [ ] export
- - [ ] unset
+ - [x] export
+ - [x] unset
   
   Redirection (simple)
  - [ ] '|' '>' '>>' '<' '>'
