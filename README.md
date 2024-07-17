@@ -53,7 +53,7 @@ There are also have a number of built-in functions: <br>
  - [ ] $Field
 
   Subshell (simple if the rest is done)CTRL+z (SIGTSTP) (Bonus) echo
- - [ ] execute ( cmd ) in subshell (good test (cd))
+ - [x] execute ( cmd ) in subshell (good test (cd))
 
   Signal handling (simple)
  - [!] CTRL + C sigint (extra message - to be removed)
