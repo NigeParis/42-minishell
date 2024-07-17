@@ -36,8 +36,8 @@ There are also have a number of built-in functions: <br>
  - [x] cd (handling of ~, '-', and no args)
  - [x] exit (args aka return code otherwise last cmd exec otherwise 0)
  - [x] env with no options or arguments
- - [x] export
- - [x] unset
+ - [x] export with no options
+ - [x] unset with no options
   
   Redirection (simple)
  - [ ] '|' '>' '>>' '<' '>'
