@@ -56,9 +56,9 @@ There are also have a number of built-in functions: <br>
  - [ ] execute ( cmd ) in subshell (good test (cd))
 
   Signal handling (simple)
- - [ ] CTRL + C sigint
+ - [i] CTRL + C sigint (extra message - to be removed)
  - [X] CTRL + D eof
- - [ ] CTRL + \ sigquit
+ - [x] CTRL + \ sigquit
 
   Redirection (hard)
  - [ ] any fd plus > or < or >>
