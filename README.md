@@ -28,7 +28,7 @@ There are also have a number of built-in functions: <br>
 
   Quote and double quotes (hard)
  - [x] nested quotes and double quotes
- - [ ] \\ character nullifies the quote end or start
+ - [x] \\ character nullifies the quote end or start
 
   Built-ins (sorted by priority)(simple)
  - [x] echo (with -n)
