@@ -32,10 +32,10 @@ There are also have a number of built-in functions: <br>
 
   Built-ins (sorted by priority)(simple)
  - [x] echo (with -n)
- - [x] pwd (no args)
+ - [x] pwd with no options or arguments
  - [x] cd (handling of ~, '-', and no args)
  - [x] exit (args aka return code otherwise last cmd exec otherwise 0)
- - [ ] env (-i, -u)
+ - [x] env with no options or arguments
  - [x] export
  - [x] unset
   
