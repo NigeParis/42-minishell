@@ -84,7 +84,7 @@ There are also have a number of built-in functions: <br>
  - [ ] CTRL + Z sigtstp (Bonus)
 
   Norme
- - [ ] Norminette OK
+ - [ ] Norminette OK <br>
   Leak
  - [ ] Valgrind OK
     - [ ] on normal lines
