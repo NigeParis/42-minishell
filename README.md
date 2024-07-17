@@ -10,7 +10,7 @@ There are also have a number of built-in functions: <br>
 
   Commands execution and 'simple' argument parsing 
  - [x] /bin/ls should be the same as ls
- - [ ] ./exec should work
+ - [x] ./exec should work
 
   History of command line
  - [x] History (Arrow up, Arrow down)
