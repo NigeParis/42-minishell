@@ -25,7 +25,7 @@ There are also have a number of built-in functions: <br>
 
   Multiple commands execution on single line
  - [ ] cmd1 ';' cmd2   (not asked for in Mandatory or Bonus)
-
+&#9746;
   Quote and double quotes (hard)
  - [x] nested quotes and double quotes
  - [x] \\ character nullifies the quote end or start
