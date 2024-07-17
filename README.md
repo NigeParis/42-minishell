@@ -24,7 +24,7 @@ There are also have a number of built-in functions: <br>
  - [x] 'ls -l' should not be the same as 'ls \'-l \''
 
   Multiple commands execution on single line
- - [&#x2612] cmd1 ';' cmd2   (not asked for in Mandatory or Bonus)
+ - [ ] cmd1 ';' cmd2   (not asked for in Mandatory or Bonus)
 
   Quote and double quotes (hard)
  - [x] nested quotes and double quotes
