@@ -80,8 +80,8 @@ There are also have a number of built-in functions: <br>
  - [ ] subshell substitution $( cmd1 )
 
   Signal handling (hard)
- - [-] all other signals. (not asked for in Mandatory or Bonus)
- - [-] CTRL + Z sigtstp  (not asked for in Mandatory or Bonus)
+ - [ ] all other signals. (not asked for in Mandatory or Bonus)
+ - [ ] CTRL + Z sigtstp  (not asked for in Mandatory or Bonus)
 
   Norme
  - [ ] Norminette OK <br>
