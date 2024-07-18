@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 02:46:19 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:13:37 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_cmd_to_exec	*init_cmd(void)
 	return (cmd);
 }
 
-bool	loop_body(t_cmd_to_exec *cmd, t_vector *preparsed_tokens,
+static bool	loop_body(t_cmd_to_exec *cmd, t_vector *preparsed_tokens,
 		t_minishell_control *sh)
 {
 	t_preparsed_node	*token;

@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 02:41:30 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:58:44 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,19 +113,17 @@ int	preparse_line(t_parser *restrict p)
 	{
 		get_next_token(p, &var_ctx);
 		if (var_ctx.n_tok->type == TOK_UNKNOWN)
-			ft_putendl_fd("Error: preparse_line: unknown token", \
-			STDERR_FILENO);
-		else if (var_ctx.unexpected)
-			printf("%s : %s\n", ft_progname(), var_ctx.unexpected);
+			var_ctx.unexpected = "Error: Unknown token";
+		if (var_ctx.unexpected)
+			return (printf("%s : %s\n", ft_progname(), var_ctx.unexpected), \
+			preparser_destroy(&var_ctx, p), EXIT_FAILURE);
 		else if (update_preparsed(p, &var_ctx) == false \
 		|| update_context(p, &var_ctx) == false)
 		{
-			printf("Error: preparse_line: update_preparsed or "\
-			"update_context failed\n");
 			if (var_ctx.unexpected)
 				printf("%s: %s\n", ft_progname(), var_ctx.unexpected);
 			preparser_destroy(&var_ctx, p);
-			break ;
+			return (EXIT_FAILURE);
 		}
 	}
 	return (EXIT_SUCCESS);
@@ -144,8 +142,7 @@ int	parser_line_init(t_parser *restrict prs)
 		return (ft_putendl_fd("Error: parser_line_init: ft_vec_new failed", \
 		STDERR_FILENO), EXIT_FAILURE);
 	if (preparse_line(prs))
-		return (ft_putendl_fd("Error: parser_line_init: preparse_line failed", \
-		STDERR_FILENO), EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	if (!prs->preparsed)
 		return (ft_putendl_fd("Error: parser_line_init: prs->preparsed is " \
 		"NULL", STDERR_FILENO), EXIT_FAILURE);

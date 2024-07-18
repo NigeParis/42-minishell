@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 02:52:41 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:52:58 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ static int	do_heredoc(t_redir *rdr)
 	ft_putstr_fd("hdoc >", STDOUT_FILENO);
 	buf = ft_string_new(1);
 	line = get_next_line(STDIN_FILENO);
-	while (line && ft_strncmp(line, rdr->target_file, ft_strlen(line) - 1) != 0)
+	while (line && (line[0] == '\n' || \
+	ft_strncmp(line, rdr->target_file, ft_strlen(line) - 1)))
 	{
 		ft_string_append(buf, line);
 		free(line);

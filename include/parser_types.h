@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:55:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 02:42:52 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:34:08 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,8 @@ typedef enum e_syntax
 	REDIR = TOK_REDIR,
 	PIPE = TOK_PIPE,
 	EOL = TOK_EOL,
-	E_NONE = 0
-}	t_syntax;
+	E_NONE = TOK_UNKNOWN,
+}									t_syntax;
 
 // struct definition for parser structs
 

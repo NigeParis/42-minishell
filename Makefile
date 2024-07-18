@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/06/25 15:30:36 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/07/18 14:54:41 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ FFLAGS	   =\
 
 CFLAGS	   =\
 				$(WFLAGS) $(CPPFLAGS) $(STD)	\
-				-MMD -MP $(DEBUG)
+				-MMD -MP
 
 LDFLAGS		=\
 				-L./libft -lft_personal -lreadline
