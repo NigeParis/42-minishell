@@ -6,14 +6,12 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/06 15:06:38 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:20:14 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_addons.h"
-#include "ft_optional_types.h"
 #include "ft_string.h"
-#include "ft_string_types.h"
 #include "ft_vector.h"
 #include "parser_types.h"
 

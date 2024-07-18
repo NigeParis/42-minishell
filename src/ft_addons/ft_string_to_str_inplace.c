@@ -6,11 +6,10 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:06:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/03 16:29:37 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:18:23 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string_types.h"
 #include "ft_string.h"
 
 char	*ft_string_to_str_inplace(t_string **str)

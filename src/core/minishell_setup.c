@@ -6,15 +6,15 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:57 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 13:07:44 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 02:10:07 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_args.h"
 #include "ft_string.h"
 #include "ft_vector.h"
-#include "minishell_types.h"
 #include "minishell.h"
+#include "pair.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -38,16 +38,16 @@ int	create_env(t_minishell_control *ctrl, const char **envp)
 		return (EXIT_FAILURE);
 	while (envp[i])
 	{
-		pair = malloc(sizeof(t_pair));
+		pair = ft_calloc(sizeof(t_pair), 1);
 		if (pair == NULL)
 			return (EXIT_FAILURE);
 		pair->first = ft_strdup(envp[i]);
 		if (pair->first == NULL)
-			return (EXIT_FAILURE);
+			return (destroy_pair(pair), EXIT_FAILURE);
 		((char *)pair->first)[ft_strchr(envp[i], '=') - envp[i]] = '\0';
 		pair->second = ft_strdup(ft_strchr(envp[i], '=') + 1);
 		if (pair->second == NULL || ft_vec_add(&ctrl->env, pair) == false)
-			return (EXIT_FAILURE);
+			return (destroy_pair(pair), EXIT_FAILURE);
 		i++;
 	}
 	if (!i)

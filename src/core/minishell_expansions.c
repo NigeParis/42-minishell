@@ -6,14 +6,14 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:46:48 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:36:17 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 02:33:53 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_addons.h"
-#include "ft_char.h"
 #include "ft_string.h"
 #include "minishell.h"
+#include "parser_types.h"
 
 static void	update_ctx(t_quote *ctx, char c)
 {
@@ -29,70 +29,19 @@ static void	update_ctx(t_quote *ctx, char c)
 		*ctx = QUOTE_NONE;
 }
 
-static void	setup_len(size_t *len, size_t *i, const char *line)
+static bool	set_vars(t_quote *ctx, size_t *cr_offset, size_t *buf_add,
+		t_string **ret_s)
 {
-	while (line[(*i)] && (ft_isalnum(line[(*i)]) || line[(*i)] == '_'))
-	{
-		(*len)++;
-		(*i)++;
-	}
-	if ((*len) == 0 && (line[(*i)] == '?' || line[(*i)] == '$'))
-	{
-		(*len)++;
-		(*i)++;
-	}
+	*ctx = QUOTE_NONE;
+	*cr_offset = 0;
+	*buf_add = 0;
+	*ret_s = ft_string_new(1);
+	if (*ret_s == NULL)
+		return (false);
+	return (true);
 }
 
-static char	*set_value(t_string *key, t_minishell_control *sh)
-{
-	char	*value;
-
-	if (ft_string_cmp(key, "?") == 0 || ft_string_cmp(key, "$") == 0 \
-	|| ft_string_cmp(key, "") == 0)
-	{
-		value = NULL;
-		if (ft_string_cmp(key, "?") == 0)
-			value = ft_itoa(sh->exit);
-		else if (ft_string_cmp(key, "$") == 0)
-			value = ft_itoa(getpid());
-		else
-			value = ft_strdup("$");
-	}
-	else
-	{
-		value = get_env(sh->env, key->str);
-		if (value == NULL)
-			value = ft_strdup("");
-		else
-			value = ft_strdup(value);
-	}
-	return (value);
-}
-
-static int	resolve_dollarsign(char *line, t_minishell_control *sh,
-		t_string *ret, size_t *cr_offset)
-{
-	t_string	*key;
-	char		*value;
-	size_t		len;
-	size_t		i;
-
-	i = 1;
-	len = 0;
-	setup_len(&len, &i, line);
-	key = ft_string_from_n(line + 1, len);
-	if (key == NULL)
-		return (EXIT_FAILURE);
-	value = set_value(key, sh);
-	if (value == NULL)
-		return (ft_string_destroy(&key), EXIT_FAILURE);
-	ft_string_append(ret, value);
-	*cr_offset += key->length + 1;
-	ft_string_destroy(&key);
-	free(value);
-	return (EXIT_SUCCESS);
-}
-
+// || stop at first matched condition so if !line we dont alloc
 char	*resolve_raw_exp(char *line, t_minishell_control *shell)
 {
 	t_quote		ctx;
@@ -100,11 +49,7 @@ char	*resolve_raw_exp(char *line, t_minishell_control *shell)
 	size_t		buf_add;
 	t_string	*ret_s;
 
-	ctx = QUOTE_NONE;
-	cr_offset = 0;
-	buf_add = 0;
-	ret_s = ft_string_new(1);
-	if (!line || !ret_s)
+	if (!line || set_vars(&ctx, &cr_offset, &buf_add, &ret_s) == false)
 		return (NULL);
 	while (line[cr_offset])
 	{

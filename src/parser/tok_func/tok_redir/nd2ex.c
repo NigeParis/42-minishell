@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:33:20 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 02:04:52 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 #include "ft_list.h"
 #include "ft_string.h"
 #include "ft_vector.h"
-#include "minishell_types.h"
 #include "parser.h"
-#include "parser_types.h"
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -46,9 +44,9 @@ bool	get_target(t_minishell_control *sh, int consumed, t_cmd_to_exec *cmd,
 	if (nd_next && nd_next->type == TOK_SPACE)
 		nd_next = (nd_next->destroy(nd_next), ft_vec_at(sh->preparsed, \
 					consumed++));
-	if (nd_next && nd_next->type != TOK_WORD && nd_next->type != TOK_QUOTE)
-		return (catastrophe_quit(nd_next, cmd, consumed, sh),
-			printf("unexpected token after redirection\n"), false);
+	if (!nd_next || (nd_next->type != TOK_WORD && nd_next->type != TOK_QUOTE))
+		return (catastrophe_quit(nd_next, cmd, consumed, sh), \
+		printf("unexpected token after redirection\n"), false);
 	if (nd_next->type == TOK_QUOTE)
 	{
 		quote = nd_next->value;

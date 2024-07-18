@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 16:24:41 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/07/15 16:48:46 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 02:51:14 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ t_string	*buff_func(t_string *set_v, bool set_f, int fd_dst);
 bool		add_to_buff(const char *str_to_add, int fd_dest);
 void		destroy_buff(int fd_dest);
 void		print_buff(int fd_dest);
+void		buff_destroy_all(void);
+void		buff_print_all(void);
 
 /* ************************************************************************** */
 /* **************************builtins module internals*********************** */

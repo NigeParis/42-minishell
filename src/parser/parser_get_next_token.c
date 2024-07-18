@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vec_collect.c                                   :+:      :+:    :+:   */
+/*   parser_get_next_token.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 14:36:21 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 01:18:31 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/07/18 02:39:44 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/07/18 02:40:08 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_addons.h"
 #include "ft_vector.h"
+#include "parser_types.h"
 
-void	*ft_vec_collect(t_vector **vec, void *(*f)(const void *c_val,
-			const void *d_val))
+//	ctx->n_tok = ft_vec_end(p->tokens); // default to unknown
+void	get_next_token(t_parser *restrict p, t_preparser_context *restrict ctx)
 {
+	t_token	*tok;
 	size_t	i;
-	void	*data;
 
 	i = 0;
-	data = NULL;
-	while (i < (*vec)->count)
-		data = f(data, ft_vec_at(*vec, i++));
-	ft_vec_destroy(vec);
-	return (data);
+	ctx->n_tok = ft_vec_end(p->tokens);
+	while (i < p->tokens->count)
+	{
+		tok = ft_vec_at(p->tokens, i++);
+		if (tok->validator && \
+		tok->validator(ctx->line + ctx->line_offset, ctx) == true)
+			return ((void)(ctx->n_tok = tok));
+	}
 }

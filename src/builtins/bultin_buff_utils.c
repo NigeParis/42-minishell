@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_error.c                                  :+:      :+:    :+:   */
+/*   bultin_buff_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/09 16:05:25 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/04 15:41:41 by bgoulard         ###   ########.fr       */
+/*   Created: 2024/07/18 02:48:14 by bgoulard          #+#    #+#             */
+/*   Updated: 2024/07/18 02:51:31 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_args.h"
-#include "ft_string.h"
-#include "minishell_types.h"
-
+#include "builtins.h"
 #include <unistd.h>
 
-void	minishell_error(t_mini_err err_type, const char *msg, int errcode)
+void	buff_print_all(void)
 {
-	ft_putstr_fd(ft_progname(), STDERR_FILENO);
-	ft_putstr_fd(msg, STDERR_FILENO);
-	if (err_type == MINI_ERR_FATAL)
-		exit(errcode);
+	print_buff(STDIN_FILENO);
+	print_buff(STDOUT_FILENO);
+	print_buff(STDERR_FILENO);
+}
+
+void	buff_destroy_all(void)
+{
+	destroy_buff(STDIN_FILENO);
+	destroy_buff(STDOUT_FILENO);
+	destroy_buff(STDERR_FILENO);
 }

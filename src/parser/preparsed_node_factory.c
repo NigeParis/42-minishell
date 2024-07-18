@@ -6,13 +6,12 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:25:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 14:43:00 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:16:18 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "parser.h"
-#include "parser_types.h"
 #include "tokens_funcs.h"
 
 #include <stdlib.h>

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:31:17 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:08:22 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ bool	prepn_word_create(t_preparsed_node *node, t_preparser_context *ctx)
 	while (ctx->line[cr_offset] && !ft_isspace(ctx->line[cr_offset])
 		&& ft_strchr(stoper, ctx->line[cr_offset]) == NULL)
 	{
-		if (ctx->line[cr_offset] == '\\' && ctx->line[cr_offset + 1] != '\0')
-			cr_offset++;
 		if (ft_string_append_c(node->value, ctx->line[cr_offset]))
 			return (false);
 		cr_offset++;

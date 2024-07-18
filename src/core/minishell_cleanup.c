@@ -6,16 +6,14 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:52 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:10:20 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:17:52 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_vector.h"
-#include "ft_vector_types.h"
 #include "parser.h"
 #include "minishell.h"
 #include "pair.h"
-#include "parser_types.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>

@@ -6,14 +6,13 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 11:15:21 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:19:14 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "ft_vector.h"
 #include "minishell.h"
-#include "parser_types.h"
 
 #include <stdlib.h>
 #include <sys/types.h>

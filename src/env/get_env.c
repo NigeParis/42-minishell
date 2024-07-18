@@ -6,12 +6,11 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:05 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/20 11:42:46 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:18:02 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pair.h"
-#include "ft_vector_types.h"
 #include "ft_vector.h"
 #include "ft_string.h"
 

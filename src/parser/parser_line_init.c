@@ -6,38 +6,18 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:25:50 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 02:41:30 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string_types.h"
-#include "parser.h"
-#include "parser_types.h"
-#include "ft_vector_types.h"
-#include "ft_args.h"
-#include "ft_vector.h"
-#include "ft_string.h"
 #include "ft_addons.h"
+#include "ft_args.h"
+#include "ft_string.h"
+#include "ft_vector.h"
+#include "parser.h"
 
 #include <stdbool.h>
 #include <stdio.h>
-
-//	ctx->n_tok = ft_vec_end(p->tokens); // default to unknown
-void	get_next_token(t_parser *restrict p, t_preparser_context *restrict ctx)
-{
-	t_token	*tok;
-	size_t	i;
-
-	i = 0;
-	ctx->n_tok = ft_vec_end(p->tokens);
-	while (i < p->tokens->count)
-	{
-		tok = ft_vec_at(p->tokens, i++);
-		if (tok->validator && \
-		tok->validator(ctx->line + ctx->line_offset, ctx) == true)
-			return ((void)(ctx->n_tok = tok));
-	}
-}
 
 /*
 		node = ft_vec_end(p->preparsed); // get last node

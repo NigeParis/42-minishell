@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:15:12 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 10:46:18 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 02:33:27 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ void	signal_init(void);
 /* ************************************************************************** */
 /* **************************core module internals*************************** */
 /* ************************************************************************** */
+
+int		resolve_dollarsign(char *line, t_minishell_control *sh, t_string *ret,
+			size_t *cr_offset);
 
 void	free_rdr_node(void *abst_node);
 

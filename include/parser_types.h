@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:55:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 14:07:54 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/18 02:42:52 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include "ft_string_types.h"
 # include "ft_vector_types.h"
 # include "minishell_types.h"
+
+# define _SYN_IT		0
+# define _SYN_CMD_WD	1
+# define _SYN_CTX		2
 
 // types definition for parser structs
 
@@ -76,6 +80,7 @@ typedef enum e_redir_flag
 # define RDIR_MSK_MODE 0x0C
 # define RDIR_MSK_DUP 0x10
 
+/*
 typedef enum e_redir_type
 {
 	RDIR_PIPE		= 1,		// 0 00 01
@@ -86,6 +91,18 @@ typedef enum e_redir_type
 	RDIR_HEREDOC	= 3 << 2,	// 0 11 00
 	RDIR_DUP		= 1 << 4,	// 1 00 00 // >&
 }									t_redir_type;
+*/
+
+typedef enum e_redir_type
+{
+	RDIR_PIPE		= 1,
+	RDIR_INPUT		= 2,
+	RDIR_OUTPUT		= 3,
+	RDIR_TRUNC		= 1 << 2,
+	RDIR_APPEND		= 2 << 2,
+	RDIR_HEREDOC	= 3 << 2,
+	RDIR_DUP		= 1 << 4,
+}									t_redir_type;
 
 /*
 truc = RDIR_OUTPUT | RDIR_APPEND; // 0 00 11 | 0 10 00 
@@ -93,13 +110,25 @@ truc = RDIR_OUTPUT | RDIR_APPEND; // 0 00 11 | 0 10 00
 if (truc & RDIR_MSK_IO == RDIR_OUTPUT)
   // redirect output
 */
-
 typedef enum e_quote
 {
 	QUOTE_NONE,
 	QUOTE_DQUOTE,
 	QUOTE_SQUOTE,
 }									t_quote;
+
+/*
+ * enum for syntax checking
+ *
+*/
+typedef enum e_syntax
+{
+	WORD = TOK_WORD,
+	REDIR = TOK_REDIR,
+	PIPE = TOK_PIPE,
+	EOL = TOK_EOL,
+	E_NONE = 0
+}	t_syntax;
 
 // struct definition for parser structs
 

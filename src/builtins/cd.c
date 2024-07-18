@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 12:47:05 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 02:18:09 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	set_target(char **ptr, t_cmd_to_exec *cmd)
 		ptr[TARGET] = ptr[HOMEDIR];
 	else if (ft_strcmp(cmd->argv[1], "-") != 0)
 		ptr[TARGET] = cmd->argv[1];
-	else if (ft_strcmp(cmd->argv[1], "-") == 0)
+	else
 	{
 		if (!ptr[OLDPWD])
 			return (add_to_buff("cd: OLDPWD not set\n", STDERR_FILENO));

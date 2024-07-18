@@ -6,45 +6,16 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/17 11:07:57 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/18 02:46:19 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string_types.h"
-#include "ft_vector_types.h"
-#include "minishell.h"
-#include "minishell_types.h"
-#include "parser_types.h"
 #include "ft_string.h"
 #include "ft_vector.h"
+#include "minishell.h"
+#include "parser.h"
 
 #include <stdio.h>
-
-bool	syntax_check(t_vector *prep)
-{
-	bool				vars[2];
-	t_preparsed_node	*tok;
-	size_t				i;
-	if (prep == NULL || prep->count == 0)
-		return (false);
-	i = 0;
-	ft_bzero(vars, sizeof(vars));
-	while (prep->count > i)
-	{
-		tok = ft_vec_at(prep, i++);
-		if (tok->type == TOK_WORD || tok->type == TOK_QUOTE)
-			vars[0] = true;
-		else if (tok->type == TOK_PIPE || tok->type == TOK_EOL)
-		{
-			if (vars[0] == false)
-				return (false);
-			if (tok->type == TOK_EOL)
-				return (true);
-			vars[0] = false;
-		}
-	}
-	return (vars[0]);
-}
 
 void	call_destroy(void *data)
 {
@@ -67,20 +38,6 @@ t_cmd_to_exec	*init_cmd(void)
 	if (cmd->construction_vector == NULL)
 		return (free(cmd), NULL);
 	return (cmd);
-}
-
-void	print_syntax_error(t_vector *preparsed_tokens,
-		t_minishell_control *sh)
-{
-	if ((sh->input[0] == '|') && (sh->input[1] == '|'))
-		printf("minishell: syntax error near unexpected token '||'\n");
-	else if (sh->input[0] == '|')
-		printf("minishell: syntax error near unexpected token '|'\n");
-	else if (sh->input[0] != ' ')
-		printf("syntax error :: %p %zu\n", preparsed_tokens,preparsed_tokens->count);
-	ft_vec_apply(preparsed_tokens, call_destroy);
-	ft_vec_destroy(&sh->preparsed);
-	preparsed_tokens = NULL;
 }
 
 bool	loop_body(t_cmd_to_exec *cmd, t_vector *preparsed_tokens,
@@ -115,11 +72,15 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens,
 		t_minishell_control *sh)
 {
 	t_cmd_to_exec		*cmd;
+	t_syntax			syntax;
 
 	if (preparsed_tokens == NULL || preparsed_tokens->count == 0)
 		return (NULL);
-	if (syntax_check(preparsed_tokens) == false)
-		return (print_syntax_error(preparsed_tokens, sh), NULL);
+	syntax = syntax_check(preparsed_tokens);
+	if (syntax != E_NONE)
+		return (print_syntax_error(syntax), \
+		ft_vec_apply(preparsed_tokens, call_destroy), \
+		ft_vec_destroy(&sh->preparsed), preparsed_tokens = NULL, NULL);
 	cmd = init_cmd();
 	if (cmd == NULL)
 		return (NULL);

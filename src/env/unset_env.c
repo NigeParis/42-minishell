@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 11:20:02 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:37:47 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 02:03:01 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ bool	unset_env(t_vector *env, const char *key)
 	i = 0;
 	key_pair.first = (char *)key;
 	key_pair.second = NULL;
+	pair = NULL;
 	while (i < env->count)
 	{
 		pair = ft_vec_at(env, i);

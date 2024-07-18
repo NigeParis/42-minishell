@@ -6,18 +6,15 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:31:41 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:21:25 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_addons.h"
 #include "ft_char.h"
-#include "ft_optional_types.h"
 #include "ft_string.h"
 #include "ft_vector.h"
 #include "minishell.h"
-#include "minishell_types.h"
-#include "parser_types.h"
 
 #include <stdbool.h>
 #include <stdlib.h>

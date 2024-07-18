@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:49 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:33:39 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:07:34 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ bool	prepn_quote_append(t_preparsed_node *node, t_preparser_context *ctx)
 	while (ctx->line[ln_offset] != ctx->line[ctx->line_offset]
 		&& ctx->line[ln_offset] != '\0')
 	{
-		if (ctx->line[ln_offset] == '\\')
-			ln_offset++;
 		if (ft_string_append_c(quote->value, ctx->line[ln_offset]))
 			return (false);
 		ln_offset++;

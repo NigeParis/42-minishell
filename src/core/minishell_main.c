@@ -6,12 +6,11 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:56:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:08:15 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:16:48 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "minishell_types.h"
 
 #include <stdlib.h>
 #include <unistd.h>

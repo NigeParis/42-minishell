@@ -6,15 +6,13 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 16:40:33 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/18 01:16:54 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "ft_string.h"
 #include "minishell.h"
-#include "minishell_types.h"
 #include "parser.h"
-#include "parser_types.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>

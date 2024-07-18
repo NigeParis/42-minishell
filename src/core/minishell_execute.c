@@ -6,28 +6,26 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/17 10:54:33 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/18 02:52:41 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "ft_addons.h"
-#include "ft_list.h"
-#include "ft_list_types.h"
-#include "ft_string.h"
-#include "ft_string_types.h"
-#include "minishell.h"
-#include "minishell_types.h"
-#include "parser.h"
 #include "ft_args.h"
-#include "parser_types.h"
+#include "ft_list.h"
+#include "ft_string.h"
+#include "minishell.h"
+#include "parser.h"
 
+#include <errno.h>
+#include <fcntl.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/wait.h>
-#include <fcntl.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 void	exec_cl(t_minishell_control *shell);
@@ -195,6 +193,9 @@ static void	child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd,
 			node = node->next;
 		if (do_heredoc(node->data) == EXIT_FAILURE)
 		{
+			destroy_buff(STDIN_FILENO);
+			destroy_buff(STDOUT_FILENO);
+			destroy_buff(STDERR_FILENO);
 			discard_cmd(cmd);
 			minishell_cleanup(shell);
 			exit(1);
@@ -210,6 +211,9 @@ static void	child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd,
 	}
 	if (cmd->redir_to_do && do_rdr_list(cmd->redir_to_do) == EXIT_FAILURE)
 	{
+		destroy_buff(STDIN_FILENO);
+		destroy_buff(STDOUT_FILENO);
+		destroy_buff(STDERR_FILENO);
 		discard_cmd(cmd);
 		minishell_cleanup(shell);
 		exit(1);
@@ -219,31 +223,41 @@ static void	child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd,
 		int		status;
 
 		status = cmd->status;
-		print_buff(STDIN_FILENO);
-		print_buff(STDOUT_FILENO);
-		print_buff(STDERR_FILENO);
+		buff_print_all();
 		discard_cmd(cmd);
 		minishell_cleanup(shell);
-		exit (status);
+		exit(status);
 	}
 	if (cmd->cmd_path == NULL)
 	{
 		ft_putstr_fd(ft_progname(), STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
-		ft_putstr_fd(": command not found \n", STDERR_FILENO);
+		ft_putstr_fd(": Command not found\n", STDERR_FILENO);
 		if (pp_fd[0] != -1 || pp_fd[1] != -1)
 			(close(pp_fd[0]), close(pp_fd[1]));
 		if (p_fd[0] != -1 || p_fd[1] != -1)
 			(close(p_fd[0]), close(p_fd[1]));
 		(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(127));
 	}
+	struct stat	statbuf;
+	if (stat(cmd->cmd_path, &statbuf) == 0 && S_ISDIR(statbuf.st_mode))
+	{
+		ft_putstr_fd(ft_progname(), STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(cmd->cmd_path, STDERR_FILENO);
+		ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
+		(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(127));
+	}
 	ft_ll_clear(&cmd->redir_to_do, free_rdr_node);
 	execve(cmd->cmd_path, cmd->argv, cmd->env);
-	discard_cmd(cmd);
-	minishell_cleanup(shell);
-	ft_perror("execve");
-	exit(126);
+	ft_putstr_fd(ft_progname(), STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(cmd->cmd_path, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(ft_strerror(errno), STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(126));
 }
 
 static void	parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
@@ -265,9 +279,7 @@ static void	parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
 	}
 	else
 		shell->exit = WEXITSTATUS(cmd->status);
-	destroy_buff(STDIN_FILENO);
-	destroy_buff(STDOUT_FILENO);
-	destroy_buff(STDERR_FILENO);
+	buff_destroy_all();
 	discard_cmd(cmd);
 	signal_init();
 }
@@ -292,7 +304,6 @@ int	minishell_execute(t_minishell_control *shell)
 	(set_pipe(pp_fd, -1, -1), set_pipe(p_fd, -1, -1));
 	cmd = parser_get_cmd(shell->preparsed, shell);
 	status = 0;
-	//dprintf(STDERR_FILENO, "cmd->argv[0] '%s'\n", cmd->argv[0]);
 	if (cmd != NULL)
 		cmd->nbr_cmds = 1;
 	while (cmd && (status == 0 || status == 127))
@@ -307,12 +318,15 @@ int	minishell_execute(t_minishell_control *shell)
 			return (ft_perror("fork"), exec_cl(shell), EXIT_FAILURE);
 		if (pid == 0)
 			child_exec(shell, cmd, p_fd, (int *)pp_fd);
-		else // parent
+		else
 			parent_exec(shell, cmd, pid, pp_fd);
 		(set_pipe(pp_fd, p_fd[0], p_fd[1]), set_pipe(p_fd, -1, -1));
 		status = shell->exit;
 		cmd = parser_get_cmd(shell->preparsed, shell);
 	}
+	print_buff(STDIN_FILENO);
+	print_buff(STDOUT_FILENO);
+	print_buff(STDERR_FILENO);
 	if (cmd && status != 0)
 		discard_cmd(cmd);
 	if (pp_fd[0] != -1 || pp_fd[1] != -1)
