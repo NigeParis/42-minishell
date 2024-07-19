@@ -6,11 +6,11 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 14:48:41 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/19 22:11:42 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "ft_string.h"
+#include "ft_char.h"
 #include "ft_string.h"
 #include "minishell.h"
 #include "parser.h"
@@ -29,7 +29,6 @@ int	minishell_should_exit(t_minishell_control *shell)
 
 char	*resolve_raw_exp(char *line, t_minishell_control *shell);
 
-#include "ft_char.h"
 // todo check if input is 1 - null 2 - empty if yes dont add to history
 int	minishell_parse(t_minishell_control *shell)
 {

@@ -6,16 +6,19 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 14:13:37 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/19 22:07:42 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "ft_vector.h"
+#include "ft_vector_types.h"
 #include "minishell.h"
 #include "parser.h"
+#include "parser_types.h"
 
 #include <stdio.h>
+#include <fcntl.h>
 
 void	call_destroy(void *data)
 {
@@ -68,23 +71,62 @@ static bool	loop_body(t_cmd_to_exec *cmd, t_vector *preparsed_tokens,
 	return (true);
 }
 
-t_cmd_to_exec	*parser_get_cmd(t_vector *preparsed_tokens,
-		t_minishell_control *sh)
+void cr_file(int i, t_vector *prep)
+{
+	t_preparsed_node	*nd;
+	t_redir				*redir;
+	char *fname = NULL;
+
+	nd = ft_vec_at(prep, i);
+	redir = nd->value;
+	if ((redir->redir_type & RDIR_MSK_IO) == RDIR_INPUT)
+		return ;
+	if ((redir->redir_type & RDIR_MSK_IO) == RDIR_OUTPUT)
+	{
+		while (nd && (nd->type != TOK_WORD && nd->type != TOK_QUOTE))
+			nd = ft_vec_at(prep, i++);
+		if (nd->type == TOK_WORD)
+			fname = ((t_string *)nd->value)->str;
+		else if (nd->type == TOK_QUOTE)
+			fname = ((t_quote_node *)nd->value)->value->str;
+		if ((redir->redir_type & RDIR_MSK_MODE) == RDIR_TRUNC)
+			open(fname, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		else if ((redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND)
+			open(fname, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	}
+}
+
+void file_creation(t_vector *prep)
+{
+	t_preparsed_node	*token;
+	int					i;
+
+	i = 0;
+	while (prep && (size_t)i < prep->count)
+	{
+		token = ft_vec_at(prep, i);
+		if (token->type == TOK_REDIR)
+			cr_file(i, prep);
+		i++;
+	}
+}
+
+t_cmd_to_exec	*parser_get_cmd(t_vector *prep, t_minishell_control *sh)
 {
 	t_cmd_to_exec		*cmd;
 	t_syntax			syntax;
 
-	if (preparsed_tokens == NULL || preparsed_tokens->count == 0)
+	if (prep == NULL || prep->count == 0)
 		return (NULL);
-	syntax = syntax_check(preparsed_tokens);
+	syntax = syntax_check(prep);
 	if (syntax != E_NONE)
-		return (print_syntax_error(syntax), \
-		ft_vec_apply(preparsed_tokens, call_destroy), \
-		ft_vec_destroy(&sh->preparsed), preparsed_tokens = NULL, NULL);
+		return (print_syntax_error(syntax), file_creation(prep), \
+		ft_vec_apply(prep, call_destroy), \
+		ft_vec_destroy(&sh->preparsed), prep = NULL, NULL);
 	cmd = init_cmd();
 	if (cmd == NULL)
 		return (NULL);
-	if (loop_body(cmd, preparsed_tokens, sh) == false)
+	if (loop_body(cmd, prep, sh) == false)
 		return (NULL);
 	return (cmd);
 }
