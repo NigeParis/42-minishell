@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/19 22:07:42 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:59:12 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ static bool	loop_body(t_cmd_to_exec *cmd, t_vector *preparsed_tokens,
 	return (true);
 }
 
-void cr_file(int i, t_vector *prep)
+void	cr_file(int i, t_vector *prep)
 {
 	t_preparsed_node	*nd;
 	t_redir				*redir;
-	char *fname = NULL;
+	char				*fname;
 
 	nd = ft_vec_at(prep, i);
 	redir = nd->value;
@@ -96,7 +96,7 @@ void cr_file(int i, t_vector *prep)
 	}
 }
 
-void file_creation(t_vector *prep)
+void	file_creation(t_vector *prep)
 {
 	t_preparsed_node	*token;
 	int					i;
@@ -113,16 +113,16 @@ void file_creation(t_vector *prep)
 
 t_cmd_to_exec	*parser_get_cmd(t_vector *prep, t_minishell_control *sh)
 {
-	t_cmd_to_exec		*cmd;
-	t_syntax			syntax;
+	t_cmd_to_exec	*cmd;
+	t_syntax		syntax;
 
 	if (prep == NULL || prep->count == 0)
 		return (NULL);
 	syntax = syntax_check(prep);
 	if (syntax != E_NONE)
-		return (print_syntax_error(syntax), file_creation(prep), \
-		ft_vec_apply(prep, call_destroy), \
-		ft_vec_destroy(&sh->preparsed), prep = NULL, NULL);
+		return (print_syntax_error(syntax), file_creation(prep),
+			ft_vec_apply(prep, call_destroy), ft_vec_destroy(&sh->preparsed),
+			prep = NULL, NULL);
 	cmd = init_cmd();
 	if (cmd == NULL)
 		return (NULL);

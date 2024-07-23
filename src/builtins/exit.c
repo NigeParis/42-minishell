@@ -6,16 +6,20 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 17:43:14 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:51:35 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
 #include "ft_args.h"
 #include "ft_addons.h"
+#include "ft_defs.h"
 #include "ft_string.h"
+#include "ft_char.h"
+
+#include "builtins.h"
 #include "minishell_types.h"
 #include "parser_types.h"
+#include <unistd.h>
 
 static void	print_err(t_cmd_to_exec *cmd, char *msg)
 {
@@ -42,9 +46,20 @@ static void	flag_invalid_exit(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	}
 }
 
+static int	rectify_user_input(long usr_input)
+{
+	if (usr_input < 0)
+	{
+		usr_input %= -256;
+		usr_input += 256;
+	}
+	return (usr_input %= 256);
+}
+
 int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
 	long	user_input;
+	size_t	i;
 
 	ctrl->exit = 0;
 	if (cmd->ac > 2)
@@ -57,14 +72,14 @@ int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	user_input = ctrl->exit;
 	if ((cmd->ac == 2) && (cmd->redir_to_do == NULL))
 	{
-		if (ft_str_islong(cmd->argv[1]) == false)
+		i = 0;
+		while (cmd->argv[1][i] && ft_isspace(cmd->argv[1][i]))
+			i++;
+		if (ft_str_islong(cmd->argv[1] + i) == false)
 			return (print_err(cmd, ": numeric argument required"), \
 			cmd->status = 2, 2);
 		user_input = ft_atol(cmd->argv[1]);
 	}
-	while (user_input < 0)
-		user_input += 256;
-	user_input %= 256;
-	flag_invalid_exit(ctrl, cmd);
-	return (cmd->status = user_input, user_input);
+	user_input = rectify_user_input(user_input);
+	return (flag_invalid_exit(ctrl, cmd), cmd->status = user_input, user_input);
 }

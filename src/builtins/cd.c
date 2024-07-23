@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 02:18:09 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:52:23 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include <sys/param.h>
 #include <unistd.h>
 
-static void	print_err(char *targ)
+static void	perr_cd(char *targ)
 {
 	add_to_buff("cd: ", STDERR_FILENO);
 	add_to_buff(targ, STDERR_FILENO);
@@ -57,14 +57,14 @@ int	cd_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	ptr[PWD] = get_env(ctrl->env, "PWD");
 	if (cmd->ac > 2)
 		return (add_to_buff("cd: too many arguments\n", STDERR_FILENO),
-			EXIT_FAILURE);
+			cmd->status = EXIT_FAILURE, EXIT_FAILURE);
 	if (set_target(ptr, cmd) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (cmd->status = EXIT_FAILURE, EXIT_FAILURE);
 	if (chdir(ptr[TARGET]) == -1)
-		return (print_err(ptr[TARGET]), EXIT_FAILURE);
+		return (perr_cd(ptr[TARGET]), cmd->status = EXIT_FAILURE, EXIT_FAILURE);
 	ptr[BUFF] = malloc(PATH_MAX);
 	if (!ptr[BUFF])
-		return (EXIT_FAILURE);
+		return (cmd->status = EXIT_FAILURE, EXIT_FAILURE);
 	set_env(&ctrl->env, "OLDPWD", ptr[PWD]);
 	set_env(&ctrl->env, "PWD", getcwd(ptr[BUFF], PATH_MAX));
 	return (free(ptr[BUFF]), EXIT_SUCCESS);

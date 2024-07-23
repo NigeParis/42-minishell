@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 02:04:52 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:42:23 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,19 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <unistd.h>
 
 // leaks everywhere --- in dev | todo: fix leaks
 //		return (printf("ambiguous redirect\n"), false);	//	actual bash error 
 //															message do not 
 //															remove
+
+static void	perr_rdr(char *msg)
+{
+	ft_putstr_fd(ft_progname(), STDERR_FILENO);
+	ft_putstr_fd(" : ", STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+}
 
 static void	catastrophe_quit(t_preparsed_node *nd_next, t_cmd_to_exec *cmd,
 		int consumed, t_minishell_control *sh)
@@ -46,7 +54,7 @@ bool	get_target(t_minishell_control *sh, int consumed, t_cmd_to_exec *cmd,
 					consumed++));
 	if (!nd_next || (nd_next->type != TOK_WORD && nd_next->type != TOK_QUOTE))
 		return (catastrophe_quit(nd_next, cmd, consumed, sh), \
-		printf("unexpected token after redirection\n"), false);
+		perr_rdr("unexpected token after redirection\n"), false);
 	if (nd_next->type == TOK_QUOTE)
 	{
 		quote = nd_next->value;
@@ -77,14 +85,12 @@ bool	nd2ex_redir(t_preparsed_node *nd, t_cmd_to_exec *cmd,
 	if (get_target(sh, cmd->nb_tok_consumed, cmd, &str_c) == false)
 		return (false);
 	if (ft_strchr(str_c, '$'))
-		return (printf("ambiguous redirect\n"), false);
+		return (perr_rdr("ambiguous redirect\n"), false);
 	rdr->target_file = str_c;
 	if (rdr->redir_type & RDIR_MSK_DUP)
 	{
 		if (ft_str_isdigit(rdr->target_file) == false)
-			return (\
-			printf("%s:%s: bad file descriptor\n", ft_progname(), \
-			rdr->target_file), free(str_c), false);
+			return (perr_rdr("bad file descriptor\n"), free(str_c), false);
 		rdr->target_std = ft_atoi(str_c);
 		rdr->target_file = NULL;
 	}

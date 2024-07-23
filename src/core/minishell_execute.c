@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 14:52:58 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:37:25 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,16 @@ static int	do_dup(t_redir *rdr)
 	return (EXIT_SUCCESS);
 }
 
+static void print_heredoc_err(char *target)
+{
+	printf("\n");
+	ft_putstr_fd(ft_progname(), STDERR_FILENO);
+	ft_putstr_fd(": unexpected EOF while looking for matching heredoc string" \
+	" `", STDERR_FILENO);
+	ft_putstr_fd(target, STDERR_FILENO);
+	ft_putstr_fd("'\n", STDERR_FILENO);
+}
+
 static int	do_heredoc(t_redir *rdr)
 {
 	char		*line;
@@ -99,10 +109,8 @@ static int	do_heredoc(t_redir *rdr)
 		line = get_next_line(STDIN_FILENO);
 	}
 	if (!line)
-		return (printf("\n"), \
-		printf("%s: unexpected EOF while looking for matching heredoc string" \
-		" '%s'\n", ft_progname(), rdr->target_file), ft_string_destroy(&buf), \
-		EXIT_FAILURE);
+		return (print_heredoc_err(rdr->target_file), \
+		ft_string_destroy(&buf), EXIT_FAILURE);
 	if (pipe(pipe_fd) == -1)
 		return (ft_perror("pipe"), ft_string_destroy(&buf), EXIT_FAILURE);
 	write(pipe_fd[1], buf->str, buf->length);
@@ -234,7 +242,7 @@ static void	child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd,
 		ft_putstr_fd(ft_progname(), STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
-		ft_putstr_fd(": Command not found\n", STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		if (pp_fd[0] != -1 || pp_fd[1] != -1)
 			(close(pp_fd[0]), close(pp_fd[1]));
 		if (p_fd[0] != -1 || p_fd[1] != -1)
@@ -268,7 +276,8 @@ static void	parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
 	signal(SIGQUIT, SIG_IGN);
 	if (prev_pipe[1] != -1 || prev_pipe[0] != -1)
 		(close(prev_pipe[0]), close(prev_pipe[1]));
-	waitpid(pid, &cmd->status, 0);
+	if (!(cmd->redir_to_do && has_pipe(cmd->redir_to_do)))
+		waitpid(pid, &cmd->status, 0);
 	if (WIFSIGNALED(cmd->status))
 	{
 		shell->exit = 128 + WTERMSIG(cmd->status);

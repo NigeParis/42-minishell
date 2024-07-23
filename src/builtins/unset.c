@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:42 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/15 12:40:18 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:59:55 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	unset_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	{
 		if (ft_strchr(cmd->argv[i], '='))
 		{
-			add_to_buff("unset: not a valid identifier\n", STDERR_FILENO);
-			return (EXIT_FAILURE);
+			i++;
+			continue ;
 		}
 		unset_env(ctrl->env, cmd->argv[i++]);
 	}

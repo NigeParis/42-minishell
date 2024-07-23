@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:45:32 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 14:12:14 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:20:56 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 #include "ft_vector.h"
 #include "parser_types.h"
 
-#include <stdio.h>
-
 void	print_syntax_error(t_syntax syntax)
 {
-	printf("Syntax error near unexpected token");
+	ft_putstr_fd("Syntax error near unexpected token", STDERR_FILENO);
 	if (syntax == PIPE)
-		printf(" '|'\n");
+		ft_putstr_fd(" '|'\n", STDERR_FILENO);
 	else if (syntax == EOL)
-		printf(" '\\n'\n");
+		ft_putstr_fd(" '\\n'\n", STDERR_FILENO);
 	else if (syntax == REDIR)
-		printf(" 'newline'\n");
+		ft_putstr_fd(" 'newline'\n", STDERR_FILENO);
 	else if (syntax == WORD)
-		printf(" 'word'\n");
+		ft_putstr_fd(" 'word'\n", STDERR_FILENO);
 }
 
 static t_syntax	loop_body(t_preparsed_node *token, int var[3])
