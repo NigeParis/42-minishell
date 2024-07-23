@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:15:12 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 02:33:27 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:26:18 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,27 @@
 /* ***************************Pipe utils function**************************** */
 /* ************************************************************************** */
 
+bool	has_heredoc(t_list *rdr_lst);
+int		get_op_mode(int type);
+int		do_rdr_list(t_list *rdr_lst);
+
 bool	has_pipe(t_list *redirs);
 void	set_pipe(int *pipe_fd, int fd_1, int fd_2);
 
 void	signal_init(void);
+void	do_hdoc_cmd(t_cmd_to_exec *cmd, t_minishell_control *shell);
+
+void	dd_cl(t_cmd_to_exec *cmd, t_minishell_control *shell, int code);
 
 /* ************************************************************************** */
 /* **************************core module internals*************************** */
 /* ************************************************************************** */
 
+void	child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd,
+		int *p_fd, int *pp_fd);
+void	parent_exec(t_minishell_control *shell, t_cmd_to_exec *cmd, int pid,
+		int *prev_pipe);
+	
 int		resolve_dollarsign(char *line, t_minishell_control *sh, t_string *ret,
 			size_t *cr_offset);
 
@@ -48,6 +60,7 @@ void	free_rdr_node(void *abst_node);
 void	discard_cmd(t_cmd_to_exec *cmd);
 
 /// @file: src/core/minishell_cleanup.c
+void	exec_cl(t_minishell_control *shell);
 int		minishell_cleanup(t_minishell_control *shell);
 
 /// @file: src/core/minishell_error.c

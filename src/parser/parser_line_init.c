@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:54:59 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 12:58:29 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:34:32 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,14 @@ int	preparse_line(t_parser *restrict p)
 			var_ctx.unexpected = "Error: Unknown token";
 		if (var_ctx.unexpected)
 			return (print_unexpected(&var_ctx), preparser_destroy(&var_ctx, p),
-				EXIT_FAILURE);
+				p->control->exit = 2, EXIT_FAILURE);
 		else if (update_preparsed(p, &var_ctx) == false || update_context(p,
 				&var_ctx) == false)
 		{
 			if (var_ctx.unexpected)
 				print_unexpected(&var_ctx);
-			return (preparser_destroy(&var_ctx, p), EXIT_FAILURE);
+			return (p->control->exit = 2, \
+			preparser_destroy(&var_ctx, p), EXIT_FAILURE);
 		}
 	}
 	return (EXIT_SUCCESS);

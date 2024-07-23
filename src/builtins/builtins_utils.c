@@ -6,15 +6,35 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 21:19:32 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:10:01 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:14:14 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
 #include "ft_string.h"
 #include "ft_string_types.h"
 
 #include <stdbool.h>
 #include <unistd.h>
+
+int	(*get_builtin(const char *cmd))(t_minishell_control *a, t_cmd_to_exec *b)
+{
+	if (ft_strcmp(cmd, "cd") == 0)
+		return (&cd_main);
+	if (ft_strcmp(cmd, "env") == 0)
+		return (&env_main);
+	if (ft_strcmp(cmd, "exit") == 0)
+		return (&exit_main);
+	if (ft_strcmp(cmd, "echo") == 0)
+		return (&echo_main);
+	if (ft_strcmp(cmd, "export") == 0)
+		return (&export_main);
+	if (ft_strcmp(cmd, "pwd") == 0)
+		return (&pwd_main);
+	if (ft_strcmp(cmd, "unset") == 0)
+		return (&unset_main);
+	return (NULL);
+}
 
 t_string	*buff_func(t_string *set_v, bool set_f, int fd_dst)
 {

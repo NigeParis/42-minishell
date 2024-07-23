@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:19:05 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 12:57:45 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:28:39 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "parser_types.h"
 # include "minishell_types.h"
 # include "ft_vector_types.h"
+
+void				file_creation(t_vector *prep);
 
 int					update_preparsed(t_parser *restrict p,
 						t_preparser_context *restrict ctx);
