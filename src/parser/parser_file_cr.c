@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_file_cr.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:27:43 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 14:28:04 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:13:54 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	cr_file(int i, t_vector *prep)
 	{
 		while (nd && (nd->type != TOK_WORD && nd->type != TOK_QUOTE))
 			nd = ft_vec_at(prep, i++);
-		if (nd->type == TOK_WORD)
+		if (nd && nd->type == TOK_WORD)
 			fname = ((t_string *)nd->value)->str;
-		else if (nd->type == TOK_QUOTE)
+		else if (nd && nd->type == TOK_QUOTE)
 			fname = ((t_quote_node *)nd->value)->value->str;
-		if ((redir->redir_type & RDIR_MSK_MODE) == RDIR_TRUNC)
+		if (redir && ((redir->redir_type & RDIR_MSK_MODE) == RDIR_TRUNC))
 			open(fname, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		else if ((redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND)
+		else if (redir && ((redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND))
 			open(fname, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	}
 }
