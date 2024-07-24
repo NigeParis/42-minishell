@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 14:26:32 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:10:25 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "minishell_types.h"
 #include "parser.h"
 #include "parser_types.h"
+#include "ft_string.h"
 
 #include <fcntl.h>
 #include <stdio.h>
@@ -74,6 +75,8 @@ int	minishell_execute(t_minishell_control *shell)
 			ft_perror("pipe"); // todo : do better aka clean up and return
 		if (cmd && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
 			call_bin(shell, cmd);
+		if ((ft_strcmp(cmd->argv[0], "exit") == 0) && (cmd->nbr_cmds == 0))
+			return (end_it_all(shell, cmd, status, pp_fd));
 		dispatcher(fork(), shell, cmd, p_fd);
 		(set_pipe(pp_fd, p_fd[0], p_fd[1]), set_pipe(p_fd, -1, -1));
 		status = shell->exit;

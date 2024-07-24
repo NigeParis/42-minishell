@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:47 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 12:53:03 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:53:19 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,7 @@
 
 #include <unistd.h>
 
-static int	print_export_env(t_vector *ev)
-{
-	t_pair	*pair;
-	size_t	i;
-
-	i = 0;
-	while (i < ev->count)
-	{
-		pair = ft_vec_at(ev, i);
-		add_to_buff("export ", STDOUT_FILENO);
-		add_to_buff(pair->first, STDOUT_FILENO);
-		add_to_buff("=\"", STDOUT_FILENO);
-		add_to_buff(pair->second, STDOUT_FILENO);
-		add_to_buff("\"\n", STDOUT_FILENO);
-		i++;
-	}
-	return (EXIT_SUCCESS);
-}
+#include <stdio.h>
 
 static bool	bad_key(const char *str)
 {
@@ -51,6 +34,28 @@ static bool	bad_key(const char *str)
 		str++;
 	}
 	return (false);
+}
+
+static int	print_export_env(t_vector *ev)
+{
+	t_pair	*pair;
+	size_t	i;
+
+	i = 0;
+	while (i < ev->count)
+	{
+		pair = ft_vec_at(ev, i);
+		if ((ft_strcmp(pair->first, "_") != 0))
+		{
+			add_to_buff("export ", STDOUT_FILENO);
+			add_to_buff(pair->first, STDOUT_FILENO);
+			add_to_buff("=\"", STDOUT_FILENO);
+			add_to_buff(pair->second, STDOUT_FILENO);
+			add_to_buff("\"\n", STDOUT_FILENO);
+		}
+		i++;
+	}
+	return (EXIT_SUCCESS);
 }
 
 static void	perr_exp(const char *str)

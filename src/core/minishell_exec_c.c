@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_exec_c.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:23:27 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 14:26:50 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:07:48 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd,
 	{
 		buff_print_all();
 		dd_cl(cmd, shell, cmd->status);
+		exit(cmd->status);
 	}
 	return (real_cmd(cmd, shell, pp_fd, p_fd));
 }

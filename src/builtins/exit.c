@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 12:51:35 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/07/24 10:56:30 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,17 @@ static int	flag_arg_num_error(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	return (print_err(cmd, ": numeric argument required"), cmd->status = 2, 2);
 }
 
-static void	flag_invalid_exit(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
+static void	is_invalid_exit(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
 	if ((cmd->redir_to_do != NULL) || (cmd->nbr_cmds < 1))
 	{
 		cmd->nbr_cmds = 1;
 		ctrl->shoulcontinue = true;
+	}
+	else
+	{
+		if (cmd->nbr_cmds == 1)
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
 	}
 }
 
@@ -81,5 +86,5 @@ int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 		user_input = ft_atol(cmd->argv[1]);
 	}
 	user_input = rectify_user_input(user_input);
-	return (flag_invalid_exit(ctrl, cmd), cmd->status = user_input, user_input);
+	return (is_invalid_exit(ctrl, cmd), cmd->status = user_input, user_input);
 }
