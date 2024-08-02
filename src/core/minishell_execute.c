@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/02 15:51:15 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/08/02 17:52:35 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,39 @@ int	dispatcher(int pid, t_minishell_control *sh, t_cmd_to_exec *cmd,
 	return (EXIT_SUCCESS);
 }
 
+void	waitpds(int pid, int status, t_minishell_control *shell)
+{
+	int	i;
+
+	i = 0;
+	while (i < pid)
+	{
+		waitpid(shell->pids[i], &status, 0);
+		if (WIFEXITED(status))
+			status = WEXITSTATUS(status);
+		i++;
+	}	
+}
+
+void	waitpid_init(int *status, int *pid, t_cmd_to_exec *cmd)
+{
+	*status = 0;
+	*pid = 0;
+	if (cmd != NULL)
+		cmd->nbr_cmds = 1;
+}
+
 int	minishell_execute(t_minishell_control *shell)
 {
 	t_cmd_to_exec	*cmd;
 	int				status;
 	int				pp_fd[2];
 	int				p_fd[2];
-    int				pid;
-	
+	int				pid;
+
 	(set_pipe(pp_fd, -1, -1), set_pipe(p_fd, -1, -1));
 	cmd = parser_get_cmd(shell->preparsed, shell);
-	status = 0;
-	pid = 0;
-	if (cmd != NULL)
-		cmd->nbr_cmds = 1;
+	waitpid_init(&status, &pid, cmd);
 	while (cmd && (status == 0 || status == 127))
 	{
 		set_pipe(p_fd, -1, -1);
@@ -80,19 +99,10 @@ int	minishell_execute(t_minishell_control *shell)
 		if ((ft_strcmp(cmd->argv[0], "exit") == 0) && (cmd->nbr_cmds == 0))
 			return (end_it_all(shell, cmd, status, pp_fd));
 		shell->pids[pid] = fork();
-		dispatcher(shell->pids[pid], shell, cmd, p_fd);
-		pid++;
+		dispatcher(shell->pids[pid++], shell, cmd, p_fd);
 		(set_pipe(pp_fd, p_fd[0], p_fd[1]), set_pipe(p_fd, -1, -1));
 		status = shell->exit;
 		cmd = parser_get_cmd(shell->preparsed, shell);
 	}
-
-	int i = 0;
-	while (i < pid) {
-		waitpid(shell->pids[i], &status, 0);
-		if (WIFEXITED(status))
-			status = WEXITSTATUS(status);
-		i++;
-	}
-	return (end_it_all(shell, cmd, status, pp_fd));
+	return (waitpds(pid, status, shell), end_it_all(shell, cmd, status, pp_fd));
 }
