@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 10:50:34 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/06/24 09:37:16 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/02 15:45:38 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_minishell_control
 	char		*input;
 	t_vector	*env;
 	int			exit;
+	int			pids[1024];
 	t_vector	*preparsed;
 	void		*prs;
 }	t_minishell_control;
