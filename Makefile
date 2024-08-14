@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/07/18 14:54:41 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/08/14 11:54:33 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ WFLAGS		=\
 				-Wno-unused-variable -Wno-unused-function		\
 				-Wno-unused-value								\
 				-Wno-unused-label -Wno-unused-local-typedefs	\
-				-Wno-unused-const-variable -Wno-unused-macros
+				-Wno-unused-const-variable -Wno-unused-macros	\
 
 FFLAGS	   =\
 				-fsanitize=address			\
@@ -49,11 +49,12 @@ FFLAGS	   =\
 				-fsanitize=leak				\
 				-fsanitize=pointer-subtract	\
 				-fsanitize=pointer-compare	\
-				-fsanitize=pointer-overflow	\
+				-fsanitize=pointer-overflow	
 
 CFLAGS	   =\
 				$(WFLAGS) $(CPPFLAGS) $(STD)	\
-				-MMD -MP
+				-MMD -MP 						\
+				$(DEBUG)						\
 
 LDFLAGS		=\
 				-L./libft -lft_personal -lreadline

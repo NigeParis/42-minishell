@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/02 17:52:35 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:33:22 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,20 @@ void	waitpid_init(int *status, int *pid, t_cmd_to_exec *cmd)
 		cmd->nbr_cmds = 1;
 }
 
+void	update_exe_loopbody(int **pipes_vals, t_cmd_to_exec **cmd, int *status,
+		t_minishell_control *shell)
+{
+	int	*p_fd;
+	int	*pp_fd;
+
+	p_fd = pipes_vals[0];
+	pp_fd = pipes_vals[1];
+	set_pipe(pp_fd, p_fd[0], p_fd[1]);
+	set_pipe(p_fd, -1, -1);
+	*status = shell->exit;
+	*cmd = parser_get_cmd(shell->preparsed, shell);
+}
+
 int	minishell_execute(t_minishell_control *shell)
 {
 	t_cmd_to_exec	*cmd;
@@ -99,10 +113,9 @@ int	minishell_execute(t_minishell_control *shell)
 		if ((ft_strcmp(cmd->argv[0], "exit") == 0) && (cmd->nbr_cmds == 0))
 			return (end_it_all(shell, cmd, status, pp_fd));
 		shell->pids[pid] = fork();
-		dispatcher(shell->pids[pid++], shell, cmd, p_fd);
-		(set_pipe(pp_fd, p_fd[0], p_fd[1]), set_pipe(p_fd, -1, -1));
-		status = shell->exit;
-		cmd = parser_get_cmd(shell->preparsed, shell);
+		dispatcher(shell->pids[pid++], shell, cmd, \
+		(int []){p_fd[0], p_fd[1], pp_fd[0], pp_fd[1]});
+		update_exe_loopbody((int *[]){p_fd, pp_fd}, &cmd, &status, shell);
 	}
 	return (waitpds(pid, status, shell), end_it_all(shell, cmd, status, pp_fd));
 }

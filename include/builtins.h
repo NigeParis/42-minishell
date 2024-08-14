@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 16:24:41 by nrobinso          #+#    #+#             */
-/*   Updated: 2024/07/23 14:20:56 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/14 09:39:55 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@
 /* ****************************builtins module utils************************* */
 /* ************************************************************************** */
 
-void	call_bin(t_minishell_control *shell, t_cmd_to_exec *cmd);
-
-int	(*get_builtin(const char *cmd))(t_minishell_control *a, t_cmd_to_exec *b);
+void		call_bin(t_minishell_control *shell, t_cmd_to_exec *cmd);
+int			(*get_builtin(const char *cmd))(t_minishell_control *a,
+				t_cmd_to_exec *b);
 
 /// @file: src/builtins/builtins_utils.c
 t_string	*buff_func(t_string *set_v, bool set_f, int fd_dst);

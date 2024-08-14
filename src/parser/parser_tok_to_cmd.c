@@ -6,11 +6,12 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 14:28:11 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:35:23 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
+#include "ft_string_types.h"
 #include "ft_vector.h"
 #include "ft_vector_types.h"
 #include "minishell.h"
@@ -71,6 +72,47 @@ static bool	loop_body(t_cmd_to_exec *cmd, t_vector *preparsed_tokens,
 	return (true);
 }
 
+bool	get_target_file(t_redir *rdr, t_vector *tok, int offset)
+{
+	t_preparsed_node	*next_tok;
+	t_string			*str;
+
+	next_tok = ft_vec_at(tok, ++offset);
+	while (next_tok && !(next_tok->type == TOK_WORD
+			|| next_tok->type == TOK_QUOTE))
+		next_tok = ft_vec_at(tok, ++offset);
+	printf("next_tok->value: %d (wd %d qt %d)\n", next_tok->type, TOK_WORD,
+		TOK_QUOTE);
+	if (next_tok == NULL)
+		return (false);
+	str = next_tok->value;
+	rdr->target_file = ft_string_to_str(str);
+	return (rdr->target_file != NULL);
+}
+
+void	do_emptylines_hdoc(t_vector *prep)
+{
+	t_preparsed_node	*token;
+	t_redir				*redir;
+	int					i;
+
+	i = 0;
+	while (prep && (size_t)i < prep->count)
+	{
+		token = ft_vec_at(prep, i);
+		if (token->type == TOK_REDIR)
+		{
+			redir = token->value;
+			if (redir->target_file == NULL && get_target_file(redir, prep,
+					i) == false)
+				return ;
+			if (redir->redir_type == RDIR_HEREDOC)
+				do_heredoc(redir, false);
+		}
+		i++;
+	}
+}
+
 t_cmd_to_exec	*parser_get_cmd(t_vector *prep, t_minishell_control *sh)
 {
 	t_cmd_to_exec	*cmd;
@@ -81,8 +123,8 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *prep, t_minishell_control *sh)
 	syntax = syntax_check(prep);
 	if (syntax != E_NONE)
 		return (print_syntax_error(syntax), file_creation(prep), \
-		ft_vec_apply(prep, call_destroy), ft_vec_destroy(&sh->preparsed), \
-		prep = NULL, sh->exit = 2, NULL);
+		do_emptylines_hdoc(prep), ft_vec_apply(prep, call_destroy), \
+		ft_vec_destroy(&sh->preparsed), prep = NULL, sh->exit = 2, NULL);
 	cmd = init_cmd();
 	if (cmd == NULL)
 		return (NULL);

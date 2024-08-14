@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/14 08:32:30 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:08:07 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static bool	l_part(t_preparser_context *ctx, t_redir *redir,
 
 	cr_offset = *cr_offset_real;
 	redir->target_std = -1;
-	if (ft_isdigit(ctx->line[cr_offset]))
+	if (redir->redir_type & RDIR_DUP)
 	{
 		redir->target_std = ft_atoi(ctx->line + cr_offset);
 		if (redir->target_std < 0 || redir->target_std > MAX_FD_RDIR)

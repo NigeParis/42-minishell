@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 13:22:28 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 14:10:50 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:33:03 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,11 @@ static int	here_dod_pipes(char *line, t_string *buf, int pipe_fd[2])
 	close(pipe_fd[1]);
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		return (ft_perror("dup2"), close(pipe_fd[0]), EXIT_FAILURE);
-	return (close(pipe_fd[0]), EXIT_SUCCESS);
+	close(pipe_fd[0]);
+	return (EXIT_SUCCESS);
 }
 
-static int	do_heredoc(t_redir *rdr)
+int	do_heredoc(t_redir *rdr, bool integrated_pipes)
 {
 	char		*line;
 	t_string	*buf;
@@ -72,7 +73,9 @@ static int	do_heredoc(t_redir *rdr)
 	if (!line)
 		return (print_heredoc_err(rdr->target_file), ft_string_destroy(&buf),
 			EXIT_FAILURE);
-	return (here_dod_pipes(line, buf, pipe_fd));
+	if (integrated_pipes)
+		return (here_dod_pipes(line, buf, pipe_fd));
+	return (ft_string_destroy(&buf), free(line), EXIT_SUCCESS);
 }
 
 void	do_hdoc_cmd(t_cmd_to_exec *cmd, t_minishell_control *shell)
@@ -82,6 +85,6 @@ void	do_hdoc_cmd(t_cmd_to_exec *cmd, t_minishell_control *shell)
 	node = cmd->redir_to_do;
 	while (node && ((t_redir *)node->data)->redir_type != RDIR_HEREDOC)
 		node = node->next;
-	if (do_heredoc(node->data) == EXIT_FAILURE)
+	if (do_heredoc(node->data, true) == EXIT_FAILURE)
 		dd_cl(cmd, shell, 1);
 }

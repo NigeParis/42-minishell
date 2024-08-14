@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:23:27 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/14 09:23:04 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:39:20 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	real_cmd(t_cmd_to_exec *cmd, t_minishell_control *shell, int *pp_fd,
 	}
 	if (stat(cmd->cmd_path, &statbuf) == 0 && S_ISDIR(statbuf.st_mode))
 	{
-		perr_cmd(cmd, "is a directory\n");
+		perr_cmd(cmd, "Is a directory\n");
 		(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(126));
 	}
 	ft_ll_clear(&cmd->redir_to_do, free_rdr_node);
@@ -70,6 +70,8 @@ static void	real_cmd(t_cmd_to_exec *cmd, t_minishell_control *shell, int *pp_fd,
 void	child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd,
 		int *p_fd, int *pp_fd)
 {
+	int	status;
+
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (cmd->redir_to_do && has_heredoc(cmd->redir_to_do))
@@ -83,13 +85,12 @@ void	child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd,
 		(close(pp_fd[0]), close(pp_fd[1]));
 	}
 	if (cmd->redir_to_do && do_rdr_list(cmd->redir_to_do) == EXIT_FAILURE)
-		dd_cl(cmd, shell, 1);
+		(dd_cl(cmd, shell, 1), exit(1));
 	if (cmd && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
 	{
-		buff_print_all();
-		///TODO no leaks if this is deactivated - need to see with baptiste ??
-		// dd_cl(cmd, shell, cmd->status);
-		exit(cmd->status);
+		status = cmd->status;
+		(buff_print_all(), dd_cl(cmd, shell, cmd->status));
+		exit(status);
 	}
 	return (real_cmd(cmd, shell, pp_fd, p_fd));
 }
