@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:33:34 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/14 08:56:28 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	set_quote_value(t_quote_node *quote, t_preparser_context *ctx)
 	if (ctx->line[ln_offset] == ctx->line[ctx->line_offset])
 		ctx->quote_ctx = QUOTE_NONE;
 	if (ctx->line[ln_offset] == '\0')
-		return (ctx->unexpected = "Missing matching quote", false);
+		return (ctx->unexpected = "Missing matching quote\n", false);
 	return (true);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_syntax.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:45:32 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 12:20:56 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/14 08:32:02 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	print_syntax_error(t_syntax syntax)
 {
-	ft_putstr_fd("Syntax error near unexpected token", STDERR_FILENO);
+	ft_putstr_fd("syntax error near unexpected token", STDERR_FILENO);
 	if (syntax == PIPE)
 		ft_putstr_fd(" '|'\n", STDERR_FILENO);
 	else if (syntax == EOL)

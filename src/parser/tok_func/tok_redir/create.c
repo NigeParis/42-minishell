@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 13:33:17 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/14 08:32:30 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ static bool	m_part(t_preparser_context *ctx, t_redir *redir,
 	ctx->line[cr_offset - 1] == ctx->line[cr_offset])
 		redir->redir_type |= (cr_offset++, RDIR_APPEND);
 	else if (ft_strchr("<>", ctx->line[cr_offset]))
-		return (ctx->unexpected = "Syntax error near redirect\n", false);
+		return (ctx->unexpected = "syntax error near redirect\n", false);
 	else
 		redir->redir_type |= RDIR_TRUNC;
 	if (ctx->line[cr_offset] && ft_strchr("<>", ctx->line[cr_offset]))
-		return (ctx->unexpected = "Syntax error near redirect\n", false);
+		return (ctx->unexpected = "syntax error near redirect\n", false);
 	if (ctx->line[cr_offset] && ft_strchr("&", ctx->line[cr_offset]))
 		redir->redir_type |= (cr_offset++, RDIR_DUP);
 	*cr_offset_real = cr_offset;
@@ -97,7 +97,7 @@ bool	prepn_redir_create(t_preparsed_node *node, t_preparser_context *ctx)
 		return (false);
 	if ((redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND
 		&& redir->redir_type & RDIR_MSK_DUP)
-		return (ctx->unexpected = "Syntax error near '&'\n", false);
+		return (ctx->unexpected = "r near '&'\n", false);
 	if (redir->redir_type == (RDIR_APPEND | RDIR_INPUT))
 		redir->redir_type = RDIR_HEREDOC;
 	if (!l_part(ctx, redir, &cr_offset))

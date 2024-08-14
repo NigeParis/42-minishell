@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:23:27 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/14 08:17:20 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/08/14 09:00:58 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,17 @@ static void	real_cmd(t_cmd_to_exec *cmd, t_minishell_control *shell, int *pp_fd,
 			(close(pp_fd[0]), close(pp_fd[1]));
 		if (p_fd[0] != -1 || p_fd[1] != -1)
 			(close(p_fd[0]), close(p_fd[1]));
-		(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(126));
+		(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(127));
 	}
 	if (stat(cmd->cmd_path, &statbuf) == 0 && S_ISDIR(statbuf.st_mode))
 	{
 		perr_cmd(cmd, "is a directory\n");
-		(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(127));
+		(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(126));
 	}
 	ft_ll_clear(&cmd->redir_to_do, free_rdr_node);
 	execve(cmd->cmd_path, cmd->argv, cmd->env);
 	perr_cmd(cmd, ft_strerror(errno));
-	(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(126));
+	(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(127));
 }
 
 void	child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd,
