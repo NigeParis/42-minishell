@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/15 08:54:42 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/08/15 11:53:39 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *prep, t_minishell_control *sh)
 	if (prep == NULL || prep->count == 0)
 		return (NULL);
 	syntax = syntax_check(prep);
-	if (syntax != E_NONE)
+	if (syntax != E_SYN_NONE)
 		return (print_syntax_error(syntax), file_creation(prep), \
 		do_emptylines_hdoc(prep), ft_vec_apply(prep, call_destroy), \
 		ft_vec_destroy(&sh->preparsed), prep = NULL, sh->exit = 2, NULL);
