@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:27:43 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/15 08:49:02 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/08/15 09:33:51 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	cr_file(int i, t_vector *prep)
 	t_redir				*redir;
 	char				*fname;
 
+	fname = NULL;
 	nd = ft_vec_at(prep, i);
 	redir = nd->value;
 	if ((redir && (redir->redir_type & RDIR_MSK_IO) == RDIR_INPUT))
@@ -33,6 +34,8 @@ void	cr_file(int i, t_vector *prep)
 			fname = ((t_string *)nd->value)->str;
 		else if (nd && nd->type == TOK_QUOTE)
 			fname = ((t_quote_node *)nd->value)->value->str;
+		if (!fname)
+			return ;
 		if (redir && ((redir->redir_type & RDIR_MSK_MODE) == RDIR_TRUNC))
 			open(fname, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		else if (redir && ((redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND))
@@ -49,7 +52,7 @@ void	file_creation(t_vector *prep)
 	while (prep && (size_t)i < prep->count)
 	{
 		token = ft_vec_at(prep, i);
-		if (token->type == TOK_REDIR)
+		if (token && token->type == TOK_REDIR)
 			cr_file(i, prep);
 		i++;
 	}
