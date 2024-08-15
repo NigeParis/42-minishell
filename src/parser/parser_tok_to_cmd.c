@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/14 12:35:23 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/15 08:54:42 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ bool	get_target_file(t_redir *rdr, t_vector *tok, int offset)
 	while (next_tok && !(next_tok->type == TOK_WORD
 			|| next_tok->type == TOK_QUOTE))
 		next_tok = ft_vec_at(tok, ++offset);
-	printf("next_tok->value: %d (wd %d qt %d)\n", next_tok->type, TOK_WORD,
-		TOK_QUOTE);
 	if (next_tok == NULL)
 		return (false);
 	str = next_tok->value;
@@ -100,11 +98,13 @@ void	do_emptylines_hdoc(t_vector *prep)
 	while (prep && (size_t)i < prep->count)
 	{
 		token = ft_vec_at(prep, i);
-		if (token->type == TOK_REDIR)
+		if (token && token->type == TOK_REDIR)
 		{
 			redir = token->value;
-			if (redir->target_file == NULL && get_target_file(redir, prep,
-					i) == false)
+			if ((!redir->target_file) && (redir->redir_type != RDIR_HEREDOC))
+				return ;
+			if (redir->target_file == NULL && get_target_file(redir, \
+				prep, i) == false)
 				return ;
 			if (redir->redir_type == RDIR_HEREDOC)
 				do_heredoc(redir, false);

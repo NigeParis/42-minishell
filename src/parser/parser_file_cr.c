@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:27:43 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 17:13:54 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/08/15 08:49:02 by nrobinso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	cr_file(int i, t_vector *prep)
 
 	nd = ft_vec_at(prep, i);
 	redir = nd->value;
-	if ((redir->redir_type & RDIR_MSK_IO) == RDIR_INPUT)
+	if ((redir && (redir->redir_type & RDIR_MSK_IO) == RDIR_INPUT))
 		return ;
-	if ((redir->redir_type & RDIR_MSK_IO) == RDIR_OUTPUT)
+	if ((redir && (redir->redir_type & RDIR_MSK_IO) == RDIR_OUTPUT))
 	{
 		while (nd && (nd->type != TOK_WORD && nd->type != TOK_QUOTE))
 			nd = ft_vec_at(prep, i++);
