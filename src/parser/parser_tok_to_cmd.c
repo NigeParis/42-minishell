@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/15 11:53:39 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/17 11:11:26 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static bool	loop_body(t_cmd_to_exec *cmd, t_vector *preparsed_tokens,
 	preparsed_tokens->count > cmd->nb_tok_consumed && cmd_rdy == false)
 	{
 		token = ft_vec_at(preparsed_tokens, cmd->nb_tok_consumed++);
+		sh->nb_tok_consumed++;
 		if (token && token->execute)
 		{
 			if (token->type == TOK_EOL || token->type == TOK_PIPE)
@@ -63,11 +64,7 @@ static bool	loop_body(t_cmd_to_exec *cmd, t_vector *preparsed_tokens,
 				return (discard_cmd(cmd), false);
 		}
 		else
-		{
-			if (token)
-				token->print(token);
 			return (false);
-		}
 	}
 	return (true);
 }
@@ -126,9 +123,7 @@ t_cmd_to_exec	*parser_get_cmd(t_vector *prep, t_minishell_control *sh)
 		do_emptylines_hdoc(prep), ft_vec_apply(prep, call_destroy), \
 		ft_vec_destroy(&sh->preparsed), prep = NULL, sh->exit = 2, NULL);
 	cmd = init_cmd();
-	if (cmd == NULL)
-		return (NULL);
-	if (loop_body(cmd, prep, sh) == false)
+	if (!cmd || loop_body(cmd, prep, sh) == false)
 		return (NULL);
 	return (cmd);
 }

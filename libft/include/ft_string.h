@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 23:25:27 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 13:03:04 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:01:44 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -699,7 +699,7 @@ int			ft_string_reserve(t_string *str, size_t capacity);
 /// @brief resize the string to the specified size
 /// @param str t_string to modify
 /// @param size size to resize
-/// @return 1 if the string has been resized otherwise 0
+/// @return 1 if the string has been resized otherwise -1
 /// @note if the size is smaller than the current size, the string is truncated
 int			ft_string_resize(t_string *str, size_t size);
 

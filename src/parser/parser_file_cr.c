@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:27:43 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/15 12:15:17 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/16 09:46:23 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,15 @@ void	close_trailing_fd(int fd)
 	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
+int	correct_open(char *fname, t_redir *redir)
+{
+	if (redir && ((redir->redir_type & RDIR_MSK_MODE) == RDIR_TRUNC))
+		return (open(fname, O_WRONLY | O_TRUNC | O_CREAT, 0644));
+	else if (redir && ((redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND))
+		return (open(fname, O_WRONLY | O_APPEND | O_CREAT, 0644));
+	return (-1);
+}
+
 void	cr_file(int i, t_vector *prep)
 {
 	t_preparsed_node	*nd;
@@ -55,10 +64,7 @@ void	cr_file(int i, t_vector *prep)
 			fname = ((t_quote_node *)nd->value)->value->str;
 		if (!fname)
 			return ;
-		if (redir && ((redir->redir_type & RDIR_MSK_MODE) == RDIR_TRUNC))
-			fd = open(fname, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		else if (redir && ((redir->redir_type & RDIR_MSK_MODE) == RDIR_APPEND))
-			fd = open(fname, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		fd = correct_open(fname, redir);
 	}
 	return (close_trailing_fd(fd));
 }

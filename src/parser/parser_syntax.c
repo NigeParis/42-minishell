@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:45:32 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/15 14:15:48 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/16 09:51:42 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ static t_syntax	loop_body(size_t ctx_v, size_t *wc, t_tok_type type)
 	return (E_SYN_NONE);
 }
 
+t_syntax	check_error_lasts(size_t ctx_v, size_t wc, t_tok_type type)
+{
+	if (ctx_v == TOK_PIPE || ctx_v == TOK_REDIR)
+		return ((t_syntax)type);
+	if (wc == 0 && ctx_v != TOK_WORD && ctx_v != TOK_QUOTE)
+		return (E_SYN_EOL);
+	return (E_SYN_NONE);
+}
+
 t_syntax	syntax_check(t_vector *prep)
 {
 	size_t				stx_it;
@@ -65,9 +74,5 @@ t_syntax	syntax_check(t_vector *prep)
 			return (syntax);
 		ctx_v = token->type;
 	}
-	if (ctx_v == TOK_PIPE || ctx_v == TOK_REDIR)
-		return ((t_syntax)token->type);
-	if (wc == 0 && ctx_v != TOK_WORD && ctx_v != TOK_QUOTE)
-		return (E_SYN_EOL);
-	return (E_SYN_NONE);
+	return (check_error_lasts(ctx_v, wc, token->type));
 }

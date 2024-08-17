@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 21:19:32 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 14:14:14 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/16 09:33:55 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ bool	add_to_buff(const char *str_to_add, int fd_dest)
 	current_buff = buff_func(NULL, false, fd_dest);
 	if (current_buff == NULL)
 		current_buff = ft_string_new(1);
+	if (current_buff == NULL)
+		return (false);
 	if (ft_string_append(current_buff, str_to_add) == -1)
 		return (false);
 	buff_func(current_buff, true, fd_dest);

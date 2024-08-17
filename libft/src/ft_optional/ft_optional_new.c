@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:06:55 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/05/18 15:39:39 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:03:49 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_optional	*ft_optional_new(void)
 	t_optional	*elem;
 
 	elem = malloc(sizeof(*elem));
+	if (!elem)
+		return (NULL);
 	elem->pres = OPT_NONE;
 	elem->val = NULL;
 	return (elem);

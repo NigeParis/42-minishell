@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/16 09:15:30 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:39:05 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ int	minishell_parse(t_minishell_control *shell)
 	if (!prs->line || prs->line[0] == '\0' || \
 	ft_str_isvalid(prs->line, ft_isspace))
 		return (EXIT_SUCCESS);
-	parser_line_init(shell->prs);
-	free(prs->line);
-	prs->line = NULL;
+	parser_line_init(prs);
+	ft_free((void **)&prs->line);
 	shell->preparsed = prs->preparsed;
 	if (shell->preparsed == NULL || shell->preparsed->count == 0)
 		return (EXIT_SUCCESS);

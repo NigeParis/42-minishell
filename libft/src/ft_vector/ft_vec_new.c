@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:13:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2023/12/13 10:24:47 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:16:27 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ t_vector	*ft_vec_convert_alloccarray(void **data, size_t count)
 	t_vector	*ret;
 
 	ret = ft_calloc(sizeof(t_vector), 1);
+	if (!ret)
+		return (ret);
 	ret->datas = data;
 	ret->count = count;
 	ret->cappacity = count;

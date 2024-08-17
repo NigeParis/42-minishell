@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 10:50:34 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/02 15:45:38 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/08/17 10:36:39 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ typedef struct s_minishell_control
 	int			exit;
 	int			pids[1024];
 	t_vector	*preparsed;
+	size_t		nb_tok_consumed;
 	void		*prs;
-}	t_minishell_control;
+}				t_minishell_control;
 
 // MINI_ERR_CMDP, parse
 // MINI_ERR_CMDE, exec

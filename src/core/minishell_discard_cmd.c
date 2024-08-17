@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:23:36 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:38:29 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/16 10:33:11 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ void	free_rdr_node(void *abst_node)
 
 void	discard_cmd(t_cmd_to_exec *cmd)
 {
-	size_t	i;
-	char	*nd;
-
 	if (cmd == NULL)
 		return ;
 	if (cmd->argv)

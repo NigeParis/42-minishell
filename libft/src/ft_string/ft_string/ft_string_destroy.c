@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 17:20:41 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/01/02 22:01:01 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/16 10:02:36 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	ft_string_destroy(t_string **str)
 {
 	if (str == NULL || *str == NULL)
 		return ;
-	free((*str)->str);
+	if ((*str)->str)
+		free((*str)->str);
 	free(*str);
 	*str = NULL;
 }

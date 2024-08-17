@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:16:52 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 01:17:52 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/17 11:08:52 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	exec_cl(t_minishell_control *shell)
 
 	if (!shell)
 		return ;
-	i = 0;
+	i = shell->nb_tok_consumed;
 	if (shell->preparsed)
 	{
 		while (i < shell->preparsed->count)

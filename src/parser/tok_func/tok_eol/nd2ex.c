@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/18 01:19:14 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/17 11:10:07 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ bool	nd2ex_eol(t_preparsed_node *nd, t_cmd_to_exec *cmd,
 	ft_vec_shift(sh->preparsed, 0, cmd->nb_tok_consumed);
 	if (sh->preparsed->count == 0)
 		(ft_vec_destroy(&sh->preparsed), sh->preparsed = NULL);
+	sh->nb_tok_consumed = 0;
 	free(nd);
 	return (true);
 }

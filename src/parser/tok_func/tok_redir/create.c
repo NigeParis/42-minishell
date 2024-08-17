@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:42:56 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/14 14:08:07 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:18:39 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ bool	prepn_redir_create(t_preparsed_node *node, t_preparser_context *ctx)
 
 	node->type = TOK_REDIR;
 	node->value = ft_calloc(sizeof(t_redir), 1);
+	if (!node->value)
+		return (false);
 	redir = node->value;
 	cr_offset = ctx->line_offset;
 	redir->redir_type = 0;
