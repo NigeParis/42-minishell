@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:23:27 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/14 15:39:20 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/17 12:52:52 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "parser_types.h"
 #include <errno.h>
 #include <signal.h>
+#include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -46,6 +47,7 @@ static void	real_cmd(t_cmd_to_exec *cmd, t_minishell_control *shell, int *pp_fd,
 		int *p_fd)
 {
 	struct stat	statbuf;
+	int			e_code;
 
 	if (cmd->cmd_path == NULL)
 	{
@@ -58,13 +60,15 @@ static void	real_cmd(t_cmd_to_exec *cmd, t_minishell_control *shell, int *pp_fd,
 	}
 	if (stat(cmd->cmd_path, &statbuf) == 0 && S_ISDIR(statbuf.st_mode))
 	{
-		perr_cmd(cmd, "Is a directory\n");
+		if (S_ISDIR(statbuf.st_mode))
+			perr_cmd(cmd, "Is a directory\n");
 		(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(126));
 	}
 	ft_ll_clear(&cmd->redir_to_do, free_rdr_node);
 	execve(cmd->cmd_path, cmd->argv, cmd->env);
+	e_code = (errno == EACCES) * 126 + (errno != EACCES) * 127;
 	perr_cmd(cmd, ft_strerror(errno));
-	(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(127));
+	(discard_cmd(cmd), exec_cl(shell), minishell_cleanup(shell), exit(e_code));
 }
 
 void	child_exec(t_minishell_control *shell, t_cmd_to_exec *cmd,
