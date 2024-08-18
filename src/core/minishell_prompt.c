@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 16:13:21 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 12:06:06 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/18 10:18:03 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	minishell_prompt(t_minishell_control *shell)
 
 	if (!shell)
 		return (EXIT_FAILURE);
-	shell->input = readline("nrobinso & bgoulard $> ");
+	if (!isatty(STDIN_FILENO))
+		shell->input = readline("");
+	else
+		shell->input = readline("nrobinso - bgoulard $ ");
 	if (shell->input == NULL)
 	{
 		tty = isatty(STDIN_FILENO);

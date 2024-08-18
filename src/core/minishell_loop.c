@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:17:01 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/18 09:40:05 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/18 10:18:15 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	minishell_parse(t_minishell_control *shell)
 	prs->line = resolve_raw_exp(shell->input, shell);
 	if (!prs->line)
 		return (EXIT_FAILURE);
-	if (!prs->line || prs->line[0] == '\0' || \
-	ft_str_isvalid(prs->line, ft_isspace))
-		return (ft_free((void**)&prs->line), EXIT_SUCCESS);
+	if (!prs->line || prs->line[0] == '\0' || ft_str_isvalid(prs->line, \
+	ft_isspace))
+		return (ft_free((void **)&prs->line), EXIT_SUCCESS);
 	parser_line_init(prs);
 	ft_free((void **)&prs->line);
 	shell->preparsed = prs->preparsed;

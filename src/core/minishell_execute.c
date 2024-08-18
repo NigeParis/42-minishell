@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/14 12:33:22 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/18 10:31:42 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,6 @@ static int	end_it_all(t_minishell_control *shell, t_cmd_to_exec *cmd, \
 	if (pp_fd[0] != -1 || pp_fd[1] != -1)
 		(close(pp_fd[0]), close(pp_fd[1]));
 	return (exec_cl(shell), EXIT_SUCCESS);
-}
-
-int	dispatcher(int pid, t_minishell_control *sh, t_cmd_to_exec *cmd,
-		int *p_infos)
-{
-	int	p_fd[2];
-	int	pp_fd[2];
-
-	set_pipe(p_fd, p_infos[0], p_infos[1]);
-	set_pipe(pp_fd, p_infos[2], p_infos[3]);
-	if (pid == -1)
-		return (ft_perror("fork"), exec_cl(sh), EXIT_FAILURE);
-	if (pid == 0)
-		child_exec(sh, cmd, p_fd, (int *)pp_fd);
-	else
-		parent_exec(sh, cmd, pid, pp_fd);
-	return (EXIT_SUCCESS);
 }
 
 void	waitpds(int pid, int status, t_minishell_control *shell)
@@ -107,7 +90,8 @@ int	minishell_execute(t_minishell_control *shell)
 	{
 		set_pipe(p_fd, -1, -1);
 		if (cmd->redir_to_do && has_pipe(cmd->redir_to_do) && pipe(p_fd) == -1)
-			ft_perror("pipe"); // todo : do better aka clean up and return
+			return (ft_perror("pipe"), end_it_all(shell, cmd, status, pp_fd), \
+			EXIT_FAILURE);
 		if (cmd && cmd->ac >= 1 && get_builtin(cmd->argv[0]))
 			call_bin(shell, cmd);
 		if ((ft_strcmp(cmd->argv[0], "exit") == 0) && (cmd->nbr_cmds == 0))

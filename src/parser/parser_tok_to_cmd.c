@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:12:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/17 11:11:26 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/18 10:19:35 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,6 @@
 
 #include <stdio.h>
 #include <fcntl.h>
-
-void	call_destroy(void *data)
-{
-	t_preparsed_node	*token;
-
-	token = data;
-	if (token && token->destroy)
-		token->destroy(token);
-}
 
 t_cmd_to_exec	*init_cmd(void)
 {
