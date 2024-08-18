@@ -1,5 +1,6 @@
 # project target
 minishell
+minishell_bonus
 
 # project_libs
 *.a
@@ -9,13 +10,6 @@ minishell
 *.o
 build/
 
-# project tests
-test/
-./test*
-test_*/
-
 # editor files
-.vscode/
 .clangd
 .clang-format
-./playground

@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/08/18 10:57:52 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/08/18 11:11:45 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -182,6 +182,15 @@ $(NAME):	$(OBJ) libft/libft_personal.a
 	$(ECHO) $(GREEN) "Success" $(RESET) && $(RM) $(CLOG_FILE)) || \
 	$(ECHO) $(RED) "Failed" $(RESET) "see:" $(CLOG_FILE)
 
+bonus:	$(NAME)_bonus
+
+$(NAME)_bonus:
+	@$(ECHO) -n $(GRAY) "Making ... " $(RESET) $(BOLD) "$(NAME)_bonus" && \
+	make --no-print-directory all 2> /dev/null && \
+	cp $(NAME) $(NAME)_bonus && \
+	$(ECHO) $(GREEN) "Success" $(RESET) || \
+	$(ECHO) $(RED) "Failed" $(RESET)
+
 clean:
 	@$(ECHO) -n $(GRAY) "Clean ... " $(RESET)
 	@( $(RM) -rf $(BUILD_DIR) $(CLOG_FILE) supress_readline.valgrind \
@@ -192,7 +201,7 @@ clean:
 
 fclean: clean
 	@$(ECHO) -n $(GRAY) "FClean ... " $(RESET)
-	@( $(RM) $(NAME) 2> /dev/null && \
+	@( $(RM) $(NAME) $(NAME)_bonus 2> /dev/null && \
 	make --no-print-directory -C ./libft fclean 2> /dev/null &&	\
 	$(ECHO) $(GREEN) "Success" $(RESET) ) || \
 	$(ECHO) $(RED) "Failed" $(RESET)
