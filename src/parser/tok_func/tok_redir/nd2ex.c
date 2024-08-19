@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:38:54 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 12:42:23 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/19 09:38:13 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,7 @@
 #include "parser.h"
 
 #include <stdbool.h>
-#include <stdio.h>
 #include <unistd.h>
-
-// leaks everywhere --- in dev | todo: fix leaks
-//		return (printf("ambiguous redirect\n"), false);	//	actual bash error 
-//															message do not 
-//															remove
 
 static void	perr_rdr(char *msg)
 {
@@ -79,21 +73,11 @@ bool	nd2ex_redir(t_preparsed_node *nd, t_cmd_to_exec *cmd,
 	t_quote_node		*quote;
 
 	rdr = nd->value;
-	if (rdr->redir_type & RDIR_MSK_DUP && rdr->target_std != -1)
-		return (ft_ll_push_back(&cmd->redir_to_do, nd->value), \
-		free(nd), true);
 	if (get_target(sh, cmd->nb_tok_consumed, cmd, &str_c) == false)
 		return (false);
 	if (ft_strchr(str_c, '$'))
 		return (perr_rdr("ambiguous redirect\n"), false);
 	rdr->target_file = str_c;
-	if (rdr->redir_type & RDIR_MSK_DUP)
-	{
-		if (ft_str_isdigit(rdr->target_file) == false)
-			return (perr_rdr("bad file descriptor\n"), free(str_c), false);
-		rdr->target_std = ft_atoi(str_c);
-		rdr->target_file = NULL;
-	}
 	ft_ll_push_back(&cmd->redir_to_do, rdr);
 	return (free(nd), true);
 }

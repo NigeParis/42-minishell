@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:43:05 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:32:12 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/19 09:24:07 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	prepn_redir_print(t_preparsed_node *node)
 		printf("TRUNC ");
 	else if ((redir->redir_type & RDIR_MSK_MODE) == RDIR_HEREDOC)
 		printf("HEREDOC ");
-	if (redir->redir_type & RDIR_DUP)
-		printf("DUP ");
 	printf("on ");
 	if (redir->target_file)
 		printf("file: %s", redir->target_file);

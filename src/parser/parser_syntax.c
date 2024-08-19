@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 02:45:32 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/16 09:51:42 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/19 09:38:47 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	print_syntax_error(t_syntax syntax)
 
 static t_syntax	loop_body(size_t ctx_v, size_t *wc, t_tok_type type)
 {
+	if (ctx_v == TOK_SPACE)
+		return (E_SYN_NONE);
 	if (ctx_v == TOK_REDIR && !(type == TOK_WORD || type == TOK_QUOTE))
 		return ((t_syntax)type);
 	if (ctx_v == TOK_PIPE && type == TOK_PIPE)
@@ -47,6 +49,12 @@ t_syntax	check_error_lasts(size_t ctx_v, size_t wc, t_tok_type type)
 	if (wc == 0 && ctx_v != TOK_WORD && ctx_v != TOK_QUOTE)
 		return (E_SYN_EOL);
 	return (E_SYN_NONE);
+}
+
+void	update_ctx_v(size_t *ctx_v, t_preparsed_node *token)
+{
+	*ctx_v = token->type;
+	return ;
 }
 
 t_syntax	syntax_check(t_vector *prep)
@@ -72,7 +80,7 @@ t_syntax	syntax_check(t_vector *prep)
 		syntax = loop_body(ctx_v, &wc, token->type);
 		if (syntax != E_SYN_NONE)
 			return (syntax);
-		ctx_v = token->type;
+		update_ctx_v(&ctx_v, token);
 	}
 	return (check_error_lasts(ctx_v, wc, token->type));
 }

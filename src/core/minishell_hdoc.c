@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 13:22:28 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/14 12:33:03 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/19 09:35:31 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static int	here_dod_pipes(char *line, t_string *buf, int pipe_fd[2])
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		return (ft_perror("dup2"), close(pipe_fd[0]), EXIT_FAILURE);
 	close(pipe_fd[0]);
+	free(line);
 	return (EXIT_SUCCESS);
 }
 

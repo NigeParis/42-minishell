@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:07:19 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/23 14:08:25 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/19 09:37:49 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,6 @@
 
 #include <fcntl.h>
 #include <unistd.h>
-
-static int	do_dup(t_redir *rdr)
-{
-	char	*err;
-
-	if (dup2(rdr->target_std, rdr->src_std) == -1)
-	{
-		err = ft_itoa(rdr->target_std);
-		ft_putstr_fd(ft_progname(), STDERR_FILENO);
-		ft_perror(err);
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
-}
 
 static void	perr_rdr(char *file)
 {
@@ -72,8 +58,6 @@ static int	do_rdr(t_redir *rdr)
 {
 	if (rdr->redir_type == RDIR_PIPE || rdr->redir_type == RDIR_HEREDOC)
 		return (EXIT_SUCCESS);
-	if ((rdr->redir_type & RDIR_MSK_DUP) == RDIR_DUP)
-		return (do_dup(rdr));
 	return (do_classic_rdr(rdr));
 }
 

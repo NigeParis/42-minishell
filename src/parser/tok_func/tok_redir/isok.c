@@ -6,25 +6,22 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:43:02 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 12:33:26 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/19 09:38:01 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "parser_types.h"
-#include "ft_char.h"
 
 bool	isok_redir(const char *line, t_preparser_context *ctx)
 {
-	const char	*valid_rdirs[] = {">", ">>", "<", "<<", ">&", "<&", NULL};
+	const char	*valid_rdirs[] = {">", ">>", "<", "<<", NULL};
 	size_t		cr_offset;
 	size_t		i;
 
 	cr_offset = 0;
 	if (line[cr_offset] == '\0' || ctx->quote_ctx != QUOTE_NONE)
 		return (false);
-	while (ft_isdigit(line[cr_offset]))
-		cr_offset++;
 	i = 0;
 	while (valid_rdirs[i] != NULL)
 	{

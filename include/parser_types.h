@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 10:55:31 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/15 11:37:41 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/19 09:21:14 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef enum e_redir_flag
 
 # define RDIR_MSK_IO 0x03
 # define RDIR_MSK_MODE 0x0C
-# define RDIR_MSK_DUP 0x10
 
 /*
 typedef enum e_redir_type
@@ -101,7 +100,6 @@ typedef enum e_redir_type
 	RDIR_TRUNC		= 1 << 2,
 	RDIR_APPEND		= 2 << 2,
 	RDIR_HEREDOC	= 3 << 2,
-	RDIR_DUP		= 1 << 4,
 }									t_redir_type;
 
 /*
