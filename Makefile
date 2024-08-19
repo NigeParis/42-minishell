@@ -6,7 +6,7 @@
 #    By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/05 09:04:05 by bgoulard          #+#    #+#              #
-#    Updated: 2024/08/18 11:11:45 by bgoulard         ###   ########.fr        #
+#    Updated: 2024/08/19 10:52:07 by bgoulard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,7 @@ SRC_FILES	=\
 			./src/core/minishell_discard_cmd.c	\
 			./src/core/minishell_exec_c.c	\
 			./src/core/minishell_prompt.c	\
+			./src/core/minishell_status.c	\
 			./src/core/minishell_setup.c	\
 			./src/pair/access_pair.c	\
 			./src/pair/cmp_pair.c	\

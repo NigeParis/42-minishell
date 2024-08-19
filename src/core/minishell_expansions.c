@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:46:48 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/14 14:43:33 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/19 10:51:36 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	*resolve_raw_exp(char *line, t_minishell_control *shell)
 	size_t		buf_add;
 	t_string	*ret_s;
 
+	shell->exit = get_status();
 	if (!line || set_vars(&ctx, &cr_offset, &buf_add, &ret_s) == false)
 		return (NULL);
 	while (line[cr_offset])

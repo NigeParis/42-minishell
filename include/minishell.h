@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 11:15:12 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/18 10:23:22 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:02:12 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 
 # include "parser_types.h"
 # include "minishell_types.h"
+
+int		get_status(void);
+void	set_status(int status);
 
 /* ************************************************************************** */
 /* ***************************Pipe utils function**************************** */

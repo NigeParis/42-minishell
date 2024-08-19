@@ -6,7 +6,7 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 13:22:15 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/08/18 10:31:42 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/19 10:46:09 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	update_exe_loopbody(int **pipes_vals, t_cmd_to_exec **cmd, int *status,
 	set_pipe(pp_fd, p_fd[0], p_fd[1]);
 	set_pipe(p_fd, -1, -1);
 	*status = shell->exit;
+	set_status(shell->exit);
 	*cmd = parser_get_cmd(shell->preparsed, shell);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bgoulard <bgoulard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 17:17:43 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/16 13:07:33 by bgoulard         ###   ########.fr       */
+/*   Updated: 2024/08/19 10:45:27 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
+		set_status(130);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);

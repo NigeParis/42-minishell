@@ -6,20 +6,22 @@
 /*   By: nrobinso <nrobinso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 12:59:51 by bgoulard          #+#    #+#             */
-/*   Updated: 2024/07/24 10:56:30 by nrobinso         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:13:49 by bgoulard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <unistd.h>
+
 #include "ft_args.h"
 #include "ft_addons.h"
-#include "ft_defs.h"
 #include "ft_string.h"
 #include "ft_char.h"
 
 #include "builtins.h"
+#include "minishell.h"
 #include "minishell_types.h"
 #include "parser_types.h"
-#include <unistd.h>
 
 static void	print_err(t_cmd_to_exec *cmd, char *msg)
 {
@@ -33,7 +35,10 @@ static void	print_err(t_cmd_to_exec *cmd, char *msg)
 static int	flag_arg_num_error(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 {
 	if (cmd->nbr_cmds == 1)
+	{
 		ctrl->shoulcontinue = false;
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
+	}
 	return (print_err(cmd, ": numeric argument required"), cmd->status = 2, 2);
 }
 
@@ -66,11 +71,12 @@ int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 	long	user_input;
 	size_t	i;
 
-	ctrl->exit = 0;
+	ctrl->exit = get_status();
 	if (cmd->ac > 2)
 	{
 		if (ft_str_islong(cmd->argv[1]) == false)
 			return (flag_arg_num_error(ctrl, cmd));
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
 		return (print_err(cmd, ": too many arguments"), cmd->status = 1, 1);
 	}
 	ctrl->shoulcontinue = false;
@@ -82,7 +88,7 @@ int	exit_main(t_minishell_control *ctrl, t_cmd_to_exec *cmd)
 			i++;
 		if (ft_str_islong(cmd->argv[1] + i) == false)
 			return (print_err(cmd, ": numeric argument required"), \
-			cmd->status = 2, 2);
+			cmd->status = 2, is_invalid_exit(ctrl, cmd), 2);
 		user_input = ft_atol(cmd->argv[1]);
 	}
 	user_input = rectify_user_input(user_input);
