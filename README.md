@@ -40,8 +40,8 @@ There are also have a number of built-in functions: <br>
  - [x] unset with no options
   
   Redirection (simple)
- - [ ] '|' '>' '>>' '<' '>'
- - [ ] redirection simple with no duplicates of redirections or chaining
+ - [x] '|' '>' '>>' '<' '>'
+ - [x] redirection simple with no duplicates of redirections or chaining
        ex :
        'ls > file' pipes the result of ls to file and truncates file
        'ls < file' pipes the contents of file to ls as stdin
@@ -50,7 +50,7 @@ There are also have a number of built-in functions: <br>
        'ls > file' pipes stdout to file and prints stdout to stdout
        
   Variable substitution (simple)
- - [ ] $Field
+ - [x] $Field
 
   Subshell (simple if the rest is done)CTRL+z (SIGTSTP) (Bonus) echo
  - [x] execute ( cmd ) in subshell (good test (cd))
@@ -61,8 +61,8 @@ There are also have a number of built-in functions: <br>
  - [x] CTRL + \ sigquit
 
   Redirection (hard)
- - [ ] any fd plus > or < or >>
-    - [ ] redirections of stdout and stderr
+ - [x] any fd plus > or < or >>
+    - [x] redirections of stdout and stderr
         ex :
         'ls 2> file' pipes stderr to file
         'ls 2> file1 1> file2' pipes stderr to file1 and stdout to file2
@@ -84,11 +84,11 @@ There are also have a number of built-in functions: <br>
  - [ ] CTRL + Z sigtstp  (not asked for in Mandatory or Bonus)
 
   Norme
- - [ ] Norminette OK <br>
+ - [x] Norminette OK <br>
   Leak
- - [ ] Valgrind OK
-    - [ ] on normal lines
-    - [ ] on error lines
+ - [x] Valgrind OK
+    - [x] on normal lines
+    - [x] on error lines
 
 <br>
 
