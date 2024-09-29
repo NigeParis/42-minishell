@@ -92,7 +92,7 @@ There are also have a number of built-in functions: <br>
 
 <br>
 
-Author :bgoulard <br>
+Author : bgoulard <br>
 Author : nrobinso <br>
 
 External functions accepted: <br>
